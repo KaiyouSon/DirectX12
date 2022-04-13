@@ -23,6 +23,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 #endif
 
+#pragma region WindowsAPI初期化
 	//コンソールへの文字出力
 	OutputDebugStringA("Hello,DirectX!!");
 
@@ -62,9 +63,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ShowWindow(hwnd, SW_SHOW);
 
 	MSG msg{};	//メッセージ
+#pragma endregion
 
+#pragma region DirectX初期化処理
 	// DirectX初期化処理　ここから
-
 	HRESULT result;
 	ID3D12Device* device = nullptr;
 	IDXGIFactory7* dxgiFactory = nullptr;
@@ -209,10 +211,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 
 	// DirectX初期化処理　ここまで
+#pragma endregion
 
 	// ゲームループ
 	while (true)
 	{
+#pragma region ウィンドウメッセージ処理
 		// メッセージがある?
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
@@ -225,10 +229,73 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{
 			break;
 		}
+#pragma endregion
 
+#pragma region DirectX毎フレーム処理
 		// DirectX毎フレーム処理　ここから
 
+		//---------------------- リソースバリアの変更コマンド ----------------------//
+		// バックバッファの番号を取得（2つなので0番か1番）
+		UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
+		// １．リソースバリアで書き込み可能に変更
+		D3D12_RESOURCE_BARRIER barrierDesc{};
+		barrierDesc.Transition.pResource = backBuffers[bbIndex]; // バックバッファを指定
+		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から
+		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
+		commandList->ResourceBarrier(1, &barrierDesc);
+
+		//--------------------------- 描画先指定コマンド ---------------------------//
+		// ２．描画先の変更
+		// レンダーターゲットビューのハンドルを取得
+		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
+		rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
+		commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
+
+		//--------------------------- 画面クリアコマンド ---------------------------//
+		// ３．画面クリア R G B A
+		FLOAT clearColor[] = { 0.1f,0.25f, 0.5f,0.0f }; // 青っぽい色
+		commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+
+		// ４．描画コマンドここから
+
+		// ４．描画コマンドここまで
+
+		//---------------------- リソースバリアの復帰コマンド ----------------------//
+		// ５．リソースバリアを戻す
+		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
+		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
+		commandList->ResourceBarrier(1, &barrierDesc);
+
+		//-------------------------- コマンドのフラッシュ --------------------------//
+		// 命令のクローズ
+		result = commandList->Close();
+		assert(SUCCEEDED(result));
+		// コマンドリストの実行
+		ID3D12CommandList* commandLists[] = { commandList };
+		commandQueue->ExecuteCommandLists(1, commandLists);
+		// 画面に表示するバッファをフリップ（裏表の入替え）
+		result = swapChain->Present(1, 0);
+		assert(SUCCEEDED(result));
+
+		//---------------------------- コマンド完了待ち ----------------------------//
+		// コマンドの実行完了を待つ
+		commandQueue->Signal(fence, ++fenceVal);
+		if (fence->GetCompletedValue() != fenceVal)
+		{
+			HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+			fence->SetEventOnCompletion(fenceVal, event);
+			WaitForSingleObject(event, INFINITE);
+			CloseHandle(event);
+		}
+		// キューをクリア
+		result = cmdAllocator->Reset();
+		assert(SUCCEEDED(result));
+		// 再びコマンドリストを貯める準備
+		result = commandList->Reset(cmdAllocator, nullptr);
+		assert(SUCCEEDED(result));
+
 		// DirectX毎フレーム処理　ここまで
+#pragma endregion 
 	}
 
 	// ウィンドウクラスを登録解除
