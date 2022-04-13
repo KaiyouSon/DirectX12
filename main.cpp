@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <cassert>
@@ -14,6 +13,11 @@ using namespace DirectX;
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
+#include "main.h"
+#include "Input.h"
+
+HWND hwnd;
+WNDCLASSEX w{};
 
 // ウィンドウプロシージャ
 LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
@@ -41,7 +45,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	const int WinHeight = 720; // 縦幅
 
 	// ウィンドウクラスの設定
-	WNDCLASSEX w{};
+
 	w.cbSize = sizeof(WNDCLASSEX);
 	w.lpfnWndProc = (WNDPROC)WindowProc;		// ウインドウプロシージャを設定
 	w.lpszClassName = L"DirectXGame";			// ウィンドウクラス名
@@ -56,7 +60,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
 	// ウィンドウオブジェクトの生成
-	HWND hwnd = CreateWindow(w.lpszClassName, // クラス名
+	hwnd = CreateWindow(w.lpszClassName, // クラス名
 		L"DirectXGame",			// タイトルバーの文字
 		WS_OVERLAPPEDWINDOW,	// 標準的なウィンドウスタイル
 		CW_USEDEFAULT,			// 表示X座標(OSに任せる)
@@ -219,6 +223,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ID3D12Fence* fence = nullptr;
 	UINT64 fenceVal = 0;
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
+
+	//--------------------------------- 初期化 ---------------------------------//
+	input.Initialize();
+
 
 	// DirectX初期化処理　ここまで
 #pragma endregion
@@ -410,6 +418,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
+	FLOAT clearColor[] = { 0.1f,0.25f, 0.5f,0.0f }; // 青っぽい色
+
 	// ゲームループ
 	while (true)
 	{
@@ -422,15 +432,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			DispatchMessage(&msg);	// プロシージャにメッセージを送る
 		}
 
-		// Xボタンで終了メッセージが来たらゲームループを抜ける
-		if (msg.message == WM_QUIT)
-		{
-			break;
-		}
+
 #pragma endregion
 
 #pragma region DirectX毎フレーム処理
 		// DirectX毎フレーム処理　ここから
+
+		input.Update();
 
 		//---------------------- リソースバリアの変更コマンド ----------------------//
 		// バックバッファの番号を取得（2つなので0番か1番）
@@ -451,8 +459,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		//--------------------------- 画面クリアコマンド ---------------------------//
 		// ３．画面クリア R G B A
-		FLOAT clearColor[] = { 0.1f,0.25f, 0.5f,0.0f }; // 青っぽい色
 		commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+
+		if (input.GetKey(DIK_SPACE))
+		{
+			clearColor[0] = 1.0f;
+			clearColor[1] = 0.5f;
+			clearColor[2] = 0.1f;
+			clearColor[3] = 0.0f;
+		}
+		//else
+		//{
+		//	clearColor[0] = 0.1f;
+		//	clearColor[1] = 0.25f;
+		//	clearColor[2] = 0.5f;
+		//	clearColor[3] = 0.0f;
+		//}
 
 #pragma endregion
 
@@ -542,6 +564,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// DirectX毎フレーム処理　ここまで
 #pragma endregion 
 
+
+		// Xボタンで終了メッセージが来たらゲームループを抜ける
+		if (msg.message == WM_QUIT || input.GetKey(DIK_ESCAPE))
+		{
+			break;
+		}
+
 	}
 
 	// ウィンドウクラスを登録解除
@@ -565,4 +594,14 @@ LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 	// 標準のメッセージ処理を行う
 	return DefWindowProc(hwnd, msg, wparam, lparam);
+}
+
+HWND GetHwnd()
+{
+	return hwnd;
+}
+
+HINSTANCE GetHInstance()
+{
+	return w.hInstance;
 }
