@@ -7,7 +7,7 @@ LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	//コンソールへの文字出力
-	OutputDebugStringA("Hello,DirectX!!\n");
+	OutputDebugStringA("Hello,DirectX!!");
 
 	// ウィンドウサイズ
 	const int WinWidth = 1280; // 横幅
