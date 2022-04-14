@@ -1,7 +1,6 @@
 #include "Win.h"
 #include <Windows.h>
 
-
 void Win::CreateGameWindow()
 {
 	// ウィンドウクラスの設定

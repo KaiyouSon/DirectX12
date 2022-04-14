@@ -13,14 +13,9 @@ using namespace DirectX;
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
-#include "main.h"
 #include "Input.h"
+#include "Win.h"
 
-HWND hwnd;
-WNDCLASSEX w{};
-
-// ウィンドウプロシージャ
-LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -37,43 +32,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma endregion
 
 #pragma region WindowsAPI初期化
-	//コンソールへの文字出力
-	OutputDebugStringA("Hello,DirectX!!");
+	Win* win = nullptr;
 
-	// ウィンドウサイズ
-	const int WinWidth = 1280; // 横幅
-	const int WinHeight = 720; // 縦幅
-
-	// ウィンドウクラスの設定
-
-	w.cbSize = sizeof(WNDCLASSEX);
-	w.lpfnWndProc = (WNDPROC)WindowProc;		// ウインドウプロシージャを設定
-	w.lpszClassName = L"DirectXGame";			// ウィンドウクラス名
-	w.hInstance = GetModuleHandle(nullptr);		// ウィンドウハンドル
-	w.hCursor = LoadCursor(NULL, IDC_ARROW);	// カーソル指定
-
-	// ウィンドウクラスをOSに登録する
-	RegisterClassEx(&w);
-	// ウィンドウサイズ{ X座標 Y座標 縦幅 横幅 }
-	RECT wrc = { 0,0,WinWidth,WinHeight };
-	// 自動でサイズ補正する
-	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
-
-	// ウィンドウオブジェクトの生成
-	hwnd = CreateWindow(w.lpszClassName, // クラス名
-		L"DirectXGame",			// タイトルバーの文字
-		WS_OVERLAPPEDWINDOW,	// 標準的なウィンドウスタイル
-		CW_USEDEFAULT,			// 表示X座標(OSに任せる)
-		CW_USEDEFAULT,			// 表示Y座標(OSに任せる)
-		wrc.right - wrc.left,	// ウィンドウ横幅
-		wrc.bottom - wrc.top,	// ウィンドウ縦幅
-		nullptr,				// 親ウィンドウハンドル
-		nullptr,				// メニューハンドル
-		w.hInstance,			// 呼び出しアプリケーションハンドル
-		nullptr);				// オプション
-
-	// ウィンドウを表示状態にする
-	ShowWindow(hwnd, SW_SHOW);
+	win->CreateGameWindow();
 
 	MSG msg{};	//メッセージ
 #pragma endregion
@@ -182,7 +143,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	// スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(
-		commandQueue, hwnd, &swapChainDesc, nullptr, nullptr,
+		commandQueue, win->GetHwnd(), &swapChainDesc, nullptr, nullptr,
 		(IDXGISwapChain1**)&swapChain);
 	assert(SUCCEEDED(result));
 
@@ -485,8 +446,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//----------------------- ビューポートの設定コマンド -----------------------//
 		// ビューポート設定コマンド
 		D3D12_VIEWPORT viewport{};
-		viewport.Width = WinWidth;
-		viewport.Height = WinHeight;
+		viewport.Width = win->GetWinWidth();
+		viewport.Height = win->GetWinHeight();
 		viewport.TopLeftX = 0;
 		viewport.TopLeftY = 0;
 		viewport.MinDepth = 0.0f;
@@ -498,9 +459,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// シザー矩形
 		D3D12_RECT scissorRect{};
 		scissorRect.left = 0; // 切り抜き座標左
-		scissorRect.right = scissorRect.left + WinWidth; // 切り抜き座標右
+		scissorRect.right = scissorRect.left + win->GetWinWidth(); // 切り抜き座標右
 		scissorRect.top = 0; // 切り抜き座標上
-		scissorRect.bottom = scissorRect.top + WinHeight; // 切り抜き座標下
+		scissorRect.bottom = scissorRect.top + win->GetWinHeight(); // 切り抜き座標下
 		// シザー矩形設定コマンドを、コマンドリストに積む
 		commandList->RSSetScissorRects(1, &scissorRect);
 
@@ -573,35 +534,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	}
 
-	// ウィンドウクラスを登録解除
-	UnregisterClass(w.lpszClassName, w.hInstance);
+	win->TerminateGameWindow();
 
 	return 0;
 }
 
-// ウィンドウプロシージャ
-LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
-{
-	// メッセージに応じてゲーム固有の処理を行う
-	switch (msg)
-	{
-		// ウィンドウが破壊された
-	case WM_DESTROY:
-		// OSに対して、アプリの終了を伝える
-		PostQuitMessage(0);
-		return 0;
-	}
-
-	// 標準のメッセージ処理を行う
-	return DefWindowProc(hwnd, msg, wparam, lparam);
-}
-
-HWND GetHwnd()
-{
-	return hwnd;
-}
-
-HINSTANCE GetHInstance()
-{
-	return w.hInstance;
-}

@@ -58,4 +58,3 @@ public:
 	HWND GetHwnd() { return hwnd; }
 	HINSTANCE GetHInstance() { return wndClass.hInstance; }
 };
-

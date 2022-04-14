@@ -1,6 +1,6 @@
 #include <cassert>
 #include "Input.h"
-#include "main.h"
+#include "Win.h"
 
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
@@ -9,11 +9,12 @@ Input input;
 
 void Input::Initialize()
 {
+	Win* win = nullptr;
 	HRESULT result;
 
 	// DirectInputの初期化
 	result = DirectInput8Create(
-		GetHInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8,
+		win->GetHInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8,
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 
@@ -27,7 +28,7 @@ void Input::Initialize()
 
 	// 排他制御レベルのセット
 	result = keyboard->SetCooperativeLevel(
-		GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		win->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 }
 
@@ -49,7 +50,7 @@ void Input::Update()
 // キーが押されてる時
 bool Input::GetKey(BYTE key)
 {
-	return keys[key];
+	return keys[key] == 128;
 }
 
 // キーを押した瞬間

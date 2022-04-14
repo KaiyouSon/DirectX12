@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -158,7 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h" />
-    <ClInclude Include="main.h" />
+    <ClInclude Include="Win.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
