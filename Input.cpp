@@ -9,8 +9,6 @@ Input input;
 
 void Input::Initialize()
 {
-
-	hwnd = GetHwnd();
 	HRESULT result;
 
 	// DirectInputの初期化
@@ -29,7 +27,7 @@ void Input::Initialize()
 
 	// 排他制御レベルのセット
 	result = keyboard->SetCooperativeLevel(
-		hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 }
 
@@ -48,7 +46,20 @@ void Input::Update()
 	keyboard->GetDeviceState(sizeof(keys), keys);
 }
 
+// キーが押されてる時
 bool Input::GetKey(BYTE key)
 {
-	return keys[key] == 128;
+	return keys[key];
+}
+
+// キーを押した瞬間
+bool Input::GetKeyTrigger(BYTE key)
+{
+	return keys[key] && !oldkeys[key];
+}
+
+// キーを離した瞬間
+bool Input::GetKeyReleased(BYTE key)
+{
+	return !keys[key] && oldkeys[key];
 }
