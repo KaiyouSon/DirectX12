@@ -14,8 +14,10 @@ using namespace DirectX;
 #pragma comment(lib, "d3dcompiler.lib")
 
 #include "Input.h"
-#include "Win.h"
+#include "DXWindow.h"
 
+
+DXWindow* dxWindow = new DXWindow;
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -31,13 +33,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #endif
 #pragma endregion
 
-#pragma region WindowsAPI初期化
-	Win* win = nullptr;
-
-	win->CreateGameWindow();
-
-	MSG msg{};	//メッセージ
-#pragma endregion
+	// WindowsAPI初期化
+	dxWindow->CreateGameWindow();
 
 #pragma region DirectX初期化処理
 
@@ -143,7 +140,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	// スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(
-		commandQueue, win->GetHwnd(), &swapChainDesc, nullptr, nullptr,
+		commandQueue, dxWindow->GetHwnd(), &swapChainDesc, nullptr, nullptr,
 		(IDXGISwapChain1**)&swapChain);
 	assert(SUCCEEDED(result));
 
@@ -384,17 +381,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ゲームループ
 	while (true)
 	{
-
-#pragma region ウィンドウメッセージ処理
-		// メッセージがある?
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);	// キー入力メッセージの処理
-			DispatchMessage(&msg);	// プロシージャにメッセージを送る
-		}
-
-
-#pragma endregion
+		dxWindow->ProcessMessage();
 
 #pragma region DirectX毎フレーム処理
 		// DirectX毎フレーム処理　ここから
@@ -446,8 +433,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//----------------------- ビューポートの設定コマンド -----------------------//
 		// ビューポート設定コマンド
 		D3D12_VIEWPORT viewport{};
-		viewport.Width = win->GetWinWidth();
-		viewport.Height = win->GetWinHeight();
+		viewport.Width = dxWindow->GetWinWidth();
+		viewport.Height = dxWindow->GetWinHeight();
 		viewport.TopLeftX = 0;
 		viewport.TopLeftY = 0;
 		viewport.MinDepth = 0.0f;
@@ -459,9 +446,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// シザー矩形
 		D3D12_RECT scissorRect{};
 		scissorRect.left = 0; // 切り抜き座標左
-		scissorRect.right = scissorRect.left + win->GetWinWidth(); // 切り抜き座標右
+		scissorRect.right = scissorRect.left + dxWindow->GetWinWidth(); // 切り抜き座標右
 		scissorRect.top = 0; // 切り抜き座標上
-		scissorRect.bottom = scissorRect.top + win->GetWinHeight(); // 切り抜き座標下
+		scissorRect.bottom = scissorRect.top + dxWindow->GetWinHeight(); // 切り抜き座標下
 		// シザー矩形設定コマンドを、コマンドリストに積む
 		commandList->RSSetScissorRects(1, &scissorRect);
 
@@ -525,17 +512,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// DirectX毎フレーム処理　ここまで
 #pragma endregion 
 
-
 		// Xボタンで終了メッセージが来たらゲームループを抜ける
-		if (msg.message == WM_QUIT || input.GetKey(DIK_ESCAPE))
+		if (dxWindow->GetProcessMessage() == WM_QUIT || input.GetKey(DIK_ESCAPE))
 		{
 			break;
 		}
-
 	}
 
-	win->TerminateGameWindow();
+	// ウィンドウクラスを登録解除
+	dxWindow->TerminateGameWindow();
 
+	delete dxWindow;
 	return 0;
+
 }
 

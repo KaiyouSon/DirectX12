@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-class Win
+class DXWindow
 {
 private:
 	// ウィンドウサイズ
@@ -8,7 +8,8 @@ private:
 	const int WinHeight = 720; // 縦幅
 
 	WNDCLASSEX wndClass{};	// ウィンドウクラス
-	HWND hwnd = nullptr;	// ウィンドウハンドル
+	HWND hwnd;	// ウィンドウハンドル
+	MSG msg{};	//メッセージ
 public:
 	/// <summary>
 	/// ウィンドウプロシージャ
@@ -27,6 +28,15 @@ public:
 	/// ゲームウィンドウの破棄
 	/// </summary>
 	void TerminateGameWindow();
+
+
+
+	/// <summary>
+	/// ウィンドウメッセージ処理
+	/// </summary>
+	void ProcessMessage();
+
+public:
 
 	/// <summary>
 	/// ウィンドウの横幅を取得する関数
@@ -57,4 +67,11 @@ public:
 	/// </summary>
 	HWND GetHwnd() { return hwnd; }
 	HINSTANCE GetHInstance() { return wndClass.hInstance; }
+
+	/// <summary>
+	/// ウィンドウメッセージを取得する関数
+	/// </summary>
+	/// <returns> msg.message</returns>
+	UINT GetProcessMessage() { return msg.message; }
+
 };

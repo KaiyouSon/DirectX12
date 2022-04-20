@@ -1,7 +1,7 @@
-#include "Win.h"
+#include "DXWindow.h"
 #include <Windows.h>
 
-void Win::CreateGameWindow()
+void DXWindow::CreateGameWindow()
 {
 	// ウィンドウクラスの設定
 	wndClass.cbSize = sizeof(WNDCLASSEX);
@@ -35,14 +35,25 @@ void Win::CreateGameWindow()
 	ShowWindow(hwnd, SW_SHOW);
 }
 
-void Win::TerminateGameWindow()
+void DXWindow::TerminateGameWindow()
 {
 	// ウィンドウクラスを登録解除
 	UnregisterClass(wndClass.lpszClassName, wndClass.hInstance);
 }
 
+void DXWindow::ProcessMessage()
+{
+	// メッセージがある?
+	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+	{
+		TranslateMessage(&msg);	// キー入力メッセージの処理
+		DispatchMessage(&msg);	// プロシージャにメッセージを送る
+	}
+}
+
+
 // ウィンドウプロシージャ
-LRESULT CALLBACK Win::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK DXWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	// メッセージに応じてゲーム固有の処理を行う
 	switch (msg)
