@@ -16,6 +16,12 @@ using namespace DirectX;
 #include "Input.h"
 #include "DXWindow.h"
 
+// 定数バッファ用データ構造体(マテリアル)
+struct ConstBufferDateMaterial
+{
+	XMFLOAT4 color;	// 色(RGBA)
+};
+
 
 DXWindow* dxWindow = new DXWindow;
 
@@ -348,24 +354,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;		// ソースの値を100％使う
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;	// デストの値を  0％使う
 
+	// 加算合成
 	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;	// 加算
 	//blenddesc.SrcBlend = D3D12_BLEND_ONE;		// ソースの値を100％使う
 	//blenddesc.DestBlend = D3D12_BLEND_ONE;	// デストの値を100％使う
 
+	// 減算合成
 	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;	// デストからソースを減算
 	//blenddesc.SrcBlend = D3D12_BLEND_ONE;				// ソースの値を100％使う
 	//blenddesc.DestBlend = D3D12_BLEND_ONE;			// デストの値を100％使う
 
+	// 色反転
 	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;				// 加算
 	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;		// 1.0f-デストカラーの値
 	//blenddesc.DestBlend = D3D12_BLEND_ZERO;				// 使わない
 
+	// 半透明合成
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;				// 加算
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;			// ソースのアルファ値
-	blenddesc.DestBlend = D3D12_BLEND_ZERO;				// 1.0f-ソースのアルファ値
-
-
-
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;	// 1.0f-ソースのアルファ値
 
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
@@ -379,11 +386,49 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
+	// ヒープの設定
+	D3D12_HEAP_PROPERTIES cbHeapProp{};
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	// GPUへの転送用
+	// リソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (sizeof(ConstBufferDateMaterial) + 0xff) & ~0xff; // 256バイトアラインメント
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	// 定数バッファの生成
+	ID3D12Resource* constBuffMaterial = nullptr;
+	result = device->CreateCommittedResource(
+		&cbHeapProp,	// ヒープの設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc, // リソースの設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffMaterial));
+	assert(SUCCEEDED(result));
+
+	// 定数バッファのマッピング
+	ConstBufferDateMaterial* constMapMaterial = nullptr;
+	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);	// マッピング
+	assert(SUCCEEDED(result));
+
+	// ルートパラメーターの設定
+	D3D12_ROOT_PARAMETER rootParam = {};
+	rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	// 定数バッファビュー
+	rootParam.Descriptor.ShaderRegister = 0;					// 定数バッファ番号
+	rootParam.Descriptor.RegisterSpace = 0;						// デフォルト値
+	rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	// 全てのシェーダから見える
+
 	// ルートシグネチャ
 	ID3D12RootSignature* rootSignature;
 	// ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	rootSignatureDesc.pParameters = &rootParam;	// ルートパラメータの先頭アドレス
+	rootSignatureDesc.NumParameters = 1;		// ルートパラメータ数
 	// ルートシグネチャのシリアライズ
 	ID3DBlob* rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
@@ -404,6 +449,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma endregion
 
 	FLOAT clearColor[] = { 0.1f,0.25f,0.5f,0.0f }; // 青っぽい色
+
+	float r = 1;
+	float g = 0;
 
 	// ゲームループ
 	while (true)
@@ -437,6 +485,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
 #pragma endregion
+
+		if (r > 0) r -= 0.01;
+		if (g < 1) g += 0.01;
+
+		// 値を書き込むと自動的に転送される
+		constMapMaterial->color = XMFLOAT4(r, g, 0, 0.5f);	// RGBAで半透明の赤
 
 #pragma region グラフィックスコマンド
 
@@ -476,6 +530,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//-------------------- 頂点バッファビューの設定コマンド --------------------//
 		// 頂点バッファビューの設定コマンド
 		commandList->IASetVertexBuffers(0, 1, &vbView);
+
+		// 定数バッファビュー(CBV)の設定コマンド
+		commandList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 
 		//------------------------------ 描画コマンド ------------------------------//
 		// 描画コマンド
