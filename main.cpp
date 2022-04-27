@@ -189,6 +189,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// DirectX初期化処理　ここまで
 #pragma endregion
 
+	bool isChangeShape = false;
+	bool isChangeMode = false;
 #pragma region 描画初期化処理
 
 	//------------------- グラフィックボートのアダプタを列挙 -------------------//
@@ -198,6 +200,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	 { -0.5f, -0.5f, 0.0f }, // 左下
 	 { -0.5f, +0.5f, 0.0f }, // 左上
 	 { +0.5f, -0.5f, 0.0f }, // 右下
+
+	 { +0.5f, +0.5f, 0.0f }, // 左下
+	 { -0.5f, +0.5f, 0.0f }, // 左上
+	 { +0.5f, -0.5f, 0.0f }, // 右下
+
+
 	};
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
@@ -227,18 +235,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		IID_PPV_ARGS(&vertBuff));
 	assert(SUCCEEDED(result));
 
-	//----------------------- 頂点バッファへのデータ転送 -----------------------//
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	XMFLOAT3* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result));
-	// 全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++)
-	{
-		vertMap[i] = vertices[i]; // 座標をコピー
-	}
-	// 繋がりを解除
-	vertBuff->Unmap(0, nullptr);
+	////----------------------- 頂点バッファへのデータ転送 -----------------------//
+	//// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	//XMFLOAT3* vertMap = nullptr;
+	//result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	//assert(SUCCEEDED(result));
+	//// 全頂点に対して
+	//for (int i = 0; i < _countof(vertices); i++)
+	//{
+	//	vertMap[i] = vertices[i]; // 座標をコピー
+	//}
+	//// 繋がりを解除
+	//vertBuff->Unmap(0, nullptr);
 
 	//------------------------ 頂点バッファビューの作成 ------------------------//
 	// 頂点バッファビューの作成
@@ -332,8 +340,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 
 	// ラスタライザの設定
-	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // カリングしない
-	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
+	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;	// カリングしない
+	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;	// ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
 	// ブレンドステート
@@ -351,6 +359,39 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
+
+	// グラフィックスパイプライン設定
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc2{};
+
+	// シェーダーの設定
+	pipelineDesc2.VS.pShaderBytecode = vsBlob->GetBufferPointer();
+	pipelineDesc2.VS.BytecodeLength = vsBlob->GetBufferSize();
+	pipelineDesc2.PS.pShaderBytecode = psBlob->GetBufferPointer();
+	pipelineDesc2.PS.BytecodeLength = psBlob->GetBufferSize();
+
+	// サンプルマスクの設定
+	pipelineDesc2.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
+
+	// ラスタライザの設定
+	pipelineDesc2.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;	// カリングしない
+	pipelineDesc2.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;	// ワイヤーフレーム
+	pipelineDesc2.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
+
+	// ブレンドステート
+	pipelineDesc2.BlendState.RenderTarget[0].RenderTargetWriteMask =
+		D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
+
+	// 頂点レイアウトの設定
+	pipelineDesc2.InputLayout.pInputElementDescs = inputLayout;
+	pipelineDesc2.InputLayout.NumElements = _countof(inputLayout);
+
+	// 図形の形状設定
+	pipelineDesc2.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+
+	// その他の設定
+	pipelineDesc2.NumRenderTargets = 1; // 描画対象は1つ
+	pipelineDesc2.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
+	pipelineDesc2.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// ルートシグネチャ
 	ID3D12RootSignature* rootSignature;
@@ -372,6 +413,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// パイプランステートの生成
 	ID3D12PipelineState* pipelineState = nullptr;
 	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
+	assert(SUCCEEDED(result));
+
+	// パイプラインにルートシグネチャをセット
+	pipelineDesc2.pRootSignature = rootSignature;
+
+	// パイプランステートの生成
+	ID3D12PipelineState* pipelineState2 = nullptr;
+	result = device->CreateGraphicsPipelineState(&pipelineDesc2, IID_PPV_ARGS(&pipelineState2));
 	assert(SUCCEEDED(result));
 
 #pragma endregion
@@ -412,19 +461,59 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		if (input.GetKey(DIK_SPACE))
 		{
 			clearColor[0] = 1.0f;
-			clearColor[1] = 0.5f;
-			clearColor[2] = 0.1f;
+			clearColor[1] = 0.6f;
+			clearColor[2] = 0.9f;
 			clearColor[3] = 0.0f;
 		}
-		//else
-		//{
-		//	clearColor[0] = 0.1f;
-		//	clearColor[1] = 0.25f;
-		//	clearColor[2] = 0.5f;
-		//	clearColor[3] = 0.0f;
-		//}
+		else
+		{
+			clearColor[0] = 0.1f;
+			clearColor[1] = 0.25f;
+			clearColor[2] = 0.5f;
+			clearColor[3] = 0.0f;
+		}
+
+		if (input.GetKeyTrigger(DIK_1))
+		{
+			if (isChangeShape == true)		 isChangeShape = false;
+			else if (isChangeShape == false) isChangeShape = true;
+		}
+
+		if (isChangeShape == true)
+		{
+			vertices[3] = { +0.5f, +0.5f, 0.0f }; // 左下
+			vertices[4] = { -0.5f, +0.5f, 0.0f }; // 左上
+			vertices[5] = { +0.5f, -0.5f, 0.0f }; // 右下
+		}
+		else
+		{
+			vertices[3] = { +0.0f, +0.0f, 0.0f }; // 左下
+			vertices[4] = { +0.0f, +0.0f, 0.0f }; // 左上
+			vertices[5] = { +0.0f, +0.0f, 0.0f }; // 右下
+		}
+
+
+		if (input.GetKeyTrigger(DIK_2))
+		{
+			if (isChangeMode == true)		isChangeMode = false;
+			else if (isChangeMode == false) isChangeMode = true;
+		}
+
 
 #pragma endregion
+
+		//----------------------- 頂点バッファへのデータ転送 -----------------------//
+		// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+		XMFLOAT3* vertMap = nullptr;
+		result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+		assert(SUCCEEDED(result));
+		// 全頂点に対して
+		for (int i = 0; i < _countof(vertices); i++)
+		{
+			vertMap[i] = vertices[i]; // 座標をコピー
+		}
+		// 繋がりを解除
+		vertBuff->Unmap(0, nullptr);
 
 #pragma region グラフィックスコマンド
 
@@ -433,14 +522,75 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//----------------------- ビューポートの設定コマンド -----------------------//
 		// ビューポート設定コマンド
 		D3D12_VIEWPORT viewport{};
-		viewport.Width = dxWindow->GetWinWidth();
-		viewport.Height = dxWindow->GetWinHeight();
+		viewport.Width = dxWindow->GetWinWidth() * 3 / 4;
+		viewport.Height = dxWindow->GetWinHeight() * 2 / 3;
 		viewport.TopLeftX = 0;
 		viewport.TopLeftY = 0;
 		viewport.MinDepth = 0.0f;
 		viewport.MaxDepth = 1.0f;
-		// ビューポート設定コマンドを、コマンドリストに積む
-		commandList->RSSetViewports(1, &viewport);
+
+		// ビューポート設定コマンド
+		D3D12_VIEWPORT viewport2{};
+		viewport2.Width = dxWindow->GetWinWidth() * 1 / 4;
+		viewport2.Height = dxWindow->GetWinHeight() * 2 / 3;
+		viewport2.TopLeftX = dxWindow->GetWinWidth() * 3 / 4;
+		viewport2.TopLeftY = 0;
+		viewport2.MinDepth = 0.0f;
+		viewport2.MaxDepth = 1.0f;
+
+		// ビューポート設定コマンド
+		D3D12_VIEWPORT viewport3{};
+		viewport3.Width = dxWindow->GetWinWidth() * 3 / 4;
+		viewport3.Height = dxWindow->GetWinHeight() * 1 / 3;
+		viewport3.TopLeftX = 0;
+		viewport3.TopLeftY = dxWindow->GetWinHeight() * 2 / 3;
+		viewport3.MinDepth = 0.0f;
+		viewport3.MaxDepth = 1.0f;
+
+		// ビューポート設定コマンド
+		D3D12_VIEWPORT viewport4{};
+		viewport4.Width = dxWindow->GetWinWidth() * 1 / 4;
+		viewport4.Height = dxWindow->GetWinHeight() * 1 / 3;
+		viewport4.TopLeftX = dxWindow->GetWinWidth() * 3 / 4;
+		viewport4.TopLeftY = dxWindow->GetWinHeight() * 2 / 3;
+		viewport4.MinDepth = 0.0f;
+		viewport4.MaxDepth = 1.0f;
+
+		// ビューポート設定コマンド
+		D3D12_VIEWPORT viewport5{};
+		viewport5.Width = dxWindow->GetWinWidth() * 3 / 4;
+		viewport5.Height = dxWindow->GetWinHeight() * 2 / 3;
+		viewport5.TopLeftX = 0;
+		viewport5.TopLeftY = 0;
+		viewport5.MinDepth = 0.0f;
+		viewport5.MaxDepth = 1.0f;
+
+		// ビューポート設定コマンド
+		D3D12_VIEWPORT viewport6{};
+		viewport6.Width = dxWindow->GetWinWidth() * 1 / 4;
+		viewport6.Height = dxWindow->GetWinHeight() * 2 / 3;
+		viewport6.TopLeftX = dxWindow->GetWinWidth() * 3 / 4;
+		viewport6.TopLeftY = 0;
+		viewport6.MinDepth = 0.0f;
+		viewport6.MaxDepth = 1.0f;
+
+		// ビューポート設定コマンド
+		D3D12_VIEWPORT viewport7{};
+		viewport7.Width = dxWindow->GetWinWidth() * 3 / 4;
+		viewport7.Height = dxWindow->GetWinHeight() * 1 / 3;
+		viewport7.TopLeftX = 0;
+		viewport7.TopLeftY = dxWindow->GetWinHeight() * 2 / 3;
+		viewport7.MinDepth = 0.0f;
+		viewport7.MaxDepth = 1.0f;
+
+		// ビューポート設定コマンド
+		D3D12_VIEWPORT viewport8{};
+		viewport8.Width = dxWindow->GetWinWidth() * 1 / 4;
+		viewport8.Height = dxWindow->GetWinHeight() * 1 / 3;
+		viewport8.TopLeftX = dxWindow->GetWinWidth() * 3 / 4;
+		viewport8.TopLeftY = dxWindow->GetWinHeight() * 2 / 3;
+		viewport8.MinDepth = 0.0f;
+		viewport8.MaxDepth = 1.0f;
 
 		//------------------------ シザー矩形の設定コマンド ------------------------//
 		// シザー矩形
@@ -454,7 +604,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		//---------- パイプラインステートとルートシグネチャの設定コマンド ----------//
 		// パイプラインステートとルートシグネチャの設定コマンド
-		commandList->SetPipelineState(pipelineState);
+		if (isChangeMode == false)commandList->SetPipelineState(pipelineState);
+		if (isChangeMode == true)commandList->SetPipelineState(pipelineState2);
 		commandList->SetGraphicsRootSignature(rootSignature);
 
 		//------------- プリミティブ形状の設定コマンド（三角形リスト） -------------//
@@ -466,9 +617,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		commandList->IASetVertexBuffers(0, 1, &vbView);
 
 		//------------------------------ 描画コマンド ------------------------------//
-		// 描画コマンド
-		commandList->DrawInstanced(_countof(vertices), 1, 0, 0); // 全ての頂点を使って描画
 
+		for (int i = 0; i < 8; i++)
+		{
+			D3D12_VIEWPORT tmp{ };
+			if (i == 0) tmp = viewport;
+			else if (i == 1) tmp = viewport2;
+			else if (i == 2) tmp = viewport3;
+			else if (i == 3) tmp = viewport4;
+			else if (i == 4) tmp = viewport5;
+			else if (i == 5) tmp = viewport6;
+			else if (i == 6) tmp = viewport7;
+			else if (i == 7) tmp = viewport8;
+			// ビューポート設定コマンドを、コマンドリストに積む
+			commandList->RSSetViewports(1, &tmp);
+			// 描画コマンド
+
+			commandList->DrawInstanced(_countof(vertices), 1, 0, 0); // 全ての頂点を使って描画
+		}
 		// ４．描画コマンドここまで
 
 #pragma endregion 
