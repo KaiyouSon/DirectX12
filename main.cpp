@@ -201,12 +201,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//------------------------ 頂点データ(3点分の座標) -------------------------//
 	// 頂点データ
 	XMFLOAT3 vertices[] = {
-	 { -0.5f, -0.5f, 0.0f }, // 左下
-	 { -0.5f, +0.5f, 0.0f }, // 左上
-	 { +0.5f, -0.5f, 0.0f }, // 右下
+	 { -0.5f, -0.5f, 0.0f }, // 左下 インデックス0
+	 { -0.5f, +0.5f, 0.0f }, // 左上 インデックス1
+	 { +0.5f, -0.5f, 0.0f }, // 右下 インデックス2
+	 { +0.5f, +0.5f, 0.0f }, // 右上 インデックス3
 	};
+
+	// インデックスデータ
+	uint16_t indices[] =
+	{
+		0,1,2, // 三角形1つ目
+		1,2,3, // 三角形2つ目
+	};
+
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
+	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 
 	//--------------------------- 頂点バッファの確保 ---------------------------//
 	// 頂点バッファの設定
@@ -214,8 +224,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
 	// リソース設定
 	D3D12_RESOURCE_DESC resDesc{};
+	//resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	//resDesc.Width = sizeVB; // 頂点データ全体のサイズ
+	//resDesc.Height = 1;
+	//resDesc.DepthOrArraySize = 1;
+	//resDesc.MipLevels = 1;
+	//resDesc.SampleDesc.Count = 1;
+	//resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeVB; // 頂点データ全体のサイズ
+	resDesc.Width = sizeIB; // 頂点データ全体のサイズ
 	resDesc.Height = 1;
 	resDesc.DepthOrArraySize = 1;
 	resDesc.MipLevels = 1;
@@ -231,6 +249,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertBuff));
+
+	ID3D12Resource* indexBuff = nullptr;
+	result = device->CreateCommittedResource(
+		&heapProp, // ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&resDesc, // リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&indexBuff));
 	assert(SUCCEEDED(result));
 
 	//----------------------- 頂点バッファへのデータ転送 -----------------------//
@@ -246,6 +273,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 繋がりを解除
 	vertBuff->Unmap(0, nullptr);
 
+	uint16_t* indexMap = nullptr;
+	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	//assert(SUCCEEDED(result));
+	// 全頂点に対して
+	for (int i = 0; i < _countof(indices); i++)
+	{
+		indexMap[i] = indices[i]; // 座標をコピー
+	}
+	// 繋がりを解除
+	indexBuff->Unmap(0, nullptr);
+
 	//------------------------ 頂点バッファビューの作成 ------------------------//
 	// 頂点バッファビューの作成
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
@@ -255,6 +293,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	vbView.SizeInBytes = sizeVB;
 	// 頂点１つ分のデータサイズ
 	vbView.StrideInBytes = sizeof(XMFLOAT3);
+
+	// インデックスバッファビューの作成
+	D3D12_INDEX_BUFFER_VIEW ibView{};
+	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
+	ibView.Format = DXGI_FORMAT_R16_UINT;
+	ibView.SizeInBytes = sizeIB;
 
 	//--------------- 頂点シェーダファイルの読み込みとコンパイル ---------------//
 	ID3DBlob* vsBlob = nullptr; // 頂点シェーダオブジェクト
@@ -450,9 +494,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	FLOAT clearColor[] = { 0.1f,0.25f,0.5f,0.0f }; // 青っぽい色
 
-	float r = 1;
-	float g = 0;
-
 	// ゲームループ
 	while (true)
 	{
@@ -486,11 +527,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
-		if (r > 0) r -= 0.01;
-		if (g < 1) g += 0.01;
-
 		// 値を書き込むと自動的に転送される
-		constMapMaterial->color = XMFLOAT4(r, g, 0, 0.5f);	// RGBAで半透明の赤
+		constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	// RGBAで半透明の赤
 
 #pragma region グラフィックスコマンド
 
@@ -530,13 +568,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//-------------------- 頂点バッファビューの設定コマンド --------------------//
 		// 頂点バッファビューの設定コマンド
 		commandList->IASetVertexBuffers(0, 1, &vbView);
+		commandList->IASetIndexBuffer(&ibView);
 
 		// 定数バッファビュー(CBV)の設定コマンド
 		commandList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 
 		//------------------------------ 描画コマンド ------------------------------//
 		// 描画コマンド
-		commandList->DrawInstanced(_countof(vertices), 1, 0, 0); // 全ての頂点を使って描画
+		//commandList->DrawInstanced(_countof(vertices), 1, 0, 0); // 全ての頂点を使って描画
+
+		commandList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
 
 		// ４．描画コマンドここまで
 
