@@ -337,8 +337,35 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
 	// ブレンドステート
-	pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask =
-		D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
+	//pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask =
+	//	D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
+
+	// レンダーターゲットのブレンド設定
+	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blenddesc.BlendEnable = true;					// ブレンドを有効にする
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;	// 加算
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;		// ソースの値を100％使う
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;	// デストの値を  0％使う
+
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;	// 加算
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;		// ソースの値を100％使う
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;	// デストの値を100％使う
+
+	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;	// デストからソースを減算
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;				// ソースの値を100％使う
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;			// デストの値を100％使う
+
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;				// 加算
+	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;		// 1.0f-デストカラーの値
+	//blenddesc.DestBlend = D3D12_BLEND_ZERO;				// 使わない
+
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;				// 加算
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;			// ソースのアルファ値
+	blenddesc.DestBlend = D3D12_BLEND_ZERO;				// 1.0f-ソースのアルファ値
+
+
+
 
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
@@ -376,7 +403,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
-	FLOAT clearColor[] = { 0.1f,0.25f, 0.5f,0.0f }; // 青っぽい色
+	FLOAT clearColor[] = { 0.1f,0.25f,0.5f,0.0f }; // 青っぽい色
 
 	// ゲームループ
 	while (true)
@@ -408,21 +435,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//--------------------------- 画面クリアコマンド ---------------------------//
 		// ３．画面クリア R G B A
 		commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-
-		if (input.GetKey(DIK_SPACE))
-		{
-			clearColor[0] = 1.0f;
-			clearColor[1] = 0.5f;
-			clearColor[2] = 0.1f;
-			clearColor[3] = 0.0f;
-		}
-		//else
-		//{
-		//	clearColor[0] = 0.1f;
-		//	clearColor[1] = 0.25f;
-		//	clearColor[2] = 0.5f;
-		//	clearColor[3] = 0.0f;
-		//}
 
 #pragma endregion
 
