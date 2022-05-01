@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Vector">
+      <UniqueIdentifier>{5eb65674-f8fe-4881-9c87-c3fa969b232c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Vector">
+      <UniqueIdentifier>{de0484d7-33d7-42ea-989b-d3d5b8da1944}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -23,6 +29,12 @@
     </ClCompile>
     <ClCompile Include="DXWindow.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Vec2.cpp">
+      <Filter>ソース ファイル\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Vec3.cpp">
+      <Filter>ソース ファイル\Vector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +47,12 @@
     </ClInclude>
     <ClInclude Include="DXWindow.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.h">
+      <Filter>ヘッダー ファイル\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3.h">
+      <Filter>ヘッダー ファイル\Vector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
