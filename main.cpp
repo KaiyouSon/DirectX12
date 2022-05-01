@@ -23,6 +23,12 @@ struct ConstBufferDateMaterial
 	XMFLOAT4 color;	// 色(RGBA)
 };
 
+// 定数バッファ用データ構造体(3D変換行列)
+struct ConstBufferDataTransform
+{
+	XMMATRIX mat;	//3D変換行列
+};
+
 // 頂点データ構造体
 struct Vertex
 {
@@ -208,10 +214,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//------------------------ 頂点データ(3点分の座標) -------------------------//
 	// 頂点データ
 	Vertex vertices[] = {
-	 { {-0.4f, -0.7f, 0.0f},{0.0f,1.0f} }, // 左下
-	 { {-0.4f, +0.7f, 0.0f},{0.0f,0.0f} }, // 左上
-	 { {+0.4f, -0.7f, 0.0f},{1.0f,1.0f} }, // 右下
-	 { {+0.4f, +0.7f, 0.0f},{1.0f,0.0f} }, // 右上
+	 { {  0.0f, 100.0f, 0.0f},{0.0f,1.0f} }, // 左下
+	 { {  0.0f,   0.0f, 0.0f},{0.0f,0.0f} }, // 左上
+	 { {100.0f, 100.0f, 0.0f},{1.0f,1.0f} }, // 右下
+	 { {100.0f,   0.0f, 0.0f},{1.0f,0.0f} }, // 右上
 	};
 
 	// インデックスデータ
@@ -472,6 +478,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);	// マッピング
 	assert(SUCCEEDED(result));
 
+
 	//// 横方向ピクセル数
 	//const size_t textureWidth = 256;
 	//// 縦方向ピクセル数
@@ -569,9 +576,48 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			img->pixels,			// 元データアドレス
 			(UINT)img->rowPitch,	// １ラインサイズ
 			(UINT)img->slicePitch	// １枚サイズ
-			);
+		);
 		assert(SUCCEEDED(result));
 	}
+
+	ID3D12Resource* constBuffTransform = nullptr;
+	ConstBufferDataTransform* constMapTransform = nullptr;
+
+	// ヒープの設定
+	D3D12_HEAP_PROPERTIES cbheapprop{};
+	cbheapprop.Type = D3D12_HEAP_TYPE_UPLOAD;	// GPUへの転送用
+	// リソース設定
+	D3D12_RESOURCE_DESC cbresdesc{};
+	cbresdesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbresdesc.Width = (sizeof(ConstBufferDataTransform) + 0xff) & ~0xff; // 256バイトアラインメント
+	cbresdesc.Height = 1;
+	cbresdesc.DepthOrArraySize = 1;
+	cbresdesc.MipLevels = 1;
+	cbresdesc.SampleDesc.Count = 1;
+	cbresdesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	// 定数バッファの生成
+	result = device->CreateCommittedResource(
+		&cbheapprop,	// ヒープの設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbresdesc, // リソースの設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffTransform));
+	assert(SUCCEEDED(result));
+
+	// 定数バッファのマッピング
+	result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);	// マッピング
+	assert(SUCCEEDED(result));
+
+	// 単位行列を代入
+	constMapTransform->mat = XMMatrixIdentity();
+
+	constMapTransform->mat.r[0].m128_f32[0] = 2.0f / dxWindow->GetWinWidth();
+	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / dxWindow->GetWinHeight();
+
+	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
+	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
 
 	// SRVの最大個数
 	const size_t kMaxSRVCount = 2056;
@@ -613,7 +659,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	// ルートパラメーターの設定
-	D3D12_ROOT_PARAMETER rootParams[2] = {};
+	D3D12_ROOT_PARAMETER rootParams[3] = {};
 	// 定数バッファの0番
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	// 種類
 	rootParams[0].Descriptor.ShaderRegister = 0;					// 定数バッファ番号
@@ -624,6 +670,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;		  // デスクリプタレンジ
 	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;					  // デスクリプタレンジ数
 	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;			  // 全てのシェーダから見える
+	// 定数バッファの1番
+	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	// 種類
+	rootParams[2].Descriptor.ShaderRegister = 1;					// 定数バッファ番号
+	rootParams[2].Descriptor.RegisterSpace = 0;						// デフォルト値
+	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	// 全てのシェーダから見える
 
 	// テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
@@ -663,6 +714,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ID3D12PipelineState* pipelineState = nullptr;
 	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
+
+
 
 #pragma endregion
 
@@ -752,6 +805,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 		// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 		commandList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+		// 定数バッファビュー(CBV)の設定コマンド
+		commandList->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 
 
 		//------------------------------ 描画コマンド ------------------------------//
