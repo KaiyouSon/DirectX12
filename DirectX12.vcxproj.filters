@@ -27,7 +27,7 @@
     <ClCompile Include="Input.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="DXWindow.cpp">
+    <ClCompile Include="NewEngineWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Vec2.cpp">
@@ -35,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="Vec3.cpp">
       <Filter>ソース ファイル\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngineBase.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -45,7 +48,7 @@
     <ClInclude Include="Input.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="DXWindow.h">
+    <ClInclude Include="NewEngineWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Vec2.h">
@@ -53,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="Vec3.h">
       <Filter>ヘッダー ファイル\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngineBase.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

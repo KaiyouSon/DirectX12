@@ -1,12 +1,12 @@
 #include <cassert>
 #include "Input.h"
-#include "DXWindow.h"
+#include "NewEngineWindow.h"
 
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 
 Input input;
-extern DXWindow* dxWindow;
+extern NewEngineWindow* newEngineWin;
 
 void Input::Initialize()
 {
@@ -14,7 +14,7 @@ void Input::Initialize()
 
 	// DirectInputの初期化
 	result = DirectInput8Create(
-		dxWindow->GetHInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8,
+		newEngineWin->GetHInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8,
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 
@@ -28,7 +28,7 @@ void Input::Initialize()
 
 	// 排他制御レベルのセット
 	result = keyboard->SetCooperativeLevel(
-		dxWindow->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		newEngineWin->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 }
 

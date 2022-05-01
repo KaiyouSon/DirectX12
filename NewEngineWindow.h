@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-class DXWindow
+class NewEngineWindow
 {
 private:
 	// ウィンドウサイズ

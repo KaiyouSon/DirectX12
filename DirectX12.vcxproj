@@ -141,9 +141,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NewEngineBase.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="DXWindow.cpp" />
+    <ClCompile Include="NewEngineWindow.cpp" />
     <ClCompile Include="Vec2.cpp" />
     <ClCompile Include="Vec3.cpp" />
   </ItemGroup>
@@ -162,8 +163,9 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NewEngineBase.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="DXWindow.h" />
+    <ClInclude Include="NewEngineWindow.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
   </ItemGroup>
