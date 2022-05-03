@@ -466,7 +466,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
 	//constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
 
-
 	// 並行投影行列の計算
 	constMapTransform->mat = XMMatrixOrthographicOffCenterLH(
 		0, newEngineWin->GetWinWidth(),
@@ -481,7 +480,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	);
 
 	// 定数バッファに転送
-	constMapTransform->mat = matProjection;
+	//constMapTransform->mat = matProjection;
+
+	// ビュー変換行列
+	XMMATRIX matView;
+	XMFLOAT3 eye(0, 0, -100);	// 視点座標
+	XMFLOAT3 target(0, 0, 0);	// 注視点座標
+	XMFLOAT3 up(0, 1, 0);		// 上方向ベクトル
+	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+
+	// 定数バッファに転送
+	constMapTransform->mat = matView * matProjection;
+
 
 	// SRVの最大個数
 	const size_t kMaxSRVCount = 2056;
