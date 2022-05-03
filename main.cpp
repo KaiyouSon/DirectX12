@@ -474,12 +474,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	// 透視投影行列の計算
 	XMMATRIX matProjection = XMMatrixPerspectiveFovLH(
-		XMConvertToRadians(45.0f),	// 上下画角45度
+		XMConvertToRadians(45),	// 上下画角45度
 		(float)newEngineWin->GetWinWidth() / newEngineWin->GetWinHeight(), // アスペクト比(画面横幅/画面縦幅)
 		0.1f, 1000.0f	// 先端　奥端
 	);
 
-	// 定数バッファに転送
+	//// 定数バッファに転送
 	//constMapTransform->mat = matProjection;
 
 	// ビュー変換行列
@@ -489,8 +489,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	XMFLOAT3 up(0, 1, 0);		// 上方向ベクトル
 	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 
-	// 定数バッファに転送
-	constMapTransform->mat = matView * matProjection;
+	//// 定数バッファに転送
+	//constMapTransform->mat = matView * matProjection;
+
 
 
 	// SRVの最大個数
@@ -589,7 +590,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	result = newEngine->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 
-
+	// 座標
+	XMFLOAT3 pos = { 0,0,0 };
+	// スケール
+	XMFLOAT3 scale = { 1,1,1 };
+	// 回転
+	XMFLOAT3 rot = { 0,0,0 };
 
 #pragma endregion
 
@@ -631,6 +637,36 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// 値を書き込むと自動的に転送される
 		constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	// RGBAで半透明の赤
+
+		if (input.GetKey(DIK_UP))		pos.z++;
+		if (input.GetKey(DIK_DOWN))		pos.z--;
+		if (input.GetKey(DIK_RIGHT))	pos.x++;
+		if (input.GetKey(DIK_LEFT))		pos.x--;
+
+		// ワールド変換行列
+		XMMATRIX matWorld;
+		matWorld = XMMatrixIdentity();
+
+		// スケーリング
+		XMMATRIX matScale;	// スケーリング行列
+		matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+		matWorld *= matScale;	// ワールド変換行列にスケーリングを反映
+
+		// 回転
+		XMMATRIX matRot; // 回転行列
+		matRot = XMMatrixIdentity();
+		matRot *= XMMatrixRotationX(rot.x);
+		matRot *= XMMatrixRotationY(rot.y);
+		matRot *= XMMatrixRotationZ(rot.z);
+		matWorld *= matRot;
+
+		// 平行移動
+		XMMATRIX matTrans;	// 平行移動
+		matTrans = XMMatrixTranslation(pos.x, pos.y, pos.z);	// 平行移動
+		matWorld *= matTrans;	// ワールド行列に平行移動を反映
+
+		// 定数バッファに転送
+		constMapTransform->mat = matWorld * matView * matProjection;
 
 #pragma region グラフィックスコマンド
 
