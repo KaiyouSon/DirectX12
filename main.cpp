@@ -9,33 +9,18 @@ using namespace DirectX;
 #include "NewEngineWindow.h"
 #include "GraphicsPipeline.h"
 #include "GraphicsCommand.h"
-#include "Vertex.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "ConstantBuffer.h"
-#include "TextureBuffer.h"
 #include "ShaderCompiler.h"
 #include "ShaderResourceView.h"
-#include "Sprite.h"
-
-#include "Transform.h"
-#include "ViewProjection.h"
+#include "Square.h"
 
 NewEngineBase* newEngine = new NewEngineBase;
 NewEngineWindow* newEngineWin = new NewEngineWindow;
 GraphicsPipeline* graphicsPipeline = new GraphicsPipeline;
 GraphicsCommand* graphicsCmd = new GraphicsCommand;
-VertexBuffer* vertexBuffer = new VertexBuffer;
-IndexBuffer* indexBuffer = new IndexBuffer;
-ConstantBuffer* constantBuffer = new ConstantBuffer;
-TextureBuffer* textureBuffer = new TextureBuffer;
 ShaderCompiler* shaderCompiler = new ShaderCompiler;
 ShaderResourceView* shaderResourceView = new ShaderResourceView;
-Sprite* sprite = new Sprite;
 
-Transform* transform = new Transform;
-ViewProjection* viewProjection = new ViewProjection;
-
+Square* square = new Square[2];
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -59,57 +44,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	HRESULT result;
 
-#pragma region 描画初期化処理
+	// 描画初期化処理 ------------------------------------------------------------//
 
-	//------------------- グラフィックボートのアダプタを列挙 -------------------//
-	sprite->Initialize();
+	for (int i = 0; i < 2; i++)
+		square[i].Initialize();
 
 	// シェーダファイルの読み込みとコンパイル
 	shaderCompiler->BasicVSCompile();
 	shaderCompiler->BasicPSCompile();
 
-
-	//--------------------- グラフィックスパイプライン設定 ---------------------//
-	//graphicsPipeline->Initialize();
-
-	constantBuffer->MaterialBufferInit();
-	constantBuffer->TransformBufferInit();
-
-	textureBuffer->Initialize1();
 	//textureBuffer->Initialize2();
 
-
-	//// 単位行列を代入
-	//constMapTransform->mat = XMMatrixIdentity();
-
-	//constMapTransform->mat.r[0].m128_f32[0] = 2.0f / newEngineWin->GetWinWidth();
-	//constMapTransform->mat.r[1].m128_f32[1] = -2.0f / newEngineWin->GetWinHeight();
-
-	//constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
-	//constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
-
-	// 並行投影行列の計算
-	constantBuffer->constMapTransform->mat = XMMatrixOrthographicOffCenterLH(
-		0, newEngineWin->GetWinWidth(),
-		newEngineWin->GetWinHeight(), 0,
-		0, 1);
-
-	viewProjection->Initialize();
-
+	// シェーダーリソースビューの初期化
 	shaderResourceView->Initialize();
 
-	// ハンドルの指す位置にシェーダーリソースビュー作成
-	newEngine->GetDevice()->CreateShaderResourceView(
-		textureBuffer->GetTextureBuff(),
-		shaderResourceView->GetsrvDescAddress(),
-		shaderResourceView->GetsrvHandle());
-
-	//--------------------- グラフィックスパイプライン設定 ---------------------//
+	// グラフィックスパイプラインの初期化
 	graphicsPipeline->Initialize();
 
-#pragma endregion
-
 	//FLOAT clearColor[] = { 0.1f,0.25f,0.5f,0.0f }; // 青っぽい色
+
+	XMFLOAT3 pos1 = { 0,0,0 };
+	XMFLOAT3 pos2 = { 0,0,0 };
 
 	// ゲームループ
 	while (true)
@@ -120,22 +75,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		input.Update();
 
-		if (input.GetKey(DIK_UP))		transform->pos.z++;
-		if (input.GetKey(DIK_DOWN))		transform->pos.z--;
-		if (input.GetKey(DIK_RIGHT))	transform->pos.x++;
-		if (input.GetKey(DIK_LEFT))		transform->pos.x--;
+		if (input.GetKey(DIK_UP))		pos1.z++;
+		if (input.GetKey(DIK_DOWN))		pos1.z--;
+		if (input.GetKey(DIK_RIGHT))	pos1.x++;
+		if (input.GetKey(DIK_LEFT))		pos1.x--;
 
-		transform->Update();
-
-		// 定数バッファに転送
-		constantBuffer->constMapTransform->mat = 
-			transform->matWorld * viewProjection->matView * viewProjection->matProjection;
+		if (input.GetKey(DIK_W))		pos2.z++;
+		if (input.GetKey(DIK_S))		pos2.z--;
+		if (input.GetKey(DIK_D))		pos2.x++;
+		if (input.GetKey(DIK_A))		pos2.x--;
 
 		graphicsCmd->PreUpdate();
 
-#pragma region グラフィックスコマンド
+#pragma region 描画コマンドここから
 
-		// ４．描画コマンドここから
 
 		//----------------------- ビューポートの設定コマンド -----------------------//
 		// ビューポート設定コマンド
@@ -178,13 +131,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			shaderResourceView->GetsrvHeap()->GetGPUDescriptorHandleForHeapStart();
 		// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 		newEngine->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
-
-
-		sprite->DrawBox(XMFLOAT4(255,255,255,255));
-
-		// ４．描画コマンドここまで
-
 #pragma endregion 
+
+		square[0].DrawBox(pos1, XMFLOAT4(255, 0, 0, 255));
+		square[1].DrawBox(pos2, XMFLOAT4(0, 255, 0, 255));
+
+#pragma region 描画コマンドここまで
+#pragma endregion
 
 		//画面入れ替え
 		graphicsCmd->PostUpdate();
@@ -205,16 +158,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete newEngineWin;
 	delete graphicsPipeline;
 	delete graphicsCmd;
-	delete vertexBuffer;
-	delete indexBuffer;
-	delete constantBuffer;
-	delete textureBuffer;
 	delete shaderCompiler;
 	delete shaderResourceView;
-	delete sprite;
-
-	delete transform;
-	delete viewProjection;
+	delete[] square;
 
 	return 0;
 

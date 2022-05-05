@@ -2,12 +2,12 @@
 #include "NewEngineBase.h"
 #include "TextureBuffer.h"
 #include "VertexBuffer.h"
+#include "Square.h"
 
 #include <cassert>
 
 extern NewEngineBase* newEngine;
-extern TextureBuffer* textureBuffer;
-extern VertexBuffer* vertexBuffer;
+extern Square* square;
 
 void ShaderResourceView::Initialize()
 {
@@ -35,14 +35,14 @@ void ShaderResourceView::Initialize()
 	//srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	// 2Dテクスチャ
 	//srvDesc.Texture2D.MipLevels = 1;
 
-	srvDesc.Format = vertexBuffer->resDesc.Format;
+	srvDesc.Format = square->GetVertexBuffer()->resDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	// 2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = vertexBuffer->resDesc.MipLevels;
+	srvDesc.Texture2D.MipLevels = square->GetVertexBuffer()->resDesc.MipLevels;
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
 	newEngine->GetDevice()->CreateShaderResourceView(
-		textureBuffer->GetTextureBuff(), &srvDesc, srvHandle);
+		square->GetTextureBuffer()->GetTextureBuff(), &srvDesc, srvHandle);
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE ShaderResourceView::GetsrvHandle()

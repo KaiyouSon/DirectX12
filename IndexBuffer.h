@@ -7,6 +7,7 @@ class IndexBuffer
 private:
 	// インデックスバッファビュー
 	D3D12_INDEX_BUFFER_VIEW ibView{};
+
 public:
 	void Initialize(uint16_t indices[], int arrarySize);
 public:

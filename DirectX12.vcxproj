@@ -144,6 +144,7 @@
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="GraphicsCommand.cpp" />
     <ClCompile Include="GraphicsPipeline.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="NewEngineBase.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -151,7 +152,7 @@
     <ClCompile Include="NewEngineWindow.cpp" />
     <ClCompile Include="ShaderCompiler.cpp" />
     <ClCompile Include="ShaderResourceView.cpp" />
-    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Square.cpp" />
     <ClCompile Include="TextureBuffer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vec2.cpp" />
@@ -177,13 +178,14 @@
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="GraphicsCommand.h" />
     <ClInclude Include="GraphicsPipeline.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="NewEngineBase.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="NewEngineWindow.h" />
     <ClInclude Include="ShaderCompiler.h" />
     <ClInclude Include="ShaderResourceView.h" />
-    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Square.h" />
     <ClInclude Include="TextureBuffer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vec2.h" />

@@ -1,23 +1,34 @@
-#include "Sprite.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "ConstantBuffer.h"
-#include "TextureBuffer.h"
+#include "Square.h"
 #include "NewEngineBase.h"
+#include "NewEngineWindow.h"
 
 #include <d3d12.h>
 
 extern NewEngineBase* newEngine;
-extern VertexBuffer* vertexBuffer;
-extern IndexBuffer* indexBuffer;
-extern TextureBuffer* textureBuffer;
-extern ConstantBuffer* constantBuffer;
+extern NewEngineWindow* newEngineWin;
 
-Sprite::Sprite()
+
+Square::Square() :
+	vertexBuffer(new VertexBuffer),
+	indexBuffer(new IndexBuffer),
+	textureBuffer(new TextureBuffer),
+	constantBuffer(new ConstantBuffer),
+
+	transform(new Transform),
+	viewProjection(new ViewProjection)
+
 {
 }
 
-void Sprite::Initialize()
+Square::~Square()
+{
+	delete vertexBuffer;
+	delete indexBuffer;
+	delete textureBuffer;
+	delete constantBuffer;
+}
+
+void Square::Initialize()
 {
 	HRESULT result;
 
@@ -45,10 +56,33 @@ void Sprite::Initialize()
 
 	// インデックスバッファ
 	indexBuffer->Initialize(indices, ibArraySize);
+
+	// テクスチャーバッファ
+	textureBuffer->Initialize1();
+
+	// 定数バッファ
+	constantBuffer->MaterialBufferInit();
+	constantBuffer->TransformBufferInit();
+
+	// 並行投影行列の計算
+	constantBuffer->constMapTransform->mat = XMMatrixOrthographicOffCenterLH(
+		0, newEngineWin->GetWinWidth(),
+		newEngineWin->GetWinHeight(), 0,
+		0, 1);
+
+	viewProjection->Initialize();
 }
 
-void Sprite::DrawBox(XMFLOAT4 color)
+void Square::DrawBox(XMFLOAT3 pos, XMFLOAT4 color)
 {
+	transform->pos = pos;
+
+	transform->Update();
+
+	// 定数バッファに転送
+	constantBuffer->constMapTransform->mat =
+		transform->matWorld * viewProjection->matView * viewProjection->matProjection;
+
 	// 色の指定
 	textureBuffer->SetImageDate(
 		XMFLOAT4(color.x / 255, color.y / 255, color.z / 255, color.w / 255));
@@ -69,7 +103,7 @@ void Sprite::DrawBox(XMFLOAT4 color)
 	newEngine->GetCommandList()->DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);
 }
 
-void Sprite::DrawGraph()
+void Square::DrawGraph()
 {
 	// 頂点バッファビューの設定コマンド
 	newEngine->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
@@ -85,4 +119,14 @@ void Sprite::DrawGraph()
 		2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
 
 	newEngine->GetCommandList()->DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);
+}
+
+TextureBuffer* Square::GetTextureBuffer()
+{
+	return textureBuffer;
+}
+
+VertexBuffer* Square::GetVertexBuffer()
+{
+	return  vertexBuffer;
 }

@@ -1,11 +1,9 @@
-#include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "NewEngineBase.h"
 
 #include <cassert>
 
 extern NewEngineBase* newEngine;
-extern VertexBuffer* vertexBuffer;
 
 void IndexBuffer::Initialize(uint16_t indices[], int arrarySize)
 {
@@ -16,13 +14,14 @@ void IndexBuffer::Initialize(uint16_t indices[], int arrarySize)
 	D3D12_HEAP_PROPERTIES heapProp{}; // ヒープ設定
 	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
 	// リソース設定
-	vertexBuffer->resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	vertexBuffer->resDesc.Width = sizeIB; // 頂点データ全体のサイズ
-	vertexBuffer->resDesc.Height = 1;
-	vertexBuffer->resDesc.DepthOrArraySize = 1;
-	vertexBuffer->resDesc.MipLevels = 1;
-	vertexBuffer->resDesc.SampleDesc.Count = 1;
-	vertexBuffer->resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	D3D12_RESOURCE_DESC resDesc{};
+	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resDesc.Width = sizeIB; // 頂点データ全体のサイズ
+	resDesc.Height = 1;
+	resDesc.DepthOrArraySize = 1;
+	resDesc.MipLevels = 1;
+	resDesc.SampleDesc.Count = 1;
+	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	HRESULT result;
 
@@ -31,7 +30,7 @@ void IndexBuffer::Initialize(uint16_t indices[], int arrarySize)
 	result = newEngine->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
-		&vertexBuffer->resDesc, // リソース設定
+		&resDesc, // リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&indexBuff));
