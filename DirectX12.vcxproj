@@ -141,12 +141,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConstantBuffer.cpp" />
+    <ClCompile Include="GraphicsCommand.cpp" />
+    <ClCompile Include="GraphicsPipeline.cpp" />
+    <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="NewEngineBase.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NewEngineWindow.cpp" />
+    <ClCompile Include="ShaderCompiler.cpp" />
+    <ClCompile Include="ShaderResourceView.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="TextureBuffer.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vec2.cpp" />
     <ClCompile Include="Vec3.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="ViewProjection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -163,11 +174,23 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="GraphicsCommand.h" />
+    <ClInclude Include="GraphicsPipeline.h" />
+    <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="NewEngineBase.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="NewEngineWindow.h" />
+    <ClInclude Include="ShaderCompiler.h" />
+    <ClInclude Include="ShaderResourceView.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="TextureBuffer.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
+    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="ViewProjection.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli" />
