@@ -3,12 +3,14 @@
 
 extern NewEngineWindow* newEngineWin;
 
+ViewProjection::ViewProjection() : eye(0, 0, -10), target(0, 0, 0), up(0, 1, 0)
+{
+	Initialize();
+}
+
 void ViewProjection::Initialize()
 {
 	// ビュー変換行列
-	XMFLOAT3 eye(0, 0, -100);	// 視点座標
-	XMFLOAT3 target(0, 0, 0);	// 注視点座標
-	XMFLOAT3 up(0, 1, 0);		// 上方向ベクトル
 	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 
 	// 透視投影行列の計算
@@ -17,4 +19,22 @@ void ViewProjection::Initialize()
 		(float)newEngineWin->GetWinWidth() / newEngineWin->GetWinHeight(), // アスペクト比(画面横幅/画面縦幅)
 		0.1f, 1000.0f	// 先端　奥端
 	);
+}
+
+void ViewProjection::SetEye(const XMFLOAT3& eye)
+{
+	this->eye = eye;
+	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+}
+
+void ViewProjection::SetTarget(const XMFLOAT3& target)
+{
+	this->target = target;
+	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+}
+
+void ViewProjection::SetUp(const XMFLOAT3& up)
+{
+	this->up = up;
+	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 }

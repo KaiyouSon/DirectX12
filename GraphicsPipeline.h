@@ -8,6 +8,7 @@ private:
 	ID3D12PipelineState* pipelineState;
 	// ルートシグネチャ
 	ID3D12RootSignature* rootSignature;
+
 public:
 	void Initialize();
 public:

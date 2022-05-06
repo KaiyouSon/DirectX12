@@ -1,12 +1,17 @@
 #include "Square.h"
 #include "NewEngineBase.h"
 #include "NewEngineWindow.h"
+#include "ViewProjection.h"
+#include "ShaderResourceView.h"
+#include "GraphicsPipeline.h"
 
 #include <d3d12.h>
 
 extern NewEngineBase* newEngine;
 extern NewEngineWindow* newEngineWin;
-
+extern ShaderResourceView* shaderResourceView;
+extern GraphicsPipeline* graphicsPipeline;
+extern ViewProjection* view;
 
 Square::Square() :
 	vertexBuffer(new VertexBuffer),
@@ -14,9 +19,7 @@ Square::Square() :
 	textureBuffer(new TextureBuffer),
 	constantBuffer(new ConstantBuffer),
 
-	transform(new Transform),
-	viewProjection(new ViewProjection)
-
+	transform(new Transform)
 {
 }
 
@@ -69,23 +72,38 @@ void Square::Initialize()
 		0, newEngineWin->GetWinWidth(),
 		newEngineWin->GetWinHeight(), 0,
 		0, 1);
-
-	viewProjection->Initialize();
 }
 
-void Square::DrawBox(XMFLOAT3 pos, XMFLOAT4 color)
+void Square::DrawBox(XMFLOAT3 pos, XMFLOAT3 scale, XMFLOAT4 color)
 {
 	transform->pos = pos;
+	transform->scale = scale;
 
 	transform->Update();
 
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
-		transform->matWorld * viewProjection->matView * viewProjection->matProjection;
+		transform->matWorld * view->matView * view->matProjection;
 
 	// 色の指定
 	textureBuffer->SetImageDate(
 		XMFLOAT4(color.x / 255, color.y / 255, color.z / 255, color.w / 255));
+
+	////---------- パイプラインステートとルートシグネチャの設定コマンド ----------//
+	//// パイプラインステートとルートシグネチャの設定コマンド
+	//newEngine->GetCommandList()->SetPipelineState(
+	//	graphicsPipeline->GetPipelineState());
+	//newEngine->GetCommandList()->SetGraphicsRootSignature(
+	//	graphicsPipeline->GetRootSignature());
+
+	//// SRVヒープの設定コマンド
+	//newEngine->GetCommandList()->SetDescriptorHeaps(
+	//	1, shaderResourceView->GetsrvHeapAddress());
+	//// SRVヒープの先頭ハンドルを取得
+	//D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle =
+	//	shaderResourceView->GetsrvHeap()->GetGPUDescriptorHandleForHeapStart();
+	//// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
+	//newEngine->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
 	// 頂点バッファビューの設定コマンド
 	newEngine->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());

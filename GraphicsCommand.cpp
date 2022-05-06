@@ -18,14 +18,13 @@ void GraphicsCommand::PreUpdate()
 	//--------------------------- 描画先指定コマンド ---------------------------//
 	// ２．描画先の変更
 	// レンダーターゲットビューのハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = newEngine->GetRTVHeap()->GetCPUDescriptorHandleForHeapStart();
+	rtvHandle = newEngine->GetRTVHeap()->GetCPUDescriptorHandleForHeapStart();
 	rtvHandle.ptr += bbIndex * newEngine->GetDevice()->GetDescriptorHandleIncrementSize(
 		newEngine->GetRTVHeapDesc().Type);
 	newEngine->GetCommandList()->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
 
 	//--------------------------- 画面クリアコマンド ---------------------------//
 	// ３．画面クリア R G B A
-	FLOAT clearColor[] = { 0.1f,0.25f,0.5f,0.0f }; // 青っぽい色
 	newEngine->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 }
 
@@ -67,4 +66,11 @@ void GraphicsCommand::PostUpdate()
 	// 再びコマンドリストを貯める準備
 	result = newEngine->GetCommandList()->Reset(newEngine->GetCommandAllocataor(), nullptr);
 	assert(SUCCEEDED(result));
+}
+
+void GraphicsCommand::SetBackgroundColor(int Red, int Green, int Blue)
+{
+	clearColor[0] = Red / 255;
+	clearColor[1] = Green / 255;
+	clearColor[2] = Blue / 255;
 }

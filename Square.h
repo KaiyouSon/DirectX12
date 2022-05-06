@@ -4,7 +4,6 @@
 #include "TextureBuffer.h"
 #include "ConstantBuffer.h"
 #include "Transform.h"
-#include "ViewProjection.h"
 
 #include <DirectXMath.h>
 using namespace DirectX;
@@ -18,7 +17,6 @@ private:
 	ConstantBuffer* constantBuffer;
 
 	Transform* transform;
-	ViewProjection* viewProjection;
 
 private:
 	int vbArraySize;	// 頂点データの要素数
@@ -27,7 +25,7 @@ public:
 	Square();
 	~Square();
 	void Initialize();
-	void DrawBox(XMFLOAT3 pos, XMFLOAT4 color);
+	void DrawBox(XMFLOAT3 pos, XMFLOAT3 scale, XMFLOAT4 color);
 	void DrawGraph();
 public:
 	VertexBuffer* GetVertexBuffer();

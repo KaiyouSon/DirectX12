@@ -8,8 +8,7 @@ const Vec2 Vec2::down(0, 1);
 const Vec2 Vec2::one(1, 1);
 const Vec2 Vec2::zero(0, 0);
 
-Vec2::Vec2() :
-	x(0), y(0)
+Vec2::Vec2()
 {
 }
 
