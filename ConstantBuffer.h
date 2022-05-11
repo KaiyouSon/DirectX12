@@ -30,4 +30,6 @@ public:
 public:
 	ID3D12Resource* GetConstBuffMaterial();
 	ID3D12Resource* GetConstBuffTransform();
+
+	void SetColor(XMFLOAT4 color);
 };

@@ -142,8 +142,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="GraphicsCommand.cpp" />
     <ClCompile Include="GraphicsPipeline.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="NewEngineBase.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -178,8 +180,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="GraphicsCommand.h" />
     <ClInclude Include="GraphicsPipeline.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="NewEngineBase.h" />
     <ClInclude Include="Input.h" />

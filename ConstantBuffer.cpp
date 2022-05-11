@@ -82,3 +82,20 @@ ID3D12Resource* ConstantBuffer::GetConstBuffTransform()
 {
 	return constBuffTransform;
 }
+
+void ConstantBuffer::SetColor(XMFLOAT4 color)
+{
+	HRESULT result;
+
+	// 定数バッファのマッピング
+	ConstBufferDateMaterial* constMapMaterial = nullptr;
+	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);	// マッピング
+	assert(SUCCEEDED(result));
+
+	// 値を書き込むと自動的に転送される
+	constMapMaterial->color = XMFLOAT4(
+		color.x / 255,
+		color.y / 255,
+		color.z / 255,
+		color.w / 255);	// RGBAで半透明の赤
+}

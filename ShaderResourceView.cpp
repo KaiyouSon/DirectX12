@@ -1,13 +1,13 @@
 #include "ShaderResourceView.h"
 #include "NewEngineBase.h"
-#include "TextureBuffer.h"
-#include "VertexBuffer.h"
 #include "Square.h"
+#include "Image.h"
 
 #include <cassert>
 
 extern NewEngineBase* newEngine;
 extern Square* square;
+extern Image* image;
 
 void ShaderResourceView::Initialize()
 {
@@ -23,11 +23,13 @@ void ShaderResourceView::Initialize()
 	HRESULT result;
 
 	// 設定を元にSRV用デスクリプタヒープを生成
-	result = newEngine->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	result = newEngine->GetDevice()->CreateDescriptorHeap(
+		&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 
 	// SRVヒープの先頭ハンドルを取得
-	srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+	srvCpuHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
 	// シェーダーリソースビュー設定
 	//srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT; // RGBA float
@@ -42,12 +44,22 @@ void ShaderResourceView::Initialize()
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
 	newEngine->GetDevice()->CreateShaderResourceView(
-		square->GetTextureBuffer()->GetTextureBuff(), &srvDesc, srvHandle);
-}
+		square->GetTextureBuffer()->GetTextureBuff(), &srvDesc, srvCpuHandle);
 
-D3D12_CPU_DESCRIPTOR_HANDLE ShaderResourceView::GetsrvHandle()
-{
-	return srvHandle;
+	UINT descriptorSize = newEngine->GetDevice()->
+		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	srvCpuHandle.ptr += descriptorSize * 1;
+	srvGpuHandle.ptr += descriptorSize * 1;
+
+	srvDesc.Format = image->GetVertexBuffer()->resDesc.Format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	// 2Dテクスチャ
+	srvDesc.Texture2D.MipLevels = image->GetVertexBuffer()->resDesc.MipLevels;
+
+	// ハンドルの指す位置にシェーダーリソースビュー作成
+	newEngine->GetDevice()->CreateShaderResourceView(
+		image->GetTextureBuffer()->GetTextureBuff(), &srvDesc, srvCpuHandle);
 }
 
 ID3D12DescriptorHeap* ShaderResourceView::GetsrvHeap()
@@ -60,7 +72,7 @@ ID3D12DescriptorHeap** ShaderResourceView::GetsrvHeapAddress()
 	return &srvHeap;
 }
 
-D3D12_SHADER_RESOURCE_VIEW_DESC* ShaderResourceView::GetsrvDescAddress()
+D3D12_GPU_DESCRIPTOR_HANDLE ShaderResourceView::GetSrvGpuHandle()
 {
-	return &srvDesc;
+	return srvGpuHandle;
 }

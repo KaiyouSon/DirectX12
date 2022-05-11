@@ -13,6 +13,8 @@ using namespace DirectX;
 
 #include "ViewProjection.h"
 #include "Square.h"
+#include "Image.h"
+#include "Cube.h"
 
 NewEngineBase* newEngine = new NewEngineBase;
 NewEngineWindow* newEngineWin = new NewEngineWindow;
@@ -24,7 +26,9 @@ Viewport* viewport = new Viewport;
 ScissorRectangle* scissorRectangle = new ScissorRectangle;
 
 ViewProjection* view = new ViewProjection;
-Square* square = new Square[2];
+Square* square = new Square;
+Image* image = new Image;
+Cube* cube = new Cube;
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -47,15 +51,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	input.Initialize();
 
 	// 描画初期化処理 ------------------------------------------------------------//
-	for (int i = 0; i < 2; i++)
-		square[i].Initialize();
+	square->Initialize();
+	image->Initialize(L"Resources/pic.png");
+	cube->Initialize();
+
+	// シェーダーリソースビューの初期化
+	shaderResourceView->Initialize();
 
 	// シェーダファイルの読み込みとコンパイル
 	shaderCompiler->BasicVSCompile();
 	shaderCompiler->BasicPSCompile();
-
-	// シェーダーリソースビューの初期化
-	shaderResourceView->Initialize();
 
 	// グラフィックスパイプラインの初期化
 	graphicsPipeline->Initialize();
@@ -65,11 +70,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	view->SetEye(XMFLOAT3(0, 0, -200));
 
-	XMFLOAT3 pos1 = { 0,0,0 };
-	XMFLOAT3 pos2 = { 0,0,0 };
+	XMFLOAT3 pos1 = { 30,0,0 };
+	XMFLOAT3 pos2 = { -30,0,0 };
 
-	XMFLOAT3 scale1 = { 1,1,1 };
+	XMFLOAT3 scale1 = { 0.5,0.5,0.5 };
 	XMFLOAT3 scale2 = { 0.5,0.5,0.5 };
+
+	XMFLOAT3 rot1 = { 0,0,0 };
 
 	// ゲームループ
 	while (true)
@@ -89,6 +96,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		if (input.GetKey(DIK_S))		pos2.z--;
 		if (input.GetKey(DIK_D))		pos2.x++;
 		if (input.GetKey(DIK_A))		pos2.x--;
+
+		//square->Update(pos1, scale1, rot1, XMFLOAT4(255, 0, 0, 255));
+		image->Update(pos2, scale2);
+		cube->Update(pos1, scale1, XMFLOAT4(255, 255, 255, 255));
 
 		graphicsCmd->PreUpdate();
 		// 描画コマンドここから
@@ -110,19 +121,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			//------------- プリミティブ形状の設定コマンド（三角形リスト） -------------//
 			// プリミティブ形状の設定コマンド
 			newEngine->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-
-			// SRVヒープの設定コマンド
-			newEngine->GetCommandList()->SetDescriptorHeaps(
-				1, shaderResourceView->GetsrvHeapAddress());
-			// SRVヒープの先頭ハンドルを取得
-			D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle =
-				shaderResourceView->GetsrvHeap()->GetGPUDescriptorHandleForHeapStart();
-			// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-			newEngine->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 		}
 
-		square[0].DrawBox(pos1, scale1, XMFLOAT4(255, 0, 0, 255));
-		square[1].DrawBox(pos2, scale2, XMFLOAT4(0, 255, 0, 255));
+		//square->Draw();
+		image->Draw();
+		cube->Draw();
 
 		// 描画コマンドここまで
 
@@ -151,7 +154,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete scissorRectangle;
 
 	delete view;
-	delete[] square;
+	delete square;
+	delete image;
+	delete cube;
 
 	return 0;
 }

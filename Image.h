@@ -8,7 +8,7 @@
 #include <DirectXMath.h>
 using namespace DirectX;
 
-class Square
+class Image
 {
 private:
 	VertexBuffer* vertexBuffer;
@@ -21,11 +21,12 @@ private:
 private:
 	int vbArraySize;	// 頂点データの要素数
 	int ibArraySize;	// インデックスデータの要素数
+	wchar_t* szFire;
 public:
-	Square();
-	~Square();
-	void Initialize();
-	void Update(XMFLOAT3 pos, XMFLOAT3 scale, XMFLOAT3 rot, XMFLOAT4 color);
+	Image();
+	~Image();
+	void Initialize(const wchar_t* szFile);
+	void Update(XMFLOAT3 pos, XMFLOAT3 scale);
 	void Draw();
 public:
 	VertexBuffer* GetVertexBuffer();

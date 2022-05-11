@@ -1,4 +1,4 @@
-#include "Square.h"
+#include "Image.h"
 #include "NewEngineBase.h"
 #include "NewEngineWindow.h"
 #include "ViewProjection.h"
@@ -13,7 +13,7 @@ extern ShaderResourceView* shaderResourceView;
 extern GraphicsPipeline* graphicsPipeline;
 extern ViewProjection* view;
 
-Square::Square() :
+Image::Image() :
 	vertexBuffer(new VertexBuffer),
 	indexBuffer(new IndexBuffer),
 	textureBuffer(new TextureBuffer),
@@ -22,7 +22,7 @@ Square::Square() :
 {
 }
 
-Square::~Square()
+Image::~Image()
 {
 	delete vertexBuffer;
 	delete indexBuffer;
@@ -31,16 +31,17 @@ Square::~Square()
 	delete transform;
 }
 
-void Square::Initialize()
+void Image::Initialize(const wchar_t* szFile)
 {
 	HRESULT result;
 
 	// 頂点データ
-	Vertex vertices[] = {
-	 { { -50.0f, -50.0f, 100.0f }, {0.0f, 1.0f} }, //左下
-	 { { -50.0f, +50.0f, 100.0f }, {0.0f, 0.0f} }, //左上
-	 { { +50.0f, -50.0f, 100.0f }, {1.0f, 1.0f} }, //右下
-	 { { +50.0f, +50.0f, 100.0f }, {1.0f, 0.0f} }, //右上
+	Vertex vertices[] =
+	{
+		{ { -50.0f, -50.0f, 100.0f }, {0.0f, 1.0f} }, //左下
+		{ { -50.0f, +50.0f, 100.0f }, {0.0f, 0.0f} }, //左上
+		{ { +50.0f, -50.0f, 100.0f }, {1.0f, 1.0f} }, //右下
+		{ { +50.0f, +50.0f, 100.0f }, {1.0f, 0.0f} }, //右上
 	};
 	// 頂点データの要素数
 	vbArraySize = sizeof(vertices) / sizeof(vertices[0]);
@@ -61,7 +62,7 @@ void Square::Initialize()
 	indexBuffer->Initialize(indices, ibArraySize);
 
 	// テクスチャーバッファ
-	textureBuffer->Initialize1();
+	textureBuffer->Initialize2(szFile);
 
 	// 定数バッファ
 	constantBuffer->MaterialBufferInit();
@@ -74,24 +75,19 @@ void Square::Initialize()
 		0, 1);
 }
 
-void Square::Update(XMFLOAT3 pos, XMFLOAT3 scale, XMFLOAT3 rot, XMFLOAT4 color)
+void Image::Update(XMFLOAT3 pos, XMFLOAT3 scale)
 {
 	transform->pos = pos;
 	transform->scale = scale;
-	transform->rot = rot;
 
 	transform->Update();
 
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
 		transform->matWorld * view->matView * view->matProjection;
-
-	// 色の指定
-	constantBuffer->SetColor(color);
 }
 
-
-void Square::Draw()
+void Image::Draw()
 {
 	// 頂点バッファビューの設定コマンド
 	newEngine->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
@@ -107,7 +103,7 @@ void Square::Draw()
 		1, shaderResourceView->GetsrvHeapAddress());
 	// SRVヒープの先頭ハンドルを取得
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle =
-		shaderResourceView->GetsrvHeap()->GetGPUDescriptorHandleForHeapStart();
+		shaderResourceView->GetSrvGpuHandle();
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	newEngine->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
@@ -118,12 +114,12 @@ void Square::Draw()
 	newEngine->GetCommandList()->DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);
 }
 
-TextureBuffer* Square::GetTextureBuffer()
+TextureBuffer* Image::GetTextureBuffer()
 {
 	return textureBuffer;
 }
 
-VertexBuffer* Square::GetVertexBuffer()
+VertexBuffer* Image::GetVertexBuffer()
 {
 	return  vertexBuffer;
 }

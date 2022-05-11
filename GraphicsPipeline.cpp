@@ -123,7 +123,10 @@ void GraphicsPipeline::Initialize()
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob, shaderCompiler->GeterrorBlobAddress());
 	assert(SUCCEEDED(result));
-	result = newEngine->GetDevice()->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+	result = newEngine->GetDevice()->CreateRootSignature(
+		0,
+		rootSigBlob->GetBufferPointer(),
+		rootSigBlob->GetBufferSize(),
 		IID_PPV_ARGS(&rootSignature));
 	assert(SUCCEEDED(result));
 	rootSigBlob->Release();

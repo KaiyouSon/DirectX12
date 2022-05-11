@@ -1,6 +1,7 @@
 #pragma once
 #include <d3d12.h>
 #include <DirectXMath.h>
+#include <string.h>
 using namespace DirectX;
 
 class TextureBuffer
@@ -19,11 +20,8 @@ private:
 public:
 	~TextureBuffer();
 	void Initialize1();
-	void Initialize2();
+	void Initialize2(const wchar_t* szFile);
 public:
 	ID3D12Resource* GetTextureBuff();
-	void SetImageDate(XMFLOAT4 color);
-private:
-	void TransferDateToTexBuff();	// テクスチャバッファにデータ転送する関数
 };
 

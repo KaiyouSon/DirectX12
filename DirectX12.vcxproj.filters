@@ -37,6 +37,15 @@
     <Filter Include="ソース ファイル\NewEngine">
       <UniqueIdentifier>{0ed94fb9-65a2-480d-bc91-3d213843b359}</UniqueIdentifier>
     </Filter>
+    <Filter Include="シェーダーファイル">
+      <UniqueIdentifier>{ebea575b-6f4d-4e6e-b893-a47bace55e10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Model">
+      <UniqueIdentifier>{3b8271c5-b629-45cb-bf62-8eb912d0e343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Model">
+      <UniqueIdentifier>{ece43e39-15df-439c-a9cc-829e3549ecc9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -99,10 +108,20 @@
     <ClCompile Include="Vec4.cpp">
       <Filter>ソース ファイル\Vector</Filter>
     </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>ソース ファイル\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="BasicVS.hlsl" />
-    <FxCompile Include="BasicPS.hlsl" />
+    <FxCompile Include="BasicPS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -165,8 +184,16 @@
     <ClInclude Include="Vec4.h">
       <Filter>ヘッダー ファイル\Vector</Filter>
     </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>ヘッダー ファイル\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>ヘッダー ファイル\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Basic.hlsli" />
+    <None Include="Basic.hlsli">
+      <Filter>シェーダーファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>

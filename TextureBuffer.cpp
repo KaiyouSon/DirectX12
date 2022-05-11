@@ -53,10 +53,16 @@ void TextureBuffer::Initialize1()
 	assert(SUCCEEDED(result));
 
 	// テクスチャバッファにデータ転送
-	TransferDateToTexBuff();
+	result = texBuff->WriteToSubresource(
+		0,
+		nullptr, // 全領域へコピー
+		imageData,	// 元データアドレス
+		sizeof(XMFLOAT4) * textureWidth, // 1ラインサイズ
+		sizeof(XMFLOAT4) * imageDataCount // 全サイズ
+	);
 }
 
-void TextureBuffer::Initialize2()
+void TextureBuffer::Initialize2(const wchar_t* szFile)
 {
 	HRESULT result;
 
@@ -65,7 +71,7 @@ void TextureBuffer::Initialize2()
 	ScratchImage scratchImg{};
 	// WICテクスチャのロード
 	result = LoadFromWICFile(
-		L"Resources/pic.png",
+		szFile,
 		WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 
@@ -129,29 +135,4 @@ void TextureBuffer::Initialize2()
 ID3D12Resource* TextureBuffer::GetTextureBuff()
 {
 	return texBuff;
-}
-
-void TextureBuffer::SetImageDate(XMFLOAT4 color)
-{
-	for (size_t i = 0; i < imageDataCount; i++)
-	{
-		imageData[i] = color;	// R G B A を代入
-	}
-
-	// テクスチャバッファにデータ転送
-	TransferDateToTexBuff();
-}
-
-void TextureBuffer::TransferDateToTexBuff()
-{
-	HRESULT result;
-
-	// テクスチャバッファにデータ転送
-	result = texBuff->WriteToSubresource(
-		0,
-		nullptr, // 全領域へコピー
-		imageData,	// 元データアドレス
-		sizeof(XMFLOAT4) * textureWidth, // 1ラインサイズ
-		sizeof(XMFLOAT4) * imageDataCount // 全サイズ
-	);
 }
