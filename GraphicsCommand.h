@@ -12,6 +12,7 @@ private:
 	float clearColor[4];
 
 public:
+	~GraphicsCommand();
 	void PreUpdate();
 	void PostUpdate();
 	void SetBackgroundColor(int Red, int Green, int Blue);

@@ -1,11 +1,8 @@
 #include "NewEngineWindow.h"
 #include <Windows.h>
 
-void NewEngineWindow::CreateGameWindow(int WIN_WIDTH, int WIN_HEIGHT)
+void NewEngineWindow::CreateGameWindow()
 {
-	WinWidth = WIN_WIDTH;
-	WinHeight = WIN_HEIGHT;
-
 	// ウィンドウクラスの設定
 	wndClass.cbSize = sizeof(WNDCLASSEX);
 	wndClass.lpfnWndProc = (WNDPROC)WindowProc;		// ウインドウプロシージャを設定
@@ -20,10 +17,12 @@ void NewEngineWindow::CreateGameWindow(int WIN_WIDTH, int WIN_HEIGHT)
 	// 自動でサイズ補正する
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
+	//mbstowcs(wc, TITLE, sizeof(TITLE));
+
 	// ウィンドウオブジェクトの生成
 	hwnd = CreateWindow(
 		wndClass.lpszClassName, // クラス名
-		L"DirectXGame",			// タイトルバーの文字
+		TITLE,					// タイトルバーの文字
 		WS_OVERLAPPEDWINDOW,	// 標準的なウィンドウスタイル
 		CW_USEDEFAULT,			// 表示X座標(OSに任せる)
 		CW_USEDEFAULT,			// 表示Y座標(OSに任せる)
@@ -52,6 +51,17 @@ void NewEngineWindow::ProcessMessage()
 		TranslateMessage(&msg);	// キー入力メッセージの処理
 		DispatchMessage(&msg);	// プロシージャにメッセージを送る
 	}
+}
+
+void NewEngineWindow::SetWindowTitle(const wchar_t* TITLE)
+{
+	this->TITLE = TITLE;
+}
+
+void NewEngineWindow::SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT)
+{
+	WinWidth = WIN_WIDTH;
+	WinHeight = WIN_HEIGHT;
 }
 
 // ウィンドウプロシージャ

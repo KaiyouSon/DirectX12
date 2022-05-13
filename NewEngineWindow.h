@@ -6,6 +6,7 @@ private:
 	// ウィンドウサイズ
 	int WinWidth = 1280; // 横幅
 	int WinHeight = 720; // 縦幅
+	const wchar_t* TITLE = L"error";
 
 	WNDCLASSEX wndClass{};	// ウィンドウクラス
 	HWND hwnd;	// ウィンドウハンドル
@@ -22,7 +23,7 @@ public:
 	/// <summary>
 	/// ゲームウィンドウの作成 
 	/// </summary>
-	void CreateGameWindow(int WIN_WIDTH, int WIN_HEIGHT);
+	void CreateGameWindow();
 
 	/// <summary>
 	/// ゲームウィンドウの破棄
@@ -33,6 +34,9 @@ public:
 	/// ウィンドウメッセージ処理
 	/// </summary>
 	void ProcessMessage();
+
+	void SetWindowTitle(const wchar_t* TITLE);
+	void SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT);
 
 public:
 	/// <summary>

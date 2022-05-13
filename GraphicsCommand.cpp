@@ -1,8 +1,21 @@
 #include "GraphicsCommand.h"
 #include "NewEngineBase.h"
+#include "GraphicsPipeline.h"
+#include "Viewport.h"
+#include "ScissorRectangle.h"
 #include <cassert>
 
 extern NewEngineBase* newEngine;
+extern GraphicsPipeline* graphicsPipeline;
+Viewport* viewport = new Viewport;
+ScissorRectangle* scissorRectangle = new ScissorRectangle;
+
+
+GraphicsCommand::~GraphicsCommand()
+{
+	delete viewport;
+	delete scissorRectangle;
+}
 
 void GraphicsCommand::PreUpdate()
 {
@@ -26,6 +39,19 @@ void GraphicsCommand::PreUpdate()
 	//--------------------------- 画面クリアコマンド ---------------------------//
 	// ３．画面クリア R G B A
 	newEngine->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+
+	// ビューポートの処理
+	viewport->Update();
+
+	// シザー矩形の処理
+	scissorRectangle->Update();
+
+	//---------- パイプラインステートとルートシグネチャの設定コマンド ----------//
+	// パイプラインステートとルートシグネチャの設定コマンド
+	newEngine->GetCommandList()->SetPipelineState(
+		graphicsPipeline->GetPipelineState());
+	newEngine->GetCommandList()->SetGraphicsRootSignature(
+		graphicsPipeline->GetRootSignature());
 }
 
 
