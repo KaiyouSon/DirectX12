@@ -1,25 +1,18 @@
 #include "Transform.h"
+#include "MathUtil.h"
 
-Transform::Transform()
+Transform::Transform() :
+	pos(0, 0, 0), scale(1, 1, 1), rot(0, 0, 0)
 {
-
 }
 
-Transform::Transform(XMFLOAT3 pos, XMFLOAT3 scale, XMFLOAT3 rot)
+Transform::Transform(XMFLOAT3 pos, XMFLOAT3 scale, XMFLOAT3 rot) :
+	pos(pos), scale(scale), rot(rot)
 {
 }
 
 void Transform::Update()
 {
-	//// 単位行列を代入
-	//constMapTransform->mat = XMMatrixIdentity();
-
-	//constMapTransform->mat.r[0].m128_f32[0] = 2.0f / newEngineWin->GetWinWidth();
-	//constMapTransform->mat.r[1].m128_f32[1] = -2.0f / newEngineWin->GetWinHeight();
-
-	//constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
-	//constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
-
 	// ワールド変換行列
 	matWorld = XMMatrixIdentity();
 
@@ -31,9 +24,9 @@ void Transform::Update()
 	// 回転
 	XMMATRIX matRot; // 回転行列
 	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationX(rot.x);
-	matRot *= XMMatrixRotationY(rot.y);
-	matRot *= XMMatrixRotationZ(rot.z);
+	matRot *= XMMatrixRotationX(Radian(rot.x));
+	matRot *= XMMatrixRotationY(Radian(rot.y));
+	matRot *= XMMatrixRotationZ(Radian(rot.z));
 	matWorld *= matRot;
 
 	// 平行移動

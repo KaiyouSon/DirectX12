@@ -4,9 +4,9 @@
 #include "TextureBuffer.h"
 #include "ConstantBuffer.h"
 #include "Transform.h"
+#include "Vec2.h"
 
-#include <DirectXMath.h>
-using namespace DirectX;
+#include <d3d12.h>
 
 class Image
 {
@@ -15,20 +15,34 @@ private:
 	IndexBuffer* indexBuffer;
 	TextureBuffer* textureBuffer;
 	ConstantBuffer* constantBuffer;
+	Transform transform;
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
-	Transform* transform;
-
+	Vec2 size;
 private:
 	int vbArraySize;	// 頂点データの要素数
 	int ibArraySize;	// インデックスデータの要素数
 	wchar_t* szFire;
+
+	int viewType;
 public:
 	Image();
+	Image(Vec2 size);
 	~Image();
-	void Initialize(const wchar_t* szFile);
-	void Update(XMFLOAT3 pos, XMFLOAT3 scale);
+	void LoadGraph(const wchar_t* FilePath = L"void");
+	void Initialize(int viewType);
+	void Update(const Transform& transform, Transform* parent = nullptr);
 	void Draw();
 public:
 	VertexBuffer* GetVertexBuffer();
 	TextureBuffer* GetTextureBuffer();
+	void SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle);
+
+	void SetColor(const Vec4& color);
+public:
+	enum ViewType
+	{
+		view2D,
+		view3D,
+	};
 };

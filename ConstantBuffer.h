@@ -1,4 +1,6 @@
 #pragma once
+#include "Mat4.h"
+#include "Vec4.h"
 #include <d3d12.h>
 #include <DirectXMath.h>
 
@@ -7,7 +9,7 @@ using namespace DirectX;
 // 定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDateMaterial
 {
-	XMFLOAT4 color;	// 色(RGBA)
+	Vec4 color;	// 色(RGBA)
 };
 
 // 定数バッファ用データ構造体(3D変換行列)
@@ -31,5 +33,5 @@ public:
 	ID3D12Resource* GetConstBuffMaterial();
 	ID3D12Resource* GetConstBuffTransform();
 
-	void SetColor(XMFLOAT4 color);
+	void SetColor(Vec4 color);
 };

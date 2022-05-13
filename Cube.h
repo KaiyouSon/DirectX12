@@ -1,15 +1,35 @@
 #pragma once
-#include "Square.h"
+#include "Image.h"
 class Cube
 {
 private:
-	Square* square;
+	Image* image;
+
+	Transform transform;
+
+	Transform forwardTrans;
+	Transform backTrans;
+	Transform leftTrans;
+	Transform rightTrans;
+	Transform upTrans;
+	Transform downTrans;
 
 public:
 	Cube();
 	~Cube();
+	void LoadGraph(const wchar_t* FilePath = L"void");
 	void Initialize();
-	void Update(XMFLOAT3 pos, XMFLOAT3 scale, XMFLOAT4 color);
+	void Update(Transform& transform);
 	void Draw();
+public:
+	enum Direction
+	{
+		Forward,
+		Back,
+		Left,
+		Right,
+		Up,
+		Down,
+	};
 };
 

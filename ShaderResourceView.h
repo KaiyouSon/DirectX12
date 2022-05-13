@@ -1,5 +1,8 @@
 #pragma once
+#include "Image.h"
+
 #include <d3d12.h>
+#include <vector>
 
 class ShaderResourceView
 {
@@ -12,8 +15,17 @@ private:
 	// SRV設定構造体
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 
+	// srvCpuHandleのポインタを格納する変数
+	std::vector <D3D12_CPU_DESCRIPTOR_HANDLE> srvCpuHandlePtr;
+
+	UINT incrementIndex = 0;
+
+private:
+
 public:
 	void Initialize();
+	void CreatSrv(Image& image);
+
 public:
 
 	// SRV用デスクリプタヒープを取得する関数

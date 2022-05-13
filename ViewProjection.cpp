@@ -13,12 +13,17 @@ void ViewProjection::Initialize()
 	// ビュー変換行列
 	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 
+	// 並行投影行列の計算
+	matProjection2D = XMMatrixOrthographicOffCenterLH(
+		0, newEngineWin->GetWinWidth(),
+		newEngineWin->GetWinHeight(), 0,
+		0, 1);
+
 	// 透視投影行列の計算
-	matProjection = XMMatrixPerspectiveFovLH(
+	matProjection3D = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(45),	// 上下画角45度
 		(float)newEngineWin->GetWinWidth() / newEngineWin->GetWinHeight(), // アスペクト比(画面横幅/画面縦幅)
-		0.1f, 1000.0f	// 先端　奥端
-	);
+		0.1f, 1000.0f);	// 先端　奥端
 }
 
 void ViewProjection::SetEye(const XMFLOAT3& eye)

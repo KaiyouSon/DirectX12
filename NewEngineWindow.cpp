@@ -1,8 +1,11 @@
 #include "NewEngineWindow.h"
 #include <Windows.h>
 
-void NewEngineWindow::CreateGameWindow()
+void NewEngineWindow::CreateGameWindow(int WIN_WIDTH, int WIN_HEIGHT)
 {
+	WinWidth = WIN_WIDTH;
+	WinHeight = WIN_HEIGHT;
+
 	// ウィンドウクラスの設定
 	wndClass.cbSize = sizeof(WNDCLASSEX);
 	wndClass.lpfnWndProc = (WNDPROC)WindowProc;		// ウインドウプロシージャを設定

@@ -9,21 +9,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\Vector">
-      <UniqueIdentifier>{de0484d7-33d7-42ea-989b-d3d5b8da1944}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Buffer">
-      <UniqueIdentifier>{08846fad-8ac1-4802-bf33-5a48ba8e3d65}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
     <Filter Include="ヘッダー ファイル\Vector">
       <UniqueIdentifier>{5eb65674-f8fe-4881-9c87-c3fa969b232c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Buffer">
-      <UniqueIdentifier>{b7bd0bb9-118e-4ba2-acc1-de14edef096b}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Sprite">
       <UniqueIdentifier>{02e0393d-092a-481b-b672-db35cf4b7455}</UniqueIdentifier>
@@ -46,6 +37,15 @@
     <Filter Include="ヘッダー ファイル\Model">
       <UniqueIdentifier>{ece43e39-15df-439c-a9cc-829e3549ecc9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\NewEngine\Buffer">
+      <UniqueIdentifier>{08846fad-8ac1-4802-bf33-5a48ba8e3d65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\NewEngine\Buffer">
+      <UniqueIdentifier>{b7bd0bb9-118e-4ba2-acc1-de14edef096b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Vector">
+      <UniqueIdentifier>{de0484d7-33d7-42ea-989b-d3d5b8da1944}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -61,25 +61,22 @@
       <Filter>ソース ファイル\Vector</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
-      <Filter>ソース ファイル\Buffer</Filter>
+      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
-      <Filter>ソース ファイル\Buffer</Filter>
+      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>ソース ファイル\Buffer</Filter>
+      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="TextureBuffer.cpp">
-      <Filter>ソース ファイル\Buffer</Filter>
+      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="ViewProjection.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Square.cpp">
-      <Filter>ソース ファイル\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsCommand.cpp">
       <Filter>ソース ファイル\NewEngine</Filter>
@@ -114,6 +111,15 @@
     <ClCompile Include="Cube.cpp">
       <Filter>ソース ファイル\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Mat4.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MathUtil.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -134,25 +140,22 @@
       <Filter>ヘッダー ファイル\Vector</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
-      <Filter>ヘッダー ファイル\Buffer</Filter>
+      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
-      <Filter>ヘッダー ファイル\Buffer</Filter>
+      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
-      <Filter>ヘッダー ファイル\Buffer</Filter>
+      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="TextureBuffer.h">
-      <Filter>ヘッダー ファイル\Buffer</Filter>
+      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ViewProjection.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Square.h">
-      <Filter>ヘッダー ファイル\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="NewEngineBase.h">
       <Filter>ヘッダー ファイル\NewEngine</Filter>
@@ -189,6 +192,15 @@
     </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>ヘッダー ファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Mat4.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MathUtil.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

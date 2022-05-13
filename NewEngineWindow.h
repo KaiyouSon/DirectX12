@@ -4,8 +4,8 @@ class NewEngineWindow
 {
 private:
 	// ウィンドウサイズ
-	const int WinWidth = 1280; // 横幅
-	const int WinHeight = 720; // 縦幅
+	int WinWidth = 1280; // 横幅
+	int WinHeight = 720; // 縦幅
 
 	WNDCLASSEX wndClass{};	// ウィンドウクラス
 	HWND hwnd;	// ウィンドウハンドル
@@ -22,14 +22,12 @@ public:
 	/// <summary>
 	/// ゲームウィンドウの作成 
 	/// </summary>
-	void CreateGameWindow();
+	void CreateGameWindow(int WIN_WIDTH, int WIN_HEIGHT);
 
 	/// <summary>
 	/// ゲームウィンドウの破棄
 	/// </summary>
 	void TerminateGameWindow();
-
-
 
 	/// <summary>
 	/// ウィンドウメッセージ処理
@@ -37,7 +35,6 @@ public:
 	void ProcessMessage();
 
 public:
-
 	/// <summary>
 	/// ウィンドウの横幅を取得する関数
 	/// </summary>
@@ -73,5 +70,4 @@ public:
 	/// </summary>
 	/// <returns> msg.message</returns>
 	UINT GetProcessMessage() { return msg.message; }
-
 };

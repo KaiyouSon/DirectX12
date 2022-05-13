@@ -38,7 +38,7 @@ void ConstantBuffer::MaterialBufferInit()
 	assert(SUCCEEDED(result));
 
 	// 値を書き込むと自動的に転送される
-	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	// RGBAで半透明の赤
+	constMapMaterial->color = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void ConstantBuffer::TransformBufferInit()
@@ -83,7 +83,7 @@ ID3D12Resource* ConstantBuffer::GetConstBuffTransform()
 	return constBuffTransform;
 }
 
-void ConstantBuffer::SetColor(XMFLOAT4 color)
+void ConstantBuffer::SetColor(Vec4 color)
 {
 	HRESULT result;
 
@@ -93,9 +93,9 @@ void ConstantBuffer::SetColor(XMFLOAT4 color)
 	assert(SUCCEEDED(result));
 
 	// 値を書き込むと自動的に転送される
-	constMapMaterial->color = XMFLOAT4(
+	constMapMaterial->color = Vec4(
 		color.x / 255,
 		color.y / 255,
 		color.z / 255,
-		color.w / 255);	// RGBAで半透明の赤
+		color.w / 255);	// RGBA
 }

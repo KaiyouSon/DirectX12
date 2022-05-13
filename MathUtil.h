@@ -1,0 +1,13 @@
+#pragma once
+
+const float PI = 3.1415926;
+
+/// <summary>
+/// 弧度法から度数法に変換する関数
+/// </summary>
+float Angle(float radian);
+
+/// <summary>
+/// 度数法から弧度法に変換する関数
+/// </summary>
+float Radian(float angle);

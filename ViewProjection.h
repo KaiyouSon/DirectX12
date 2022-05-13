@@ -13,8 +13,9 @@ public:
 	// ビュー変換行列
 	XMMATRIX matView;
 
-	// 透視投影行列の計算
-	XMMATRIX matProjection;
+	
+	XMMATRIX matProjection2D;	// 平行投影行列
+	XMMATRIX matProjection3D;	// 透視投影行列
 
 public:
 	ViewProjection();
