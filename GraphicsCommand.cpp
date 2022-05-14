@@ -3,6 +3,7 @@
 #include "GraphicsPipeline.h"
 #include "Viewport.h"
 #include "ScissorRectangle.h"
+#include "DepthBuffer.h"
 #include <cassert>
 
 extern GraphicsPipeline* graphicsPipeline;
@@ -35,13 +36,19 @@ void GraphicsCommand::PreUpdate()
 	rtvHandle.ptr += bbIndex * NewEngineBase::GetInstance().GetDevice()->
 		GetDescriptorHandleIncrementSize(
 			NewEngineBase::GetInstance().GetRTVHeapDesc().Type);
+	
+	// 深度ステンシルビュー用デスクリプタヒープのハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle =DepthBuffer::GetInstance().
+		GetDsvHeap()->GetCPUDescriptorHandleForHeapStart();
 	NewEngineBase::GetInstance().GetCommandList()->
-		OMSetRenderTargets(1, &rtvHandle, false, nullptr);
+		OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 
-	//--------------------------- 画面クリアコマンド ---------------------------//
-	// ３．画面クリア R G B A
+	// 画面クリア R G B A
 	NewEngineBase::GetInstance().GetCommandList()->
 		ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+	// 深度バッファクリア
+	NewEngineBase::GetInstance().GetCommandList()->
+		ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	// ビューポートの処理
 	viewport->Update();

@@ -126,6 +126,9 @@
     <ClCompile Include="NewEngine.cpp">
       <Filter>ソース ファイル\NewEngine</Filter>
     </ClCompile>
+    <ClCompile Include="DepthBuffer.cpp">
+      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -213,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="NewEngine.h">
       <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthBuffer.h">
+      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -12,7 +12,7 @@ Cube* cube = new Cube;
 // ‰æ‘œ‚Ì“Ç‚Ýž‚Ý
 void Load()
 {
-	cube->LoadGraph(L"Resources/pic.png");
+	cube->LoadGraph(L"Resources/pic1.jpg");
 	bg->LoadGraph(L"Resources/bg.png");
 }
 

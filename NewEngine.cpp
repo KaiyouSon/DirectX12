@@ -5,6 +5,7 @@
 #include "ShaderCompiler.h"
 #include "GraphicsPipeline.h"
 #include "GraphicsCommand.h"
+#include "DepthBuffer.h"
 #include "Util.h"
 
 GraphicsPipeline* graphicsPipeline = new GraphicsPipeline;
@@ -25,6 +26,9 @@ void NewEngineInit()
 
 	// DirectXの初期化処理
 	NewEngineBase::GetInstance().Initialize();
+
+	// 深度バッファの初期化
+	DepthBuffer::GetInstance().Initialize();
 
 	// シェーダーリソースビューの初期化
 	ShaderResourceView::GetInstance().Initialize();
