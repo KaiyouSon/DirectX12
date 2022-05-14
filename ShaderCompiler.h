@@ -19,4 +19,15 @@ public:
 	ID3DBlob** GeterrorBlobAddress();	 // エラーオブジェクトを取得する関数
 	D3D12_INPUT_ELEMENT_DESC* GetInputLayout();		// 頂点レイアウトを取得する関数
 	int GetInputLayoutSize();						// 頂点レイアウトの要素数を取得する関数
+
+	static ShaderCompiler& GetInstance();
+
+private:
+	ShaderCompiler() = default;
+	~ShaderCompiler() = default;
+
+	ShaderCompiler(const ShaderCompiler&) = delete;
+	ShaderCompiler& operator=(const ShaderCompiler&) = delete;
+	ShaderCompiler(const ShaderCompiler&&) = delete;
+	ShaderCompiler& operator=(const ShaderCompiler&&) = delete;
 };

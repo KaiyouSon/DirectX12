@@ -23,7 +23,7 @@ void NewEngineBase::Initialize()
 	BackBufferInit();
 
 	RenderTargetViewInit();
-	
+
 	FenceInit();
 }
 
@@ -182,7 +182,6 @@ void NewEngineBase::FenceInit()
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 }
 
-
 #pragma region // ------------------------- ゲッター関連 ------------------------- //
 ID3D12Device* NewEngineBase::GetDevice()
 {
@@ -224,6 +223,11 @@ UINT64 NewEngineBase::PreIncreFenceVal()
 {
 	++fenceVal;
 	return fenceVal;
+}
+NewEngineBase& NewEngineBase::GetInstance()
+{
+	static NewEngineBase newEngineBase;
+	return newEngineBase;
 }
 std::vector<ID3D12Resource*> NewEngineBase::GetBackBuffers()
 {

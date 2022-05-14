@@ -4,19 +4,20 @@
 
 #include <cassert>
 
-extern ShaderCompiler* shaderCompiler;
-extern NewEngineBase* newEngine;
-
 void GraphicsPipeline::Initialize()
 {
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 
 	// シェーダーの設定
-	pipelineDesc.VS.pShaderBytecode = shaderCompiler->GetvsBlob()->GetBufferPointer();
-	pipelineDesc.VS.BytecodeLength = shaderCompiler->GetvsBlob()->GetBufferSize();
-	pipelineDesc.PS.pShaderBytecode = shaderCompiler->GetpsBlob()->GetBufferPointer();
-	pipelineDesc.PS.BytecodeLength = shaderCompiler->GetpsBlob()->GetBufferSize();
+	pipelineDesc.VS.pShaderBytecode =
+		ShaderCompiler::GetInstance().GetvsBlob()->GetBufferPointer();
+	pipelineDesc.VS.BytecodeLength =
+		ShaderCompiler::GetInstance().GetvsBlob()->GetBufferSize();
+	pipelineDesc.PS.pShaderBytecode =
+		ShaderCompiler::GetInstance().GetpsBlob()->GetBufferPointer();
+	pipelineDesc.PS.BytecodeLength =
+		ShaderCompiler::GetInstance().GetpsBlob()->GetBufferSize();
 
 	// サンプルマスクの設定
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
@@ -56,11 +57,13 @@ void GraphicsPipeline::Initialize()
 	// 半透明合成
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;				// 加算
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;			// ソースのアルファ値
-	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;	// 1.0f-ソースのアルファ値
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;		// 1.0f-ソースのアルファ値
 
 	// 頂点レイアウトの設定
-	pipelineDesc.InputLayout.pInputElementDescs = shaderCompiler->GetInputLayout();
-	pipelineDesc.InputLayout.NumElements = shaderCompiler->GetInputLayoutSize();
+	pipelineDesc.InputLayout.pInputElementDescs =
+		ShaderCompiler::GetInstance().GetInputLayout();
+	pipelineDesc.InputLayout.NumElements =
+		ShaderCompiler::GetInstance().GetInputLayoutSize();
 
 	// 図形の形状設定
 	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
@@ -120,21 +123,26 @@ void GraphicsPipeline::Initialize()
 	rootSignatureDesc.NumStaticSamplers = 1;
 	// ルートシグネチャのシリアライズ
 	ID3DBlob* rootSigBlob = nullptr;
-	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
-		&rootSigBlob, shaderCompiler->GeterrorBlobAddress());
+	result = D3D12SerializeRootSignature(
+		&rootSignatureDesc,
+		D3D_ROOT_SIGNATURE_VERSION_1_0,
+		&rootSigBlob,
+		ShaderCompiler::GetInstance().GeterrorBlobAddress());
 	assert(SUCCEEDED(result));
-	result = newEngine->GetDevice()->CreateRootSignature(
-		0,
-		rootSigBlob->GetBufferPointer(),
-		rootSigBlob->GetBufferSize(),
-		IID_PPV_ARGS(&rootSignature));
+	result = NewEngineBase::GetInstance().GetDevice()->
+		CreateRootSignature(
+			0,
+			rootSigBlob->GetBufferPointer(),
+			rootSigBlob->GetBufferSize(),
+			IID_PPV_ARGS(&rootSignature));
 	assert(SUCCEEDED(result));
 	rootSigBlob->Release();
 	// パイプラインにルートシグネチャをセット
 	pipelineDesc.pRootSignature = rootSignature;
 
 	// パイプランステートの生成
-	result = newEngine->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
+	result = NewEngineBase::GetInstance().GetDevice()->
+		CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 }
 

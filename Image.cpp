@@ -6,8 +6,6 @@
 
 #include <d3d12.h>
 
-extern NewEngineBase* newEngine;
-extern ShaderResourceView* shaderResourceView;
 extern GraphicsPipeline* graphicsPipeline;
 
 Image::Image() :
@@ -88,7 +86,7 @@ void Image::Initialize(int viewType)
 	constantBuffer->TransformBufferInit();
 
 	// SRVの作成
-	shaderResourceView->CreatSrv(*this);
+	ShaderResourceView::GetInstance().CreatSrv(*this);
 }
 
 void Image::Update(const Transform& transform, Transform* parent)
@@ -118,34 +116,38 @@ void Image::Update(const Transform& transform, Transform* parent)
 	}
 }
 
-
 void Image::Draw()
 {
 	// プリミティブ形状の設定コマンド
-	newEngine->GetCommandList()->IASetPrimitiveTopology(
-		D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	NewEngineBase::GetInstance().GetCommandList()->
+		IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	// 頂点バッファビューの設定コマンド
-	newEngine->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
+	NewEngineBase::GetInstance().GetCommandList()->
+		IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
 	// インデックスバッファビューの設定コマンド
-	newEngine->GetCommandList()->IASetIndexBuffer(indexBuffer->GetibViewAddress());
+	NewEngineBase::GetInstance().GetCommandList()->
+		IASetIndexBuffer(indexBuffer->GetibViewAddress());
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	newEngine->GetCommandList()->SetGraphicsRootConstantBufferView(
-		0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
+	NewEngineBase::GetInstance().GetCommandList()->
+		SetGraphicsRootConstantBufferView(
+			0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
 
 	// SRVヒープの設定コマンド
-	newEngine->GetCommandList()->SetDescriptorHeaps(
-		1, shaderResourceView->GetsrvHeapAddress());
+	NewEngineBase::GetInstance().GetCommandList()->
+		SetDescriptorHeaps(1, ShaderResourceView::GetInstance().GetsrvHeapAddress());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	newEngine->GetCommandList()->SetGraphicsRootDescriptorTable(
-		1, srvGpuHandle);
+	NewEngineBase::GetInstance().GetCommandList()->
+		SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	newEngine->GetCommandList()->SetGraphicsRootConstantBufferView(
+	NewEngineBase::GetInstance().GetCommandList()->
+		SetGraphicsRootConstantBufferView(
 		2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
 
-	newEngine->GetCommandList()->DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);
+	NewEngineBase::GetInstance().GetCommandList()->
+		DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);
 }
 
 void Image::SetColor(const Vec4& color)

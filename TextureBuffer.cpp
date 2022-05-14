@@ -7,8 +7,6 @@
 
 using namespace DirectX;
 
-extern NewEngineBase* newEngine;
-
 TextureBuffer::~TextureBuffer()
 {
 	delete[] imageData;
@@ -43,13 +41,14 @@ void TextureBuffer::Initialize1()
 	HRESULT result;
 
 	// テクスチャバッファの生成
-	result = newEngine->GetDevice()->CreateCommittedResource(
-		&textureHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&textureResourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&texBuff));
+	result = NewEngineBase::GetInstance().GetDevice()->
+		CreateCommittedResource(
+			&textureHeapProp,
+			D3D12_HEAP_FLAG_NONE,
+			&textureResourceDesc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&texBuff));
 	assert(SUCCEEDED(result));
 
 	// テクスチャバッファにデータ転送
@@ -110,13 +109,14 @@ void TextureBuffer::Initialize2(const wchar_t* szFile)
 		textureResourceDesc.SampleDesc.Count = 1;
 
 		// テクスチャバッファの生成
-		result = newEngine->GetDevice()->CreateCommittedResource(
-			&textureHeapProp,
-			D3D12_HEAP_FLAG_NONE,
-			&textureResourceDesc,
-			D3D12_RESOURCE_STATE_GENERIC_READ,
-			nullptr,
-			IID_PPV_ARGS(&texBuff));
+		result = NewEngineBase::GetInstance().GetDevice()->
+			CreateCommittedResource(
+				&textureHeapProp,
+				D3D12_HEAP_FLAG_NONE,
+				&textureResourceDesc,
+				D3D12_RESOURCE_STATE_GENERIC_READ,
+				nullptr,
+				IID_PPV_ARGS(&texBuff));
 		assert(SUCCEEDED(result));
 
 		// 全ミップマップについて

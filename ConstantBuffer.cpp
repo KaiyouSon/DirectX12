@@ -3,8 +3,6 @@
 
 #include <cassert>
 
-extern NewEngineBase* newEngine;
-
 void ConstantBuffer::MaterialBufferInit()
 {
 	// ヒープの設定
@@ -23,13 +21,14 @@ void ConstantBuffer::MaterialBufferInit()
 	HRESULT result;
 
 	// 定数バッファの生成
-	result = newEngine->GetDevice()->CreateCommittedResource(
-		&cbHeapProp,	// ヒープの設定
-		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc, // リソースの設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&constBuffMaterial));
+	result = NewEngineBase::GetInstance().GetDevice()->
+		CreateCommittedResource(
+			&cbHeapProp,	// ヒープの設定
+			D3D12_HEAP_FLAG_NONE,
+			&cbResourceDesc, // リソースの設定
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&constBuffMaterial));
 	assert(SUCCEEDED(result));
 
 	// 定数バッファのマッピング
@@ -59,13 +58,14 @@ void ConstantBuffer::TransformBufferInit()
 	HRESULT result;
 
 	// 定数バッファの生成
-	result = newEngine->GetDevice()->CreateCommittedResource(
-		&cbHeapProp,	// ヒープの設定
-		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc, // リソースの設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&constBuffTransform));
+	result = NewEngineBase::GetInstance().GetDevice()->
+		CreateCommittedResource(
+			&cbHeapProp,	// ヒープの設定
+			D3D12_HEAP_FLAG_NONE,
+			&cbResourceDesc, // リソースの設定
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&constBuffTransform));
 	assert(SUCCEEDED(result));
 
 	// 定数バッファのマッピング

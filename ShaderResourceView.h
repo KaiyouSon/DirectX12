@@ -35,4 +35,15 @@ public:
 	ID3D12DescriptorHeap** GetsrvHeapAddress();
 
 	D3D12_GPU_DESCRIPTOR_HANDLE GetSrvGpuHandle();
+
+	static ShaderResourceView& GetInstance();
+
+private:
+	ShaderResourceView() = default;
+	~ShaderResourceView() = default;
+
+	ShaderResourceView(const ShaderResourceView&) = delete;
+	ShaderResourceView& operator=(const ShaderResourceView&) = delete;
+	ShaderResourceView(const ShaderResourceView&&) = delete;
+	ShaderResourceView& operator=(const ShaderResourceView&&) = delete;
 };

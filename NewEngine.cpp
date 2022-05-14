@@ -5,12 +5,8 @@
 #include "ShaderCompiler.h"
 #include "GraphicsPipeline.h"
 #include "GraphicsCommand.h"
-
 #include "Util.h"
 
-NewEngineBase* newEngine = new NewEngineBase;
-ShaderResourceView* shaderResourceView = new ShaderResourceView;
-ShaderCompiler* shaderCompiler = new ShaderCompiler;
 GraphicsPipeline* graphicsPipeline = new GraphicsPipeline;
 GraphicsCommand* graphicsCmd = new GraphicsCommand;
 
@@ -28,14 +24,14 @@ void NewEngineInit()
 	NewEngineWindow::GetInstance().CreateGameWindow();
 
 	// DirectXの初期化処理
-	newEngine->Initialize();
+	NewEngineBase::GetInstance().Initialize();
 
 	// シェーダーリソースビューの初期化
-	shaderResourceView->Initialize();
+	ShaderResourceView::GetInstance().Initialize();
 
 	// シェーダファイルの読み込みとコンパイル
-	shaderCompiler->BasicVSCompile();
-	shaderCompiler->BasicPSCompile();
+	ShaderCompiler::GetInstance().BasicVSCompile();
+	ShaderCompiler::GetInstance().BasicPSCompile();
 
 	// グラフィックスパイプラインの初期化
 	graphicsPipeline->Initialize();
@@ -46,11 +42,8 @@ void NewEngineEnd()
 	// ウィンドウクラスを登録解除
 	NewEngineWindow::GetInstance().TerminateGameWindow();
 
-	delete newEngine;
 	delete graphicsPipeline;
 	delete graphicsCmd;
-	delete shaderCompiler;
-	delete shaderResourceView;
 }
 
 void ProcessMessage()

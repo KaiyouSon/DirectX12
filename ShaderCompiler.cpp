@@ -110,3 +110,9 @@ int ShaderCompiler::GetInputLayoutSize()
 {
 	return sizeof(inputLayout) / sizeof(inputLayout[0]);
 }
+
+ShaderCompiler& ShaderCompiler::GetInstance()
+{
+	static ShaderCompiler sharderCompiler;
+	return sharderCompiler;
+}

@@ -3,8 +3,6 @@
 
 #include <cassert>
 
-extern NewEngineBase* newEngine;
-
 void ShaderResourceView::Initialize()
 {
 	// SRVの最大個数
@@ -19,8 +17,9 @@ void ShaderResourceView::Initialize()
 	HRESULT result;
 
 	// 設定を元にSRV用デスクリプタヒープを生成
-	result = newEngine->GetDevice()->CreateDescriptorHeap(
-		&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	result = NewEngineBase::GetInstance().GetDevice()->
+		CreateDescriptorHeap(
+			&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 }
 
@@ -30,7 +29,7 @@ void ShaderResourceView::CreatSrv(Image& image)
 	D3D12_CPU_DESCRIPTOR_HANDLE _srvCpuHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
 	D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
-	UINT descriptorSize = newEngine->GetDevice()->
+	UINT descriptorSize = NewEngineBase::GetInstance().GetDevice()->
 		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 	_srvCpuHandle.ptr += descriptorSize * incrementIndex;
@@ -46,8 +45,9 @@ void ShaderResourceView::CreatSrv(Image& image)
 	srvDesc.Texture2D.MipLevels = image.GetVertexBuffer()->resDesc.MipLevels;
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
-	newEngine->GetDevice()->CreateShaderResourceView(
-		image.GetTextureBuffer()->GetTextureBuff(), &srvDesc, _srvCpuHandle);
+	NewEngineBase::GetInstance().GetDevice()->
+		CreateShaderResourceView(
+			image.GetTextureBuffer()->GetTextureBuff(), &srvDesc, _srvCpuHandle);
 
 	image.SetGpuHandle(_srvGpuHandle);
 
@@ -67,4 +67,10 @@ ID3D12DescriptorHeap** ShaderResourceView::GetsrvHeapAddress()
 D3D12_GPU_DESCRIPTOR_HANDLE ShaderResourceView::GetSrvGpuHandle()
 {
 	return srvGpuHandle;
+}
+
+ShaderResourceView& ShaderResourceView::GetInstance()
+{
+	static ShaderResourceView shaderResourceView;
+	return shaderResourceView;
 }

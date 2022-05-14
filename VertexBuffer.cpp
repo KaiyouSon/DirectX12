@@ -3,8 +3,6 @@
 
 #include <cassert>
 
-extern NewEngineBase* newEngine;
-
 void VertexBuffer::Initialize(Vertex vertices[], int arrarySize)
 {
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
@@ -26,13 +24,14 @@ void VertexBuffer::Initialize(Vertex vertices[], int arrarySize)
 
 	// 頂点バッファの生成
 	ID3D12Resource* vertBuff = nullptr;
-	result = newEngine->GetDevice()->CreateCommittedResource(
-		&heapProp, // ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&resDesc, // リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&vertBuff));
+	result = NewEngineBase::GetInstance().GetDevice()->
+		CreateCommittedResource(
+			&heapProp, // ヒープ設定
+			D3D12_HEAP_FLAG_NONE,
+			&resDesc, // リソース設定
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&vertBuff));
 	assert(SUCCEEDED(result));
 
 	//----------------------- 頂点バッファへのデータ転送 -----------------------//

@@ -3,8 +3,6 @@
 
 #include <cassert>
 
-extern NewEngineBase* newEngine;
-
 void IndexBuffer::Initialize(uint16_t indices[], int arrarySize)
 {
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
@@ -27,13 +25,14 @@ void IndexBuffer::Initialize(uint16_t indices[], int arrarySize)
 
 	// インデックスバッファの生成
 	ID3D12Resource* indexBuff = nullptr;
-	result = newEngine->GetDevice()->CreateCommittedResource(
-		&heapProp, // ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&resDesc, // リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&indexBuff));
+	result = NewEngineBase::GetInstance().GetDevice()->
+		CreateCommittedResource(
+			&heapProp, // ヒープ設定
+			D3D12_HEAP_FLAG_NONE,
+			&resDesc, // リソース設定
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&indexBuff));
 	assert(SUCCEEDED(result));
 
 	//------------------- インデックスバッファへのデータ転送 -------------------//

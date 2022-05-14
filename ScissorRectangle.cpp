@@ -2,8 +2,6 @@
 #include "NewEngineBase.h"
 #include "NewEngineWindow.h"
 
-extern NewEngineBase* newEngine;
-
 void ScissorRectangle::Update()
 {
 	//------------------------ シザー矩形の設定コマンド ------------------------//
@@ -16,5 +14,5 @@ void ScissorRectangle::Update()
 	scissorRect.bottom = scissorRect.top + 
 		NewEngineWindow::GetInstance().GetWinHeight(); // 切り抜き座標下
 	// シザー矩形設定コマンドを、コマンドリストに積む
-	newEngine->GetCommandList()->RSSetScissorRects(1, &scissorRect);
+	NewEngineBase::GetInstance().GetCommandList()->RSSetScissorRects(1, &scissorRect);
 }

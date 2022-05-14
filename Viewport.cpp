@@ -2,8 +2,6 @@
 #include "NewEngineBase.h"
 #include "NewEngineWindow.h"
 
-extern NewEngineBase* newEngine;
-
 void Viewport::Update()
 {
 	//----------------------- ビューポートの設定コマンド -----------------------//
@@ -16,5 +14,5 @@ void Viewport::Update()
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	// ビューポート設定コマンドを、コマンドリストに積む
-	newEngine->GetCommandList()->RSSetViewports(1, &viewport);
+	NewEngineBase::GetInstance().GetCommandList()->RSSetViewports(1, &viewport);
 }

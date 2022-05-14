@@ -58,5 +58,16 @@ public:
 	ID3D12Fence* GetFence();
 	UINT64 GetFenceVal();
 	UINT64 PreIncreFenceVal();
+
+	static NewEngineBase& GetInstance();
+
+private:
+	NewEngineBase() = default;
+	~NewEngineBase() = default;
+
+	NewEngineBase(const NewEngineBase&) = delete;
+	NewEngineBase& operator=(const NewEngineBase&) = delete;
+	NewEngineBase(const NewEngineBase&&) = delete;
+	NewEngineBase& operator=(const NewEngineBase&&) = delete;
 };
 
