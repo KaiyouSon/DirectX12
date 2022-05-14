@@ -1,13 +1,5 @@
 #include "ViewProjection.h"
-#include "NewEngineWindow.h"
 #include "Util.h"
-
-extern NewEngineWindow* newEngineWin;
-
-ViewProjection::ViewProjection() : eye(0, 0, -10), target(0, 0, 0), up(0, 1, 0)
-{
-	Initialize();
-}
 
 void ViewProjection::Initialize()
 {
@@ -43,4 +35,10 @@ void ViewProjection::SetUp(const XMFLOAT3& up)
 {
 	this->up = up;
 	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+}
+
+ViewProjection& ViewProjection::GetInstance()
+{
+	static ViewProjection view;
+	return view;
 }

@@ -6,8 +6,6 @@
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
-extern NewEngineWindow* newEngineWin;
-
 void NewEngineBase::Initialize()
 {
 	AdapterInit();
@@ -132,7 +130,7 @@ void NewEngineBase::SwapChainInit()
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	// スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(
-		commandQueue, newEngineWin->GetHwnd(), &swapChainDesc, nullptr, nullptr,
+		commandQueue, NewEngineWindow::GetInstance().GetHwnd(), &swapChainDesc, nullptr, nullptr,
 		(IDXGISwapChain1**)&swapChain);
 	assert(SUCCEEDED(result));
 }

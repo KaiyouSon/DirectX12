@@ -5,16 +5,13 @@
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 
-Input input;
-extern NewEngineWindow* newEngineWin;
-
 void Input::Initialize()
 {
 	HRESULT result;
 
 	// DirectInputの初期化
 	result = DirectInput8Create(
-		newEngineWin->GetHInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8,
+		NewEngineWindow::GetInstance().GetHInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8,
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 
@@ -28,7 +25,7 @@ void Input::Initialize()
 
 	// 排他制御レベルのセット
 	result = keyboard->SetCooperativeLevel(
-		newEngineWin->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		NewEngineWindow::GetInstance().GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 }
 
@@ -63,4 +60,10 @@ bool Input::GetKeyTrigger(BYTE key)
 bool Input::GetKeyReleased(BYTE key)
 {
 	return !keys[key] && oldkeys[key];
+}
+
+Input& Input::GetInstance()
+{
+	static Input input;
+	return input;
 }

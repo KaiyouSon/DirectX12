@@ -64,6 +64,12 @@ void NewEngineWindow::SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT)
 	WinHeight = WIN_HEIGHT;
 }
 
+NewEngineWindow& NewEngineWindow::GetInstance()
+{
+	static NewEngineWindow newEngineWindow;
+	return newEngineWindow;
+}
+
 // ウィンドウプロシージャ
 LRESULT CALLBACK NewEngineWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {

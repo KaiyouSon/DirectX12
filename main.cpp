@@ -1,6 +1,7 @@
 #include "NewEngine.h"
 #include "main2.h"
 #include "Input.h"
+#include "ViewProjection.h"
 #include "Util.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -25,7 +26,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Initialize();
 
 	// Inputの初期化処理
-	input.Initialize();
+	Input::GetInstance().Initialize();
+
+	// ビュープロジェクションの初期化処理
+	View::GetInstance().Initialize();
 
 	// ゲームループ
 	while (true)
@@ -35,7 +39,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// ----------- ここから更新処理を記述 ----------- //
 		// 入力の更新処理
-		input.Update();
+		Input::GetInstance().Update();
 
 		// 更新処理
 		Update();
@@ -62,7 +66,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 		// ESCキーで終了メッセージが来たらゲームループを抜ける
-		if (input.GetKey(DIK_ESCAPE))
+		if (Input::GetInstance().GetKey(DIK_ESCAPE))
 		{
 			break;
 		}

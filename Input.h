@@ -36,6 +36,16 @@ public:
 	/// <param name="keys">キー番号( DIK_0 等)</param>
 	/// <returns>キーを離した瞬間</returns>
 	bool GetKeyReleased(BYTE key);
-};
 
-extern Input input;
+	static Input& GetInstance();
+
+private:
+	Input() = default;
+	~Input() = default;
+
+	Input(const Input&) = delete;
+	Input& operator=(const Input&) = delete;
+	Input(const Input&&) = delete;
+	Input& operator=(const Input&&) = delete;
+
+};

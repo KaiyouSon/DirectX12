@@ -6,7 +6,6 @@
 #include "MathUtil.h"
 #include "Input.h"
 
-ViewProjection* view = new ViewProjection;
 Image* bg = new Image(Vec2(WIN_WIDTH, WIN_HEIGHT));
 Cube* cube = new Cube;
 
@@ -23,8 +22,8 @@ void Initialize()
 	cube->Initialize();
 	bg->Initialize(Image::view2D);
 
-	view->SetEye(XMFLOAT3(0, 0, -300));
-	view->SetTarget(XMFLOAT3(0, 0, 0));
+	View::GetInstance().SetEye(XMFLOAT3(0, 0, -30));
+	View::GetInstance().SetTarget(XMFLOAT3(0, 0, 0));
 }
 
 Transform transform =
@@ -42,24 +41,20 @@ Transform transform2 =
 	XMFLOAT3(0,0,0),
 };
 
-float viewAngle = 270;
-float viewAngle2 = 0;
-XMFLOAT3 viewPos = { 0,0,sinf(Radian(viewAngle)) * 300 };
-
 // 更新処理
 void Update()
 {
 	bg->Update(transform2);
 
-	if (input.GetKey(DIK_W)) transform.pos.y++;
-	if (input.GetKey(DIK_S)) transform.pos.y--;
-	if (input.GetKey(DIK_D)) transform.pos.x++;
-	if (input.GetKey(DIK_A)) transform.pos.x--;
+	if (Input::GetInstance().GetKey(DIK_W)) transform.pos.y += 0.1;
+	if (Input::GetInstance().GetKey(DIK_S)) transform.pos.y -= 0.1;
+	if (Input::GetInstance().GetKey(DIK_D)) transform.pos.x += 0.1;
+	if (Input::GetInstance().GetKey(DIK_A)) transform.pos.x -= 0.1;
 
-	if (input.GetKey(DIK_UP))	 transform.rot.x++;
-	if (input.GetKey(DIK_DOWN))  transform.rot.x--;
-	if (input.GetKey(DIK_LEFT))  transform.rot.y++;
-	if (input.GetKey(DIK_RIGHT)) transform.rot.y--;
+	if (Input::GetInstance().GetKey(DIK_UP))	transform.rot.x++;
+	if (Input::GetInstance().GetKey(DIK_DOWN))  transform.rot.x--;
+	if (Input::GetInstance().GetKey(DIK_LEFT))  transform.rot.y++;
+	if (Input::GetInstance().GetKey(DIK_RIGHT)) transform.rot.y--;
 
 	cube->Update(transform);
 }
@@ -74,6 +69,5 @@ void Draw()
 // インスタンスのdelete
 void Delete()
 {
-	delete view;
 	delete cube;
 }

@@ -31,27 +31,27 @@ void Cube::Update(Transform& transform)
 	this->transform = transform;
 	this->transform.Update();
 
-	forwardTrans.pos = { 0, 0, -50 };
+	forwardTrans.pos = { 0, 0, -2.5 };
 	forwardTrans.scale = { 1, 1, 1 };
 	forwardTrans.rot = { 0,0,0 };
 
-	backTrans.pos = { 0, 0, 50 };
+	backTrans.pos = { 0, 0, 2.5 };
 	backTrans.scale = { 1, 1, 1 };
 	backTrans.rot = { 0,0,0 };
 
-	leftTrans.pos = { -50,0,0 };
+	leftTrans.pos = { -2.5,0,0 };
 	leftTrans.scale = { 1,1,1 };
 	leftTrans.rot = { 0,270,0 };
 
-	rightTrans.pos = { 50,0,0 };
+	rightTrans.pos = { 2.5,0,0 };
 	rightTrans.scale = { 1,1,1 };
 	rightTrans.rot = { 0,90,0 };
 
-	upTrans.pos = { 0,50,0 };
+	upTrans.pos = { 0,2.5,0 };
 	upTrans.scale = { 1,1,1 };
 	upTrans.rot = { 90,0,0 };
 
-	downTrans.pos = { 0,-50,0 };
+	downTrans.pos = { 0,-2.5,0 };
 	downTrans.scale = { 1,1,1 };
 	downTrans.rot = { 90,0,0 };
 

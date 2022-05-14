@@ -3,15 +3,14 @@
 #include "NewEngineWindow.h"
 
 extern NewEngineBase* newEngine;
-extern NewEngineWindow* newEngineWin;
 
 void Viewport::Update()
 {
 	//----------------------- ビューポートの設定コマンド -----------------------//
 	// ビューポート設定コマンド
 	D3D12_VIEWPORT viewport{};
-	viewport.Width = newEngineWin->GetWinWidth();
-	viewport.Height = newEngineWin->GetWinHeight();
+	viewport.Width = NewEngineWindow::GetInstance().GetWinWidth();
+	viewport.Height = NewEngineWindow::GetInstance().GetWinHeight();
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
 	viewport.MinDepth = 0.0f;

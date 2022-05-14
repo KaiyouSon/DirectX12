@@ -124,7 +124,7 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="NewEngine.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\NewEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,7 +212,7 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

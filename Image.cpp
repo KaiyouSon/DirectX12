@@ -1,6 +1,5 @@
 #include "Image.h"
 #include "NewEngineBase.h"
-#include "NewEngineWindow.h"
 #include "ViewProjection.h"
 #include "ShaderResourceView.h"
 #include "GraphicsPipeline.h"
@@ -8,10 +7,8 @@
 #include <d3d12.h>
 
 extern NewEngineBase* newEngine;
-extern NewEngineWindow* newEngineWin;
 extern ShaderResourceView* shaderResourceView;
 extern GraphicsPipeline* graphicsPipeline;
-extern ViewProjection* view;
 
 Image::Image() :
 	vertexBuffer(new VertexBuffer),
@@ -62,10 +59,10 @@ void Image::Initialize(int viewType)
 	};
 	if (viewType == view3D)
 	{
-		vertices[0] = { { -50.0f, -50.0f, 0.0f }, {0.0f, 1.0f} }; //左下
-		vertices[1] = { { -50.0f, +50.0f, 0.0f }, {0.0f, 0.0f} }; //左上
-		vertices[2] = { { +50.0f, -50.0f, 0.0f }, {1.0f, 1.0f} }; //右下
-		vertices[3] = { { +50.0f, +50.0f, 0.0f }, {1.0f, 0.0f} }; //右上
+		vertices[0] = { { -2.5f, -2.5f, 0.0f }, {0.0f, 1.0f} }; //左下
+		vertices[1] = { { -2.5f, +2.5f, 0.0f }, {0.0f, 0.0f} }; //左上
+		vertices[2] = { { +2.5f, -2.5f, 0.0f }, {1.0f, 1.0f} }; //右下
+		vertices[3] = { { +2.5f, +2.5f, 0.0f }, {1.0f, 0.0f} }; //右上
 	};
 
 	// 頂点データの要素数
@@ -109,12 +106,15 @@ void Image::Update(const Transform& transform, Transform* parent)
 	if (viewType == view2D)
 	{
 		constantBuffer->constMapTransform->mat =
-			this->transform.matWorld * view->matProjection2D;
+			this->transform.matWorld *
+			View::GetInstance().matProjection2D;
 	}
 	if (viewType == view3D)
 	{
 		constantBuffer->constMapTransform->mat =
-			this->transform.matWorld * view->matView * view->matProjection3D;
+			this->transform.matWorld *
+			View::GetInstance().matView *
+			View::GetInstance().matProjection3D;
 	}
 }
 

@@ -74,4 +74,15 @@ public:
 	/// </summary>
 	/// <returns> msg.message</returns>
 	UINT GetProcessMessage() { return msg.message; }
+
+	static NewEngineWindow& GetInstance();
+
+private:
+	NewEngineWindow() = default;
+	~NewEngineWindow() = default;
+
+	NewEngineWindow(const NewEngineWindow&) = delete;
+	NewEngineWindow& operator=(const NewEngineWindow&) = delete;
+	NewEngineWindow(const NewEngineWindow&&) = delete;
+	NewEngineWindow& operator=(const NewEngineWindow&&) = delete;
 };
