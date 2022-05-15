@@ -15,6 +15,6 @@ public:
 	~GraphicsCommand();
 	void PreUpdate();
 	void PostUpdate();
-	void SetBackgroundColor(int Red, int Green, int Blue);
+	void SetBackgroundColor(float Red, float Green, float Blue);
 };
 

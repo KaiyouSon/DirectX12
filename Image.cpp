@@ -43,24 +43,22 @@ void Image::Initialize(int viewType)
 {
 	this->viewType = viewType;
 
-	HRESULT result;
-
 	// 頂点データ
 	Vertex vertices[4];
 
 	if (viewType == view2D)
 	{
-		vertices[0] = { { -(size.x / 2), +(size.y / 2), 0.0f }, {0.0f, 1.0f} }; //左下
-		vertices[1] = { { -(size.x / 2), -(size.y / 2), 0.0f }, {0.0f, 0.0f} }; //左上
-		vertices[2] = { { +(size.x / 2), +(size.y / 2), 0.0f }, {1.0f, 1.0f} }; //右下
-		vertices[3] = { { +(size.x / 2), -(size.y / 2), 0.0f }, {1.0f, 0.0f} }; //右上
+		vertices[0] = { { -(size.x / 2), +(size.y / 2), 0.0f },{}, {0.0f, 1.0f} }; //左下
+		vertices[1] = { { -(size.x / 2), -(size.y / 2), 0.0f },{}, {0.0f, 0.0f} }; //左上
+		vertices[2] = { { +(size.x / 2), +(size.y / 2), 0.0f },{}, {1.0f, 1.0f} }; //右下
+		vertices[3] = { { +(size.x / 2), -(size.y / 2), 0.0f },{}, {1.0f, 0.0f} }; //右上
 	};
 	if (viewType == view3D)
 	{
-		vertices[0] = { { -2.5f, -2.5f, 0.0f }, {0.0f, 1.0f} }; //左下
-		vertices[1] = { { -2.5f, +2.5f, 0.0f }, {0.0f, 0.0f} }; //左上
-		vertices[2] = { { +2.5f, -2.5f, 0.0f }, {1.0f, 1.0f} }; //右下
-		vertices[3] = { { +2.5f, +2.5f, 0.0f }, {1.0f, 0.0f} }; //右上
+		vertices[0] = { { -2.5f, -2.5f, 0.0f },{},{0.0f, 1.0f} }; //左下
+		vertices[1] = { { -2.5f, +2.5f, 0.0f },{},{0.0f, 0.0f} }; //左上
+		vertices[2] = { { +2.5f, -2.5f, 0.0f },{},{1.0f, 1.0f} }; //右下
+		vertices[3] = { { +2.5f, +2.5f, 0.0f },{},{1.0f, 0.0f} }; //右上
 	};
 
 	// 頂点データの要素数
@@ -73,7 +71,7 @@ void Image::Initialize(int viewType)
 	uint16_t indices[] =
 	{
 		0,1,2, // 三角形1つ目
-		1,2,3, // 三角形2つ目
+		2,1,3, // 三角形2つ目
 	};
 	//インデックスの要素数
 	ibArraySize = sizeof(indices) / sizeof(indices[0]);

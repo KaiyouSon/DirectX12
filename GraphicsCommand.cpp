@@ -108,7 +108,7 @@ void GraphicsCommand::PostUpdate()
 	assert(SUCCEEDED(result));
 }
 
-void GraphicsCommand::SetBackgroundColor(int Red, int Green, int Blue)
+void GraphicsCommand::SetBackgroundColor(float Red, float Green, float Blue)
 {
 	clearColor[0] = Red / 255;
 	clearColor[1] = Green / 255;

@@ -7,5 +7,6 @@ float4 main(VSOutput input) : SV_TARGET
 {
 	//return float4(input.uv, 0, 1);
 	//return color;
-	return float4(tex.Sample(smp,input.uv)) * color;
+	//return float4(tex.Sample(smp,input.uv)) * color;
+	return float4(input.normal,1);
 }

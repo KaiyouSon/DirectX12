@@ -14,7 +14,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	SetWindowSize(WIN_WIDTH, WIN_HEIGHT);
 
 	// ‰æ–Ê‚Ì”wŒiF‚ğİ’è‚·‚é
-	SetBackgroundColor(0x00, 0x00, 0x00);
+	SetBackgroundColor(25.5, 63.75, 127.5);
 
 	// NewEngine‚Ì‰Šú‰»
 	NewEngineInit();

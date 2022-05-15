@@ -74,7 +74,7 @@ bool CloseWindow()
 	return false;
 }
 
-void SetBackgroundColor(int Red, int Green, int Blue)
+void SetBackgroundColor(float Red, float Green, float Blue)
 {
 	graphicsCmd->SetBackgroundColor(Red, Green, Blue);
 }

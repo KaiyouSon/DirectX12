@@ -6,7 +6,7 @@ private:
 	ID3DBlob* vsBlob = nullptr;		// 頂点シェーダオブジェクト
 	ID3DBlob* psBlob = nullptr;		// ピクセルシェーダオブジェクト
 	ID3DBlob* errorBlob = nullptr;	// エラーオブジェクト
-	D3D12_INPUT_ELEMENT_DESC inputLayout[2];	// 頂点レイアウト
+	D3D12_INPUT_ELEMENT_DESC inputLayout[3];	// 頂点レイアウト
 
 public:
 	// 頂点シェーダファイルの読み込みとコンパイル
