@@ -12,7 +12,7 @@ Cube* cube = new Cube;
 // 画像の読み込み
 void Load()
 {
-	cube->LoadGraph(L"Resources/pic1.jpg");
+	cube->LoadGraph(L"Resources/pic.png");
 	bg->LoadGraph(L"Resources/bg.png");
 }
 
@@ -62,12 +62,13 @@ void Update()
 // 描画処理
 void Draw()
 {
-	bg->Draw();
+	//bg->Draw();
 	cube->Draw();
 }
 
 // インスタンスのdelete
 void Delete()
 {
+	delete bg;
 	delete cube;
 }
