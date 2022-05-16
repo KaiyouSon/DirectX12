@@ -5,6 +5,8 @@
 #include "GraphicsPipeline.h"
 
 #include <d3d12.h>
+#include <DirectXMath.h>
+using namespace DirectX;
 
 extern GraphicsPipeline* graphicsPipeline;
 
@@ -45,7 +47,6 @@ void Image::Initialize(int viewType)
 
 	// 頂点データ
 	Vertex vertices[4];
-
 	if (viewType == view2D)
 	{
 		vertices[0] = { { -(size.x / 2), +(size.y / 2), 0.0f },{}, {0.0f, 1.0f} }; //左下
@@ -61,21 +62,20 @@ void Image::Initialize(int viewType)
 		vertices[3] = { { +2.5f, +2.5f, 0.0f },{},{1.0f, 0.0f} }; //右上
 	};
 
-	// 頂点データの要素数
-	vbArraySize = sizeof(vertices) / sizeof(vertices[0]);
-
-	// 頂点バッファ
-	vertexBuffer->Initialize(vertices, vbArraySize);
-
 	// インデックスデータ
 	uint16_t indices[] =
 	{
 		0,1,2, // 三角形1つ目
 		2,1,3, // 三角形2つ目
 	};
-	//インデックスの要素数
+
+	// 頂点データの要素数
+	vbArraySize = sizeof(vertices) / sizeof(vertices[0]);
+	// インデックスの要素数
 	ibArraySize = sizeof(indices) / sizeof(indices[0]);
 
+	// 頂点バッファ
+	vertexBuffer->Initialize(vertices, vbArraySize);
 	// インデックスバッファ
 	indexBuffer->Initialize(indices, ibArraySize);
 
@@ -142,7 +142,7 @@ void Image::Draw()
 	// 定数バッファビュー(CBV)の設定コマンド
 	NewEngineBase::GetInstance().GetCommandList()->
 		SetGraphicsRootConstantBufferView(
-		2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
+			2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
 
 	NewEngineBase::GetInstance().GetCommandList()->
 		DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);

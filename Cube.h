@@ -1,35 +1,41 @@
 #pragma once
-#include "Image.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "TextureBuffer.h"
+#include "ConstantBuffer.h"
+#include "Transform.h"
+#include "Vec2.h"
+
+#include <d3d12.h>
+
 class Cube
 {
 private:
-	Image* image;
-
+	VertexBuffer* vertexBuffer;
+	IndexBuffer* indexBuffer;
+	TextureBuffer* textureBuffer;
+	ConstantBuffer* constantBuffer;
 	Transform transform;
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
-	Transform forwardTrans;
-	Transform backTrans;
-	Transform leftTrans;
-	Transform rightTrans;
-	Transform upTrans;
-	Transform downTrans;
+	Vec2 size;
+private:
+	int vbArraySize;	// 頂点データの要素数
+	int ibArraySize;	// インデックスデータの要素数
+	wchar_t* szFire;
 
+	int viewType;
 public:
 	Cube();
 	~Cube();
 	void LoadGraph(const wchar_t* FilePath = L"void");
 	void Initialize();
-	void Update(Transform& transform);
+	void Update(const Transform& transform, Transform* parent = nullptr);
 	void Draw();
 public:
-	enum Direction
-	{
-		Forward,
-		Back,
-		Left,
-		Right,
-		Up,
-		Down,
-	};
-};
+	VertexBuffer* GetVertexBuffer();
+	TextureBuffer* GetTextureBuffer();
+	void SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle);
 
+	void SetColor(const Vec4& color);
+};

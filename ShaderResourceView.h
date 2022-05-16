@@ -1,5 +1,6 @@
 #pragma once
 #include "Image.h"
+#include "Cube.h"
 
 #include <d3d12.h>
 #include <vector>
@@ -25,6 +26,7 @@ private:
 public:
 	void Initialize();
 	void CreatSrv(Image& image);
+	void CreatSrv(Cube& cube);
 
 public:
 

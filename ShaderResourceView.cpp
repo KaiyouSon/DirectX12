@@ -54,6 +54,38 @@ void ShaderResourceView::CreatSrv(Image& image)
 	incrementIndex++;
 }
 
+void ShaderResourceView::CreatSrv(Cube& cube)
+{
+	// SRVヒープの先頭ハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE _srvCpuHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+	D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+
+	UINT descriptorSize = NewEngineBase::GetInstance().GetDevice()->
+		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	_srvCpuHandle.ptr += descriptorSize * incrementIndex;
+	_srvGpuHandle.ptr += descriptorSize * incrementIndex;
+
+	srvCpuHandle = _srvCpuHandle;
+	srvGpuHandle = _srvGpuHandle;
+
+	// シェーダーリソースビュー設定
+	srvDesc.Format = cube.GetVertexBuffer()->resDesc.Format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	// 2Dテクスチャ
+	srvDesc.Texture2D.MipLevels = cube.GetVertexBuffer()->resDesc.MipLevels;
+
+	// ハンドルの指す位置にシェーダーリソースビュー作成
+	NewEngineBase::GetInstance().GetDevice()->
+		CreateShaderResourceView(
+			cube.GetTextureBuffer()->GetTextureBuff(), &srvDesc, _srvCpuHandle);
+
+	cube.SetGpuHandle(_srvGpuHandle);
+
+	incrementIndex++;
+}
+
+
 ID3D12DescriptorHeap* ShaderResourceView::GetsrvHeap()
 {
 	return srvHeap;

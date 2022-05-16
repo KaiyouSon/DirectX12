@@ -40,7 +40,7 @@ void VertexBuffer::Initialize(Vertex vertices[], int arrarySize)
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < arrarySize; i++)
 	{
 		vertMap[i] = vertices[i]; // 座標をコピー
 	}
