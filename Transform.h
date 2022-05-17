@@ -1,6 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
 using namespace DirectX;
+#include "Mat4.h"
 
 class Transform
 {
@@ -10,7 +11,8 @@ public:
 	XMFLOAT3 rot = { 0,0,0 };	// ‰ñ“]
 
 	// ƒ[ƒ‹ƒh•ÏŠ·s—ñ
-	XMMATRIX matWorld;
+	//XMMATRIX matWorld;
+	Mat4 matWorld;
 
 public:
 	Transform();

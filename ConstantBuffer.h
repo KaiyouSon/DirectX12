@@ -15,7 +15,7 @@ struct ConstBufferDateMaterial
 // 定数バッファ用データ構造体(3D変換行列)
 struct ConstBufferDataTransform
 {
-	XMMATRIX mat;	//3D変換行列
+	Mat4 mat;	//3D変換行列
 };
 
 class ConstantBuffer

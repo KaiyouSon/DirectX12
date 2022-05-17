@@ -56,6 +56,11 @@ void Update()
 	if (Input::GetInstance().GetKey(DIK_LEFT))  transform.rot.y++;
 	if (Input::GetInstance().GetKey(DIK_RIGHT)) transform.rot.y--;
 
+
+
+	//transform.pos.x = Input::GetInstance().GetMousePos().x;
+	//transform.pos.y = Input::GetInstance().GetMousePos().y;
+
 	cube->Update(transform);
 }
 

@@ -101,16 +101,16 @@ void Image::Update(const Transform& transform, Transform* parent)
 	// 定数バッファに転送
 	if (viewType == view2D)
 	{
-		constantBuffer->constMapTransform->mat =
-			this->transform.matWorld *
-			View::GetInstance().matProjection2D;
+		//constantBuffer->constMapTransform->mat =
+		//	this->transform.matWorld *
+		//	View::GetInstance().matProjection2D;
 	}
 	if (viewType == view3D)
 	{
-		constantBuffer->constMapTransform->mat =
-			this->transform.matWorld *
-			View::GetInstance().matView *
-			View::GetInstance().matProjection3D;
+		//constantBuffer->constMapTransform->mat =
+		//	this->transform.matWorld *
+		//	View::GetInstance().matView *
+		//	View::GetInstance().matProjection3D;
 	}
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 
 const float PI = 3.1415926;
 

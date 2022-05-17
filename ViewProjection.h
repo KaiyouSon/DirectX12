@@ -1,6 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
 using namespace DirectX;
+#include "Mat4.h"
 
 class ViewProjection
 {
@@ -10,13 +11,16 @@ private:
 	XMFLOAT3 up = { 0,1,0 };		// 上方向ベクトル
 
 public:
-	XMMATRIX matView;	// ビュー変換行列
+	//XMMATRIX matView;	// ビュー変換行列
+	Mat4 matView;
 
 	XMMATRIX matProjection2D;	// 平行投影行列
-	XMMATRIX matProjection3D;	// 透視投影行列
+	//XMMATRIX matProjection3D;	// 透視投影行列
+	Mat4 matProjection3D;		// 透視投影行列
 
 public:
 	void Initialize();
+	void Update();
 
 	void SetEye(const XMFLOAT3& eye);
 	void SetTarget(const XMFLOAT3& target);
