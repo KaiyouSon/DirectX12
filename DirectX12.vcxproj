@@ -145,7 +145,8 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="DepthBuffer.cpp" />
     <ClCompile Include="GraphicsCommand.cpp" />
-    <ClCompile Include="GraphicsPipeline.cpp" />
+    <ClCompile Include="GraphicsPipeline2D.cpp" />
+    <ClCompile Include="GraphicsPipeline3D.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="main2.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NewEngineWindow.cpp" />
+    <ClCompile Include="RootSignature.cpp" />
     <ClCompile Include="ScissorRectangle.cpp" />
     <ClCompile Include="ShaderCompiler.cpp" />
     <ClCompile Include="ShaderResourceView.cpp" />
@@ -176,6 +178,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
+    <FxCompile Include="BasicPS2.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="BasicVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
@@ -188,7 +196,8 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DepthBuffer.h" />
     <ClInclude Include="GraphicsCommand.h" />
-    <ClInclude Include="GraphicsPipeline.h" />
+    <ClInclude Include="GraphicsPipeline2D.h" />
+    <ClInclude Include="GraphicsPipeline3D.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="main2.h" />
@@ -198,6 +207,7 @@
     <ClInclude Include="NewEngineBase.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="NewEngineWindow.h" />
+    <ClInclude Include="RootSignature.h" />
     <ClInclude Include="ScissorRectangle.h" />
     <ClInclude Include="ShaderCompiler.h" />
     <ClInclude Include="ShaderResourceView.h" />

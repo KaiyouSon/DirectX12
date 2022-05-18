@@ -2,13 +2,8 @@
 #include "NewEngineBase.h"
 #include "ViewProjection.h"
 #include "ShaderResourceView.h"
-#include "GraphicsPipeline.h"
 
 #include <d3d12.h>
-#include <DirectXMath.h>
-using namespace DirectX;
-
-extern GraphicsPipeline* graphicsPipeline;
 
 Image::Image() :
 	vertexBuffer(new VertexBuffer),
@@ -101,16 +96,18 @@ void Image::Update(const Transform& transform, Transform* parent)
 	// 定数バッファに転送
 	if (viewType == view2D)
 	{
-		//constantBuffer->constMapTransform->mat =
-		//	this->transform.matWorld *
-		//	View::GetInstance().matProjection2D;
+		//constantBuffer->constMapTransform->mat = tmp;
+
+		constantBuffer->constMapTransform->mat =
+			this->transform.matWorld *
+			View::GetInstance().matProjection2D;
 	}
 	if (viewType == view3D)
 	{
-		//constantBuffer->constMapTransform->mat =
-		//	this->transform.matWorld *
-		//	View::GetInstance().matView *
-		//	View::GetInstance().matProjection3D;
+		constantBuffer->constMapTransform->mat =
+			this->transform.matWorld *
+			View::GetInstance().matView *
+			View::GetInstance().matProjection3D;
 	}
 }
 

@@ -2,13 +2,8 @@
 #include "NewEngineBase.h"
 #include "ViewProjection.h"
 #include "ShaderResourceView.h"
-#include "GraphicsPipeline.h"
 
 #include <d3d12.h>
-#include <DirectXMath.h>
-using namespace DirectX;
-
-extern GraphicsPipeline* graphicsPipeline;
 
 Cube::Cube() :
 	vertexBuffer(new VertexBuffer),
@@ -86,7 +81,7 @@ void Cube::Initialize()
 		// 背
 		4,5,6,
 		6,5,7,
-		
+
 		// 左
 		8,9,10,
 		10,9,11,
@@ -113,29 +108,35 @@ void Cube::Initialize()
 	for (int i = 0; i < ibArraySize / 3; i++)
 	{
 		// 三角形のインデックスを取り出して、一時的な変数に入れつ
-		unsigned short tmpIndeces0 = indices[i * 3 + 0];
-		unsigned short tmpIndeces1 = indices[i * 3 + 1];
-		unsigned short tmpIndeces2 = indices[i * 3 + 2];
+		unsigned short index0 = indices[i * 3 + 0];
+		unsigned short index1 = indices[i * 3 + 1];
+		unsigned short index2 = indices[i * 3 + 2];
 
 		// 三角形を構成する頂点座標をベクトルに代入
-		XMVECTOR p0 = XMLoadFloat3(&vertices[tmpIndeces0].pos);
-		XMVECTOR p1 = XMLoadFloat3(&vertices[tmpIndeces1].pos);
-		XMVECTOR p2 = XMLoadFloat3(&vertices[tmpIndeces2].pos);
-
-		// p0->p1ベクトル、p0->p2ベクトルを計算
-		XMVECTOR v1 = XMVectorSubtract(p1, p0);
-		XMVECTOR v2 = XMVectorSubtract(p2, p0);
+		Vec3 p0(
+			vertices[index0].pos.x,
+			vertices[index0].pos.y,
+			vertices[index0].pos.z);
+		Vec3 p1(
+			vertices[index1].pos.x,
+			vertices[index1].pos.y,
+			vertices[index1].pos.z);
+		Vec3 p2(
+			vertices[index2].pos.x,
+			vertices[index2].pos.y,
+			vertices[index2].pos.z);
+		
+		// ベクトルの減算
+		Vec3 v1 = p1 - p0;
+		Vec3 v2 = p2 - p0;
 
 		// 外積は両方から垂直なベクトル
-		XMVECTOR normal = XMVector3Cross(v1, v2);
-
-		// 正規化(長さを１にする)
-		normal = XMVector3Normalize(normal);
+		Vec3 normal = Vec3::Cross(v1, v2);
 
 		// 求めた法線を各頂点データに代入
-		XMStoreFloat3(&vertices[tmpIndeces0].normal, normal);
-		XMStoreFloat3(&vertices[tmpIndeces1].normal, normal);
-		XMStoreFloat3(&vertices[tmpIndeces2].normal, normal);
+		vertices[index0].normal = normal.Normalized();
+		vertices[index1].normal = normal.Normalized();
+		vertices[index2].normal = normal.Normalized();
 	}
 
 	// 頂点バッファ
@@ -162,11 +163,14 @@ void Cube::Update(const Transform& transform, Transform* parent)
 		this->transform.matWorld *= parent->matWorld;
 	}
 
+	Mat4 tmpView = View::GetInstance().matView;
+	Mat4 tmpProjection = View::GetInstance().matProjection3D;
+
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
 		this->transform.matWorld *
-		View::GetInstance().matView *
-		View::GetInstance().matProjection3D;
+		tmpView *
+		tmpProjection;
 }
 
 void Cube::Draw()

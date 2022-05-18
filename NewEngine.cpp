@@ -3,12 +3,13 @@
 #include "NewEngineWindow.h"
 #include "ShaderResourceView.h"
 #include "ShaderCompiler.h"
-#include "GraphicsPipeline.h"
+#include "GraphicsPipeline2D.h"
+#include "GraphicsPipeline3D.h"
 #include "GraphicsCommand.h"
 #include "DepthBuffer.h"
+#include "RootSignature.h"
 #include "Util.h"
 
-GraphicsPipeline* graphicsPipeline = new GraphicsPipeline;
 GraphicsCommand* graphicsCmd = new GraphicsCommand;
 
 void NewEngineInit()
@@ -37,8 +38,12 @@ void NewEngineInit()
 	ShaderCompiler::GetInstance().BasicVSCompile();
 	ShaderCompiler::GetInstance().BasicPSCompile();
 
+	// ルートシグネチャの初期化
+	RootSignature::GetInstance().Initialize();
+
 	// グラフィックスパイプラインの初期化
-	graphicsPipeline->Initialize();
+	GraphicsPipeline2D::GetInstance().Initialize();
+	GraphicsPipeline3D::GetInstance().Initialize();
 }
 
 void NewEngineEnd()
@@ -46,7 +51,6 @@ void NewEngineEnd()
 	// ウィンドウクラスを登録解除
 	NewEngineWindow::GetInstance().TerminateGameWindow();
 
-	delete graphicsPipeline;
 	delete graphicsCmd;
 }
 
@@ -81,10 +85,20 @@ void SetBackgroundColor(float Red, float Green, float Blue)
 
 void NewEnginePreDraw()
 {
-	graphicsCmd->PreUpdate();
+	graphicsCmd->PreDraw();
+}
+
+void NewEngineSetDraw3D()
+{
+	graphicsCmd->Draw3D();
+}
+
+void NewEngineSetDraw2D()
+{
+	graphicsCmd->Draw2D();
 }
 
 void NewEnginePostDraw()
 {
-	graphicsCmd->PostUpdate();
+	graphicsCmd->PostDraw();
 }

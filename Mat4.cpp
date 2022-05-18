@@ -62,8 +62,8 @@ Mat4 Mat4::RotateX(float angle)
 	return
 	{
 		1,0,0,0,
-		0,cosf(Radian(angle)),-sinf(Radian(angle)),0,
-		0,sinf(Radian(angle)), cosf(Radian(angle)),0,
+		0, cosf(Radian(angle)),sinf(Radian(angle)),0,
+		0,-sinf(Radian(angle)),cosf(Radian(angle)),0,
 		0,0,0,1
 	};
 }
@@ -72,9 +72,9 @@ Mat4 Mat4::RotateY(float angle)
 {
 	return
 	{
-		 cosf(Radian(angle)),0,sinf(Radian(angle)),0,
+		cosf(Radian(angle)),0,-sinf(Radian(angle)),0,
 		0,1,0,0,
-		-sinf(Radian(angle)),0,cosf(Radian(angle)),0,
+		sinf(Radian(angle)),0, cosf(Radian(angle)),0,
 		0,0,0,1
 	};
 }
@@ -83,21 +83,21 @@ Mat4 Mat4::RotateZ(float angle)
 {
 	return
 	{
-		cosf(Radian(angle)),-sinf(Radian(angle)),0,0,
-		sinf(Radian(angle)), cosf(Radian(angle)),0,0,
+		 cosf(Radian(angle)),sinf(Radian(angle)),0,0,
+		-sinf(Radian(angle)),cosf(Radian(angle)),0,0,
 		0,0,1,0,
 		0,0,0,1
 	};
 }
 
-Mat4 Mat4::Translate(Vec3 pos)
+Mat4 Mat4::Translate(const Vec3& pos)
 {
 	return
 	{
-		1,0,0,pos.x,
-		0,1,0,pos.y,
-		0,0,1,pos.z,
-		0,0,0,1
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		pos.x,pos.y,pos.z,1
 	};
 }
 
@@ -120,14 +120,14 @@ Mat4 Mat4::ViewConversion(const Vec3& pos, const Vec3& target, const Vec3& up)
 
 	// ｙ軸
 	Vec3 yAxis = Vec3::Cross(zAxis, xAxis);
-	view.mat[0][0] = yAxis.Normalized().x;
-	view.mat[0][1] = yAxis.Normalized().y;
-	view.mat[0][2] = yAxis.Normalized().z;
+	view.mat[1][0] = yAxis.Normalized().x;
+	view.mat[1][1] = yAxis.Normalized().y;
+	view.mat[1][2] = yAxis.Normalized().z;
 
 	// 平行移動
-	view.mat[3][0] = Vec3::Dot(pos, xAxis);
-	view.mat[3][1] = Vec3::Dot(pos, yAxis);
-	view.mat[3][2] = Vec3::Dot(pos, zAxis);
+	view.mat[3][0] = Vec3::Dot(pos, xAxis.Normalized());
+	view.mat[3][1] = Vec3::Dot(pos, yAxis.Normalized());
+	view.mat[3][2] = -Vec3::Dot(pos, zAxis.Normalized());
 
 	return view;
 }
@@ -142,13 +142,24 @@ Mat4 Mat4::PerspectiveConversion(float fovAngle, float aspect, float nearZ, floa
 	float scaleZ = 1 / (farZ - nearZ) * farZ;
 	float TransZ = -nearZ / (farZ - nearZ) * farZ;
 
-	perspective.mat[0][0] = scaleX;
 	perspective.mat[1][1] = scaleY;
+	perspective.mat[0][0] = scaleX;
 	perspective.mat[2][2] = scaleZ;
 	perspective.mat[3][2] = TransZ;
 	perspective.mat[2][3] = 1;
 
 	return perspective;
+}
+
+Mat4 Mat4::ParallelConversion(int WIN_WIDTH, int WIN_HEIGHT)
+{
+	return
+	{
+		2 / (float)WIN_WIDTH,0,0,0,
+		0,-2 / (float)WIN_HEIGHT,0,0,
+		0,0,1,0,
+		-1,1,0,1
+	};
 }
 
 
@@ -212,56 +223,56 @@ Mat4 Mat4::operator*(const Mat4& other) const
 Mat4& Mat4::operator*=(const Mat4& other)
 {
 	//	一行目
-	mat[0][0] *= mat[0][0] * other.mat[0][0] + mat[0][1] * other.mat[1][0] +
-		mat[0][2] * other.mat[2][0] + mat[0][3] * other.mat[3][0];
+	//mat[0][0] *= mat[0][0] * other.mat[0][0] + mat[0][1] * other.mat[1][0] +
+	//	mat[0][2] * other.mat[2][0] + mat[0][3] * other.mat[3][0];
 
-	mat[0][1] *= mat[0][0] * other.mat[0][1] + mat[0][1] * other.mat[1][1] +
-		mat[0][2] * other.mat[2][1] + mat[0][3] * other.mat[3][1];
+	//mat[0][1] *= mat[0][0] * other.mat[0][1] + mat[0][1] * other.mat[1][1] +
+	//	mat[0][2] * other.mat[2][1] + mat[0][3] * other.mat[3][1];
 
-	mat[0][2] *= mat[0][0] * other.mat[0][2] + mat[0][1] * other.mat[1][2] +
-		mat[0][2] * other.mat[2][2] + mat[0][3] * other.mat[3][2];
+	//mat[0][2] *= mat[0][0] * other.mat[0][2] + mat[0][1] * other.mat[1][2] +
+	//	mat[0][2] * other.mat[2][2] + mat[0][3] * other.mat[3][2];
 
-	mat[0][3] *= mat[0][0] * other.mat[0][3] + mat[0][1] * other.mat[1][3] +
-		mat[0][2] * other.mat[2][3] + mat[0][3] * other.mat[3][3];
+	//mat[0][3] *= mat[0][0] * other.mat[0][3] + mat[0][1] * other.mat[1][3] +
+	//	mat[0][2] * other.mat[2][3] + mat[0][3] * other.mat[3][3];
 
-	// 二行目
-	mat[1][0] *= mat[1][0] * other.mat[0][0] + mat[1][1] * other.mat[1][0] +
-		mat[1][2] * other.mat[2][0] + mat[1][3] * other.mat[3][0];
+	//// 二行目
+	//mat[1][0] *= mat[1][0] * other.mat[0][0] + mat[1][1] * other.mat[1][0] +
+	//	mat[1][2] * other.mat[2][0] + mat[1][3] * other.mat[3][0];
 
-	mat[1][1] *= mat[1][0] * other.mat[0][1] + mat[1][1] * other.mat[1][1] +
-		mat[1][2] * other.mat[2][1] + mat[1][3] * other.mat[3][1];
+	//mat[1][1] *= mat[1][0] * other.mat[0][1] + mat[1][1] * other.mat[1][1] +
+	//	mat[1][2] * other.mat[2][1] + mat[1][3] * other.mat[3][1];
 
-	mat[1][2] * mat[1][0] * other.mat[0][2] + mat[1][1] * other.mat[1][2] +
-		mat[1][2] * other.mat[2][2] + mat[1][3] * other.mat[3][2];
+	//mat[1][2] * mat[1][0] * other.mat[0][2] + mat[1][1] * other.mat[1][2] +
+	//	mat[1][2] * other.mat[2][2] + mat[1][3] * other.mat[3][2];
 
-	mat[1][3] *= mat[1][0] * other.mat[0][3] + mat[1][1] * other.mat[1][3] +
-		mat[1][2] * other.mat[2][3] + mat[1][3] * other.mat[3][3];
+	//mat[1][3] *= mat[1][0] * other.mat[0][3] + mat[1][1] * other.mat[1][3] +
+	//	mat[1][2] * other.mat[2][3] + mat[1][3] * other.mat[3][3];
 
-	// 三行目
-	mat[2][0] *= mat[2][0] * other.mat[0][0] + mat[2][1] * other.mat[1][0] +
-		mat[2][2] * other.mat[2][0] + mat[2][3] * other.mat[3][0];
+	//// 三行目
+	//mat[2][0] *= mat[2][0] * other.mat[0][0] + mat[2][1] * other.mat[1][0] +
+	//	mat[2][2] * other.mat[2][0] + mat[2][3] * other.mat[3][0];
 
-	mat[2][1] *= mat[2][0] * other.mat[0][1] + mat[2][1] * other.mat[1][1] +
-		mat[2][2] * other.mat[2][1] + mat[2][3] * other.mat[3][1];
+	//mat[2][1] *= mat[2][0] * other.mat[0][1] + mat[2][1] * other.mat[1][1] +
+	//	mat[2][2] * other.mat[2][1] + mat[2][3] * other.mat[3][1];
 
-	mat[2][2] *= mat[2][0] * other.mat[0][2] + mat[2][1] * other.mat[1][2] +
-		mat[2][2] * other.mat[2][2] + mat[2][3] * other.mat[3][2];
+	//mat[2][2] *= mat[2][0] * other.mat[0][2] + mat[2][1] * other.mat[1][2] +
+	//	mat[2][2] * other.mat[2][2] + mat[2][3] * other.mat[3][2];
 
-	mat[2][3] *= mat[2][0] * other.mat[0][3] + mat[2][1] * other.mat[1][3] +
-		mat[2][2] * other.mat[2][3] + mat[2][3] * other.mat[3][3];
+	//mat[2][3] *= mat[2][0] * other.mat[0][3] + mat[2][1] * other.mat[1][3] +
+	//	mat[2][2] * other.mat[2][3] + mat[2][3] * other.mat[3][3];
 
-	// 四行目
-	mat[3][0] *= mat[3][0] * other.mat[0][0] + mat[3][1] * other.mat[1][0] +
-		mat[3][2] * other.mat[2][0] + mat[3][3] * other.mat[3][0];
+	//// 四行目
+	//mat[3][0] *= mat[3][0] * other.mat[0][0] + mat[3][1] * other.mat[1][0] +
+	//	mat[3][2] * other.mat[2][0] + mat[3][3] * other.mat[3][0];
 
-	mat[3][1] *= mat[3][0] * other.mat[0][1] + mat[3][1] * other.mat[1][1] +
-		mat[3][2] * other.mat[2][1] + mat[3][3] * other.mat[3][1];
+	//mat[3][1] *= mat[3][0] * other.mat[0][1] + mat[3][1] * other.mat[1][1] +
+	//	mat[3][2] * other.mat[2][1] + mat[3][3] * other.mat[3][1];
 
-	mat[3][2] *= mat[3][0] * other.mat[0][2] + mat[3][1] * other.mat[1][2] +
-		mat[3][2] * other.mat[2][2] + mat[3][3] * other.mat[3][2];
+	//mat[3][2] *= mat[3][0] * other.mat[0][2] + mat[3][1] * other.mat[1][2] +
+	//	mat[3][2] * other.mat[2][2] + mat[3][3] * other.mat[3][2];
 
-	mat[3][3] *= mat[3][0] * other.mat[0][3] + mat[3][1] * other.mat[1][3] +
-		mat[3][2] * other.mat[2][3] + mat[3][3] * other.mat[3][3];
+	//mat[3][3] *= mat[3][0] * other.mat[0][3] + mat[3][1] * other.mat[1][3] +
+	//	mat[3][2] * other.mat[2][3] + mat[3][3] * other.mat[3][3];
 
 	return *this;
 };

@@ -13,8 +13,10 @@ private:
 
 public:
 	~GraphicsCommand();
-	void PreUpdate();
-	void PostUpdate();
+	void PreDraw();
+	void Draw3D();
+	void Draw2D();
+	void PostDraw();
 	void SetBackgroundColor(float Red, float Green, float Blue);
 };
 

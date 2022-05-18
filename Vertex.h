@@ -1,13 +1,13 @@
 #pragma once
-#include <DirectXMath.h>
-using namespace DirectX;
+#include "Vec2.h"
+#include "Vec3.h"
 
 // 頂点データクラス
 class Vertex
 {
 public:
-	XMFLOAT3 pos;	 // xyz座標
-	XMFLOAT3 normal; // 法線ベクトル
-	XMFLOAT2 uv;	 // uv座標
+	Vec3 pos;	 // xyz座標
+	Vec3 normal; // 法線ベクトル
+	Vec2 uv;	 // uv座標
 };
 

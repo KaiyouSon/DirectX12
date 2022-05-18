@@ -4,7 +4,7 @@
 class Mat4
 {
 public:
-	float mat[4][4];
+	float mat[4][4] = {};
 
 	Mat4();
 	Mat4(
@@ -20,10 +20,14 @@ public:
 	static Mat4 RotateX(float angle);	// 回転行列ｘ軸を返す関数
 	static Mat4 RotateY(float angle);	// 回転行列ｙ軸を返す関数
 	static Mat4 RotateZ(float angle);	// 回転行列ｚ軸を返す関数
-	static Mat4 Translate(Vec3 pos);	// 平行移動を返す関数
+	static Mat4 Translate(const Vec3& pos);	// 平行移動を返す関数
 
+	// ビュー変換
 	static Mat4 ViewConversion(const Vec3& pos, const Vec3& target, const Vec3& up);
+	// 透視射影変換
 	static Mat4 PerspectiveConversion(float fovAngle, float aspect, float nearZ, float farZ);
+	// 平行射影変換
+	static Mat4 ParallelConversion(int WIN_WIDTH, int WIN_HEIGHT);
 
 	// 単項演算子オーバーロード
 	Mat4 operator*(const Mat4& other) const;

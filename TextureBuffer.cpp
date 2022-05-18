@@ -3,9 +3,6 @@
 
 #include <cassert>
 #include <DirectXTex.h>
-#include <DirectXMath.h>
-
-using namespace DirectX;
 
 TextureBuffer::~TextureBuffer()
 {

@@ -81,7 +81,7 @@
     <ClCompile Include="GraphicsCommand.cpp">
       <Filter>ソース ファイル\NewEngine</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicsPipeline.cpp">
+    <ClCompile Include="GraphicsPipeline3D.cpp">
       <Filter>ソース ファイル\NewEngine</Filter>
     </ClCompile>
     <ClCompile Include="NewEngineBase.cpp">
@@ -129,12 +129,21 @@
     <ClCompile Include="DepthBuffer.cpp">
       <Filter>ソース ファイル\NewEngine\Buffer</Filter>
     </ClCompile>
+    <ClCompile Include="RootSignature.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsPipeline2D.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="BasicVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicPS2.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>
@@ -187,7 +196,7 @@
     <ClInclude Include="GraphicsCommand.h">
       <Filter>ヘッダー ファイル\NewEngine</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsPipeline.h">
+    <ClInclude Include="GraphicsPipeline3D.h">
       <Filter>ヘッダー ファイル\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
@@ -219,6 +228,12 @@
     </ClInclude>
     <ClInclude Include="DepthBuffer.h">
       <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="RootSignature.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsPipeline2D.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

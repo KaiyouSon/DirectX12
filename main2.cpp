@@ -22,23 +22,24 @@ void Initialize()
 	cube->Initialize();
 	bg->Initialize(Image::view2D);
 
-	View::GetInstance().SetEye(XMFLOAT3(0, 0, -30));
-	View::GetInstance().SetTarget(XMFLOAT3(0, 0, 0));
+	View::GetInstance().SetEye(Vec3(0, 0, -30));
+	View::GetInstance().SetTarget(Vec3(0, 0, 0));
+	View::GetInstance().SetUp(Vec3(0, 1, 0));
 }
 
 Transform transform =
 {
-	XMFLOAT3(0,0,0),
-	XMFLOAT3(1,1,1),
-	XMFLOAT3(0,0,0),
+	Vec3(0,0,0),
+	Vec3(1,1,1),
+	Vec3(0,0,0),
 };
 float playerAngle = 0;
 
 Transform transform2 =
 {
-	XMFLOAT3(WIN_HALF_WIDTH,WIN_HALF_HEIGHT,0),
-	XMFLOAT3(1,1,1),
-	XMFLOAT3(0,0,0),
+	Vec3(WIN_HALF_WIDTH,WIN_HALF_HEIGHT,0),
+	Vec3(1,1,1),
+	Vec3(0,0,0),
 };
 
 // 更新処理
@@ -56,8 +57,6 @@ void Update()
 	if (Input::GetInstance().GetKey(DIK_LEFT))  transform.rot.y++;
 	if (Input::GetInstance().GetKey(DIK_RIGHT)) transform.rot.y--;
 
-
-
 	//transform.pos.x = Input::GetInstance().GetMousePos().x;
 	//transform.pos.y = Input::GetInstance().GetMousePos().y;
 
@@ -65,10 +64,14 @@ void Update()
 }
 
 // 描画処理
-void Draw()
+void Draw3D()
 {
-	//bg->Draw();
 	cube->Draw();
+}
+
+void Draw2D()
+{
+	bg->Draw();
 }
 
 // インスタンスのdelete

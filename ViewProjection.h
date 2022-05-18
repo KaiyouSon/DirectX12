@@ -1,30 +1,28 @@
 #pragma once
-#include <DirectXMath.h>
-using namespace DirectX;
 #include "Mat4.h"
+#include "Vec3.h"
 
 class ViewProjection
 {
 private:
-	XMFLOAT3 eye = { 0,0,-30 };		// 視点座標
-	XMFLOAT3 target = { 0,0,0 };	// 注視点座標
-	XMFLOAT3 up = { 0,1,0 };		// 上方向ベクトル
+	Vec3 eye = { 0,0,-30 };		// 視点座標
+	Vec3 target = { 0,0,0 };	// 注視点座標
+	Vec3 up = { 0,1,0 };		// 上方向ベクトル
 
 public:
 	//XMMATRIX matView;	// ビュー変換行列
 	Mat4 matView;
 
-	XMMATRIX matProjection2D;	// 平行投影行列
-	//XMMATRIX matProjection3D;	// 透視投影行列
-	Mat4 matProjection3D;		// 透視投影行列
+	Mat4 matProjection2D;	// 平行投影行列
+	Mat4 matProjection3D;	// 透視投影行列
 
 public:
 	void Initialize();
 	void Update();
 
-	void SetEye(const XMFLOAT3& eye);
-	void SetTarget(const XMFLOAT3& target);
-	void SetUp(const XMFLOAT3& up);
+	void SetEye(const Vec3& eye);
+	void SetTarget(const Vec3& target);
+	void SetUp(const Vec3& up);
 
 	static ViewProjection& GetInstance();
 

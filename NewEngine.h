@@ -10,4 +10,6 @@ void SetWindowTitle(const wchar_t* TITLE);
 bool CloseWindow();
 void SetBackgroundColor(float Red, float Green, float Blue);
 void NewEnginePreDraw();
+void NewEngineSetDraw3D();
+void NewEngineSetDraw2D();
 void NewEnginePostDraw();

@@ -2,9 +2,6 @@
 #include "Mat4.h"
 #include "Vec4.h"
 #include <d3d12.h>
-#include <DirectXMath.h>
-
-using namespace DirectX;
 
 // 定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDateMaterial

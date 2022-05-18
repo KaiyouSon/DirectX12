@@ -1,12 +1,13 @@
 #include "GraphicsCommand.h"
 #include "NewEngineBase.h"
-#include "GraphicsPipeline.h"
+#include "GraphicsPipeline2D.h"
+#include "GraphicsPipeline3D.h"
 #include "Viewport.h"
 #include "ScissorRectangle.h"
 #include "DepthBuffer.h"
+#include "RootSignature.h"
 #include <cassert>
 
-extern GraphicsPipeline* graphicsPipeline;
 Viewport* viewport = new Viewport;
 ScissorRectangle* scissorRectangle = new ScissorRectangle;
 
@@ -16,7 +17,7 @@ GraphicsCommand::~GraphicsCommand()
 	delete scissorRectangle;
 }
 
-void GraphicsCommand::PreUpdate()
+void GraphicsCommand::PreDraw()
 {
 	//---------------------- リソースバリアの変更コマンド ----------------------//
 	// バックバッファの番号を取得（2つなので0番か1番）
@@ -36,9 +37,9 @@ void GraphicsCommand::PreUpdate()
 	rtvHandle.ptr += bbIndex * NewEngineBase::GetInstance().GetDevice()->
 		GetDescriptorHandleIncrementSize(
 			NewEngineBase::GetInstance().GetRTVHeapDesc().Type);
-	
+
 	// 深度ステンシルビュー用デスクリプタヒープのハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle =DepthBuffer::GetInstance().
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = DepthBuffer::GetInstance().
 		GetDsvHeap()->GetCPUDescriptorHandleForHeapStart();
 	NewEngineBase::GetInstance().GetCommandList()->
 		OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
@@ -56,16 +57,26 @@ void GraphicsCommand::PreUpdate()
 	// シザー矩形の処理
 	scissorRectangle->Update();
 
-	//---------- パイプラインステートとルートシグネチャの設定コマンド ----------//
-	// パイプラインステートとルートシグネチャの設定コマンド
+	// ルートシグネチャの設定コマンド
 	NewEngineBase::GetInstance().GetCommandList()->
-		SetPipelineState(graphicsPipeline->GetPipelineState());
-	NewEngineBase::GetInstance().GetCommandList()->
-		SetGraphicsRootSignature(graphicsPipeline->GetRootSignature());
+	SetGraphicsRootSignature(RootSignature::GetInstance().GetRootSignature());
 }
 
+void GraphicsCommand::Draw3D()
+{
+	// パイプラインステートの設定コマンド( 3D版 )
+	NewEngineBase::GetInstance().GetCommandList()->
+		SetPipelineState(GraphicsPipeline3D::GetInstance().GetPipelineState());
+}
 
-void GraphicsCommand::PostUpdate()
+void GraphicsCommand::Draw2D()
+{
+	// パイプラインステートの設定コマンド( 2D版 )
+	NewEngineBase::GetInstance().GetCommandList()->
+		SetPipelineState(GraphicsPipeline2D::GetInstance().GetPipelineState());
+}
+
+void GraphicsCommand::PostDraw()
 {
 	//---------------------- リソースバリアの復帰コマンド ----------------------//
 	// ５．リソースバリアを戻す

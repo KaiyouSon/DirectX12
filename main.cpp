@@ -48,14 +48,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Update();
 
 		// ---------- ここまでに更新処理を記述 ---------- //
-
 		// 描画前処理
 		NewEnginePreDraw();
 
 		// ----------- ここから描画処理を記述 ----------- //
 
-		// 描画処理
-		Draw();
+		// 2D描画の設定
+		NewEngineSetDraw2D();
+
+		// 2D描画処理
+		Draw2D();
+
+		// 3D描画の設定
+		NewEngineSetDraw3D();
+
+		// 3D描画処理
+		Draw3D();
+
 
 		// ---------- ここまでに描画処理を記述 ---------- //
 
