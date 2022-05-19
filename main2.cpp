@@ -5,35 +5,34 @@
 #include "Util.h"
 #include "MathUtil.h"
 #include "Input.h"
+#include "Random.h"
+
+const int maxCube = 50;
 
 Image* bg = new Image(Vec2(WIN_WIDTH, WIN_HEIGHT));
-Cube* cube = new Cube;
+Cube* cube = new Cube[maxCube];
 
 // 画像の読み込み
 void Load()
 {
-	cube->LoadGraph(L"Resources/pic.png");
+	for (int i = 0; i < maxCube; i++)
+		cube[i].LoadGraph(L"Resources/pic.png");
 	bg->LoadGraph(L"Resources/bg.png");
 }
+
+Transform transform[maxCube] = {};
 
 // 初期化処理
 void Initialize()
 {
-	cube->Initialize();
+	for (int i = 0; i < maxCube; i++)
+		cube[i].Initialize();
 	bg->Initialize(Image::view2D);
 
-	View::GetInstance().SetEye(Vec3(0, 0, -30));
+	View::GetInstance().SetPos(Vec3(0, 0, -30));
 	View::GetInstance().SetTarget(Vec3(0, 0, 0));
 	View::GetInstance().SetUp(Vec3(0, 1, 0));
 }
-
-Transform transform =
-{
-	Vec3(0,0,0),
-	Vec3(1,1,1),
-	Vec3(0,0,0),
-};
-float playerAngle = 0;
 
 Transform transform2 =
 {
@@ -42,41 +41,44 @@ Transform transform2 =
 	Vec3(0,0,0),
 };
 
+float angle = 270;
+float length = 50;
+
 // 更新処理
 void Update()
 {
 	bg->Update(transform2);
 
-	if (Input::GetInstance().GetKey(DIK_W)) transform.pos.y += 0.1;
-	if (Input::GetInstance().GetKey(DIK_S)) transform.pos.y -= 0.1;
-	if (Input::GetInstance().GetKey(DIK_D)) transform.pos.x += 0.1;
-	if (Input::GetInstance().GetKey(DIK_A)) transform.pos.x -= 0.1;
+	if (Input::GetInstance().GetKey(DIK_LEFT))  angle++;
+	if (Input::GetInstance().GetKey(DIK_RIGHT)) angle--;
 
-	if (Input::GetInstance().GetKey(DIK_UP))	transform.rot.x++;
-	if (Input::GetInstance().GetKey(DIK_DOWN))  transform.rot.x--;
-	if (Input::GetInstance().GetKey(DIK_LEFT))  transform.rot.y++;
-	if (Input::GetInstance().GetKey(DIK_RIGHT)) transform.rot.y--;
+	for (int i = 0; i < maxCube; i++)
+	{
+		transform[i].pos = Vec3::zero;
+		transform[i].scale = Vec3::one;
+		transform[i].rot = { 0,0,i * 7.2f };
 
-	//transform.pos.x = Input::GetInstance().GetMousePos().x;
-	//transform.pos.y = Input::GetInstance().GetMousePos().y;
+		cube[i].Update(transform[i]);
+	}
 
-	cube->Update(transform);
+	View::GetInstance().SetPos(Vec3(cos(Radian(angle)) * length, 0, sin(Radian(angle)) * length));
 }
 
 // 描画処理
 void Draw3D()
 {
-	cube->Draw();
+	for (int i = 0; i < maxCube; i++)
+		cube[i].Draw();
 }
 
 void Draw2D()
 {
-	bg->Draw();
+	//bg->Draw();
 }
 
 // インスタンスのdelete
 void Delete()
 {
 	delete bg;
-	delete cube;
+	delete[] cube;
 }

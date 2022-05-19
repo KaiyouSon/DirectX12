@@ -5,7 +5,7 @@
 class ViewProjection
 {
 private:
-	Vec3 eye = { 0,0,-30 };		// 視点座標
+	Vec3 pos = { 0,0,-30 };		// 視点座標
 	Vec3 target = { 0,0,0 };	// 注視点座標
 	Vec3 up = { 0,1,0 };		// 上方向ベクトル
 
@@ -20,7 +20,7 @@ public:
 	void Initialize();
 	void Update();
 
-	void SetEye(const Vec3& eye);
+	void SetPos(const Vec3& pos);
 	void SetTarget(const Vec3& target);
 	void SetUp(const Vec3& up);
 

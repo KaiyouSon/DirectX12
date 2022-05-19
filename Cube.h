@@ -15,8 +15,8 @@ private:
 	IndexBuffer* indexBuffer;
 	TextureBuffer* textureBuffer;
 	ConstantBuffer* constantBuffer;
-	Transform transform;
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
+	Transform transform;
 
 	Vec2 size;
 private:

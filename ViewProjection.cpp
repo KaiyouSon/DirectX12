@@ -8,7 +8,7 @@
 void ViewProjection::Initialize()
 {
 	// ビュー変換行列
-	matView = Mat4::ViewConversion(eye, target, up);
+	matView = Mat4::ViewConversion(pos, target, up);
 
 	// 並行投影行列の計算
 	matProjection2D = Mat4::ParallelConversion(WIN_WIDTH, WIN_HEIGHT);
@@ -75,22 +75,22 @@ void ViewProjection::Update()
 	//	}
 }
 
-void ViewProjection::SetEye(const Vec3& eye)
+void ViewProjection::SetPos(const Vec3& pos)
 {
-	this->eye = eye;
-	matView = Mat4::ViewConversion(eye, target, up);
+	this->pos = pos;
+	matView = Mat4::ViewConversion(pos, target, up);
 }
 
 void ViewProjection::SetTarget(const Vec3& target)
 {
 	this->target = target;
-	matView = Mat4::ViewConversion(eye, target, up);
+	matView = Mat4::ViewConversion(pos, target, up);
 }
 
 void ViewProjection::SetUp(const Vec3& up)
 {
 	this->up = up;
-	matView = Mat4::ViewConversion(eye, target, up);
+	matView = Mat4::ViewConversion(pos, target, up);
 }
 
 ViewProjection& ViewProjection::GetInstance()

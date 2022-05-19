@@ -29,8 +29,6 @@ void Cube::LoadGraph(const wchar_t* FilePath)
 
 void Cube::Initialize()
 {
-	this->viewType = viewType;
-
 	// 頂点データ
 	Vertex vertices[] =
 	{
