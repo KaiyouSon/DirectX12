@@ -2,20 +2,9 @@
 #include "NewEngineBase.h"
 #include "GraphicsPipeline2D.h"
 #include "GraphicsPipeline3D.h"
-#include "Viewport.h"
-#include "ScissorRectangle.h"
 #include "DepthBuffer.h"
 #include "RootSignature.h"
 #include <cassert>
-
-Viewport* viewport = new Viewport;
-ScissorRectangle* scissorRectangle = new ScissorRectangle;
-
-GraphicsCommand::~GraphicsCommand()
-{
-	delete viewport;
-	delete scissorRectangle;
-}
 
 void GraphicsCommand::PreDraw()
 {
@@ -51,15 +40,9 @@ void GraphicsCommand::PreDraw()
 	NewEngineBase::GetInstance().GetCommandList()->
 		ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
-	// ビューポートの処理
-	viewport->Update();
-
-	// シザー矩形の処理
-	scissorRectangle->Update();
-
 	// ルートシグネチャの設定コマンド
 	NewEngineBase::GetInstance().GetCommandList()->
-	SetGraphicsRootSignature(RootSignature::GetInstance().GetRootSignature());
+		SetGraphicsRootSignature(RootSignature::GetInstance().GetRootSignature());
 }
 
 void GraphicsCommand::Draw3D()
@@ -124,4 +107,10 @@ void GraphicsCommand::SetBackgroundColor(float Red, float Green, float Blue)
 	clearColor[0] = Red / 255;
 	clearColor[1] = Green / 255;
 	clearColor[2] = Blue / 255;
+}
+
+GraphicsCommand& GraphicsCommand::GetInstance()
+{
+	static GraphicsCommand graphicsCommand;
+	return graphicsCommand;
 }

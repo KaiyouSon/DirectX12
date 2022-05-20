@@ -41,9 +41,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// 入力の更新処理
 		Input::GetInstance().Update();
 
-		// ビュープロジェクションの更新処理
-		//View::GetInstance().Update();
-
 		// 更新処理
 		Update();
 

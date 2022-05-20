@@ -7,7 +7,7 @@
 #include "Input.h"
 #include "Random.h"
 
-const int maxCube = 50;
+const int maxCube = 2;
 
 Image* bg = new Image(Vec2(WIN_WIDTH, WIN_HEIGHT));
 Cube* cube = new Cube[maxCube];
@@ -56,7 +56,7 @@ void Update()
 	{
 		transform[i].pos = Vec3::zero;
 		transform[i].scale = Vec3::one;
-		transform[i].rot = { 0,0,i * 7.2f };
+		transform[i].rot = { 0,0,i * 45.0f };
 
 		cube[i].Update(transform[i]);
 	}

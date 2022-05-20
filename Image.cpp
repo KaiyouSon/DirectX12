@@ -3,8 +3,6 @@
 #include "ViewProjection.h"
 #include "ShaderResourceView.h"
 
-#include <d3d12.h>
-
 Image::Image() :
 	vertexBuffer(new VertexBuffer),
 	indexBuffer(new IndexBuffer),

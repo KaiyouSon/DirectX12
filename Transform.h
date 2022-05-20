@@ -1,6 +1,5 @@
 #pragma once
-#include "Mat4.h"
-#include "Vec3.h"
+#include "MathUtil.h"
 
 class Transform
 {
@@ -21,7 +20,6 @@ private:
 
 public:
 	Transform();
-	//Transform(XMFLOAT3 pos, XMFLOAT3 scale, XMFLOAT3 rot);
 	Transform(Vec3 pos, Vec3 scale, Vec3 rot);
 	void Update();
 };

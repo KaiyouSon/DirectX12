@@ -12,7 +12,6 @@ public:
 	ID3D12DescriptorHeap* GetDsvHeap();
 
 	static DepthBuffer& GetInstance();
-
 private:
 	DepthBuffer() = default;
 	~DepthBuffer() = default;

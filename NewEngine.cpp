@@ -8,9 +8,12 @@
 #include "GraphicsCommand.h"
 #include "DepthBuffer.h"
 #include "RootSignature.h"
+#include "Viewport.h"
+#include "ScissorRectangle.h"
 #include "Util.h"
 
-GraphicsCommand* graphicsCmd = new GraphicsCommand;
+Viewport* viewport = new Viewport;
+ScissorRectangle* scissorRectangle = new ScissorRectangle;
 
 void NewEngineInit()
 {
@@ -45,31 +48,27 @@ void NewEngineInit()
 	GraphicsPipeline2D::GetInstance().Initialize();
 	GraphicsPipeline3D::GetInstance().Initialize();
 }
-
 void NewEngineEnd()
 {
 	// ウィンドウクラスを登録解除
 	NewEngineWindow::GetInstance().TerminateGameWindow();
 
-	delete graphicsCmd;
+	delete viewport;
+	delete scissorRectangle;
 }
-
 void ProcessMessage()
 {
 	//ウインドウズのメッセージを処理する
 	NewEngineWindow::GetInstance().ProcessMessage();
 }
-
 void SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT)
 {
 	NewEngineWindow::GetInstance().SetWindowSize(WIN_WIDTH, WIN_HEIGHT);
 }
-
 void SetWindowTitle(const wchar_t* TITLE)
 {
 	NewEngineWindow::GetInstance().SetWindowTitle(TITLE);
 }
-
 bool CloseWindow()
 {
 	if (NewEngineWindow::GetInstance().GetProcessMessage() == WM_QUIT)
@@ -77,28 +76,29 @@ bool CloseWindow()
 
 	return false;
 }
-
 void SetBackgroundColor(float Red, float Green, float Blue)
 {
-	graphicsCmd->SetBackgroundColor(Red, Green, Blue);
+	GraphicsCommand::GetInstance().SetBackgroundColor(Red, Green, Blue);
 }
-
 void NewEnginePreDraw()
 {
-	graphicsCmd->PreDraw();
-}
+	GraphicsCommand::GetInstance().PreDraw();
 
+	// ビューポートの処理
+	viewport->Update();
+
+	// シザー矩形の処理
+	scissorRectangle->Update();
+}
 void NewEngineSetDraw3D()
 {
-	graphicsCmd->Draw3D();
+	GraphicsCommand::GetInstance().Draw3D();
 }
-
 void NewEngineSetDraw2D()
 {
-	graphicsCmd->Draw2D();
+	GraphicsCommand::GetInstance().Draw2D();
 }
-
 void NewEnginePostDraw()
 {
-	graphicsCmd->PostDraw();
+	GraphicsCommand::GetInstance().PostDraw();
 }

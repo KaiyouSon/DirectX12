@@ -151,6 +151,6 @@ int ShaderCompiler::GetInputLayoutSize()
 
 ShaderCompiler& ShaderCompiler::GetInstance()
 {
-	static ShaderCompiler sharderCompiler;
-	return sharderCompiler;
+	static ShaderCompiler shaderCompiler;
+	return shaderCompiler;
 }

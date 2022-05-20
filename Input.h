@@ -2,8 +2,7 @@
 
 #define DIRECTINPUT_VERSION 0x0800	// DirectInputのバージョン指定
 #include <dinput.h>
-#include "Vec2.h"
-#include "Vec3.h"
+#include "MathUtil.h"
 
 class Input
 {

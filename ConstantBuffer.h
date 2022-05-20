@@ -30,5 +30,5 @@ public:
 	ID3D12Resource* GetConstBuffMaterial();
 	ID3D12Resource* GetConstBuffTransform();
 
-	void SetColor(Vec4 color);
+	void SetColor(const Vec4& color);
 };

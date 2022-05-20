@@ -2,8 +2,10 @@
 #include "Util.h"
 #include "MathUtil.h"
 #include "Input.h"
-#include "MathUtil.h"
-#include "Vec3.h"
+
+static float distance = 0;
+Vec3 vec;
+static float angle = 270;
 
 void ViewProjection::Initialize()
 {
@@ -18,61 +20,9 @@ void ViewProjection::Initialize()
 		Radian(45),	// 上下画角45度
 		(float)WIN_WIDTH / WIN_HEIGHT, // アスペクト比(画面横幅/画面縦幅)
 		0.1f, 1000.0f);	// 先端　奥端
-}
 
-static float distance = 0;
-Vec3 vec;
-
-void ViewProjection::Update()
-{
-	//	// カメラの視点移動
-	//	if (!Input::GetInstance().GetKey(DIK_LSHIFT))
-	//	{
-	//		if (Input::GetInstance().GetMouseWheel())
-	//		{
-	//			target.x += Input::GetInstance().GetMouseVelocity().x * 0.05;
-	//			target.y -= Input::GetInstance().GetMouseVelocity().y * 0.05;
-	//			SetTarget(this->target);
-	//		}
-	//	}
-	//
-	//	// カメラの平行移動
-	//	if (Input::GetInstance().GetKey(DIK_LSHIFT))
-	//	{
-	//		if (Input::GetInstance().GetMouseWheel())
-	//		{
-	//			eye.x -= Input::GetInstance().GetMouseVelocity().x * 0.05;
-	//			eye.y += Input::GetInstance().GetMouseVelocity().y * 0.05;
-	//			SetEye(this->eye);
-	//			target.x -= Input::GetInstance().GetMouseVelocity().x * 0.05;
-	//			target.y += Input::GetInstance().GetMouseVelocity().y * 0.05;
-	//			SetTarget(this->target);
-	//		}
-	//	}
-	//
-	//	Vec3 tmpEye = { eye.x,eye.y,eye.z };
-	//	Vec3 tmpTarget = { target.x,target.y,target.z };
-	//
-	//	vec = tmpEye - tmpTarget;
-	//	distance = Vec3::Distance(tmpEye, tmpTarget);
-	//
-	//	if (Input::GetInstance().GetMouseVelocity().z < 0)
-	//	{
-	//		distance += 2;
-	//		eye.x = vec.Normalized().x * distance;
-	//		eye.y = vec.Normalized().y * distance;
-	//		eye.z = vec.Normalized().z * distance;
-	//		SetEye(this->eye);
-	//	}
-	//
-	//	if (Input::GetInstance().GetMouseVelocity().z > 0)
-	//	{
-	//		distance -= 2;
-	//		eye.x = vec.Normalized().x * distance;
-	//		eye.y = vec.Normalized().y * distance;
-	//		eye.z = vec.Normalized().z * distance;
-	//		SetEye(this->eye);
-	//	}
+	vec = pos - target;
+	distance = Vec3::Distance(pos, target);
 }
 
 void ViewProjection::SetPos(const Vec3& pos)

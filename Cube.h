@@ -35,7 +35,7 @@ public:
 public:
 	VertexBuffer* GetVertexBuffer();
 	TextureBuffer* GetTextureBuffer();
-	void SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle);
+	void SetGpuHandle(const D3D12_GPU_DESCRIPTOR_HANDLE& srvGpuHandle);
 
 	void SetColor(const Vec4& color);
 };

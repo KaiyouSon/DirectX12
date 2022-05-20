@@ -4,7 +4,7 @@
 #include "TextureBuffer.h"
 #include "ConstantBuffer.h"
 #include "Transform.h"
-#include "Vec2.h"
+#include "MathUtil.h"
 
 #include <d3d12.h>
 

@@ -83,7 +83,7 @@ ID3D12Resource* ConstantBuffer::GetConstBuffTransform()
 	return constBuffTransform;
 }
 
-void ConstantBuffer::SetColor(Vec4 color)
+void ConstantBuffer::SetColor(const Vec4& color)
 {
 	HRESULT result;
 

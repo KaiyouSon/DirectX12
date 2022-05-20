@@ -15,6 +15,4 @@ public:
 public:
 	// 頂点バッファビューを取得する関数
 	D3D12_VERTEX_BUFFER_VIEW* GetvbViewAddress();
-	// 頂点バッファにデータ転送する関数
-	void TransferDateToVerBuff();	
 };

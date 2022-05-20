@@ -1,6 +1,5 @@
 #pragma once
-#include "Mat4.h"
-#include "Vec3.h"
+#include "MathUtil.h"
 
 class ViewProjection
 {
@@ -18,14 +17,12 @@ public:
 
 public:
 	void Initialize();
-	void Update();
 
 	void SetPos(const Vec3& pos);
 	void SetTarget(const Vec3& target);
 	void SetUp(const Vec3& up);
 
 	static ViewProjection& GetInstance();
-
 private:
 	ViewProjection() = default;
 	~ViewProjection() = default;

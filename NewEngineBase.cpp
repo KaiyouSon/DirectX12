@@ -6,6 +6,11 @@
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
+//NewEngineBase::NewEngineBase()
+//{
+//	Initialize();
+//}
+
 void NewEngineBase::Initialize()
 {
 	AdapterInit();
@@ -224,13 +229,13 @@ UINT64 NewEngineBase::PreIncreFenceVal()
 	++fenceVal;
 	return fenceVal;
 }
+std::vector<ID3D12Resource*> NewEngineBase::GetBackBuffers()
+{
+	return backBuffers;
+}
 NewEngineBase& NewEngineBase::GetInstance()
 {
 	static NewEngineBase newEngineBase;
 	return newEngineBase;
-}
-std::vector<ID3D12Resource*> NewEngineBase::GetBackBuffers()
-{
-	return backBuffers;
 }
 #pragma endregion

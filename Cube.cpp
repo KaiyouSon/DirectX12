@@ -123,7 +123,7 @@ void Cube::Initialize()
 			vertices[index2].pos.x,
 			vertices[index2].pos.y,
 			vertices[index2].pos.z);
-		
+
 		// ƒxƒNƒgƒ‹‚ÌŒ¸ŽZ
 		Vec3 v1 = p1 - p0;
 		Vec3 v2 = p2 - p0;
@@ -221,7 +221,7 @@ VertexBuffer* Cube::GetVertexBuffer()
 	return vertexBuffer;
 }
 
-void Cube::SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle)
+void Cube::SetGpuHandle(const D3D12_GPU_DESCRIPTOR_HANDLE& srvGpuHandle)
 {
-	srvGpuHandle = _srvGpuHandle;
+	this->srvGpuHandle = srvGpuHandle;
 }
