@@ -1,8 +1,9 @@
 #include "TextureBuffer.h"
 #include "NewEngineBase.h"
-
 #include <cassert>
 #include <DirectXTex.h>
+using namespace DirectX;
+using namespace Microsoft::WRL;
 
 TextureBuffer::~TextureBuffer()
 {
@@ -53,8 +54,8 @@ void TextureBuffer::Initialize1()
 		0,
 		nullptr, // 全領域へコピー
 		imageData,	// 元データアドレス
-		sizeof(XMFLOAT4) * textureWidth, // 1ラインサイズ
-		sizeof(XMFLOAT4) * imageDataCount // 全サイズ
+		sizeof(Vec4) * textureWidth, // 1ラインサイズ
+		sizeof(Vec4) * imageDataCount // 全サイズ
 	);
 }
 
@@ -134,7 +135,7 @@ void TextureBuffer::Initialize2(const wchar_t* szFile)
 	}
 }
 
-ID3D12Resource* TextureBuffer::GetTextureBuff()
+ComPtr<ID3D12Resource> TextureBuffer::GetTextureBuff()
 {
 	return texBuff;
 }

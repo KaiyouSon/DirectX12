@@ -11,6 +11,8 @@
 #include "Viewport.h"
 #include "ScissorRectangle.h"
 #include "Util.h"
+#include <wrl.h>
+using namespace Microsoft::WRL;
 
 Viewport* viewport = new Viewport;
 ScissorRectangle* scissorRectangle = new ScissorRectangle;
@@ -19,9 +21,9 @@ void NewEngineInit()
 {
 #ifdef _DEBUG
 	//デバッグレイヤーをオンに
-	ID3D12Debug* debugController;
-	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
-		debugController->EnableDebugLayer();
+	ComPtr<ID3D12Debug> debugController;
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(debugController.GetAddressOf())))) {
+		debugController.Get()->EnableDebugLayer();
 	}
 #endif
 

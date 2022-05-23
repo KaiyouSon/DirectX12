@@ -47,7 +47,8 @@ void ShaderResourceView::CreatSrv(Image& image)
 	// ハンドルの指す位置にシェーダーリソースビュー作成
 	NewEngineBase::GetInstance().GetDevice()->
 		CreateShaderResourceView(
-			image.GetTextureBuffer()->GetTextureBuff(), &srvDesc, _srvCpuHandle);
+			image.GetTextureBuffer()->GetTextureBuff().Get(),
+			&srvDesc, _srvCpuHandle);
 
 	image.SetGpuHandle(_srvGpuHandle);
 
@@ -77,7 +78,8 @@ void ShaderResourceView::CreatSrv(Cube& cube)
 	// ハンドルの指す位置にシェーダーリソースビュー作成
 	NewEngineBase::GetInstance().GetDevice()->
 		CreateShaderResourceView(
-			cube.GetTextureBuffer()->GetTextureBuff(), &srvDesc, _srvCpuHandle);
+			cube.GetTextureBuffer()->GetTextureBuff().Get(),
+			&srvDesc, _srvCpuHandle);
 
 	cube.SetGpuHandle(_srvGpuHandle);
 

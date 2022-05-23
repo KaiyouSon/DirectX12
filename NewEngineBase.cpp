@@ -81,7 +81,7 @@ void NewEngineBase::DeviceInit()
 	{
 		// 採用したアダプターでデバイスを生成
 		result = D3D12CreateDevice(tmpAdapter.Get(), levels[i],
-			IID_PPV_ARGS(&device));
+			IID_PPV_ARGS(device.GetAddressOf()));
 		if (result == S_OK) {
 			// デバイスを生成できた時点でループを抜ける
 			featureLevel = levels[i];
@@ -92,12 +92,12 @@ void NewEngineBase::DeviceInit()
 void NewEngineBase::CommandListInit()
 {
 	// コマンドアロケータを生成
-	result = device->CreateCommandAllocator(
+	result = device.Get()->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		IID_PPV_ARGS(&cmdAllocator));
 	assert(SUCCEEDED(result));
 	// コマンドリストを生成
-	result = device->CreateCommandList(0,
+	result = device.Get()->CreateCommandList(0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		cmdAllocator.Get(), nullptr,
 		IID_PPV_ARGS(&commandList));
@@ -105,11 +105,10 @@ void NewEngineBase::CommandListInit()
 }
 void NewEngineBase::CommandQueueInit()
 {
-	//-------------------------- コマンドキューの生成 --------------------------//
 	//コマンドキューの設定
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
 	//コマンドキューを生成
-	result = device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue));
+	result = device.Get()->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue));
 	assert(SUCCEEDED(result));
 }
 void NewEngineBase::SwapChainInit()
@@ -134,12 +133,11 @@ void NewEngineBase::SwapChainInit()
 }
 void NewEngineBase::DescriptorHeapInit()
 {
-	//------------------------ デスクリプタヒープの生成 ------------------------//
 	// デスクリプタヒープの設定
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV; // レンダーターゲットビュー
 	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount; // 裏表の２つ
 	// デスクリプタヒープの生成
-	device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
+	device.Get()->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
 }
 void NewEngineBase::BackBufferInit()
 {
@@ -150,28 +148,28 @@ void NewEngineBase::BackBufferInit()
 void NewEngineBase::RenderTargetViewInit()
 {
 	//------------------ レンダーターゲットビュー(RTV)の生成 -------------------//
-	// スワップチェーンの全てのバッファについて処理する
 	for (size_t i = 0; i < backBuffers.size(); i++)
+		// スワップチェーンの全てのバッファについて処理する
 	{
 		// スワップチェーンからバッファを取得
 		swapChain->GetBuffer((UINT)i, IID_PPV_ARGS(&backBuffers[i]));
 		// デスクリプタヒープのハンドルを取得
 		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
 		// 裏か表かでアドレスがずれる
-		rtvHandle.ptr += i * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
+		rtvHandle.ptr += i * device.Get()->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 		// レンダーターゲットビューの設定
 		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 		// シェーダーの計算結果をSRGBに変換して書き込む
 		rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 		rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 		// レンダーターゲットビューの生成
-		device->CreateRenderTargetView(backBuffers[i].Get(), &rtvDesc, rtvHandle);
+		device.Get()->CreateRenderTargetView(backBuffers[i].Get(), &rtvDesc, rtvHandle);
 	}
 }
 void NewEngineBase::FenceInit()
 {
 	// フェンスの生成
-	result = device->CreateFence(
+	result = device.Get()->CreateFence(
 		fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence.GetAddressOf()));
 }
 
