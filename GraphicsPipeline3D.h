@@ -1,16 +1,17 @@
 #pragma once
 #include <d3d12.h>
+#include <wrl.h>
 
 class GraphicsPipeline3D
 {
 private:
 	// パイプランステート
-	ID3D12PipelineState* pipelineState;
+	Microsoft::WRL::ComPtr <ID3D12PipelineState> pipelineState;
 
 public:
 	void Initialize();
 public:
-	ID3D12PipelineState* GetPipelineState();	// パイプランステートを取得する関数
+	Microsoft::WRL::ComPtr <ID3D12PipelineState> GetPipelineState();	// パイプランステートを取得する関数
 
 	static GraphicsPipeline3D& GetInstance();
 private:

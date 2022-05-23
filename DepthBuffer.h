@@ -1,15 +1,16 @@
 #pragma once
 #include <d3d12.h>
+#include <wrl.h>
 
 class DepthBuffer
 {
 private:
 	// 深度ビュー用でスクリプタヒープ
-	ID3D12DescriptorHeap* dsvHeap = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
 public:
 	void Initialize();
 
-	ID3D12DescriptorHeap* GetDsvHeap();
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetDsvHeap();
 
 	static DepthBuffer& GetInstance();
 private:

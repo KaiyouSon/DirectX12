@@ -12,7 +12,6 @@ private:
 	float clearColor[4];
 
 public:
-	//~GraphicsCommand();
 	void PreDraw();
 	void Draw3D();
 	void Draw2D();

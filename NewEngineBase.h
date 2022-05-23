@@ -2,31 +2,32 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <vector>
+#include <wrl.h>
 
 class NewEngineBase
 {
+public:
+	template<class T> using ComPtr = Microsoft::WRL::ComPtr <T>;
 private:
 	HRESULT result;
-	ID3D12Device* device = nullptr;
-	IDXGIFactory7* dxgiFactory = nullptr;
-	IDXGISwapChain4* swapChain = nullptr;
-	ID3D12CommandAllocator* cmdAllocator = nullptr;
-	ID3D12GraphicsCommandList* commandList = nullptr;
-	ID3D12CommandQueue* commandQueue = nullptr;
-	ID3D12DescriptorHeap* rtvHeap = nullptr;
-
-	// バックバッファ
-	std::vector<ID3D12Resource*> backBuffers;
+	ComPtr<ID3D12Device> device;
+	ComPtr<IDXGIFactory7> dxgiFactory;
+	ComPtr<IDXGISwapChain4> swapChain;
+	ComPtr<ID3D12CommandAllocator> cmdAllocator;
+	ComPtr<ID3D12GraphicsCommandList> commandList;
+	ComPtr<ID3D12CommandQueue> commandQueue;
+	ComPtr<ID3D12DescriptorHeap> rtvHeap;
+	std::vector<ComPtr<ID3D12Resource>> backBuffers; // バックバッファ
 
 	// デスクリプタヒープ
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
 
 	// フェンス
-	ID3D12Fence* fence = nullptr;
+	ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
 
 	// ここに特定の名前を持つアダプターオブジェクトが入る
-	IDXGIAdapter4* tmpAdapter = nullptr;
+	ComPtr<IDXGIAdapter4> tmpAdapter;
 
 	// スワップチェーンの設定
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
@@ -46,16 +47,15 @@ private:
 	void FenceInit();
 
 public:
-	ID3D12Device* GetDevice();
-	IDXGISwapChain4* GetSwapChain();
-	ID3D12GraphicsCommandList* GetCommandList();
-	ID3D12DescriptorHeap* GetRTVHeap();
-	ID3D12CommandQueue* GetCommandQueue();
-	ID3D12CommandAllocator* GetCommandAllocataor();
-
-	std::vector<ID3D12Resource*> GetBackBuffers();
+	ComPtr<ID3D12Device> GetDevice();
+	ComPtr<IDXGISwapChain4> GetSwapChain();
+	ComPtr<ID3D12CommandAllocator> GetCommandAllocataor();
+	ComPtr<ID3D12GraphicsCommandList> GetCommandList();
+	ComPtr<ID3D12CommandQueue> GetCommandQueue();
+	ComPtr<ID3D12DescriptorHeap> GetRtvHeap();
+	std::vector<ComPtr<ID3D12Resource>> GetBackBuffers();
 	D3D12_DESCRIPTOR_HEAP_DESC GetRTVHeapDesc();
-	ID3D12Fence* GetFence();
+	ComPtr<ID3D12Fence> GetFence();
 	UINT64 GetFenceVal();
 	UINT64 PreIncreFenceVal();
 

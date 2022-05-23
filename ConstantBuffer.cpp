@@ -1,7 +1,7 @@
 #include "ConstantBuffer.h"
 #include "NewEngineBase.h"
-
 #include <cassert>
+using namespace Microsoft::WRL;
 
 void ConstantBuffer::MaterialBufferInit()
 {
@@ -73,12 +73,11 @@ void ConstantBuffer::TransformBufferInit()
 	assert(SUCCEEDED(result));
 }
 
-ID3D12Resource* ConstantBuffer::GetConstBuffMaterial()
+ComPtr<ID3D12Resource> ConstantBuffer::GetConstBuffMaterial()
 {
 	return constBuffMaterial;
 }
-
-ID3D12Resource* ConstantBuffer::GetConstBuffTransform()
+ComPtr<ID3D12Resource> ConstantBuffer::GetConstBuffTransform()
 {
 	return constBuffTransform;
 }

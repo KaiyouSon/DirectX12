@@ -53,7 +53,6 @@ void ShaderResourceView::CreatSrv(Image& image)
 
 	incrementIndex++;
 }
-
 void ShaderResourceView::CreatSrv(Cube& cube)
 {
 	// SRVヒープの先頭ハンドルを取得
@@ -85,22 +84,18 @@ void ShaderResourceView::CreatSrv(Cube& cube)
 	incrementIndex++;
 }
 
-
-ID3D12DescriptorHeap* ShaderResourceView::GetsrvHeap()
+ID3D12DescriptorHeap* ShaderResourceView::GetSrvHeap()
 {
 	return srvHeap;
 }
-
-ID3D12DescriptorHeap** ShaderResourceView::GetsrvHeapAddress()
+ID3D12DescriptorHeap** ShaderResourceView::GetSrvHeapAddress()
 {
 	return &srvHeap;
 }
-
 D3D12_GPU_DESCRIPTOR_HANDLE ShaderResourceView::GetSrvGpuHandle()
 {
 	return srvGpuHandle;
 }
-
 ShaderResourceView& ShaderResourceView::GetInstance()
 {
 	static ShaderResourceView shaderResourceView;

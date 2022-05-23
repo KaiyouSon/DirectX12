@@ -1,16 +1,15 @@
 #include "ShaderCompiler.h"
-
 #include <string>
 #include <cassert>
-
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
+
+using namespace Microsoft::WRL;
 
 void ShaderCompiler::BasicVSCompile()
 {
 	HRESULT result;
 
-	//--------------- 頂点シェーダファイルの読み込みとコンパイル ---------------//
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		L"BasicVS.hlsl", // シェーダファイル名
@@ -21,8 +20,7 @@ void ShaderCompiler::BasicVSCompile()
 		0,
 		&vsBlob, &errorBlob);
 
-	//----------------------- シェーダのエラー内容を表示 -----------------------//
-	// エラーなら
+	// シェーダのエラー内容を表示
 	if (FAILED(result))
 	{
 		// errorBlobからエラー内容をstring型にコピー
@@ -37,8 +35,7 @@ void ShaderCompiler::BasicVSCompile()
 		assert(0);
 	}
 
-	//--------------- 頂点シェーダに渡すための頂点データを整える ---------------//
-	// 頂点レイアウト
+	// 頂点シェーダに渡すための頂点データを整える
 	inputLayout[0] =
 	{	// xyz座標
 		"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
@@ -59,12 +56,10 @@ void ShaderCompiler::BasicVSCompile()
 
 	};
 }
-
 void ShaderCompiler::BasicPSCompile()
 {
 	HRESULT result;
 
-	//------------- ピクセルシェーダファイルの読み込みとコンパイル -------------//
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		L"BasicPS.hlsl", // シェーダファイル名
@@ -75,8 +70,7 @@ void ShaderCompiler::BasicPSCompile()
 		0,
 		&psBlob, &errorBlob);
 
-	//----------------------- シェーダのエラー内容を表示 -----------------------//
-	// エラーなら
+	// シェーダのエラー内容を表示
 	if (FAILED(result))
 	{
 		// errorBlobからエラー内容をstring型にコピー
@@ -90,9 +84,12 @@ void ShaderCompiler::BasicPSCompile()
 		OutputDebugStringA(error.c_str());
 		assert(0);
 	}
+}
+void ShaderCompiler::BasicPSCompile2()
+{
+	HRESULT result;
 
-	//------------- ピクセルシェーダファイルの読み込みとコンパイル -------------//
-	// ピクセルシェーダの読み込みとコンパイル
+	// ピクセルシェーダファイルの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		L"BasicPS2.hlsl", // シェーダファイル名
 		nullptr,
@@ -102,8 +99,7 @@ void ShaderCompiler::BasicPSCompile()
 		0,
 		&psBlob2, &errorBlob);
 
-	//----------------------- シェーダのエラー内容を表示 -----------------------//
-	// エラーなら
+	// シェーダのエラー内容を表示
 	if (FAILED(result))
 	{
 		// errorBlobからエラー内容をstring型にコピー
@@ -119,31 +115,26 @@ void ShaderCompiler::BasicPSCompile()
 	}
 }
 
-ID3DBlob* ShaderCompiler::GetvsBlob()
+ComPtr<ID3DBlob>ShaderCompiler::GetvsBlob()
 {
 	return vsBlob;
 }
-
-ID3DBlob* ShaderCompiler::GetpsBlob()
+ComPtr<ID3DBlob>ShaderCompiler::GetpsBlob()
 {
 	return psBlob;
 }
-
-ID3DBlob* ShaderCompiler::GetpsBlob2()
+ComPtr<ID3DBlob>ShaderCompiler::GetpsBlob2()
 {
 	return psBlob2;
 }
-
-ID3DBlob** ShaderCompiler::GeterrorBlobAddress()
+ComPtr<ID3DBlob>ShaderCompiler::GeterrorBlob()
 {
-	return &errorBlob;
+	return errorBlob;
 }
-
 D3D12_INPUT_ELEMENT_DESC* ShaderCompiler::GetInputLayout()
 {
 	return inputLayout;
 }
-
 int ShaderCompiler::GetInputLayoutSize()
 {
 	return sizeof(inputLayout) / sizeof(inputLayout[0]);

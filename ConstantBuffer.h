@@ -1,7 +1,7 @@
 #pragma once
-#include "Mat4.h"
-#include "Vec4.h"
+#include "MathUtil.h"
 #include <d3d12.h>
+#include <wrl.h>
 
 // 定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDateMaterial
@@ -18,8 +18,10 @@ struct ConstBufferDataTransform
 class ConstantBuffer
 {
 private:
-	ID3D12Resource* constBuffMaterial;	// マテリアルの定数バッファ
-	ID3D12Resource* constBuffTransform;	// トランスフォームの定数バッファ
+	// マテリアルの定数バッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial;
+	// トランスフォームの定数バッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform;
 
 public:
 	ConstBufferDataTransform* constMapTransform = nullptr;
@@ -27,8 +29,8 @@ public:
 	void MaterialBufferInit();
 	void TransformBufferInit();
 public:
-	ID3D12Resource* GetConstBuffMaterial();
-	ID3D12Resource* GetConstBuffTransform();
+	Microsoft::WRL::ComPtr<ID3D12Resource> GetConstBuffMaterial();
+	Microsoft::WRL::ComPtr<ID3D12Resource> GetConstBuffTransform();
 
 	void SetColor(const Vec4& color);
 };

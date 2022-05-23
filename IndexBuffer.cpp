@@ -1,11 +1,9 @@
 #include "IndexBuffer.h"
 #include "NewEngineBase.h"
-
 #include <cassert>
 
 void IndexBuffer::Initialize(uint16_t indices[], const int& arrarySize)
 {
-
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * arrarySize);
 

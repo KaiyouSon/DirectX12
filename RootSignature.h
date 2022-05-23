@@ -1,15 +1,17 @@
 #pragma once
 #include <d3d12.h>
+#include <wrl.h>
 
 class RootSignature
 {
 private:
 	// ルートシグネチャ
-	ID3D12RootSignature* rootSignature;
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 public:
+	// 初期化
 	void Initialize();
-
-	ID3D12RootSignature* GetRootSignature(); // ルートシグネチャを取得する関数
+	// ルートシグネチャを取得する関数
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> GetRootSignature(); 
 
 	static RootSignature& GetInstance();
 private:

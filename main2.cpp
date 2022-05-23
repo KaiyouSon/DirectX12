@@ -61,7 +61,8 @@ void Update()
 		cube[i].Update(transform[i]);
 	}
 
-	View::GetInstance().SetPos(Vec3(cos(Radian(angle)) * length, 0, sin(Radian(angle)) * length));
+	View::GetInstance().SetPos(Vec3(
+		(float)(cos(Radian(angle)) * length), 0.0f, (float)(sin(Radian(angle)) * length)));
 }
 
 // •`‰æˆ—

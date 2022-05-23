@@ -1,8 +1,8 @@
 #include "RootSignature.h"
 #include "ShaderCompiler.h"
 #include "NewEngineBase.h"
-
 #include <cassert>
+using namespace Microsoft::WRL;
 
 void RootSignature::Initialize()
 {
@@ -53,12 +53,12 @@ void RootSignature::Initialize()
 	rootSignatureDesc.pStaticSamplers = &samplerDesc;
 	rootSignatureDesc.NumStaticSamplers = 1;
 	// ルートシグネチャのシリアライズ
-	ID3DBlob* rootSigBlob = nullptr;
+	ComPtr<ID3DBlob> rootSigBlob;
 	result = D3D12SerializeRootSignature(
 		&rootSignatureDesc,
 		D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob,
-		ShaderCompiler::GetInstance().GeterrorBlobAddress());
+		ShaderCompiler::GetInstance().GeterrorBlob().GetAddressOf());
 	assert(SUCCEEDED(result));
 	result = NewEngineBase::GetInstance().GetDevice()->
 		CreateRootSignature(
@@ -67,10 +67,9 @@ void RootSignature::Initialize()
 			rootSigBlob->GetBufferSize(),
 			IID_PPV_ARGS(&rootSignature));
 	assert(SUCCEEDED(result));
-	rootSigBlob->Release();
 }
 
-ID3D12RootSignature* RootSignature::GetRootSignature()
+ComPtr<ID3D12RootSignature> RootSignature::GetRootSignature()
 {
 	return rootSignature;
 }

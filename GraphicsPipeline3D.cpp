@@ -4,6 +4,7 @@
 #include "RootSignature.h"
 
 #include <cassert>
+using namespace Microsoft::WRL;
 
 void GraphicsPipeline3D::Initialize()
 {
@@ -81,7 +82,7 @@ void GraphicsPipeline3D::Initialize()
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = RootSignature::GetInstance().GetRootSignature();
+	pipelineDesc.pRootSignature = RootSignature::GetInstance().GetRootSignature().Get();
 
 	HRESULT result;
 
@@ -91,7 +92,7 @@ void GraphicsPipeline3D::Initialize()
 	assert(SUCCEEDED(result));
 }
 
-ID3D12PipelineState* GraphicsPipeline3D::GetPipelineState()
+ComPtr<ID3D12PipelineState>GraphicsPipeline3D::GetPipelineState()
 {
 	return pipelineState;
 }

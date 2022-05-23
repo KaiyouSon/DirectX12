@@ -9,7 +9,8 @@ Cube::Cube() :
 	vertexBuffer(new VertexBuffer),
 	indexBuffer(new IndexBuffer),
 	textureBuffer(new TextureBuffer),
-	constantBuffer(new ConstantBuffer)
+	constantBuffer(new ConstantBuffer),
+	vbArraySize(0), ibArraySize(0)
 {
 }
 
@@ -191,7 +192,7 @@ void Cube::Draw()
 
 	// SRVヒープの設定コマンド
 	NewEngineBase::GetInstance().GetCommandList()->
-		SetDescriptorHeaps(1, ShaderResourceView::GetInstance().GetsrvHeapAddress());
+		SetDescriptorHeaps(1, ShaderResourceView::GetInstance().GetSrvHeapAddress());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	NewEngineBase::GetInstance().GetCommandList()->
 		SetGraphicsRootDescriptorTable(1, srvGpuHandle);

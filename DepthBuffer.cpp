@@ -1,8 +1,9 @@
 #include "DepthBuffer.h"
 #include "NewEngineBase.h"
 #include "NewEngineWindow.h"
-
 #include <cassert>
+
+using namespace Microsoft::WRL;
 
 void DepthBuffer::Initialize()
 {
@@ -57,7 +58,7 @@ void DepthBuffer::Initialize()
 
 }
 
-ID3D12DescriptorHeap* DepthBuffer::GetDsvHeap()
+ComPtr<ID3D12DescriptorHeap> DepthBuffer::GetDsvHeap()
 {
 	return dsvHeap;
 }

@@ -6,10 +6,7 @@
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
-//NewEngineBase::NewEngineBase()
-//{
-//	Initialize();
-//}
+using namespace Microsoft::WRL;
 
 void NewEngineBase::Initialize()
 {
@@ -34,13 +31,12 @@ void NewEngineBase::Initialize()
 
 void NewEngineBase::AdapterInit()
 {
-	//------------------- グラフィックボートのアダプタを列挙 -------------------//
 	// DXGIファクトリーの生成
 	result = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory));
 	assert(SUCCEEDED(result));
 
 	// アダプターの列挙用
-	std::vector<IDXGIAdapter4*> adapters;
+	std::vector<ComPtr<IDXGIAdapter4>> adapters;
 
 	// パフォーマンスが高いものから順に、全てのアダプターを列挙する
 	for (UINT i = 0;
@@ -53,7 +49,6 @@ void NewEngineBase::AdapterInit()
 		adapters.push_back(tmpAdapter);
 	}
 
-	//------------------ グラフィックボートスのアダプタを選別 ------------------//
 	// 妥当なアダプタを選別する
 	for (size_t i = 0; i < adapters.size(); i++)
 	{
@@ -64,12 +59,11 @@ void NewEngineBase::AdapterInit()
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE))
 		{
 			// デバイスを採用してループを抜ける
-			tmpAdapter = adapters[i];
+			tmpAdapter = adapters[i].Get();
 			break;
 		}
 	}
 }
-
 void NewEngineBase::DeviceInit()
 {
 	//----------------------------- デバイスの生成 -----------------------------//
@@ -83,9 +77,10 @@ void NewEngineBase::DeviceInit()
 	};
 
 	D3D_FEATURE_LEVEL featureLevel;
-	for (size_t i = 0; i < _countof(levels); i++) {
+	for (size_t i = 0; i < _countof(levels); i++)
+	{
 		// 採用したアダプターでデバイスを生成
-		result = D3D12CreateDevice(tmpAdapter, levels[i],
+		result = D3D12CreateDevice(tmpAdapter.Get(), levels[i],
 			IID_PPV_ARGS(&device));
 		if (result == S_OK) {
 			// デバイスを生成できた時点でループを抜ける
@@ -94,10 +89,8 @@ void NewEngineBase::DeviceInit()
 		}
 	}
 }
-
 void NewEngineBase::CommandListInit()
 {
-	//---------------- コマンドアロケータとコマンドリストの生成 ----------------//
 	// コマンドアロケータを生成
 	result = device->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
@@ -106,11 +99,10 @@ void NewEngineBase::CommandListInit()
 	// コマンドリストを生成
 	result = device->CreateCommandList(0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		cmdAllocator, nullptr,
+		cmdAllocator.Get(), nullptr,
 		IID_PPV_ARGS(&commandList));
 	assert(SUCCEEDED(result));
 }
-
 void NewEngineBase::CommandQueueInit()
 {
 	//-------------------------- コマンドキューの生成 --------------------------//
@@ -120,7 +112,6 @@ void NewEngineBase::CommandQueueInit()
 	result = device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue));
 	assert(SUCCEEDED(result));
 }
-
 void NewEngineBase::SwapChainInit()
 {
 	//------------------------- スワップチェーンの生成 -------------------------//
@@ -134,12 +125,13 @@ void NewEngineBase::SwapChainInit()
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // フリップ後は破棄
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	// スワップチェーンの生成
+	ComPtr<IDXGISwapChain1> swapChain1;
 	result = dxgiFactory->CreateSwapChainForHwnd(
-		commandQueue, NewEngineWindow::GetInstance().GetHwnd(), &swapChainDesc, nullptr, nullptr,
-		(IDXGISwapChain1**)&swapChain);
+		commandQueue.Get(), NewEngineWindow::GetInstance().GetHwnd(), &swapChainDesc, nullptr, nullptr,
+		&swapChain1);
+	swapChain1.As(&swapChain);
 	assert(SUCCEEDED(result));
 }
-
 void NewEngineBase::DescriptorHeapInit()
 {
 	//------------------------ デスクリプタヒープの生成 ------------------------//
@@ -149,14 +141,12 @@ void NewEngineBase::DescriptorHeapInit()
 	// デスクリプタヒープの生成
 	device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
 }
-
 void NewEngineBase::BackBufferInit()
 {
 	//----------------------------- バックバッファ -----------------------------//
 	// バックバッファ
 	backBuffers.resize(swapChainDesc.BufferCount);
 }
-
 void NewEngineBase::RenderTargetViewInit()
 {
 	//------------------ レンダーターゲットビュー(RTV)の生成 -------------------//
@@ -175,48 +165,46 @@ void NewEngineBase::RenderTargetViewInit()
 		rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 		rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 		// レンダーターゲットビューの生成
-		device->CreateRenderTargetView(backBuffers[i], &rtvDesc, rtvHandle);
+		device->CreateRenderTargetView(backBuffers[i].Get(), &rtvDesc, rtvHandle);
 	}
 }
-
 void NewEngineBase::FenceInit()
 {
-	//----------------------------- フェンスの生成 -----------------------------//
 	// フェンスの生成
-	UINT64 fenceVal = 0;
-	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
+	result = device->CreateFence(
+		fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence.GetAddressOf()));
 }
 
 #pragma region // ------------------------- ゲッター関連 ------------------------- //
-ID3D12Device* NewEngineBase::GetDevice()
+ComPtr<ID3D12Device> NewEngineBase::GetDevice()
 {
 	return device;
 }
-IDXGISwapChain4* NewEngineBase::GetSwapChain()
+ComPtr<IDXGISwapChain4> NewEngineBase::GetSwapChain()
 {
 	return swapChain;
 }
-ID3D12GraphicsCommandList* NewEngineBase::GetCommandList()
+ComPtr<ID3D12CommandAllocator> NewEngineBase::GetCommandAllocataor()
+{
+	return cmdAllocator;
+}
+ComPtr<ID3D12GraphicsCommandList> NewEngineBase::GetCommandList()
 {
 	return commandList;
 }
-ID3D12DescriptorHeap* NewEngineBase::GetRTVHeap()
-{
-	return rtvHeap;
-}
-ID3D12CommandQueue* NewEngineBase::GetCommandQueue()
+ComPtr<ID3D12CommandQueue> NewEngineBase::GetCommandQueue()
 {
 	return commandQueue;
 }
-ID3D12CommandAllocator* NewEngineBase::GetCommandAllocataor()
+ComPtr<ID3D12DescriptorHeap> NewEngineBase::GetRtvHeap()
 {
-	return cmdAllocator;
+	return rtvHeap;
 }
 D3D12_DESCRIPTOR_HEAP_DESC NewEngineBase::GetRTVHeapDesc()
 {
 	return rtvHeapDesc;
 }
-ID3D12Fence* NewEngineBase::GetFence()
+ComPtr<ID3D12Fence> NewEngineBase::GetFence()
 {
 	return fence;
 }
@@ -229,7 +217,7 @@ UINT64 NewEngineBase::PreIncreFenceVal()
 	++fenceVal;
 	return fenceVal;
 }
-std::vector<ID3D12Resource*> NewEngineBase::GetBackBuffers()
+std::vector<ComPtr<ID3D12Resource>> NewEngineBase::GetBackBuffers()
 {
 	return backBuffers;
 }

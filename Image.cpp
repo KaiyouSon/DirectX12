@@ -129,7 +129,7 @@ void Image::Draw()
 
 	// SRVヒープの設定コマンド
 	NewEngineBase::GetInstance().GetCommandList()->
-		SetDescriptorHeaps(1, ShaderResourceView::GetInstance().GetsrvHeapAddress());
+		SetDescriptorHeaps(1, ShaderResourceView::GetInstance().GetSrvHeapAddress());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	NewEngineBase::GetInstance().GetCommandList()->
 		SetGraphicsRootDescriptorTable(1, srvGpuHandle);

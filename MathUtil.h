@@ -5,7 +5,7 @@
 #include "Vec4.h"
 #include "Mat4.h"
 
-const float PI = 3.1415926;
+const float PI = 3.141592f;
 
 /// <summary>
 /// 弧度法から度数法に変換する関数

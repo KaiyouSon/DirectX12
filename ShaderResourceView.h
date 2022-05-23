@@ -31,10 +31,10 @@ public:
 public:
 
 	// SRV用デスクリプタヒープを取得する関数
-	ID3D12DescriptorHeap* GetsrvHeap();
+	ID3D12DescriptorHeap* GetSrvHeap();
 
 	// SRV用デスクリプタヒープのアドレスを取得する関数
-	ID3D12DescriptorHeap** GetsrvHeapAddress();
+	ID3D12DescriptorHeap** GetSrvHeapAddress();
 
 	D3D12_GPU_DESCRIPTOR_HANDLE GetSrvGpuHandle();
 

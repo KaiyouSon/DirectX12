@@ -40,6 +40,7 @@ void NewEngineInit()
 	// シェーダファイルの読み込みとコンパイル
 	ShaderCompiler::GetInstance().BasicVSCompile();
 	ShaderCompiler::GetInstance().BasicPSCompile();
+	ShaderCompiler::GetInstance().BasicPSCompile2();
 
 	// ルートシグネチャの初期化
 	RootSignature::GetInstance().Initialize();

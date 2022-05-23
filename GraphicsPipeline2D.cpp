@@ -5,6 +5,8 @@
 
 #include <cassert>
 
+using namespace Microsoft::WRL;
+
 void GraphicsPipeline2D::Initialize()
 {
 	// グラフィックスパイプライン設定
@@ -75,7 +77,7 @@ void GraphicsPipeline2D::Initialize()
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = RootSignature::GetInstance().GetRootSignature();
+	pipelineDesc.pRootSignature = RootSignature::GetInstance().GetRootSignature().Get();
 
 	HRESULT result;
 
@@ -85,7 +87,7 @@ void GraphicsPipeline2D::Initialize()
 	assert(SUCCEEDED(result));
 }
 
-ID3D12PipelineState* GraphicsPipeline2D::GetPipelineState()
+ComPtr<ID3D12PipelineState> GraphicsPipeline2D::GetPipelineState()
 {
 	return pipelineState;
 }
