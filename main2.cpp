@@ -49,8 +49,8 @@ void Update()
 {
 	bg->Update(transform2);
 
-	if (Input::GetInstance().GetKey(DIK_LEFT))  angle--;
-	if (Input::GetInstance().GetKey(DIK_RIGHT)) angle++;
+	if (Input::Key().GetKey(DIK_LEFT))  angle--;
+	if (Input::Key().GetKey(DIK_RIGHT)) angle++;
 
 	for (int i = 0; i < maxCube; i++)
 	{

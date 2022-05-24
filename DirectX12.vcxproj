@@ -150,9 +150,11 @@
     <ClCompile Include="GraphicsPipeline3D.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="KeyBourdInput.cpp" />
     <ClCompile Include="main2.cpp" />
     <ClCompile Include="Mat4.cpp" />
     <ClCompile Include="MathUtil.cpp" />
+    <ClCompile Include="MouseInput.cpp" />
     <ClCompile Include="NewEngine.cpp" />
     <ClCompile Include="NewEngineBase.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -203,9 +205,11 @@
     <ClInclude Include="GraphicsPipeline3D.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="IndexBuffer.h" />
+    <ClInclude Include="KeyBourdInput.h" />
     <ClInclude Include="main2.h" />
     <ClInclude Include="Mat4.h" />
     <ClInclude Include="MathUtil.h" />
+    <ClInclude Include="MouseInput.h" />
     <ClInclude Include="NewEngine.h" />
     <ClInclude Include="NewEngineBase.h" />
     <ClInclude Include="Input.h" />

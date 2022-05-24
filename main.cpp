@@ -75,7 +75,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 		// ESCキーで終了メッセージが来たらゲームループを抜ける
-		if (Input::GetInstance().GetKey(DIK_ESCAPE))
+		if (Input::Key().GetKey(DIK_ESCAPE))
 		{
 			break;
 		}
