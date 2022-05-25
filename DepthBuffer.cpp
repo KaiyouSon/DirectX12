@@ -28,8 +28,7 @@ void DepthBuffer::Initialize()
 	HRESULT result;
 
 	// リソースの生成
-	ID3D12Resource* depthBuff = nullptr;
-	result = NewEngineBase::GetInstance().GetDevice()->
+	result = NewEngineBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&depthHeapProp,
 			D3D12_HEAP_FLAG_NONE,
@@ -43,16 +42,16 @@ void DepthBuffer::Initialize()
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;	// 深度ビューは一つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV; // デプスステンシルビュー
-	result = NewEngineBase::GetInstance().GetDevice()->
+	result = NewEngineBase::GetInstance()->GetDevice()->
 		CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
 
 	// 深度ビュー作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;	// 深度値フォーマット
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	NewEngineBase::GetInstance().GetDevice()->
+	NewEngineBase::GetInstance()->GetDevice()->
 		CreateDepthStencilView(
-			depthBuff,
+			depthBuff.Get(),
 			&dsvDesc,
 			dsvHeap->GetCPUDescriptorHandleForHeapStart());
 
@@ -63,8 +62,13 @@ ComPtr<ID3D12DescriptorHeap> DepthBuffer::GetDsvHeap()
 	return dsvHeap;
 }
 
-DepthBuffer& DepthBuffer::GetInstance()
+DepthBuffer* DepthBuffer::GetInstance()
 {
-	static DepthBuffer depthBuffer;
+	static DepthBuffer* depthBuffer = new DepthBuffer;
 	return depthBuffer;
+}
+
+void DepthBuffer::DestroyInstance()
+{
+	delete DepthBuffer::GetInstance();
 }

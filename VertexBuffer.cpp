@@ -23,7 +23,7 @@ void VertexBuffer::Initialize(Vertex vertices[], int arrarySize)
 	HRESULT result;
 
 	// 頂点バッファの生成
-	result = NewEngineBase::GetInstance().GetDevice()->
+	result = NewEngineBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&heapProp, // ヒープ設定
 			D3D12_HEAP_FLAG_NONE,

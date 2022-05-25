@@ -20,7 +20,7 @@ float Vec3::Dot(const Vec3& v1, const Vec3& v2) { return v1.x * v2.x + v1.y * v2
 
 Vec3 Vec3::Cross(const Vec3& v1, const Vec3& v2)
 {
-	return { 
+	return {
 		(v1.y * v2.z - v1.z * v2.y),
 		(v1.z * v2.x - v1.x * v2.z),
 		(v1.x * v2.y - v1.y * v2.x) };
@@ -142,7 +142,7 @@ Vec3& Vec3::operator--()
 	return *this;
 }
 
-Vec3 Vec3::operator--(int) 
+Vec3 Vec3::operator--(int)
 {
 	Vec3 tmp = *this;
 	--* this;

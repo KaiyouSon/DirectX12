@@ -58,9 +58,9 @@ void RootSignature::Initialize()
 		&rootSignatureDesc,
 		D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob,
-		ShaderCompiler::GetInstance().GeterrorBlob().GetAddressOf());
+		ShaderCompiler::GetInstance()->GeterrorBlob().GetAddressOf());
 	assert(SUCCEEDED(result));
-	result = NewEngineBase::GetInstance().GetDevice()->
+	result = NewEngineBase::GetInstance()->GetDevice()->
 		CreateRootSignature(
 			0,
 			rootSigBlob->GetBufferPointer(),
@@ -74,8 +74,13 @@ ComPtr<ID3D12RootSignature> RootSignature::GetRootSignature()
 	return rootSignature;
 }
 
-RootSignature& RootSignature::GetInstance()
+RootSignature* RootSignature::GetInstance()
 {
-	static RootSignature rootSignature;
+	static RootSignature* rootSignature = new RootSignature;
 	return rootSignature;
+}
+
+void RootSignature::DestroyInstance()
+{
+	delete RootSignature::GetInstance();
 }

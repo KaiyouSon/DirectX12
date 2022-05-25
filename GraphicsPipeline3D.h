@@ -11,9 +11,11 @@ private:
 public:
 	void Initialize();
 public:
-	Microsoft::WRL::ComPtr <ID3D12PipelineState> GetPipelineState();	// パイプランステートを取得する関数
+	// パイプランステートを取得する関数
+	Microsoft::WRL::ComPtr <ID3D12PipelineState> GetPipelineState();
 
-	static GraphicsPipeline3D& GetInstance();
+	static GraphicsPipeline3D* GetInstance();
+	static void DestroyInstance();
 private:
 	GraphicsPipeline3D() = default;
 	~GraphicsPipeline3D() = default;

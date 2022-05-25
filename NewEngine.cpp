@@ -31,30 +31,49 @@ void NewEngineInit()
 	NewEngineWindow::GetInstance().CreateGameWindow();
 
 	// DirectXの初期化処理
-	NewEngineBase::GetInstance().Initialize();
+	NewEngineBase::GetInstance()->Initialize();
 
 	// 深度バッファの初期化
-	DepthBuffer::GetInstance().Initialize();
+	DepthBuffer::GetInstance()->Initialize();
 
 	// シェーダーリソースビューの初期化
-	ShaderResourceView::GetInstance().Initialize();
+	ShaderResourceView::GetInstance()->Initialize();
 
 	// シェーダファイルの読み込みとコンパイル
-	ShaderCompiler::GetInstance().BasicVSCompile();
-	ShaderCompiler::GetInstance().BasicPSCompile();
-	ShaderCompiler::GetInstance().BasicPSCompile2();
+	ShaderCompiler::GetInstance()->BasicVSCompile();
+	ShaderCompiler::GetInstance()->BasicPSCompile();
+	ShaderCompiler::GetInstance()->BasicPSCompile2();
 
 	// ルートシグネチャの初期化
-	RootSignature::GetInstance().Initialize();
+	RootSignature::GetInstance()->Initialize();
 
 	// グラフィックスパイプラインの初期化
-	GraphicsPipeline2D::GetInstance().Initialize();
-	GraphicsPipeline3D::GetInstance().Initialize();
+	GraphicsPipeline2D::GetInstance()->Initialize();
+	GraphicsPipeline3D::GetInstance()->Initialize();
 }
 void NewEngineEnd()
 {
 	// ウィンドウクラスを登録解除
 	NewEngineWindow::GetInstance().TerminateGameWindow();
+
+	// 深度バッファの破棄
+	DepthBuffer::DestroyInstance();
+
+	// シェーダーリソースビューの破棄
+	ShaderResourceView::DestroyInstance();
+
+	// シェーダーコンパイラーの破棄
+	ShaderCompiler::DestroyInstance();
+
+	// ルートシグネチャの破棄
+	RootSignature::DestroyInstance();
+
+	// グラフィックスパイプラインの破棄
+	GraphicsPipeline2D::DestroyInstance();
+	GraphicsPipeline3D::DestroyInstance();
+
+	// DirectXの破棄
+	NewEngineBase::DestroyInstance();
 
 	delete viewport;
 	delete scissorRectangle;

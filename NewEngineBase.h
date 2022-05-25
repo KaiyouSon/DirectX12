@@ -59,8 +59,8 @@ public:
 	UINT64 GetFenceVal();
 	UINT64 PreIncreFenceVal();
 
-	static NewEngineBase& GetInstance();
-
+	static NewEngineBase* GetInstance();
+	static void DestroyInstance();
 private:
 	NewEngineBase() = default;
 	~NewEngineBase() = default;

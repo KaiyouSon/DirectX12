@@ -14,7 +14,8 @@ public:
 	// パイプランステートを取得する関数
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> GetPipelineState();
 
-	static GraphicsPipeline2D& GetInstance();
+	static GraphicsPipeline2D* GetInstance();
+	static void DestroyInstance();
 private:
 	GraphicsPipeline2D() = default;
 	~GraphicsPipeline2D() = default;

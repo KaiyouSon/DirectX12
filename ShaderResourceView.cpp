@@ -1,7 +1,7 @@
 #include "ShaderResourceView.h"
 #include "NewEngineBase.h"
-
 #include <cassert>
+using namespace Microsoft::WRL;
 
 void ShaderResourceView::Initialize()
 {
@@ -17,7 +17,7 @@ void ShaderResourceView::Initialize()
 	HRESULT result;
 
 	// 設定を元にSRV用デスクリプタヒープを生成
-	result = NewEngineBase::GetInstance().GetDevice()->
+	result = NewEngineBase::GetInstance()->GetDevice()->
 		CreateDescriptorHeap(
 			&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
@@ -29,7 +29,7 @@ void ShaderResourceView::CreatSrv(Square& square)
 	D3D12_CPU_DESCRIPTOR_HANDLE _srvCpuHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
 	D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
-	UINT descriptorSize = NewEngineBase::GetInstance().GetDevice()->
+	UINT descriptorSize = NewEngineBase::GetInstance()->GetDevice()->
 		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 	_srvCpuHandle.ptr += descriptorSize * incrementIndex;
@@ -45,7 +45,7 @@ void ShaderResourceView::CreatSrv(Square& square)
 	srvDesc.Texture2D.MipLevels = square.GetVertexBuffer()->resDesc.MipLevels;
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
-	NewEngineBase::GetInstance().GetDevice()->
+	NewEngineBase::GetInstance()->GetDevice()->
 		CreateShaderResourceView(
 			square.GetTextureBuffer()->GetTextureBuff().Get(),
 			&srvDesc, _srvCpuHandle);
@@ -60,7 +60,7 @@ void ShaderResourceView::CreatSrv(Cube& cube)
 	D3D12_CPU_DESCRIPTOR_HANDLE _srvCpuHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
 	D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
-	UINT descriptorSize = NewEngineBase::GetInstance().GetDevice()->
+	UINT descriptorSize = NewEngineBase::GetInstance()->GetDevice()->
 		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 	_srvCpuHandle.ptr += descriptorSize * incrementIndex;
@@ -76,7 +76,7 @@ void ShaderResourceView::CreatSrv(Cube& cube)
 	srvDesc.Texture2D.MipLevels = cube.GetVertexBuffer()->resDesc.MipLevels;
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
-	NewEngineBase::GetInstance().GetDevice()->
+	NewEngineBase::GetInstance()->GetDevice()->
 		CreateShaderResourceView(
 			cube.GetTextureBuffer()->GetTextureBuff().Get(),
 			&srvDesc, _srvCpuHandle);
@@ -86,20 +86,22 @@ void ShaderResourceView::CreatSrv(Cube& cube)
 	incrementIndex++;
 }
 
-ID3D12DescriptorHeap* ShaderResourceView::GetSrvHeap()
+ComPtr<ID3D12DescriptorHeap> ShaderResourceView::GetSrvHeap()
 {
 	return srvHeap;
-}
-ID3D12DescriptorHeap** ShaderResourceView::GetSrvHeapAddress()
-{
-	return &srvHeap;
 }
 D3D12_GPU_DESCRIPTOR_HANDLE ShaderResourceView::GetSrvGpuHandle()
 {
 	return srvGpuHandle;
 }
-ShaderResourceView& ShaderResourceView::GetInstance()
+ShaderResourceView* ShaderResourceView::GetInstance()
 {
-	static ShaderResourceView shaderResourceView;
+	static ShaderResourceView* shaderResourceView = 
+		new  ShaderResourceView;
 	return shaderResourceView;
+}
+
+void ShaderResourceView::DestroyInstance()
+{
+	delete ShaderResourceView::GetInstance();
 }

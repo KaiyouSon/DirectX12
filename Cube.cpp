@@ -148,7 +148,7 @@ void Cube::Initialize()
 	constantBuffer->TransformBufferInit();
 
 	// SRVの作成
-	ShaderResourceView::GetInstance().CreatSrv(*this);
+	ShaderResourceView::GetInstance()->CreatSrv(*this);
 }
 
 void Cube::Update(const Transform& transform, Transform* parent)
@@ -175,34 +175,35 @@ void Cube::Update(const Transform& transform, Transform* parent)
 void Cube::Draw()
 {
 	// プリミティブ形状の設定コマンド
-	NewEngineBase::GetInstance().GetCommandList()->
+	NewEngineBase::GetInstance()->GetCommandList()->
 		IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	// 頂点バッファビューの設定コマンド
-	NewEngineBase::GetInstance().GetCommandList()->
+	NewEngineBase::GetInstance()->GetCommandList()->
 		IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
 	// インデックスバッファビューの設定コマンド
-	NewEngineBase::GetInstance().GetCommandList()->
+	NewEngineBase::GetInstance()->GetCommandList()->
 		IASetIndexBuffer(indexBuffer->GetibViewAddress());
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	NewEngineBase::GetInstance().GetCommandList()->
+	NewEngineBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(
 			0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
 
 	// SRVヒープの設定コマンド
-	NewEngineBase::GetInstance().GetCommandList()->
-		SetDescriptorHeaps(1, ShaderResourceView::GetInstance().GetSrvHeapAddress());
+	NewEngineBase::GetInstance()->GetCommandList()->
+		SetDescriptorHeaps(1, 
+			ShaderResourceView::GetInstance()->GetSrvHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	NewEngineBase::GetInstance().GetCommandList()->
+	NewEngineBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	NewEngineBase::GetInstance().GetCommandList()->
+	NewEngineBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(
 			2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
 
-	NewEngineBase::GetInstance().GetCommandList()->
+	NewEngineBase::GetInstance()->GetCommandList()->
 		DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);
 }
 

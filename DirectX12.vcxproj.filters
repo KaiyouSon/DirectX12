@@ -150,7 +150,7 @@
     <ClCompile Include="Input.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
-    <ClCompile Include="KeyBourdInput.cpp">
+    <ClCompile Include="KeyBoardInput.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
     <ClCompile Include="MouseInput.cpp">
@@ -262,7 +262,7 @@
     <ClInclude Include="Input.h">
       <Filter>ヘッダー ファイル\Input</Filter>
     </ClInclude>
-    <ClInclude Include="KeyBourdInput.h">
+    <ClInclude Include="KeyBoardInput.h">
       <Filter>ヘッダー ファイル\Input</Filter>
     </ClInclude>
     <ClInclude Include="MouseInput.h">

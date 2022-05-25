@@ -21,7 +21,7 @@ void ConstantBuffer::MaterialBufferInit()
 	HRESULT result;
 
 	// 定数バッファの生成
-	result = NewEngineBase::GetInstance().GetDevice()->
+	result = NewEngineBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&cbHeapProp,	// ヒープの設定
 			D3D12_HEAP_FLAG_NONE,
@@ -58,7 +58,7 @@ void ConstantBuffer::TransformBufferInit()
 	HRESULT result;
 
 	// 定数バッファの生成
-	result = NewEngineBase::GetInstance().GetDevice()->
+	result = NewEngineBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&cbHeapProp,	// ヒープの設定
 			D3D12_HEAP_FLAG_NONE,

@@ -1,9 +1,9 @@
-#include "KeyBourdInput.h"
+#include "KeyBoardInput.h"
 #include "NewEngineWindow.h"
 #include "Input.h"
 #include <cassert>
 
-void KeyBourdInput::Initialize()
+void KeyBoardInput::Initialize()
 {
 	HRESULT result;
 
@@ -23,7 +23,7 @@ void KeyBourdInput::Initialize()
 	assert(SUCCEEDED(result));
 }
 
-void KeyBourdInput::Update()
+void KeyBoardInput::Update()
 {
 	// キーボート情報の取得開始
 	keyboard->Acquire();
@@ -39,25 +39,25 @@ void KeyBourdInput::Update()
 }
 
 // キーが押されてる時
-bool KeyBourdInput::GetKey(BYTE key)
+bool KeyBoardInput::GetKey(BYTE key)
 {
 	return keys[key] == 128;
 }
 
 // キーを押した瞬間
-bool KeyBourdInput::GetKeyTrigger(BYTE key)
+bool KeyBoardInput::GetKeyTrigger(BYTE key)
 {
 	return keys[key] && !oldkeys[key];
 }
 
 // キーを離した瞬間
-bool KeyBourdInput::GetKeyReleased(BYTE key)
+bool KeyBoardInput::GetKeyReleased(BYTE key)
 {
 	return !keys[key] && oldkeys[key];
 }
 
-KeyBourdInput& KeyBourdInput::GetInstance()
+KeyBoardInput& KeyBoardInput::GetInstance()
 {
-	static KeyBourdInput key;
+	static KeyBoardInput key;
 	return key;
 }

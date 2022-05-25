@@ -7,12 +7,12 @@ void Viewport::Update()
 	//----------------------- ビューポートの設定コマンド -----------------------//
 	// ビューポート設定コマンド
 	D3D12_VIEWPORT viewport{};
-	viewport.Width = NewEngineWindow::GetInstance().GetWinWidth();
+	viewport.Width =  NewEngineWindow::GetInstance().GetWinWidth();
 	viewport.Height = NewEngineWindow::GetInstance().GetWinHeight();
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	// ビューポート設定コマンドを、コマンドリストに積む
-	NewEngineBase::GetInstance().GetCommandList()->RSSetViewports(1, &viewport);
+	NewEngineBase::GetInstance()->GetCommandList()->RSSetViewports(1, &viewport);
 }

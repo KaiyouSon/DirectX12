@@ -14,13 +14,13 @@ void Input::Initialize()
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 
-	KeyBourdInput::GetInstance().Initialize();
+	KeyBoardInput::GetInstance().Initialize();
 	MouseInput::GetInstance().Initialize();
 }
 
 void Input::Update()
 {
-	KeyBourdInput::GetInstance().Update();
+	KeyBoardInput::GetInstance().Update();
 	MouseInput::GetInstance().Update();
 }
 
@@ -29,9 +29,9 @@ IDirectInput8* Input::GetDirectInput()
 	return directInput;
 }
 
-KeyBourdInput& Input::Key()
+KeyBoardInput& Input::Key()
 {
-	return KeyBourdInput::GetInstance();
+	return KeyBoardInput::GetInstance();
 }
 
 MouseInput& Input::Mouse()

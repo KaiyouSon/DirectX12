@@ -8,13 +8,11 @@
 #include "Random.h"
 #include "TextureBuffer.h"
 
-const int maxCube = 2;
-
 Texture backTexture;
 Texture objTexture;
 
 Square* bg = new Square(Vec2(WIN_WIDTH, WIN_HEIGHT));
-Cube* cube = new Cube[maxCube];
+Cube* cube = new Cube;
 
 // 画像の読み込み
 void Load()
@@ -22,23 +20,19 @@ void Load()
 	backTexture = Texture::LoadTexture(L"Resources/bg.png");
 	objTexture = Texture::LoadTexture(L"Resources/pic.png");
 
-	for (int i = 0; i < maxCube; i++)
-		cube[i].SetTexture(objTexture);
 	bg->SetTexture(backTexture);
+	cube->SetTexture(objTexture);
 }
-
-Transform transform[maxCube] = {};
 
 // 初期化処理
 void Initialize()
 {
-	for (int i = 0; i < maxCube; i++)
-		cube[i].Initialize();
 	bg->Initialize(Square::view2D);
+	cube->Initialize();
 
 	View::GetInstance().SetPos(Vec3(0, 0, -30));
-	View::GetInstance().SetTarget(Vec3(0, 0, 0));
-	View::GetInstance().SetUp(Vec3(0, 1, 0));
+	View::GetInstance().SetTarget(Vec3::zero);
+	View::GetInstance().SetUp(Vec3::up);
 }
 
 Transform transform2 =
@@ -51,6 +45,13 @@ Transform transform2 =
 float angle = 270;
 float length = 50;
 
+Transform transform =
+{
+	Vec3(0,0,0),
+	Vec3(1,1,1),
+	Vec3(0,0,0),
+};
+
 // 更新処理
 void Update()
 {
@@ -59,14 +60,12 @@ void Update()
 	if (Input::Key().GetKey(DIK_LEFT))  angle--;
 	if (Input::Key().GetKey(DIK_RIGHT)) angle++;
 
-	for (int i = 0; i < maxCube; i++)
-	{
-		transform[i].pos = Vec3::zero;
-		transform[i].scale = Vec3::one;
-		transform[i].rot = { 0,0,i * 45.0f };
+	if (Input::Key().GetKey(DIK_W)) transform.pos.y++;
+	if (Input::Key().GetKey(DIK_S)) transform.pos.y--;
+	if (Input::Key().GetKey(DIK_D)) transform.pos.x++;
+	if (Input::Key().GetKey(DIK_A)) transform.pos.x--;
 
-		cube[i].Update(transform[i]);
-	}
+	cube->Update(transform);
 
 	View::GetInstance().SetPos(Vec3(
 		(float)(cos(Radian(angle)) * length), 0.0f, (float)(sin(Radian(angle)) * length)));
@@ -75,8 +74,7 @@ void Update()
 // 描画処理
 void Draw3D()
 {
-	for (int i = 0; i < maxCube; i++)
-		cube[i].Draw();
+	cube->Draw();
 }
 
 void Draw2D()
@@ -85,8 +83,8 @@ void Draw2D()
 }
 
 // インスタンスのdelete
-void Delete()
+void Destroy()
 {
 	delete bg;
-	delete[] cube;
+	delete cube;
 }

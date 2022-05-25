@@ -135,13 +135,19 @@ D3D12_INPUT_ELEMENT_DESC* ShaderCompiler::GetInputLayout()
 {
 	return inputLayout;
 }
+
 int ShaderCompiler::GetInputLayoutSize()
 {
 	return sizeof(inputLayout) / sizeof(inputLayout[0]);
 }
 
-ShaderCompiler& ShaderCompiler::GetInstance()
+ShaderCompiler* ShaderCompiler::GetInstance()
 {
-	static ShaderCompiler shaderCompiler;
+	static ShaderCompiler* shaderCompiler = new ShaderCompiler;
 	return shaderCompiler;
+}
+
+void ShaderCompiler::DestroyInstance()
+{
+	delete ShaderCompiler::GetInstance();
 }

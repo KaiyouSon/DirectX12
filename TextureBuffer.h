@@ -10,7 +10,6 @@ class Texture
 public:
 	DirectX::TexMetadata metadata{};
 	DirectX::ScratchImage scratchImg{};
-	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff;
 
 	static Texture LoadTexture(const wchar_t* FilePath);
 };

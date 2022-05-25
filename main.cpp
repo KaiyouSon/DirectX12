@@ -81,6 +81,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 	}
 
+	// インスタンスの破棄
+	Destroy();
+
 	// NewEngineの終了処理
 	NewEngineEnd();
 

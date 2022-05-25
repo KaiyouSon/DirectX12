@@ -2,10 +2,8 @@
 #include "NewEngineWindow.h"
 #include <cassert>
 #include <string>
-
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
-
 using namespace Microsoft::WRL;
 
 void NewEngineBase::Initialize()
@@ -115,8 +113,8 @@ void NewEngineBase::SwapChainInit()
 {
 	//------------------------- スワップチェーンの生成 -------------------------//
 	// スワップチェーンの設定
-	swapChainDesc.Width = 1280;
-	swapChainDesc.Height = 720;
+	swapChainDesc.Width = NewEngineWindow::GetInstance().GetWinWidth();
+	swapChainDesc.Height = NewEngineWindow::GetInstance().GetWinHeight();
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // 色情報の書式
 	swapChainDesc.SampleDesc.Count = 1; // マルチサンプルしない
 	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER; // バックバッファ用
@@ -219,9 +217,13 @@ std::vector<ComPtr<ID3D12Resource>> NewEngineBase::GetBackBuffers()
 {
 	return backBuffers;
 }
-NewEngineBase& NewEngineBase::GetInstance()
+NewEngineBase* NewEngineBase::GetInstance()
 {
-	static NewEngineBase newEngineBase;
+	static NewEngineBase* newEngineBase = new NewEngineBase;
 	return newEngineBase;
+}
+void NewEngineBase::DestroyInstance()
+{
+	delete NewEngineBase::GetInstance();
 }
 #pragma endregion

@@ -5,4 +5,4 @@ void Initialize();
 void Update();
 void Draw3D();
 void Draw2D();
-void Delete();
+void Destroy();

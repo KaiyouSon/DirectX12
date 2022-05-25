@@ -24,7 +24,7 @@ void IndexBuffer::Initialize(uint16_t indices[], const int& arrarySize)
 
 	// インデックスバッファの生成
 
-	result = NewEngineBase::GetInstance().GetDevice()->
+	result = NewEngineBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&heapProp, // ヒープ設定
 			D3D12_HEAP_FLAG_NONE,

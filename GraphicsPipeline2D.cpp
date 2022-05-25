@@ -14,13 +14,13 @@ void GraphicsPipeline2D::Initialize()
 
 	// シェーダーの設定
 	pipelineDesc.VS.pShaderBytecode =
-		ShaderCompiler::GetInstance().GetvsBlob()->GetBufferPointer();
+		ShaderCompiler::GetInstance()->GetvsBlob()->GetBufferPointer();
 	pipelineDesc.VS.BytecodeLength =
-		ShaderCompiler::GetInstance().GetvsBlob()->GetBufferSize();
+		ShaderCompiler::GetInstance()->GetvsBlob()->GetBufferSize();
 	pipelineDesc.PS.pShaderBytecode =
-		ShaderCompiler::GetInstance().GetpsBlob2()->GetBufferPointer();
+		ShaderCompiler::GetInstance()->GetpsBlob2()->GetBufferPointer();
 	pipelineDesc.PS.BytecodeLength =
-		ShaderCompiler::GetInstance().GetpsBlob2()->GetBufferSize();
+		ShaderCompiler::GetInstance()->GetpsBlob2()->GetBufferSize();
 
 	// サンプルマスクの設定
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
@@ -64,9 +64,9 @@ void GraphicsPipeline2D::Initialize()
 
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs =
-		ShaderCompiler::GetInstance().GetInputLayout();
+		ShaderCompiler::GetInstance()->GetInputLayout();
 	pipelineDesc.InputLayout.NumElements =
-		ShaderCompiler::GetInstance().GetInputLayoutSize();
+		ShaderCompiler::GetInstance()->GetInputLayoutSize();
 
 	// 図形の形状設定
 	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
@@ -77,12 +77,12 @@ void GraphicsPipeline2D::Initialize()
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = RootSignature::GetInstance().GetRootSignature().Get();
+	pipelineDesc.pRootSignature = RootSignature::GetInstance()->GetRootSignature().Get();
 
 	HRESULT result;
 
 	// パイプランステートの生成
-	result = NewEngineBase::GetInstance().GetDevice()->
+	result = NewEngineBase::GetInstance()->GetDevice()->
 		CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 }
@@ -92,8 +92,13 @@ ComPtr<ID3D12PipelineState> GraphicsPipeline2D::GetPipelineState()
 	return pipelineState;
 }
 
-GraphicsPipeline2D& GraphicsPipeline2D::GetInstance()
+GraphicsPipeline2D* GraphicsPipeline2D::GetInstance()
 {
-	static GraphicsPipeline2D graphicsPipeline;
+	static GraphicsPipeline2D* graphicsPipeline = new GraphicsPipeline2D;
 	return graphicsPipeline;
+}
+
+void GraphicsPipeline2D::DestroyInstance()
+{
+	delete GraphicsPipeline2D::GetInstance();
 }

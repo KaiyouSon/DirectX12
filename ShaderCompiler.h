@@ -24,7 +24,8 @@ public:
 	D3D12_INPUT_ELEMENT_DESC* GetInputLayout();		// 頂点レイアウトを取得する関数
 	int GetInputLayoutSize();						// 頂点レイアウトの要素数を取得する関数
 
-	static ShaderCompiler& GetInstance();
+	static ShaderCompiler* GetInstance();
+	static void DestroyInstance();
 private:
 	ShaderCompiler() = default;
 	~ShaderCompiler() = default;

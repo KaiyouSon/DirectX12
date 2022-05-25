@@ -11,9 +11,10 @@ public:
 	// 初期化
 	void Initialize();
 	// ルートシグネチャを取得する関数
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> GetRootSignature(); 
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> GetRootSignature();
 
-	static RootSignature& GetInstance();
+	static RootSignature* GetInstance();
+	static void DestroyInstance();
 private:
 	RootSignature() = default;
 	~RootSignature() = default;

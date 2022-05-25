@@ -1,7 +1,7 @@
 #pragma once
 
 #define DIRECTINPUT_VERSION 0x0800	// DirectInputのバージョン指定
-#include "KeyBourdInput.h"
+#include "KeyBoardInput.h"
 #include "MouseInput.h"
 
 class Input
@@ -13,7 +13,7 @@ public:
 	void Initialize();	// 初期化
 	void Update();		// 更新処理
 
-	static KeyBourdInput& Key();
+	static KeyBoardInput& Key();
 	static MouseInput& Mouse();
 
 	IDirectInput8* GetDirectInput();

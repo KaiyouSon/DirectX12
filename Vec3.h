@@ -7,6 +7,10 @@ public:
 	float y; // ベクトルの y 成分
 	float z; // ベクトルの z 成分
 
+	// コンストラクタ
+	Vec3() : x(0), y(0), z(0) {};
+	Vec3(float x, float y, float z) : x(x), y(y), z(z) {};
+
 	// static変数
 	const static Vec3 left;    // Vec3(-1,0,0) と同じ意味
 	const static Vec3 right;   // Vec3(1,0,0) と同じ意味
@@ -16,10 +20,6 @@ public:
 	const static Vec3 back;    // Vec3(0,0,-1)と同じ意味
 	const static Vec3 one;     // Vec3(1,1,1) と同じ意味
 	const static Vec3 zero;    // Vec3(0,0,0) と同じ意味
-
-	// コンストラクタ
-	Vec3() : x(0), y(0), z(0) {};
-	Vec3(float x, float y, float z) : x(x), y(y), z(z) {};
 
 	// 関数
 	float Magnitude() const;    // ベクトルの大きさ

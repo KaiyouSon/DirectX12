@@ -4,9 +4,9 @@
 class Transform
 {
 public:
-	Vec3 pos = { 0,0,0 };	// 座標
-	Vec3 scale = { 1,1,1 };	// スケール
-	Vec3 rot = { 0,0,0 };	// 回転
+	Vec3 pos;	// 座標
+	Vec3 scale;	// スケール
+	Vec3 rot;	// 回転
 
 	// ワールド変換行列
 	Mat4 matWorld = Mat4::Identity();

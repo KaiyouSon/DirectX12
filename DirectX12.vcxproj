@@ -149,7 +149,7 @@
     <ClCompile Include="GraphicsPipeline2D.cpp" />
     <ClCompile Include="GraphicsPipeline3D.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
-    <ClCompile Include="KeyBourdInput.cpp" />
+    <ClCompile Include="KeyBoardInput.cpp" />
     <ClCompile Include="main2.cpp" />
     <ClCompile Include="Mat4.cpp" />
     <ClCompile Include="MathUtil.cpp" />
@@ -204,7 +204,7 @@
     <ClInclude Include="GraphicsPipeline2D.h" />
     <ClInclude Include="GraphicsPipeline3D.h" />
     <ClInclude Include="IndexBuffer.h" />
-    <ClInclude Include="KeyBourdInput.h" />
+    <ClInclude Include="KeyBoardInput.h" />
     <ClInclude Include="main2.h" />
     <ClInclude Include="Mat4.h" />
     <ClInclude Include="MathUtil.h" />
