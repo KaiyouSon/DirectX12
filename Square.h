@@ -29,7 +29,6 @@ public:
 	Square();
 	Square(Vec2 size);
 	~Square();
-	void LoadGraph(const wchar_t* FilePath);
 	void SetTexture(const Texture& texture);
 	void Initialize(int viewType);
 	void Update(const Transform& transform, Transform* parent = nullptr);

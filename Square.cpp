@@ -28,14 +28,9 @@ Square::~Square()
 	delete constantBuffer;
 }
 
-void Square::LoadGraph(const wchar_t* FilePath)
-{
-	textureBuffer->Initialize2(FilePath);
-}
-
 void Square::SetTexture(const Texture& texture)
 {
-	textureBuffer->Initialize3(texture);
+	textureBuffer->Initialize2(texture);
 }
 
 void Square::Initialize(int viewType)

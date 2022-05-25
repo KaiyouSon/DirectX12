@@ -10,7 +10,8 @@
 
 const int maxCube = 2;
 
-Texture texture;
+Texture backTexture;
+Texture objTexture;
 
 Square* bg = new Square(Vec2(WIN_WIDTH, WIN_HEIGHT));
 Cube* cube = new Cube[maxCube];
@@ -18,12 +19,12 @@ Cube* cube = new Cube[maxCube];
 // ‰æ‘œ‚Ì“Ç‚İ‚İ
 void Load()
 {
-	texture = Texture::LoadTexture(L"Resources/bg.png");
+	backTexture = Texture::LoadTexture(L"Resources/bg.png");
+	objTexture = Texture::LoadTexture(L"Resources/pic.png");
 
 	for (int i = 0; i < maxCube; i++)
-		cube[i].LoadGraph(L"Resources/pic.png");
-	//bg->LoadGraph(L"Resources/bg.png");
-	bg->SetTexture(texture);
+		cube[i].SetTexture(objTexture);
+	bg->SetTexture(backTexture);
 }
 
 Transform transform[maxCube] = {};

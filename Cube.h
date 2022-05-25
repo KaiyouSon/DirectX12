@@ -28,7 +28,7 @@ private:
 public:
 	Cube();
 	~Cube();
-	void LoadGraph(const wchar_t* FilePath = L"void");
+	void SetTexture(const Texture& texture);
 	void Initialize();
 	void Update(const Transform& transform, Transform* parent = nullptr);
 	void Draw();

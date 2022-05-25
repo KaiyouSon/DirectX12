@@ -22,10 +22,10 @@ Cube::~Cube()
 	delete constantBuffer;
 }
 
-void Cube::LoadGraph(const wchar_t* FilePath)
+void Cube::SetTexture(const Texture& texture)
 {
 	// テクスチャーバッファ
-	textureBuffer->Initialize2(FilePath);
+	textureBuffer->Initialize2(texture);
 }
 
 void Cube::Initialize()
