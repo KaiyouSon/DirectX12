@@ -148,7 +148,6 @@
     <ClCompile Include="GraphicsCommand.cpp" />
     <ClCompile Include="GraphicsPipeline2D.cpp" />
     <ClCompile Include="GraphicsPipeline3D.cpp" />
-    <ClCompile Include="Image.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="KeyBourdInput.cpp" />
     <ClCompile Include="main2.cpp" />
@@ -165,6 +164,7 @@
     <ClCompile Include="ScissorRectangle.cpp" />
     <ClCompile Include="ShaderCompiler.cpp" />
     <ClCompile Include="ShaderResourceView.cpp" />
+    <ClCompile Include="Square.cpp" />
     <ClCompile Include="TextureBuffer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Util.cpp" />
@@ -203,7 +203,6 @@
     <ClInclude Include="GraphicsCommand.h" />
     <ClInclude Include="GraphicsPipeline2D.h" />
     <ClInclude Include="GraphicsPipeline3D.h" />
-    <ClInclude Include="Image.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="KeyBourdInput.h" />
     <ClInclude Include="main2.h" />
@@ -219,6 +218,7 @@
     <ClInclude Include="ScissorRectangle.h" />
     <ClInclude Include="ShaderCompiler.h" />
     <ClInclude Include="ShaderResourceView.h" />
+    <ClInclude Include="Square.h" />
     <ClInclude Include="TextureBuffer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Util.h" />

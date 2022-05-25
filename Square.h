@@ -8,7 +8,7 @@
 
 #include <d3d12.h>
 
-class Image
+class Square
 {
 private:
 	VertexBuffer* vertexBuffer;
@@ -26,10 +26,11 @@ private:
 
 	int viewType;
 public:
-	Image();
-	Image(Vec2 size);
-	~Image();
-	void LoadGraph(const wchar_t* FilePath = L"void");
+	Square();
+	Square(Vec2 size);
+	~Square();
+	void LoadGraph(const wchar_t* FilePath);
+	void SetTexture(const Texture& texture);
 	void Initialize(int viewType);
 	void Update(const Transform& transform, Transform* parent = nullptr);
 	void Draw();

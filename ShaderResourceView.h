@@ -1,5 +1,5 @@
 #pragma once
-#include "Image.h"
+#include "Square.h"
 #include "Cube.h"
 
 #include <d3d12.h>
@@ -25,7 +25,7 @@ private:
 
 public:
 	void Initialize();
-	void CreatSrv(Image& image);
+	void CreatSrv(Square& square);
 	void CreatSrv(Cube& cube);
 
 public:

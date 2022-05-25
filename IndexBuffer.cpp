@@ -23,7 +23,7 @@ void IndexBuffer::Initialize(uint16_t indices[], const int& arrarySize)
 	HRESULT result;
 
 	// インデックスバッファの生成
-	ID3D12Resource* indexBuff = nullptr;
+
 	result = NewEngineBase::GetInstance().GetDevice()->
 		CreateCommittedResource(
 			&heapProp, // ヒープ設定

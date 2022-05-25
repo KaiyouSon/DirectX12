@@ -23,7 +23,7 @@ void ShaderResourceView::Initialize()
 	assert(SUCCEEDED(result));
 }
 
-void ShaderResourceView::CreatSrv(Image& image)
+void ShaderResourceView::CreatSrv(Square& square)
 {
 	// SRVヒープの先頭ハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE _srvCpuHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
@@ -39,18 +39,18 @@ void ShaderResourceView::CreatSrv(Image& image)
 	srvGpuHandle = _srvGpuHandle;
 
 	// シェーダーリソースビュー設定
-	srvDesc.Format = image.GetVertexBuffer()->resDesc.Format;
+	srvDesc.Format = square.GetVertexBuffer()->resDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	// 2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = image.GetVertexBuffer()->resDesc.MipLevels;
+	srvDesc.Texture2D.MipLevels = square.GetVertexBuffer()->resDesc.MipLevels;
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
 	NewEngineBase::GetInstance().GetDevice()->
 		CreateShaderResourceView(
-			image.GetTextureBuffer()->GetTextureBuff().Get(),
+			square.GetTextureBuffer()->GetTextureBuff().Get(),
 			&srvDesc, _srvCpuHandle);
 
-	image.SetGpuHandle(_srvGpuHandle);
+	square.SetGpuHandle(_srvGpuHandle);
 
 	incrementIndex++;
 }

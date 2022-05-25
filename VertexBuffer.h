@@ -1,5 +1,6 @@
 #pragma once
 #include <d3d12.h>
+#include <wrl.h>
 #include "Vertex.h"
 
 class VertexBuffer
@@ -7,6 +8,7 @@ class VertexBuffer
 private:
 	// 頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff;
 public:
 	// リソース
 	D3D12_RESOURCE_DESC resDesc{};

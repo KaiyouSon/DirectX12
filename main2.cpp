@@ -1,23 +1,29 @@
 #include "main2.h"
 #include "ViewProjection.h"
-#include "Image.h"
+#include "Square.h"
 #include "Cube.h"
 #include "Util.h"
 #include "MathUtil.h"
 #include "Input.h"
 #include "Random.h"
+#include "TextureBuffer.h"
 
 const int maxCube = 2;
 
-Image* bg = new Image(Vec2(WIN_WIDTH, WIN_HEIGHT));
+Texture texture;
+
+Square* bg = new Square(Vec2(WIN_WIDTH, WIN_HEIGHT));
 Cube* cube = new Cube[maxCube];
 
 // âÊëúÇÃì«Ç›çûÇ›
 void Load()
 {
+	texture = Texture::LoadTexture(L"Resources/bg.png");
+
 	for (int i = 0; i < maxCube; i++)
 		cube[i].LoadGraph(L"Resources/pic.png");
-	bg->LoadGraph(L"Resources/bg.png");
+	//bg->LoadGraph(L"Resources/bg.png");
+	bg->SetTexture(texture);
 }
 
 Transform transform[maxCube] = {};
@@ -27,7 +33,7 @@ void Initialize()
 {
 	for (int i = 0; i < maxCube; i++)
 		cube[i].Initialize();
-	bg->Initialize(Image::view2D);
+	bg->Initialize(Square::view2D);
 
 	View::GetInstance().SetPos(Vec3(0, 0, -30));
 	View::GetInstance().SetTarget(Vec3(0, 0, 0));

@@ -3,6 +3,15 @@
 #include <d3d12.h>
 #include <string.h>
 #include <wrl.h>
+#include <DirectXTex.h>
+
+class Texture
+{
+public:
+	DirectX::TexMetadata metadata{};
+	DirectX::ScratchImage scratchImg{};
+	static Texture LoadTexture(const wchar_t* FilePath);
+};
 
 class TextureBuffer
 {
@@ -17,10 +26,12 @@ private:
 	Vec4* imageData = new Vec4[imageDataCount];
 	// テクスチャバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff;
+
 public:
 	~TextureBuffer();
 	void Initialize1();
 	void Initialize2(const wchar_t* szFile);
+	void Initialize3(const Texture& texture);
 public:
 	Microsoft::WRL::ComPtr<ID3D12Resource> GetTextureBuff();
 };

@@ -1,7 +1,6 @@
 #include "TextureBuffer.h"
 #include "NewEngineBase.h"
 #include <cassert>
-#include <DirectXTex.h>
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
@@ -134,8 +133,88 @@ void TextureBuffer::Initialize2(const wchar_t* szFile)
 		}
 	}
 }
+void TextureBuffer::Initialize3(const Texture& texture)
+{
+	HRESULT result;
+	// ヒープの設定
+	D3D12_HEAP_PROPERTIES textureHeapProp{};
+	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+
+	// リソース設定
+	D3D12_RESOURCE_DESC textureResourceDesc{};
+	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	textureResourceDesc.Format = texture.metadata.format;
+	textureResourceDesc.Width = texture.metadata.width; // 幅
+	textureResourceDesc.Height = (UINT)texture.metadata.height; // 高さ
+	textureResourceDesc.DepthOrArraySize = (UINT16)texture.metadata.arraySize;
+	textureResourceDesc.MipLevels = (UINT16)texture.metadata.mipLevels;
+	textureResourceDesc.SampleDesc.Count = 1;
+
+	// テクスチャバッファの生成
+	result = NewEngineBase::GetInstance().GetDevice()->
+		CreateCommittedResource(
+			&textureHeapProp,
+			D3D12_HEAP_FLAG_NONE,
+			&textureResourceDesc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&texBuff));
+	assert(SUCCEEDED(result));
+
+	// 全ミップマップについて
+	for (size_t i = 0; i < texture.metadata.mipLevels; i++)
+	{
+		// 全ミップマップレベルを指定してイメージを取得
+		const Image* img = texture.scratchImg.GetImage(i, 0, 0);
+		// テクスチャバッファにデータ転送
+		result = texBuff->WriteToSubresource(
+			(UINT)i,
+			nullptr,				// 全領域へコピー
+			img->pixels,			// 元データアドレス
+			(UINT)img->rowPitch,	// １ラインサイズ
+			(UINT)img->slicePitch	// １枚サイズ
+		);
+		assert(SUCCEEDED(result));
+	}
+}
+
+Texture Texture::LoadTexture(const wchar_t* FilePath)
+{
+	HRESULT result;
+
+	Texture texture;
+
+	// 画像ファイルの用意
+
+	// WICテクスチャのロード
+	result = LoadFromWICFile(
+		FilePath,
+		WIC_FLAGS_NONE,
+		&texture.metadata, texture.scratchImg);
+
+	ScratchImage mipChain{};
+	// ミップマップ生成
+	result = GenerateMipMaps(
+		texture.scratchImg.GetImages(),
+		texture.scratchImg.GetImageCount(),
+		texture.scratchImg.GetMetadata(),
+		TEX_FILTER_DEFAULT, 0, mipChain);
+	if (SUCCEEDED(result))
+	{
+		texture.scratchImg = std::move(mipChain);
+		texture.metadata = texture.scratchImg.GetMetadata();
+	}
+
+	// 読み込んだディフューズテクスチャをSRGBとして扱う
+	texture.metadata.format = MakeSRGB(texture.metadata.format);
+
+	return texture;
+}
 
 ComPtr<ID3D12Resource> TextureBuffer::GetTextureBuff()
 {
 	return texBuff;
 }
+

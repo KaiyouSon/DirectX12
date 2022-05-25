@@ -23,7 +23,6 @@ void VertexBuffer::Initialize(Vertex vertices[], int arrarySize)
 	HRESULT result;
 
 	// 頂点バッファの生成
-	ID3D12Resource* vertBuff = nullptr;
 	result = NewEngineBase::GetInstance().GetDevice()->
 		CreateCommittedResource(
 			&heapProp, // ヒープ設定

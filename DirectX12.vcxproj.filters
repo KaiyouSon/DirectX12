@@ -114,9 +114,6 @@
     <ClCompile Include="Vec4.cpp">
       <Filter>ソース ファイル\Math\Vector</Filter>
     </ClCompile>
-    <ClCompile Include="Image.cpp">
-      <Filter>ソース ファイル\Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="Cube.cpp">
       <Filter>ソース ファイル\Model</Filter>
     </ClCompile>
@@ -158,6 +155,9 @@
     </ClCompile>
     <ClCompile Include="MouseInput.cpp">
       <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Square.cpp">
+      <Filter>ソース ファイル\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,9 +226,6 @@
     <ClInclude Include="Vec4.h">
       <Filter>ヘッダー ファイル\MathUtil\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Image.h">
-      <Filter>ヘッダー ファイル\Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>ヘッダー ファイル\Model</Filter>
     </ClInclude>
@@ -270,6 +267,9 @@
     </ClInclude>
     <ClInclude Include="MouseInput.h">
       <Filter>ヘッダー ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.h">
+      <Filter>ヘッダー ファイル\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

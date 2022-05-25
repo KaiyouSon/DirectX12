@@ -1,9 +1,9 @@
-#include "Image.h"
+#include "Square.h"
 #include "NewEngineBase.h"
 #include "ViewProjection.h"
 #include "ShaderResourceView.h"
 
-Image::Image() :
+Square::Square() :
 	vertexBuffer(new VertexBuffer),
 	indexBuffer(new IndexBuffer),
 	textureBuffer(new TextureBuffer),
@@ -11,7 +11,7 @@ Image::Image() :
 {
 }
 
-Image::Image(Vec2 size) :
+Square::Square(Vec2 size) :
 	size(size),
 	vertexBuffer(new VertexBuffer),
 	indexBuffer(new IndexBuffer),
@@ -20,7 +20,7 @@ Image::Image(Vec2 size) :
 {
 }
 
-Image::~Image()
+Square::~Square()
 {
 	delete vertexBuffer;
 	delete indexBuffer;
@@ -28,13 +28,17 @@ Image::~Image()
 	delete constantBuffer;
 }
 
-void Image::LoadGraph(const wchar_t* FilePath)
+void Square::LoadGraph(const wchar_t* FilePath)
 {
-	// テクスチャーバッファ
 	textureBuffer->Initialize2(FilePath);
 }
 
-void Image::Initialize(int viewType)
+void Square::SetTexture(const Texture& texture)
+{
+	textureBuffer->Initialize3(texture);
+}
+
+void Square::Initialize(int viewType)
 {
 	this->viewType = viewType;
 
@@ -80,7 +84,7 @@ void Image::Initialize(int viewType)
 	ShaderResourceView::GetInstance().CreatSrv(*this);
 }
 
-void Image::Update(const Transform& transform, Transform* parent)
+void Square::Update(const Transform& transform, Transform* parent)
 {
 	this->transform = transform;
 
@@ -109,7 +113,7 @@ void Image::Update(const Transform& transform, Transform* parent)
 	}
 }
 
-void Image::Draw()
+void Square::Draw()
 {
 	// プリミティブ形状の設定コマンド
 	NewEngineBase::GetInstance().GetCommandList()->
@@ -143,23 +147,23 @@ void Image::Draw()
 		DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);
 }
 
-void Image::SetColor(const Vec4& color)
+void Square::SetColor(const Vec4& color)
 {
 	// 色の指定
 	constantBuffer->SetColor(color);
 }
 
-TextureBuffer* Image::GetTextureBuffer()
+TextureBuffer* Square::GetTextureBuffer()
 {
 	return textureBuffer;
 }
 
-VertexBuffer* Image::GetVertexBuffer()
+VertexBuffer* Square::GetVertexBuffer()
 {
 	return  vertexBuffer;
 }
 
-void Image::SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle)
+void Square::SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle)
 {
 	srvGpuHandle = _srvGpuHandle;
 }
