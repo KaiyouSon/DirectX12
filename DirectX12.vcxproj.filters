@@ -46,17 +46,17 @@
     <Filter Include="ソース ファイル\Math\Vector">
       <UniqueIdentifier>{de0484d7-33d7-42ea-989b-d3d5b8da1944}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\MathUtil">
-      <UniqueIdentifier>{f5d2cf66-d8e6-4959-89b4-9820d1f97841}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\MathUtil\Vector">
-      <UniqueIdentifier>{5eb65674-f8fe-4881-9c87-c3fa969b232c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Input">
       <UniqueIdentifier>{5030853b-bc4d-44e2-b769-e63c8d112914}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Input">
       <UniqueIdentifier>{d67e146a-ef48-4472-a602-a07b5de54e52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Math">
+      <UniqueIdentifier>{f5d2cf66-d8e6-4959-89b4-9820d1f97841}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Math\Vector">
+      <UniqueIdentifier>{5eb65674-f8fe-4881-9c87-c3fa969b232c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -173,10 +173,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vec2.h">
-      <Filter>ヘッダー ファイル\MathUtil\Vector</Filter>
+      <Filter>ヘッダー ファイル\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Vec3.h">
-      <Filter>ヘッダー ファイル\MathUtil\Vector</Filter>
+      <Filter>ヘッダー ファイル\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
       <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
@@ -224,7 +224,7 @@
       <Filter>ヘッダー ファイル\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Vec4.h">
-      <Filter>ヘッダー ファイル\MathUtil\Vector</Filter>
+      <Filter>ヘッダー ファイル\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>ヘッダー ファイル\Model</Filter>
@@ -254,10 +254,10 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="MathUtil.h">
-      <Filter>ヘッダー ファイル\MathUtil</Filter>
+      <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
     <ClInclude Include="Mat4.h">
-      <Filter>ヘッダー ファイル\MathUtil</Filter>
+      <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>ヘッダー ファイル\Input</Filter>

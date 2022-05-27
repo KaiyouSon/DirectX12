@@ -156,7 +156,6 @@ Mat4 Mat4::ParallelConversion(int WIN_WIDTH, int WIN_HEIGHT)
 	};
 }
 
-
 Mat4 Mat4::operator*(const Mat4& other) const
 {
 	return {
