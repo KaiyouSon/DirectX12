@@ -5,6 +5,9 @@
 
 void VertexBuffer::Initialize(Vertex vertices[], int arrarySize)
 {
+	this->vertices = vertices;
+	this->arrarySize = arrarySize;
+
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * arrarySize);
 
@@ -44,7 +47,7 @@ void VertexBuffer::Initialize(Vertex vertices[], int arrarySize)
 		vertMap[i] = vertices[i]; // 座標をコピー
 	}
 	// 繋がりを解除
-	vertBuff->Unmap(0, nullptr);
+	//vertBuff->Unmap(0, nullptr);
 
 	// GPU仮想アドレス
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
@@ -57,4 +60,24 @@ void VertexBuffer::Initialize(Vertex vertices[], int arrarySize)
 D3D12_VERTEX_BUFFER_VIEW* VertexBuffer::GetvbViewAddress()
 {
 	return &vbView;
+}
+
+void VertexBuffer::TransferToBuffer()
+{
+	HRESULT result;
+
+	Vertex* vertMap = nullptr;
+	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	assert(SUCCEEDED(result));
+	// 全頂点に対して
+	for (int i = 0; i < arrarySize; i++)
+	{
+		vertMap[i] = vertices[i]; // 座標をコピー
+	}
+}
+
+void VertexBuffer::Unmap()
+{
+	// 繋がりを解除
+	vertBuff->Unmap(0, nullptr);
 }

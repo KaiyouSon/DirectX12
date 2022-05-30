@@ -2,6 +2,7 @@
 #include "main2.h"
 #include "Input.h"
 #include "ViewProjection.h"
+#include "DebugText.h"
 #include "Util.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -31,6 +32,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ビュープロジェクションの初期化処理
 	View::GetInstance().Initialize();
 
+	// デバッグテキストの初期化
+	DebugText::GetInstance()->Initialize(
+		Texture::LoadTexture(L"Resources/debugfont.png"));
+
 	// ゲームループ
 	while (true)
 	{
@@ -55,13 +60,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// 2D描画処理
 		Draw2D();
-
+		DebugText::GetInstance()->DrawAll();
+		
 		// 3D描画の設定
 		NewEngineSetDraw3D();
 
 		// 3D描画処理
 		Draw3D();
-
 
 		// ---------- ここまでに描画処理を記述 ---------- //
 
@@ -83,6 +88,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	// インスタンスの破棄
 	Destroy();
+
+	// デバッグテキストの破棄
+	DebugText::GetInstance()->DestroyInstance();
 
 	// NewEngineの終了処理
 	NewEngineEnd();

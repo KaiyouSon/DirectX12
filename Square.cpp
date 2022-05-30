@@ -7,21 +7,15 @@ Square::Square() :
 	vertexBuffer(new VertexBuffer),
 	indexBuffer(new IndexBuffer),
 	textureBuffer(new TextureBuffer),
-	constantBuffer(new ConstantBuffer)
-{
-}
-
-Square::Square(Vec2 size) :
-	size(size),
-	vertexBuffer(new VertexBuffer),
-	indexBuffer(new IndexBuffer),
-	textureBuffer(new TextureBuffer),
-	constantBuffer(new ConstantBuffer)
+	constantBuffer(new ConstantBuffer),
+	ibArraySize(0), vbArraySize(0), viewType(view3D)
 {
 }
 
 Square::~Square()
 {
+	vertexBuffer->Unmap();
+
 	delete vertexBuffer;
 	delete indexBuffer;
 	delete textureBuffer;
@@ -33,18 +27,18 @@ void Square::SetTexture(const Texture& texture)
 	textureBuffer->Initialize2(texture);
 }
 
-void Square::Initialize(int viewType)
+void Square::Initialize(int viewType, Vec2 size)
 {
 	this->viewType = viewType;
+	this->size = size;
 
 	// 頂点データ
-	Vertex vertices[4];
 	if (viewType == view2D)
 	{
-		vertices[0] = { { -(size.x / 2), +(size.y / 2), 0.0f },{}, {0.0f, 1.0f} }; //左下
-		vertices[1] = { { -(size.x / 2), -(size.y / 2), 0.0f },{}, {0.0f, 0.0f} }; //左上
-		vertices[2] = { { +(size.x / 2), +(size.y / 2), 0.0f },{}, {1.0f, 1.0f} }; //右下
-		vertices[3] = { { +(size.x / 2), -(size.y / 2), 0.0f },{}, {1.0f, 0.0f} }; //右上
+		vertices[0] = { { -(this->size.x / 2), +(this->size.y / 2), 0.0f },{}, {0.0f, 1.0f} }; //左下
+		vertices[1] = { { -(this->size.x / 2), -(this->size.y / 2), 0.0f },{}, {0.0f, 0.0f} }; //左上
+		vertices[2] = { { +(this->size.x / 2), +(this->size.y / 2), 0.0f },{}, {1.0f, 1.0f} }; //右下
+		vertices[3] = { { +(this->size.x / 2), -(this->size.y / 2), 0.0f },{}, {1.0f, 0.0f} }; //右上
 	};
 	if (viewType == view3D)
 	{
@@ -93,8 +87,6 @@ void Square::Update(const Transform& transform, Transform* parent)
 	// 定数バッファに転送
 	if (viewType == view2D)
 	{
-		//constantBuffer->constMapTransform->mat = tmp;
-
 		constantBuffer->constMapTransform->mat =
 			this->transform.matWorld *
 			View::GetInstance().matProjection2D;
@@ -110,10 +102,6 @@ void Square::Update(const Transform& transform, Transform* parent)
 
 void Square::Draw()
 {
-	// プリミティブ形状の設定コマンド
-	NewEngineBase::GetInstance()->GetCommandList()->
-		IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-
 	// 頂点バッファビューの設定コマンド
 	NewEngineBase::GetInstance()->GetCommandList()->
 		IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
@@ -147,6 +135,21 @@ void Square::SetColor(const Vec4& color)
 {
 	// 色の指定
 	constantBuffer->SetColor(color);
+}
+
+void Square::SetCutPosAndSize(const Vec2& cutPos, const Vec2& cutSize)
+{
+	float texLeft = cutPos.x / 128;
+	float texRight = (cutPos.x + cutSize.x) / 128;
+	float texUp = cutPos.y / 128;
+	float texDown = (cutPos.y + cutSize.y) / 128;
+
+	vertices[0].uv = { texLeft , texDown };	// 左下
+	vertices[1].uv = { texLeft ,   texUp };	// 左上
+	vertices[2].uv = { texRight ,texDown }; // 右下
+	vertices[3].uv = { texRight ,  texUp }; // 右上
+
+	vertexBuffer->TransferToBuffer();
 }
 
 TextureBuffer* Square::GetTextureBuffer()

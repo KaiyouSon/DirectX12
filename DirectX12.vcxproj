@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DepthBuffer.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsCommand.cpp" />
@@ -198,6 +199,7 @@
   <ItemGroup>
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="DebugText.h" />
     <ClInclude Include="DepthBuffer.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsCommand.h" />

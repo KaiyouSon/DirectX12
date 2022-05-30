@@ -9,6 +9,9 @@ private:
 	// 頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff;
+
+	Vertex* vertices;
+	int arrarySize;
 public:
 	// リソース
 	D3D12_RESOURCE_DESC resDesc{};
@@ -17,4 +20,6 @@ public:
 public:
 	// 頂点バッファビューを取得する関数
 	D3D12_VERTEX_BUFFER_VIEW* GetvbViewAddress();
+	void TransferToBuffer();
+	void Unmap();
 };

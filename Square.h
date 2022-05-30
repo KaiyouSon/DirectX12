@@ -19,18 +19,19 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
 	Vec2 size;
+
+	// 頂点データ
+	Vertex vertices[4];
 private:
 	int vbArraySize;	// 頂点データの要素数
 	int ibArraySize;	// インデックスデータの要素数
-	wchar_t* szFire;
 
 	int viewType;
 public:
 	Square();
-	Square(Vec2 size);
 	~Square();
 	void SetTexture(const Texture& texture);
-	void Initialize(int viewType);
+	void Initialize(int viewType, Vec2 size = { 0,0 });
 	void Update(const Transform& transform, Transform* parent = nullptr);
 	void Draw();
 public:
@@ -39,6 +40,8 @@ public:
 	void SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle);
 
 	void SetColor(const Vec4& color);
+
+	void SetCutPosAndSize(const Vec2& cutPos, const Vec2& cutSize);
 public:
 	enum ViewType
 	{

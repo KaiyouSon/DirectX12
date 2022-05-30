@@ -61,6 +61,7 @@ void TextureBuffer::Initialize1()
 void TextureBuffer::Initialize2(const Texture& texture)
 {
 	HRESULT result;
+
 	// ヒープの設定
 	D3D12_HEAP_PROPERTIES textureHeapProp{};
 	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
@@ -86,22 +87,25 @@ void TextureBuffer::Initialize2(const Texture& texture)
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
 			IID_PPV_ARGS(&texBuff));
-	assert(SUCCEEDED(result));
-
-	// 全ミップマップについて
-	for (size_t i = 0; i < texture.metadata.mipLevels; i++)
+	//assert(SUCCEEDED(result));
+	if (result != S_OK) Initialize1();
+	else if (result == S_OK)
 	{
-		// 全ミップマップレベルを指定してイメージを取得
-		const Image* img = texture.scratchImg.GetImage(i, 0, 0);
-		// テクスチャバッファにデータ転送
-		result = texBuff->WriteToSubresource(
-			(UINT)i,
-			nullptr,				// 全領域へコピー
-			img->pixels,			// 元データアドレス
-			(UINT)img->rowPitch,	// １ラインサイズ
-			(UINT)img->slicePitch	// １枚サイズ
-		);
-		assert(SUCCEEDED(result));
+		// 全ミップマップについて
+		for (size_t i = 0; i < texture.metadata.mipLevels; i++)
+		{
+			// 全ミップマップレベルを指定してイメージを取得
+			const Image* img = texture.scratchImg.GetImage(i, 0, 0);
+			// テクスチャバッファにデータ転送
+			result = texBuff->WriteToSubresource(
+				(UINT)i,
+				nullptr,				// 全領域へコピー
+				img->pixels,			// 元データアドレス
+				(UINT)img->rowPitch,	// １ラインサイズ
+				(UINT)img->slicePitch	// １枚サイズ
+			);
+			assert(SUCCEEDED(result));
+		}
 	}
 }
 

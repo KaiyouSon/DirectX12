@@ -10,7 +10,9 @@ void Input::Initialize()
 
 	// DirectInputÇÃèâä˙âª
 	result = DirectInput8Create(
-		NewEngineWindow::GetInstance().GetHInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8,
+		NewEngineWindow::GetInstance().GetHInstance(),
+		DIRECTINPUT_VERSION,
+		IID_IDirectInput8,
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 

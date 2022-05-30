@@ -42,6 +42,10 @@ void GraphicsCommand::PreDraw()
 	// ルートシグネチャの設定コマンド
 	NewEngineBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootSignature(RootSignature::GetInstance()->GetRootSignature().Get());
+
+	// プリミティブ形状の設定コマンド
+	NewEngineBase::GetInstance()->GetCommandList()->
+		IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 }
 void GraphicsCommand::Draw3D()
 {

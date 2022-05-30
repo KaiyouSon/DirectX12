@@ -7,11 +7,13 @@
 #include "Input.h"
 #include "Random.h"
 #include "TextureBuffer.h"
+#include "DebugText.h"
 
 Texture backTexture;
 Texture objTexture;
+Texture boxTexture;
 
-Square* bg = new Square(Vec2(WIN_WIDTH, WIN_HEIGHT));
+Square* bg = new Square;
 Cube* cube = new Cube;
 
 // ‰æ‘œ‚Ì“Ç‚İ‚İ
@@ -22,12 +24,13 @@ void Load()
 
 	bg->SetTexture(backTexture);
 	cube->SetTexture(objTexture);
+
 }
 
 // ‰Šú‰»ˆ—
 void Initialize()
 {
-	bg->Initialize(Square::view2D);
+	bg->Initialize(Square::view2D, Vec2(WIN_WIDTH, WIN_HEIGHT));
 	cube->Initialize();
 
 	View::GetInstance().SetPos(Vec3(0, 0, -30));
@@ -60,15 +63,21 @@ void Update()
 	if (Input::Key().GetKey(DIK_LEFT))  angle--;
 	if (Input::Key().GetKey(DIK_RIGHT)) angle++;
 
-	if (Input::Key().GetKey(DIK_W)) transform.pos.y++;
-	if (Input::Key().GetKey(DIK_S)) transform.pos.y--;
-	if (Input::Key().GetKey(DIK_D)) transform.pos.x++;
-	if (Input::Key().GetKey(DIK_A)) transform.pos.x--;
+	if (Input::Key().GetKey(DIK_W)) transform.pos.y += 0.5;
+	if (Input::Key().GetKey(DIK_S)) transform.pos.y -= 0.5;
+	if (Input::Key().GetKey(DIK_D)) transform.pos.x += 0.5;
+	if (Input::Key().GetKey(DIK_A)) transform.pos.x -= 0.5;
+
 
 	cube->Update(transform);
 
 	View::GetInstance().SetPos(Vec3(
 		(float)(cos(Radian(angle)) * length), 0.0f, (float)(sin(Radian(angle)) * length)));
+
+	DebugText::GetInstance()->
+		Printf(0, 0, "transform = %f, %f, %f",
+			transform.pos.x, transform.pos.y, transform.pos.z);
+
 }
 
 // •`‰æˆ—
