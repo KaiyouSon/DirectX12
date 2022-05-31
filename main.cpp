@@ -2,7 +2,7 @@
 #include "main2.h"
 #include "Input.h"
 #include "ViewProjection.h"
-#include "DebugText.h"
+#include "DebugManager.h"
 #include "Util.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -32,9 +32,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ビュープロジェクションの初期化処理
 	View::GetInstance().Initialize();
 
-	// デバッグテキストの初期化
-	DebugText::GetInstance()->Initialize(
-		Texture::LoadTexture(L"Resources/debugfont.png"));
+	// デバッグマネージャの初期化
+	DebugManager::GetInstance()->Initialize();
 
 	// ゲームループ
 	while (true)
@@ -45,6 +44,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// ----------- ここから更新処理を記述 ----------- //
 		// 入力の更新処理
 		Input::GetInstance().Update();
+		// デバッグマネージャの更新処理
+		DebugManager::GetInstance()->Update();
 
 		// 更新処理
 		Update();
@@ -60,8 +61,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// 2D描画処理
 		Draw2D();
-		DebugText::GetInstance()->DrawAll();
-		
+		// デバッグマネージャの2D描画
+		DebugManager::GetInstance()->Draw();
+
 		// 3D描画の設定
 		NewEngineSetDraw3D();
 
@@ -86,11 +88,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 	}
 
+	// デバッグマネージャの破棄
+	DebugManager::GetInstance()->DestroyInstance();
+	
 	// インスタンスの破棄
 	Destroy();
-
-	// デバッグテキストの破棄
-	DebugText::GetInstance()->DestroyInstance();
 
 	// NewEngineの終了処理
 	NewEngineEnd();

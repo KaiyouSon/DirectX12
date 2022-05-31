@@ -68,16 +68,14 @@ void Update()
 	if (Input::Key().GetKey(DIK_D)) transform.pos.x += 0.5;
 	if (Input::Key().GetKey(DIK_A)) transform.pos.x -= 0.5;
 
-
 	cube->Update(transform);
 
 	View::GetInstance().SetPos(Vec3(
 		(float)(cos(Radian(angle)) * length), 0.0f, (float)(sin(Radian(angle)) * length)));
 
 	DebugText::GetInstance()->
-		Printf(0, 0, "transform = %f, %f, %f",
+		Printf(0, 0, Vec4(255, 255, 255, 255), "pos = %f, %f, %f",
 			transform.pos.x, transform.pos.y, transform.pos.z);
-
 }
 
 // •`‰æˆ—

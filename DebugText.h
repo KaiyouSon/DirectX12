@@ -21,12 +21,12 @@ private:
 	char buffer[maxCharCount] = {};
 
 private:
-	void TmpPrintString(float x, float y, const std::string& text);
+	void TmpPrintString(float x, float y, const Vec4& color, const std::string& text);
 
 public:
 	void Initialize(const Texture& texture);
-	void Printf(float x, float y, const char* fmt, ...);
-	void Printf(const Vec2& pos, const char* fmt, ...);
+	void Printf(float x, float y, const Vec4& color, const char* fmt, ...);
+
 	void DrawAll();
 
 	static DebugText* GetInstance();

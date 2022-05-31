@@ -1,4 +1,5 @@
 #include "DebugText.h"
+#include "DebugManager.h"
 
 void DebugText::Initialize(const Texture& texture)
 {
@@ -9,37 +10,31 @@ void DebugText::Initialize(const Texture& texture)
 	}
 }
 
-void DebugText::Printf(const Vec2& pos, const char* fmt, ...)
+void DebugText::Printf(float x, float y, const Vec4& color, const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
 	int w = vsnprintf(buffer, maxCharCount - 1, fmt, args);
-	TmpPrintString(pos.x, pos.y, buffer);
-	va_end(args);
-}
-
-void DebugText::Printf(float x, float y, const char* fmt, ...)
-{
-	va_list args;
-	va_start(args, fmt);
-	int w = vsnprintf(buffer, maxCharCount - 1, fmt, args);
-	TmpPrintString(x, y, buffer);
+	TmpPrintString(x, y, color, buffer);
 	va_end(args);
 }
 
 void DebugText::DrawAll()
 {
-	// 全ての文字のスプライトに
-	for (int i = 0; i < spriteIndex; i++)
+	if (DebugManager::GetInstance()->isDebug == true)
 	{
-		// スプライトの描画
-		sprites[i].Draw();
-	}
+		// 全ての文字のスプライトに
+		for (int i = 0; i < spriteIndex; i++)
+		{
+			// スプライトの描画
+			sprites[i].Draw();
+		}
 
-	spriteIndex = 0;
+		spriteIndex = 0;
+	}
 }
 
-void DebugText::TmpPrintString(float x, float y, const std::string& text)
+void DebugText::TmpPrintString(float x, float y, const Vec4& color, const std::string& text)
 {
 	// 全ての文字について
 	for (int i = 0; i < text.size(); i++)
@@ -66,6 +61,8 @@ void DebugText::TmpPrintString(float x, float y, const std::string& text)
 		sprites[spriteIndex].SetCutPosAndSize(
 			Vec2(fontIndexX * (float)fontWidth, fontIndexY * (float)fontHeight),
 			Vec2(fontWidth, fontHeight));
+
+		sprites[spriteIndex].SetColor(color);
 
 		// 文字を1つ進める
 		spriteIndex++;
