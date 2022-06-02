@@ -11,7 +11,6 @@ private:
 	static const int fontWidth = 9;
 	static const int fontHeight = 18;
 	static const int fontLineCount = 14;
-
 	Square sprites[256];
 	int spriteIndex = 0;
 
@@ -24,10 +23,10 @@ private:
 	void TmpPrintString(float x, float y, const Vec4& color, const std::string& text);
 
 public:
-	void Initialize(const Texture& texture);
+	void Initialize();
 	void Printf(float x, float y, const Vec4& color, const char* fmt, ...);
 
-	void DrawAll();
+	void DrawAll(const Texture& texture);
 
 	static DebugText* GetInstance();
 	static void DestroyInstance();

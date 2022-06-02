@@ -5,9 +5,10 @@
 
 void DebugManager::Initialize()
 {
+	debugTexture = TextureBuffer::LoadTexture("Resources/debugfont.png");
+
 	// デバッグテキストの初期化
-	DebugText::GetInstance()->Initialize(
-		TextureBuffer::LoadTexture("Resources/debugfont.png"));
+	DebugText::GetInstance()->Initialize();
 }
 
 void DebugManager::Update()
@@ -21,7 +22,7 @@ void DebugManager::Update()
 
 void DebugManager::Draw()
 {
-	DebugText::GetInstance()->DrawAll();
+	DebugText::GetInstance()->DrawAll(debugTexture);
 }
 
 DebugManager* DebugManager::GetInstance()

@@ -1,11 +1,10 @@
 #include "DebugText.h"
 #include "DebugManager.h"
 
-void DebugText::Initialize(const Texture& texture)
+void DebugText::Initialize()
 {
 	for (int i = 0; i < maxCharCount; i++)
 	{
-		sprites[i].SetTexture(texture);
 		sprites[i].Initialize(Square::view2D, Vec2(9, 18));
 	}
 }
@@ -19,7 +18,7 @@ void DebugText::Printf(float x, float y, const Vec4& color, const char* fmt, ...
 	va_end(args);
 }
 
-void DebugText::DrawAll()
+void DebugText::DrawAll(const Texture& texture)
 {
 	if (DebugManager::GetInstance()->GetisDebug() == true)
 	{
@@ -27,6 +26,7 @@ void DebugText::DrawAll()
 		for (int i = 0; i < spriteIndex; i++)
 		{
 			// スプライトの描画
+			sprites[i].SetTexture(texture);
 			sprites[i].Draw();
 		}
 

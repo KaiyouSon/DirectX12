@@ -20,7 +20,6 @@ void Load()
 {
 	backTexture = TextureBuffer::LoadTexture("Resources/bg.png");
 	objTexture = TextureBuffer::LoadTexture("Resources/pic.png");
-
 }
 
 // ‰Šú‰»ˆ—

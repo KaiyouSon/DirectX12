@@ -1,8 +1,10 @@
 #pragma once
+#include "TextureBuffer.h"
 class DebugManager
 {
 private:
 	bool isDebug;
+	Texture debugTexture;
 
 public:
 	void Initialize();
