@@ -1,38 +1,35 @@
 #pragma once
 #include "MathUtil.h"
 #include <d3d12.h>
-#include <string.h>
+#include <string>
 #include <wrl.h>
 #include <DirectXTex.h>
 
 class Texture
 {
+private:
+	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = D3D12_CPU_DESCRIPTOR_HANDLE(); //SRVのハンドル(CPU側)
+	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = D3D12_GPU_DESCRIPTOR_HANDLE(); //SRVのハンドル(GPU側)
 public:
-	DirectX::TexMetadata metadata{};
-	DirectX::ScratchImage scratchImg{};
+	Microsoft::WRL::ComPtr<ID3D12Resource> buffer; //テクスチャのリソース
 
-	static Texture LoadTexture(const wchar_t* FilePath);
+	void SetCpuHandle(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle);
+	void SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle);
+
+	D3D12_GPU_DESCRIPTOR_HANDLE GetGpuHandle();
 };
 
 class TextureBuffer
 {
 private:
-	// 横方向ピクセル数
-	const size_t textureWidth = 256;
-	// 縦方向ピクセル数
-	const size_t textureHeight = 256;
-	// 配列の要素数
-	const size_t imageDataCount = textureWidth * textureHeight;
-	// 画像イメージデータ配列
-	Vec4* imageData = new Vec4[imageDataCount];
-	// テクスチャバッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff;
+	static const size_t textureWidth = 256;	// 横方向ピクセル数
+	static const size_t textureHeight = 256;	// 縦方向ピクセル数
+	static const size_t imageDataCount = textureWidth * textureHeight;	// 配列の要素数
+	static Vec4* imageData;	// 画像イメージデータ配列
 
 public:
 	~TextureBuffer();
-	void Initialize1();
-	void Initialize2(const Texture& texture);
-public:
-	Microsoft::WRL::ComPtr<ID3D12Resource> GetTextureBuff();
+	static Texture LoadTexture(const std::string filePath);
+	static Texture GetDefaultTexture();
 };
 

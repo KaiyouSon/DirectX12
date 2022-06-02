@@ -9,7 +9,7 @@
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	// ウィンドウタイトルを設定する
-	SetWindowTitle(L"NewEngine");
+	SetWindowTitle("NewEngine");
 
 	// 画面サイズを設定する
 	SetWindowSize(WIN_WIDTH, WIN_HEIGHT);

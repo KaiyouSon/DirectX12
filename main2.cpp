@@ -11,7 +11,6 @@
 
 Texture backTexture;
 Texture objTexture;
-Texture boxTexture;
 
 Square* bg = new Square;
 Cube* cube = new Cube;
@@ -19,11 +18,8 @@ Cube* cube = new Cube;
 // ‰æ‘œ‚Ì“Ç‚Ýž‚Ý
 void Load()
 {
-	backTexture = Texture::LoadTexture(L"Resources/bg.png");
-	objTexture = Texture::LoadTexture(L"Resources/pic.png");
-
-	bg->SetTexture(backTexture);
-	cube->SetTexture(objTexture);
+	backTexture = TextureBuffer::LoadTexture("Resources/bg.png");
+	objTexture = TextureBuffer::LoadTexture("Resources/pic.png");
 
 }
 
@@ -68,10 +64,10 @@ void Update()
 	if (Input::Key().GetKey(DIK_D)) transform.pos.x += 0.5;
 	if (Input::Key().GetKey(DIK_A)) transform.pos.x -= 0.5;
 
-	cube->Update(transform);
-
 	View::GetInstance().SetPos(Vec3(
 		(float)(cos(Radian(angle)) * length), 0.0f, (float)(sin(Radian(angle)) * length)));
+
+	cube->Update(transform);
 
 	DebugText::GetInstance()->
 		Printf(0, 0, Vec4(255, 255, 255, 255), "pos = %f, %f, %f",
@@ -81,11 +77,13 @@ void Update()
 // •`‰æˆ—
 void Draw3D()
 {
+	cube->SetTexture(objTexture);
 	cube->Draw();
 }
 
 void Draw2D()
 {
+	bg->SetTexture(backTexture);
 	bg->Draw();
 }
 
@@ -93,5 +91,4 @@ void Draw2D()
 void Destroy()
 {
 	delete bg;
-	delete cube;
 }

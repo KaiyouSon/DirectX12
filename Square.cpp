@@ -6,25 +6,24 @@
 Square::Square() :
 	vertexBuffer(new VertexBuffer),
 	indexBuffer(new IndexBuffer),
-	textureBuffer(new TextureBuffer),
 	constantBuffer(new ConstantBuffer),
+
 	ibArraySize(0), vbArraySize(0), viewType(view3D)
 {
 }
 
 Square::~Square()
 {
-	vertexBuffer->Unmap();
+	//vertexBuffer->Unmap();
 
 	delete vertexBuffer;
 	delete indexBuffer;
-	delete textureBuffer;
 	delete constantBuffer;
 }
 
 void Square::SetTexture(const Texture& texture)
 {
-	textureBuffer->Initialize2(texture);
+	this->texture = texture;
 }
 
 void Square::Initialize(int viewType, Vec2 size)
@@ -69,14 +68,12 @@ void Square::Initialize(int viewType, Vec2 size)
 	constantBuffer->MaterialBufferInit();
 	constantBuffer->TransformBufferInit();
 
-	// SRVの作成
-	ShaderResourceView::GetInstance()->CreatSrv(*this);
+	texture = TextureBuffer::GetDefaultTexture();
 }
 
 void Square::Update(const Transform& transform, Transform* parent)
 {
 	this->transform = transform;
-
 	this->transform.Update();
 
 	if (parent != nullptr)
@@ -120,7 +117,7 @@ void Square::Draw()
 			ShaderResourceView::GetInstance()->GetSrvHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	NewEngineBase::GetInstance()->GetCommandList()->
-		SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+		SetGraphicsRootDescriptorTable(1, texture.GetGpuHandle());
 
 	// 定数バッファビュー(CBV)の設定コマンド
 	NewEngineBase::GetInstance()->GetCommandList()->
@@ -150,19 +147,4 @@ void Square::SetCutPosAndSize(const Vec2& cutPos, const Vec2& cutSize)
 	vertices[3].uv = { texRight ,  texUp }; // 右上
 
 	vertexBuffer->TransferToBuffer();
-}
-
-TextureBuffer* Square::GetTextureBuffer()
-{
-	return textureBuffer;
-}
-
-VertexBuffer* Square::GetVertexBuffer()
-{
-	return  vertexBuffer;
-}
-
-void Square::SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE _srvGpuHandle)
-{
-	srvGpuHandle = _srvGpuHandle;
 }

@@ -1,5 +1,6 @@
 #include "Cube.h"
 #include "NewEngineBase.h"
+#include "TextureBuffer.h"
 #include "ViewProjection.h"
 #include "ShaderResourceView.h"
 
@@ -8,7 +9,6 @@
 Cube::Cube() :
 	vertexBuffer(new VertexBuffer),
 	indexBuffer(new IndexBuffer),
-	textureBuffer(new TextureBuffer),
 	constantBuffer(new ConstantBuffer),
 	vbArraySize(0), ibArraySize(0)
 {
@@ -18,14 +18,12 @@ Cube::~Cube()
 {
 	delete vertexBuffer;
 	delete indexBuffer;
-	delete textureBuffer;
 	delete constantBuffer;
 }
 
 void Cube::SetTexture(const Texture& texture)
 {
-	// テクスチャーバッファ
-	textureBuffer->Initialize2(texture);
+	this->texture = texture;
 }
 
 void Cube::Initialize()
@@ -147,8 +145,7 @@ void Cube::Initialize()
 	constantBuffer->MaterialBufferInit();
 	constantBuffer->TransformBufferInit();
 
-	// SRVの作成
-	ShaderResourceView::GetInstance()->CreatSrv(*this);
+	texture = TextureBuffer::GetDefaultTexture();
 }
 
 void Cube::Update(const Transform& transform, Transform* parent)
@@ -192,11 +189,11 @@ void Cube::Draw()
 
 	// SRVヒープの設定コマンド
 	NewEngineBase::GetInstance()->GetCommandList()->
-		SetDescriptorHeaps(1, 
+		SetDescriptorHeaps(1,
 			ShaderResourceView::GetInstance()->GetSrvHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	NewEngineBase::GetInstance()->GetCommandList()->
-		SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+		SetGraphicsRootDescriptorTable(1, texture.GetGpuHandle());
 
 	// 定数バッファビュー(CBV)の設定コマンド
 	NewEngineBase::GetInstance()->GetCommandList()->
@@ -211,19 +208,4 @@ void Cube::SetColor(const Vec4& color)
 {
 	// 色の指定
 	constantBuffer->SetColor(color);
-}
-
-TextureBuffer* Cube::GetTextureBuffer()
-{
-	return textureBuffer;
-}
-
-VertexBuffer* Cube::GetVertexBuffer()
-{
-	return vertexBuffer;
-}
-
-void Cube::SetGpuHandle(const D3D12_GPU_DESCRIPTOR_HANDLE& srvGpuHandle)
-{
-	this->srvGpuHandle = srvGpuHandle;
 }

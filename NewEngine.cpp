@@ -87,9 +87,10 @@ void SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT)
 {
 	NewEngineWindow::GetInstance().SetWindowSize(WIN_WIDTH, WIN_HEIGHT);
 }
-void SetWindowTitle(const wchar_t* TITLE)
+void SetWindowTitle(const std::string TITLE)
 {
-	NewEngineWindow::GetInstance().SetWindowTitle(TITLE);
+	std::wstring wTITLE(TITLE.begin(), TITLE.end());
+	NewEngineWindow::GetInstance().SetWindowTitle(wTITLE.c_str());
 }
 bool CloseWindow()
 {

@@ -7,7 +7,7 @@ void DebugManager::Initialize()
 {
 	// デバッグテキストの初期化
 	DebugText::GetInstance()->Initialize(
-		Texture::LoadTexture(L"Resources/debugfont.png"));
+		TextureBuffer::LoadTexture("Resources/debugfont.png"));
 }
 
 void DebugManager::Update()
