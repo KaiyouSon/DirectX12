@@ -21,7 +21,7 @@ void DebugText::Printf(float x, float y, const Vec4& color, const char* fmt, ...
 
 void DebugText::DrawAll()
 {
-	if (DebugManager::GetInstance()->isDebug == true)
+	if (DebugManager::GetInstance()->GetisDebug() == true)
 	{
 		// 全ての文字のスプライトに
 		for (int i = 0; i < spriteIndex; i++)
