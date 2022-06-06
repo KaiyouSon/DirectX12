@@ -1,6 +1,9 @@
 #include "NewEngine.h"
 #include "main2.h"
-#include "Input.h"
+
+#include "InputManager.h"
+
+#include "Audio.h"
 #include "ViewProjection.h"
 #include "DebugManager.h"
 #include "Util.h"
@@ -29,6 +32,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// Inputの初期化処理
 	Input::GetInstance().Initialize();
 
+	// Audioの初期化処理
+	Audio::GetInstance()->Initialize();
+
 	// ビュープロジェクションの初期化処理
 	View::GetInstance().Initialize();
 
@@ -42,8 +48,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ProcessMessage();
 
 		// ----------- ここから更新処理を記述 ----------- //
-		// 入力の更新処理
+
+		// Inputの更新処理
 		Input::GetInstance().Update();
+
 		// デバッグマネージャの更新処理
 		DebugManager::GetInstance()->Update();
 
@@ -88,9 +96,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 	}
 
+	// Audioの破棄
+	Audio::GetInstance()->DestroyInstance();
+
 	// デバッグマネージャの破棄
 	DebugManager::GetInstance()->DestroyInstance();
-	
+
 	// インスタンスの破棄
 	Destroy();
 

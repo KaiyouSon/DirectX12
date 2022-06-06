@@ -4,13 +4,16 @@
 #include "Cube.h"
 #include "Util.h"
 #include "MathUtil.h"
-#include "Input.h"
+#include "InputManager.h"
 #include "Random.h"
 #include "TextureBuffer.h"
 #include "DebugText.h"
+#include "Audio.h"
 
 Texture backTexture;
 Texture objTexture;
+
+SoundData testSound;
 
 Square* bg = new Square;
 Cube* cube = new Cube;
@@ -20,6 +23,7 @@ void Load()
 {
 	backTexture = TextureBuffer::LoadTexture("Resources/bg.png");
 	objTexture = TextureBuffer::LoadTexture("Resources/pic.png");
+	testSound = LoadSoundWave("Resources/title_bgm.wav");
 }
 
 // 初期化処理
@@ -68,9 +72,13 @@ void Update()
 
 	cube->Update(transform);
 
-	DebugText::GetInstance()->
-		Printf(0, 0, Vec4(255, 255, 255, 255), "pos = %f, %f, %f",
-			transform.pos.x, transform.pos.y, transform.pos.z);
+	PlaySoundWave(Audio::GetInstance()->xAudio2.Get(), testSound);
+
+	//DebugText::GetInstance()->
+	//	Printf(0, 0, Vec4(255, 255, 255, 255), "pos = %f, %f, %f",
+	//		transform.pos.x, transform.pos.y, transform.pos.z);
+
+
 }
 
 // 描画処理
@@ -89,5 +97,6 @@ void Draw2D()
 // インスタンスのdelete
 void Destroy()
 {
+	UnLoadSoundWave(&testSound);
 	delete bg;
 }

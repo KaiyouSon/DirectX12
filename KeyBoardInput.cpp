@@ -1,6 +1,6 @@
 #include "KeyBoardInput.h"
 #include "NewEngineWindow.h"
-#include "Input.h"
+#include "InputManager.h"
 #include <cassert>
 
 void KeyBoardInput::Initialize()

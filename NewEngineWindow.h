@@ -1,12 +1,13 @@
 #pragma once
 #include <Windows.h>
+#include <string>
 class NewEngineWindow
 {
 private:
 	// ウィンドウサイズ
 	int WinWidth = 1280; // 横幅
 	int WinHeight = 720; // 縦幅
-	const wchar_t* TITLE = L"error";
+	std::string TITLE = "error";
 
 	WNDCLASSEX wndClass{};	// ウィンドウクラス
 	HWND hwnd;	// ウィンドウハンドル
@@ -35,7 +36,7 @@ public:
 	/// </summary>
 	void ProcessMessage();
 
-	void SetWindowTitle(const wchar_t* TITLE);
+	void SetWindowTitle(const std::string TITLE);
 	void SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT);
 
 public:

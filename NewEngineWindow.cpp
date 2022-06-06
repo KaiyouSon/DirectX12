@@ -17,12 +17,12 @@ void NewEngineWindow::CreateGameWindow()
 	// 自動でサイズ補正する
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
-	//mbstowcs(wc, TITLE, sizeof(TITLE));
+	std::wstring wTITLE(TITLE.begin(), TITLE.end());
 
 	// ウィンドウオブジェクトの生成
 	hwnd = CreateWindow(
 		wndClass.lpszClassName, // クラス名
-		TITLE,					// タイトルバーの文字
+		wTITLE.c_str(),			// タイトルバーの文字
 		WS_OVERLAPPEDWINDOW,	// 標準的なウィンドウスタイル
 		CW_USEDEFAULT,			// 表示X座標(OSに任せる)
 		CW_USEDEFAULT,			// 表示Y座標(OSに任せる)
@@ -53,7 +53,7 @@ void NewEngineWindow::ProcessMessage()
 	}
 }
 
-void NewEngineWindow::SetWindowTitle(const wchar_t* TITLE)
+void NewEngineWindow::SetWindowTitle(const std::string TITLE)
 {
 	this->TITLE = TITLE;
 }

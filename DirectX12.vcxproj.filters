@@ -153,7 +153,7 @@
     <ClCompile Include="MathUtil.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
+    <ClCompile Include="InputManager.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
     <ClCompile Include="KeyBoardInput.cpp">
@@ -170,6 +170,12 @@
     </ClCompile>
     <ClCompile Include="DebugText.cpp">
       <Filter>ソース ファイル\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="JoypadInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -271,7 +277,7 @@
     <ClInclude Include="Mat4.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
+    <ClInclude Include="InputManager.h">
       <Filter>ヘッダー ファイル\Input</Filter>
     </ClInclude>
     <ClInclude Include="KeyBoardInput.h">
@@ -288,6 +294,12 @@
     </ClInclude>
     <ClInclude Include="DebugText.h">
       <Filter>ヘッダー ファイル\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="JoypadInput.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -89,8 +89,7 @@ void SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT)
 }
 void SetWindowTitle(const std::string TITLE)
 {
-	std::wstring wTITLE(TITLE.begin(), TITLE.end());
-	NewEngineWindow::GetInstance().SetWindowTitle(wTITLE.c_str());
+	NewEngineWindow::GetInstance().SetWindowTitle(TITLE);
 }
 bool CloseWindow()
 {
