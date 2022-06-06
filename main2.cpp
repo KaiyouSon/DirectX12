@@ -5,7 +5,6 @@
 #include "Util.h"
 #include "MathUtil.h"
 #include "InputManager.h"
-#include "Random.h"
 #include "TextureBuffer.h"
 #include "DebugText.h"
 #include "Audio.h"
@@ -74,11 +73,9 @@ void Update()
 
 	//PlaySoundWave(Audio::GetInstance()->xAudio2.Get(), testSound);
 
-	//DebugText::GetInstance()->
-	//	Printf(0, 0, Vec4(255, 255, 255, 255), "pos = %f, %f, %f",
-	//		transform.pos.x, transform.pos.y, transform.pos.z);
-
-
+	DebugText::GetInstance()->
+		Printf(0, 0, Color::white, "pos = %f, %f, %f",
+			transform.pos.x, transform.pos.y, transform.pos.z);
 }
 
 // •`‰æˆ—

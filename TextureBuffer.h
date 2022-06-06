@@ -10,13 +10,16 @@ class Texture
 private:
 	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = D3D12_CPU_DESCRIPTOR_HANDLE(); //SRVのハンドル(CPU側)
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = D3D12_GPU_DESCRIPTOR_HANDLE(); //SRVのハンドル(GPU側)
+	Vec2 textureSize;
 public:
 	Microsoft::WRL::ComPtr<ID3D12Resource> buffer; //テクスチャのリソース
 
 	void SetCpuHandle(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle);
 	void SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle);
+	void SetTextureSize(const Vec2& textureSize);
 
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGpuHandle();
+	Vec2 GetTextureSize();
 };
 
 class TextureBuffer

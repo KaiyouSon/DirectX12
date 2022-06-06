@@ -61,6 +61,9 @@ Texture TextureBuffer::LoadTexture(const string filePath)
 	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
+	// テクスチャのサイズをセット
+	texture.SetTextureSize(Vec2(textureResourceDesc.Width, textureResourceDesc.Height));
+
 	// テクスチャバッファの生成
 	result = NewEngineBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
@@ -123,6 +126,9 @@ Texture TextureBuffer::GetDefaultTexture()
 	textureResourceDesc.MipLevels = 1;
 	textureResourceDesc.SampleDesc.Count = 1;
 
+	// テクスチャのサイズをセット
+	texture.SetTextureSize(Vec2(textureResourceDesc.Width, textureResourceDesc.Height));
+
 	// テクスチャバッファの生成
 	result = NewEngineBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
@@ -158,7 +164,17 @@ void Texture::SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle)
 	this->gpuHandle = gpuHandle;
 }
 
+void Texture::SetTextureSize(const Vec2& textureSize)
+{
+	this->textureSize = textureSize;
+}
+
 D3D12_GPU_DESCRIPTOR_HANDLE Texture::GetGpuHandle()
 {
 	return gpuHandle;
+}
+
+Vec2 Texture::GetTextureSize()
+{
+	return textureSize;
 }

@@ -30,5 +30,5 @@ public:
 	void Update(const Transform& transform, Transform* parent = nullptr);
 	void Draw();
 public:
-	void SetColor(const Vec4& color);
+	void SetColor(const Color& color);
 };

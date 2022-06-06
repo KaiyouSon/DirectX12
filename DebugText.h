@@ -2,6 +2,7 @@
 #include "Square.h"
 #include "MathUtil.h"
 #include "Transform.h"
+#include "Util.h"
 #include <string>
 
 class DebugText
@@ -20,11 +21,11 @@ private:
 	char buffer[maxCharCount] = {};
 
 private:
-	void TmpPrintString(float x, float y, const Vec4& color, const std::string& text);
+	void TmpPrintString(float x, float y, const Color& color, const std::string& text);
 
 public:
 	void Initialize();
-	void Printf(float x, float y, const Vec4& color, const char* fmt, ...);
+	void Printf(float x, float y, const Color& color, const char* fmt, ...);
 
 	void DrawAll(const Texture& texture);
 

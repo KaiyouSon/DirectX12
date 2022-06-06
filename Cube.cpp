@@ -204,7 +204,7 @@ void Cube::Draw()
 		DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);
 }
 
-void Cube::SetColor(const Vec4& color)
+void Cube::SetColor(const Color& color)
 {
 	// F‚ÌŽw’è
 	constantBuffer->SetColor(color);

@@ -1,6 +1,12 @@
 #include "Random.h"
 #include <math.h>
 #include <stdlib.h>
+#include <time.h>
+
+void Random::Initialize()
+{
+	srand(time(nullptr));
+}
 
 // intŒ^‚Ì—”‚ğæ“¾
 int Random::Range(int min, int max)
@@ -21,10 +27,4 @@ bool Random::Bool(float rate)
 	float num = Range2(0, 100);
 	if (num < rate) return true;
 	return false;
-}
-
-Random& Random::GetInstance()
-{
-	static Random* random;
-	return *random;
 }

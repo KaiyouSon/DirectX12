@@ -37,7 +37,7 @@ void ConstantBuffer::MaterialBufferInit()
 	assert(SUCCEEDED(result));
 
 	// ’l‚ð‘‚«ž‚Þ‚ÆŽ©“®“I‚É“]‘—‚³‚ê‚é
-	constMapMaterial->color = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	constMapMaterial->color = Color(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void ConstantBuffer::TransformBufferInit()
@@ -82,7 +82,7 @@ ComPtr<ID3D12Resource> ConstantBuffer::GetConstBuffTransform()
 	return constBuffTransform;
 }
 
-void ConstantBuffer::SetColor(const Vec4& color)
+void ConstantBuffer::SetColor(const Color& color)
 {
 	HRESULT result;
 
@@ -92,9 +92,10 @@ void ConstantBuffer::SetColor(const Vec4& color)
 	assert(SUCCEEDED(result));
 
 	// ’l‚ð‘‚«ž‚Þ‚ÆŽ©“®“I‚É“]‘—‚³‚ê‚é
-	constMapMaterial->color = Vec4(
-		color.x / 255,
-		color.y / 255,
-		color.z / 255,
-		color.w / 255);	// RGBA
+	constMapMaterial->color =
+		Color(
+			color.r / 255,
+			color.g / 255,
+			color.b / 255,
+			color.a / 255);	// RGBA
 }

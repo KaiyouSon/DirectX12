@@ -27,6 +27,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ‰Šú‰»ˆ—
 	Initialize();
 
+	// ƒ‰ƒ“ƒ_ƒ€‚Ì‰Šú‰»ˆ—
+	Random::Initialize();
+
 	// Input‚Ì‰Šú‰»ˆ—
 	Input::GetInstance().Initialize();
 

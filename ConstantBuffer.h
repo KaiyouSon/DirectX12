@@ -1,4 +1,5 @@
 #pragma once
+#include "Color.h"
 #include "MathUtil.h"
 #include <d3d12.h>
 #include <wrl.h>
@@ -6,7 +7,7 @@
 // 定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDateMaterial
 {
-	Vec4 color;	// 色(RGBA)
+	Color color;	// 色(RGBA)
 };
 
 // 定数バッファ用データ構造体(3D変換行列)
@@ -32,5 +33,5 @@ public:
 	Microsoft::WRL::ComPtr<ID3D12Resource> GetConstBuffMaterial();
 	Microsoft::WRL::ComPtr<ID3D12Resource> GetConstBuffTransform();
 
-	void SetColor(const Vec4& color);
+	void SetColor(const Color& color);
 };

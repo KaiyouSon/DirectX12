@@ -21,11 +21,6 @@ Square::~Square()
 	delete constantBuffer;
 }
 
-void Square::SetTexture(const Texture& texture)
-{
-	this->texture = texture;
-}
-
 void Square::Initialize(int viewType, Vec2 size)
 {
 	this->viewType = viewType;
@@ -128,7 +123,12 @@ void Square::Draw()
 		DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);
 }
 
-void Square::SetColor(const Vec4& color)
+void Square::SetTexture(const Texture& texture)
+{
+	this->texture = texture;
+}
+
+void Square::SetColor(const Color& color)
 {
 	// êFÇÃéwíË
 	constantBuffer->SetColor(color);
@@ -136,10 +136,10 @@ void Square::SetColor(const Vec4& color)
 
 void Square::SetCutPosAndSize(const Vec2& cutPos, const Vec2& cutSize)
 {
-	float texLeft = cutPos.x / 128;
-	float texRight = (cutPos.x + cutSize.x) / 128;
-	float texUp = cutPos.y / 128;
-	float texDown = (cutPos.y + cutSize.y) / 128;
+	float texLeft = cutPos.x / texture.GetTextureSize().x;
+	float texRight = (cutPos.x + cutSize.x) / texture.GetTextureSize().x;
+	float texUp = cutPos.y / texture.GetTextureSize().y;
+	float texDown = (cutPos.y + cutSize.y) / texture.GetTextureSize().y;
 
 	vertices[0].uv = { texLeft , texDown };	// ç∂â∫
 	vertices[1].uv = { texLeft ,   texUp };	// ç∂è„

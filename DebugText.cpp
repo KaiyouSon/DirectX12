@@ -9,7 +9,7 @@ void DebugText::Initialize()
 	}
 }
 
-void DebugText::Printf(float x, float y, const Vec4& color, const char* fmt, ...)
+void DebugText::Printf(float x, float y, const Color& color, const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
@@ -34,7 +34,7 @@ void DebugText::DrawAll(const Texture& texture)
 	}
 }
 
-void DebugText::TmpPrintString(float x, float y, const Vec4& color, const std::string& text)
+void DebugText::TmpPrintString(float x, float y, const Color& color, const std::string& text)
 {
 	// ‘S‚Ä‚Ì•¶Žš‚É‚Â‚¢‚Ä
 	for (int i = 0; i < text.size(); i++)

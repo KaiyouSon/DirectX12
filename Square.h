@@ -5,6 +5,7 @@
 #include "ConstantBuffer.h"
 #include "Transform.h"
 #include "MathUtil.h"
+#include "Util.h"
 
 class Square
 {
@@ -32,7 +33,7 @@ public:
 	void Update(const Transform& transform, Transform* parent = nullptr);
 	void Draw();
 public:
-	void SetColor(const Vec4& color);
+	void SetColor(const Color& color);
 	void SetCutPosAndSize(const Vec2& cutPos, const Vec2& cutSize);
 public:
 	enum ViewType
