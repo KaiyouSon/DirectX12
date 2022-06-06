@@ -34,12 +34,12 @@ IDirectInput8* InputManager::GetDirectInput()
 	return directInput;
 }
 
-KeyBoardInput& InputManager::Key()
+KeyBoardInput& InputManager::KeyInstance()
 {
 	return KeyBoardInput::GetInstance();
 }
 
-MouseInput& InputManager::Mouse()
+MouseInput& InputManager::MouseInstance()
 {
 	return MouseInput::GetInstance();
 }

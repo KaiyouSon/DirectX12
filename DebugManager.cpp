@@ -1,7 +1,7 @@
 #include "DebugManager.h"
 #include "DebugText.h"
 #include "TextureBuffer.h"
-#include "Input.h"
+#include "InputManager.h"
 
 void DebugManager::Initialize()
 {
@@ -13,7 +13,7 @@ void DebugManager::Initialize()
 
 void DebugManager::Update()
 {
-	if (Input::Key().GetKeyTrigger(DIK_F5))
+	if (Input::KeyInstance().GetKeyTrigger(DIK_F5))
 	{
 		if (isDebug == true) isDebug = false;
 		else				 isDebug = true;

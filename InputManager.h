@@ -6,16 +6,16 @@
 
 class InputManager
 {
-public:
-	void Initialize();	// 初期化
-	void Update();		// 更新処理
 
 private:
 	IDirectInput8* directInput;
 
+public:
+	void Initialize();	// 初期化
+	void Update();		// 更新処理
 
-	static KeyBoardInput& Key();
-	static MouseInput& Mouse();
+	static KeyBoardInput& KeyInstance();
+	static MouseInput& MouseInstance();
 
 	IDirectInput8* GetDirectInput();
 	static InputManager& GetInstance();

@@ -1,8 +1,6 @@
 #include "NewEngine.h"
 #include "main2.h"
-
 #include "InputManager.h"
-
 #include "Audio.h"
 #include "ViewProjection.h"
 #include "DebugManager.h"
@@ -90,7 +88,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 		// ESCキーで終了メッセージが来たらゲームループを抜ける
-		if (Input::Key().GetKey(DIK_ESCAPE))
+		if (Input::KeyInstance().GetKey(DIK_ESCAPE))
 		{
 			break;
 		}
