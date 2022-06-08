@@ -171,7 +171,7 @@
     <ClCompile Include="DebugText.cpp">
       <Filter>ソース ファイル\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="Audio.cpp">
+    <ClCompile Include="Sound.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="JoypadInput.cpp">
@@ -298,7 +298,7 @@
     <ClInclude Include="DebugText.h">
       <Filter>ヘッダー ファイル\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="Audio.h">
+    <ClInclude Include="Sound.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="JoypadInput.h">

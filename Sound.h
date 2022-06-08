@@ -26,7 +26,7 @@ struct FormatChunk
 };
 
 // 音声データ
-struct SoundData
+struct Sound
 {
 	// 波形フォーマット
 	WAVEFORMATEX wfex;
@@ -36,27 +36,28 @@ struct SoundData
 	unsigned int bufferSize;
 };
 
-class Audio
+class SoundManager
 {
 private:
 	IXAudio2MasteringVoice* masterVoice;
+	Microsoft::WRL::ComPtr<IXAudio2> xAudio2;
 
 public:
-	Microsoft::WRL::ComPtr<IXAudio2> xAudio2;
 	void Initialize();
 
-	static Audio* GetInstance();
+	Sound LoadSoundWave(const char* filePath);
+	void PlaySoundWave(const Sound& soundData);
+	void UnLoadSoundWave(Sound* soundData);
+
+	static SoundManager* GetInstance();
 	static void DestroyInstance();
 private:
-	Audio() = default;
-	~Audio() = default;
+	SoundManager() = default;
+	~SoundManager() = default;
 
-	Audio(const Audio&) = delete;
-	Audio& operator=(const Audio&) = delete;
-	Audio(const Audio&&) = delete;
-	Audio& operator=(const Audio&&) = delete;
+	SoundManager(const SoundManager&) = delete;
+	SoundManager& operator=(const SoundManager&) = delete;
+	SoundManager(const SoundManager&&) = delete;
+	SoundManager& operator=(const SoundManager&&) = delete;
+
 };
-
-SoundData LoadSoundWave(const char* filePath);
-void PlaySoundWave(IXAudio2* xaudio2, const SoundData& soundData);
-void UnLoadSoundWave(SoundData* soundData);

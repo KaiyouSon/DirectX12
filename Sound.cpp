@@ -1,7 +1,7 @@
-#include "Audio.h"
+#include "Sound.h"
 #include <cassert>
 
-void Audio::Initialize()
+void SoundManager::Initialize()
 {
 	HRESULT result;
 
@@ -10,10 +10,9 @@ void Audio::Initialize()
 
 	// マスターボイスを生成
 	result = xAudio2->CreateMasteringVoice(&masterVoice);
-
 }
 
-SoundData LoadSoundWave(const char* filePath)
+Sound SoundManager::LoadSoundWave(const char* filePath)
 {
 	// ファイル入力ストリームのインスタンス
 	std::ifstream file;
@@ -50,17 +49,26 @@ SoundData LoadSoundWave(const char* filePath)
 		// 再読み込み
 		file.read((char*)&data, sizeof(data));
 	}
+	// LISTチャンクを検査した場合
+	if (strncmp(data.id, "LIST ", 4) == 0)
+	{
+		// 読み取り位置をJUNKチャンクの終わりまで進める
+		file.seekg(data.size, std::ios_base::cur);
+		// 再読み込み
+		file.read((char*)&data, sizeof(data));
+	}
+
 	if (strncmp(data.id, "data ", 4) != 0) assert(0);
 
 	// Dataチャンクのデータ部（波形データ）の読み込み
-	char* pBuffer = new char{ (char)data.size };
+	char* pBuffer = new char[data.size];
 	file.read(pBuffer, data.size);
 
 	// waveファイルを閉じる
 	file.close();
 
 	// returnするための音声データ
-	SoundData soundData = {};
+	Sound soundData = {};
 	soundData.wfex = format.fmt;
 	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
 	soundData.bufferSize = data.size;
@@ -68,7 +76,7 @@ SoundData LoadSoundWave(const char* filePath)
 	return soundData;
 }
 
-void PlaySoundWave(IXAudio2* xAudio2, const SoundData& soundData)
+void SoundManager::PlaySoundWave(const Sound& soundData)
 {
 	HRESULT result;
 
@@ -88,7 +96,7 @@ void PlaySoundWave(IXAudio2* xAudio2, const SoundData& soundData)
 	result = pSourceVoice->Start();
 }
 
-void UnLoadSoundWave(SoundData* soundData)
+void SoundManager::UnLoadSoundWave(Sound* soundData)
 {
 	// バッファのメモリ解放
 	delete[] soundData->pBuffer;
@@ -98,14 +106,14 @@ void UnLoadSoundWave(SoundData* soundData)
 	soundData->wfex = {};
 }
 
-Audio* Audio::GetInstance()
+SoundManager* SoundManager::GetInstance()
 {
-	Audio* audio = new Audio;
-	return audio;
+	static SoundManager* soundManager = new SoundManager;
+	return soundManager;
 }
 
-void Audio::DestroyInstance()
+void SoundManager::DestroyInstance()
 {
-	Audio::GetInstance()->xAudio2.Reset();
-	delete Audio::GetInstance();
+	SoundManager::GetInstance()->xAudio2.Reset();
+	delete SoundManager::GetInstance();
 }

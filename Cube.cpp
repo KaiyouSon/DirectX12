@@ -37,7 +37,7 @@ void Cube::Initialize()
 		{ { +2.5f, -2.5f, -2.5f },{},{1.0f, 1.0f} }, //右下
 		{ { +2.5f, +2.5f, -2.5f },{},{1.0f, 0.0f} }, //右上
 
-		// 背
+		// 後
 		{ { +2.5f, -2.5f, +2.5f },{},{0.0f, 1.0f} }, //左下
 		{ { +2.5f, +2.5f, +2.5f },{},{0.0f, 0.0f} }, //左上
 		{ { -2.5f, -2.5f, +2.5f },{},{1.0f, 1.0f} }, //右下
@@ -71,29 +71,17 @@ void Cube::Initialize()
 	// インデックスデータ
 	uint16_t indices[] =
 	{
-		// 前
-		0,1,2, // 三角形1つ目
-		2,1,3, // 三角形2つ目
+		// 前		// 後
+		0,1,2, 		4,5,6,
+		2,1,3, 		6,5,7,
 
-		// 背
-		4,5,6,
-		6,5,7,
+		// 左		// 右
+		8,9,10,		12,13,14,
+		10,9,11,	14,13,15,
 
-		// 左
-		8,9,10,
-		10,9,11,
-
-		// 右
-		12,13,14,
-		14,13,15,
-
-		// 上
-		16,17,18,
-		18,17,19,
-
-		// 下
-		20,21,22,
-		22,21,23,
+		// 上	   	// 下
+		16,17,18,	20,21,22,
+		18,17,19,	22,21,23,
 	};
 
 	// 頂点データの要素数
@@ -159,14 +147,11 @@ void Cube::Update(const Transform& transform, Transform* parent)
 		this->transform.matWorld *= parent->matWorld;
 	}
 
-	Mat4 tmpView = View::GetInstance().matView;
-	Mat4 tmpProjection = View::GetInstance().matProjection3D;
-
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
 		this->transform.matWorld *
-		tmpView *
-		tmpProjection;
+		View::GetInstance().matView *
+		View::GetInstance().matProjection3D;
 }
 
 void Cube::Draw()
