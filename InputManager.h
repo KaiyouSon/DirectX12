@@ -6,9 +6,8 @@
 
 class InputManager
 {
-
 private:
-	IDirectInput8* directInput;
+	Microsoft::WRL::ComPtr<IDirectInput8> directInput;
 
 public:
 	void Initialize();	// ‰Šú‰»
@@ -17,7 +16,7 @@ public:
 	static KeyBoardInput& KeyInstance();
 	static MouseInput& MouseInstance();
 
-	IDirectInput8* GetDirectInput();
+	Microsoft::WRL::ComPtr<IDirectInput8> GetDirectInput();
 	static InputManager& GetInstance();
 private:
 	InputManager() = default;

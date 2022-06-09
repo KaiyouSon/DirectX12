@@ -9,7 +9,7 @@ void KeyBoardInput::Initialize()
 
 	// キーボードデバイスの生成
 	result = Input::GetInstance().GetDirectInput()->
-		CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
+		CreateDevice(GUID_SysKeyboard, &keyboard, nullptr);
 	assert(SUCCEEDED(result));
 
 	// 入力データ形式のセット

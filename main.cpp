@@ -1,7 +1,7 @@
 #include "NewEngine.h"
 #include "main2.h"
 #include "InputManager.h"
-#include "Audio.h"
+#include "Sound.h"
 #include "ViewProjection.h"
 #include "DebugManager.h"
 #include "Util.h"
@@ -24,17 +24,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 画像の読み込み
 	Load();
 
+	// Inputの初期化処理
+	Input::GetInstance().Initialize();
+
 	// 初期化処理
 	Initialize();
 
 	// ランダムの初期化処理
 	Random::Initialize();
 
-	// Inputの初期化処理
-	Input::GetInstance().Initialize();
+
 
 	// Audioの初期化処理
-	Audio::GetInstance()->Initialize();
+	SoundManager::GetInstance()->Initialize();
 
 	// ビュープロジェクションの初期化処理
 	View::GetInstance().Initialize();
@@ -98,7 +100,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 
 	// Audioの破棄
-	Audio::GetInstance()->DestroyInstance();
+	SoundManager::GetInstance()->DestroyInstance();
 
 	// デバッグマネージャの破棄
 	DebugManager::GetInstance()->DestroyInstance();

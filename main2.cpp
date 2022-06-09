@@ -8,6 +8,7 @@
 #include "TextureBuffer.h"
 #include "DebugText.h"
 #include "Sound.h"
+#include "JoypadInput.h"
 
 Texture backTexture;
 Texture objTexture;
@@ -34,6 +35,8 @@ void Initialize()
 	View::GetInstance().SetPos(Vec3(0, 0, -30));
 	View::GetInstance().SetTarget(Vec3::zero);
 	View::GetInstance().SetUp(Vec3::up);
+
+	JoypadInput::GetInstance().Initialize();
 }
 
 Transform transform2 =
@@ -66,16 +69,23 @@ void Update()
 	if (Input::KeyInstance().GetKey(DIK_D)) transform.pos.x += 0.5;
 	if (Input::KeyInstance().GetKey(DIK_A)) transform.pos.x -= 0.5;
 
+	if (JoypadInput::GetInstance().GetButton(BUTTON_START))  transform.pos.y += 0.5;
+
 	View::GetInstance().SetPos(Vec3(
 		(float)(cos(Radian(angle)) * length), 0.0f, (float)(sin(Radian(angle)) * length)));
 
 	cube->Update(transform);
 
-	SoundManager::GetInstance()->PlaySoundWave(testSound);
+	//SoundManager::GetInstance()->PlaySoundWave(testSound);
 
 	DebugText::GetInstance()->
 		Printf(0, 0, Color::white, "pos = %f, %f, %f",
 			transform.pos.x, transform.pos.y, transform.pos.z);
+
+	DebugText::GetInstance()->
+		Printf(0, 60, Color::white, "LeftStick = %f, %f",
+			JoypadInput::GetInstance().GetLeftStickVec().x,
+			JoypadInput::GetInstance().GetLeftStickVec().y);
 }
 
 // •`‰æˆ—
@@ -95,5 +105,6 @@ void Draw2D()
 void Destroy()
 {
 	SoundManager::GetInstance()->UnLoadSoundWave(&testSound);
+	delete cube;
 	delete bg;
 }

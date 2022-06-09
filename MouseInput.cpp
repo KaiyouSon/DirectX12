@@ -28,10 +28,10 @@ void MouseInput::Update()
 	// マウス情報の取得開始
 	mouse->Acquire();
 
-	// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
+	// 最新のマウス情報だったものは1フレーム前のキーボード情報として保存
 	oldMouseInput = mouseInput;
 
-	// 最新のキーボード情報を取得する
+	// 最新のマウス情報を取得する
 	mouse->GetDeviceState(sizeof(mouseInput), &mouseInput);
 
 	POINT tmpMousePos;

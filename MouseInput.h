@@ -1,11 +1,12 @@
 #pragma once
 #include <dinput.h>
+#include <wrl.h>
 #include "MathUtil.h"
 
 class MouseInput
 {
 private:
-	IDirectInputDevice8* mouse;
+	Microsoft::WRL::ComPtr<IDirectInputDevice8> mouse;
 	Vec2 mousePos;
 	DIMOUSESTATE2 mouseInput;
 	DIMOUSESTATE2 oldMouseInput;

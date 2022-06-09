@@ -6,7 +6,6 @@
 
 void InputManager::Initialize()
 {
-
 	HRESULT result;
 
 	// DirectInput‚Ì‰Šú‰»
@@ -29,7 +28,7 @@ void InputManager::Update()
 	MouseInput::GetInstance().Update();
 }
 
-IDirectInput8* InputManager::GetDirectInput()
+Microsoft::WRL::ComPtr<IDirectInput8> InputManager::GetDirectInput()
 {
 	return directInput;
 }

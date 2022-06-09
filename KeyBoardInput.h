@@ -1,9 +1,10 @@
 #pragma once
 #include <dinput.h>
+#include <wrl.h>
 class KeyBoardInput
 {
 private:
-	IDirectInputDevice8* keyboard;
+	Microsoft::WRL::ComPtr<IDirectInputDevice8> keyboard;
 	BYTE keys[256] = { 0 };
 	BYTE oldkeys[256] = { 0 };
 public:
