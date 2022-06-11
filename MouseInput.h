@@ -27,7 +27,8 @@ public:
 	Vec2 GetMousePos();
 	Vec3 GetMouseVelocity();
 
-	static MouseInput& GetInstance();
+	static MouseInput* GetInstance();
+	static void DestoryInstance();
 private:
 	MouseInput() = default;
 	~MouseInput() = default;

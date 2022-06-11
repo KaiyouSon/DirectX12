@@ -27,7 +27,7 @@ public:
 	Square();
 	~Square();
 	void SetTexture(const Texture& texture);
-	void Initialize(int viewType, Vec2 size = { 0,0 });
+	void Initialize(int viewType, Vec2 size);
 	void Update(const Transform& transform, Transform* parent = nullptr);
 	void Draw();
 public:

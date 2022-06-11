@@ -21,14 +21,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// NewEngineの初期化
 	NewEngineInit();
 
-	// 画像の読み込み
-	Load();
-
 	// Inputの初期化処理
-	Input::GetInstance().Initialize();
-
-	// 初期化処理
-	Initialize();
+	Input::GetInstance()->Initialize();
 
 	// ランダムの初期化処理
 	Random::Initialize();
@@ -42,6 +36,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// デバッグマネージャの初期化
 	DebugManager::GetInstance()->Initialize();
 
+	// 画像の読み込み
+	Load();
+
+	// 初期化処理
+	Initialize();
+
 	// ゲームループ
 	while (true)
 	{
@@ -51,7 +51,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// ----------- ここから更新処理を記述 ----------- //
 
 		// Inputの更新処理
-		Input::GetInstance().Update();
+		Input::GetInstance()->Update();
 
 		// デバッグマネージャの更新処理
 		DebugManager::GetInstance()->Update();
@@ -91,13 +91,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 		// ESCキーで終了メッセージが来たらゲームループを抜ける
-		if (Input::KeyInstance().GetKey(DIK_ESCAPE))
+		if (key->GetKey(DIK_ESCAPE))
 		{
 			break;
 		}
 	}
 
 	view->DestroyInstance();
+
+	Input::GetInstance()->DestoryInstance();
 
 	// Audioの破棄
 	SoundManager::GetInstance()->DestroyInstance();

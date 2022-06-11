@@ -15,7 +15,7 @@ void DebugManager::Initialize()
 
 void DebugManager::Update()
 {
-	if (Input::KeyInstance().GetKeyTrigger(DIK_F5))
+	if (key->GetKeyTrigger(DIK_F5))
 	{
 		if (isDebug == true) isDebug = false;
 		else				 isDebug = true;

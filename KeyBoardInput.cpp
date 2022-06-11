@@ -8,7 +8,7 @@ void KeyBoardInput::Initialize()
 	HRESULT result;
 
 	// キーボードデバイスの生成
-	result = Input::GetInstance().GetDirectInput()->
+	result = Input::GetInstance()->GetDirectInput()->
 		CreateDevice(GUID_SysKeyboard, &keyboard, nullptr);
 	assert(SUCCEEDED(result));
 
@@ -56,8 +56,13 @@ bool KeyBoardInput::GetKeyReleased(BYTE key)
 	return !keys[key] && oldkeys[key];
 }
 
-KeyBoardInput& KeyBoardInput::GetInstance()
+KeyBoardInput* KeyBoardInput::GetInstance()
 {
-	static KeyBoardInput key;
+	static KeyBoardInput* key = new KeyBoardInput;
 	return key;
+}
+
+void KeyBoardInput::DestoryInstance()
+{
+	delete GetInstance();
 }

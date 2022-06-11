@@ -8,7 +8,7 @@ void MouseInput::Initialize()
 	HRESULT result;
 
 	// マウスデバイスの生成
-	result = Input::GetInstance().GetDirectInput()->
+	result = Input::GetInstance()->GetDirectInput()->
 		CreateDevice(GUID_SysMouse, &mouse, nullptr);
 	assert(SUCCEEDED(result));
 
@@ -104,8 +104,13 @@ Vec3 MouseInput::GetMouseVelocity()
 	return tmp;
 }
 
-MouseInput& MouseInput::GetInstance()
+MouseInput* MouseInput::GetInstance()
 {
-	static MouseInput mouse;
+	static MouseInput* mouse = new MouseInput;
 	return mouse;
+}
+
+void MouseInput::DestoryInstance()
+{
+	delete GetInstance();
 }

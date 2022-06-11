@@ -4,6 +4,10 @@
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 
+JoypadInput* pad = JoypadInput::GetInstance();
+KeyBoardInput* key = KeyBoardInput::GetInstance();
+MouseInput* mouse = MouseInput::GetInstance();
+
 void InputManager::Initialize()
 {
 	HRESULT result;
@@ -16,16 +20,16 @@ void InputManager::Initialize()
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 
-	JoypadInput::GetInstance().Initialize();
-	KeyBoardInput::GetInstance().Initialize();
-	MouseInput::GetInstance().Initialize();
+	JoypadInput::GetInstance()->Initialize();
+	KeyBoardInput::GetInstance()->Initialize();
+	MouseInput::GetInstance()->Initialize();
 }
 
 void InputManager::Update()
 {
-	JoypadInput::GetInstance().Update();
-	KeyBoardInput::GetInstance().Update();
-	MouseInput::GetInstance().Update();
+	JoypadInput::GetInstance()->Update();
+	KeyBoardInput::GetInstance()->Update();
+	MouseInput::GetInstance()->Update();
 }
 
 Microsoft::WRL::ComPtr<IDirectInput8> InputManager::GetDirectInput()
@@ -33,23 +37,13 @@ Microsoft::WRL::ComPtr<IDirectInput8> InputManager::GetDirectInput()
 	return directInput;
 }
 
-JoypadInput& InputManager::PadInstance()
+InputManager* InputManager::GetInstance()
 {
-	return JoypadInput::GetInstance();
-}
-
-KeyBoardInput& InputManager::KeyInstance()
-{
-	return KeyBoardInput::GetInstance();
-}
-
-MouseInput& InputManager::MouseInstance()
-{
-	return MouseInput::GetInstance();
-}
-
-InputManager& InputManager::GetInstance()
-{
-	static InputManager input;
+	static InputManager* input = new InputManager;
 	return input;
+}
+
+void InputManager::DestoryInstance()
+{
+	delete GetInstance();
 }

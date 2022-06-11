@@ -26,14 +26,12 @@ void Load()
 // ‰Šú‰»ˆ—
 void Initialize()
 {
-	bg->Initialize(Square::view2D, Vec2(WIN_WIDTH, WIN_HEIGHT));
+	bg->Initialize(Square::view2D, Vec2(WIN_HALF_WIDTH, WIN_HALF_HEIGHT));
 	cube->Initialize();
 
 	view->SetPos(Vec3(0, 0, -30));
 	view->SetTarget(Vec3::zero);
 	view->SetUp(Vec3::up);
-
-	JoypadInput::GetInstance().Initialize();
 }
 
 Transform transform2 =
@@ -58,15 +56,15 @@ void Update()
 {
 	bg->Update(transform2);
 
-	if (Input::KeyInstance().GetKey(DIK_LEFT))  angle--;
-	if (Input::KeyInstance().GetKey(DIK_RIGHT)) angle++;
+	if (key->GetKey(DIK_LEFT))  angle--;
+	if (key->GetKey(DIK_RIGHT)) angle++;
 
-	if (Input::KeyInstance().GetKey(DIK_W)) transform.pos.y += 0.5;
-	if (Input::KeyInstance().GetKey(DIK_S)) transform.pos.y -= 0.5;
-	if (Input::KeyInstance().GetKey(DIK_D)) transform.pos.x += 0.5;
-	if (Input::KeyInstance().GetKey(DIK_A)) transform.pos.x -= 0.5;
+	if (key->GetKey(DIK_W)) transform.pos.y += 0.5;
+	if (key->GetKey(DIK_S)) transform.pos.y -= 0.5;
+	if (key->GetKey(DIK_D)) transform.pos.x += 0.5;
+	if (key->GetKey(DIK_A)) transform.pos.x -= 0.5;
 
-	if (Input::PadInstance().GetButton(BUTTON_START))  transform.pos.y += 0.5;
+	if (pad->GetButton(BUTTON_START))  transform.pos.y += 0.5;
 
 	view->SetPos(Vec3(
 		(float)(cos(MathUtil::Radian(angle)) * length), 0.0f,

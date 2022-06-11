@@ -10,7 +10,7 @@ void JoypadInput::Initialize()
 	HRESULT result;
 
 	// ジョイパットデバイスの列挙
-	result = Input::GetInstance().GetDirectInput()->
+	result = Input::GetInstance()->GetDirectInput()->
 		EnumDevices(
 			DI8DEVCLASS_GAMECTRL,
 			DeviceFindCallBack,
@@ -110,7 +110,7 @@ BOOL CALLBACK JoypadInput::DeviceFindCallBack(const DIDEVICEINSTANCE* pdidInstan
 	//Input* input = static_cast<Input*>(pContext);
 	JoypadInput* joypadInput = static_cast<JoypadInput*>(pContext);
 	Microsoft::WRL::ComPtr<IDirectInputDevice8>  joypad;
-	result = Input::GetInstance().GetDirectInput()->
+	result = Input::GetInstance()->GetDirectInput()->
 		CreateDevice(pdidInstance->guidInstance, &joypad, nullptr);
 	if (FAILED(result)) return DIENUM_CONTINUE;
 
@@ -121,8 +121,13 @@ BOOL CALLBACK JoypadInput::DeviceFindCallBack(const DIDEVICEINSTANCE* pdidInstan
 	return DIENUM_CONTINUE;
 }
 
-JoypadInput& JoypadInput::GetInstance()
+JoypadInput* JoypadInput::GetInstance()
 {
-	static JoypadInput pad;
+	static JoypadInput* pad = new JoypadInput;
 	return pad;
+}
+
+void JoypadInput::DestoryInstance()
+{
+	delete GetInstance();
 }

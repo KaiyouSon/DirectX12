@@ -7,7 +7,7 @@ Square::Square() :
 	vertexBuffer(new VertexBuffer),
 	indexBuffer(new IndexBuffer),
 	constantBuffer(new ConstantBuffer),
-
+	size(0, 0),
 	ibArraySize(0), vbArraySize(0), viewType(view3D)
 {
 }
@@ -36,10 +36,10 @@ void Square::Initialize(int viewType, Vec2 size)
 	};
 	if (viewType == view3D)
 	{
-		vertices[0] = { { -2.5f, -2.5f, 0.0f },{},{0.0f, 1.0f} }; //左下
-		vertices[1] = { { -2.5f, +2.5f, 0.0f },{},{0.0f, 0.0f} }; //左上
-		vertices[2] = { { +2.5f, -2.5f, 0.0f },{},{1.0f, 1.0f} }; //右下
-		vertices[3] = { { +2.5f, +2.5f, 0.0f },{},{1.0f, 0.0f} }; //右上
+		vertices[0] = { { -0.5f, -0.5f, 0.0f },{},{0.0f, 1.0f} }; //左下
+		vertices[1] = { { -0.5f, +0.5f, 0.0f },{},{0.0f, 0.0f} }; //左上
+		vertices[2] = { { +0.5f, -0.5f, 0.0f },{},{1.0f, 1.0f} }; //右下
+		vertices[3] = { { +0.5f, +0.5f, 0.0f },{},{1.0f, 0.0f} }; //右上
 	};
 
 	// インデックスデータ

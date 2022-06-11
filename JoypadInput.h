@@ -2,14 +2,6 @@
 #include <dinput.h>
 #include <wrl.h>
 #include "MathUtil.h"
-#define BUTTON_A 0
-#define BUTTON_B 1
-#define BUTTON_X 2
-#define BUTTON_Y 3
-#define BUTTON_L1 4
-#define BUTTON_R1 5
-#define BUTTON_BACK 6
-#define BUTTON_START 7
 
 class JoypadInput
 {
@@ -31,7 +23,8 @@ public:
 	Vec2 GetRightStickParam();
 	Vec2 GetRightStickVec();
 
-	static JoypadInput& GetInstance();
+	static JoypadInput* GetInstance();
+	static void DestoryInstance();
 
 private:
 	JoypadInput() = default;

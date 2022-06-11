@@ -16,7 +16,8 @@ public:
 	bool GetKeyTrigger(BYTE key);
 	bool GetKeyReleased(BYTE key);
 
-	static KeyBoardInput& GetInstance();
+	static KeyBoardInput* GetInstance();
+	static void DestoryInstance();
 private:
 	KeyBoardInput() = default;
 	~KeyBoardInput() = default;
