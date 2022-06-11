@@ -150,8 +150,8 @@ void Cube::Update(const Transform& transform, Transform* parent)
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
 		this->transform.matWorld *
-		View::GetInstance().matView *
-		View::GetInstance().matProjection3D;
+		view->matView *
+		view->matProjection3D;
 }
 
 void Cube::Draw()

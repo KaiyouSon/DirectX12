@@ -3,6 +3,8 @@
 #include "TextureBuffer.h"
 #include "InputManager.h"
 
+DebugText* debugtext = DebugText::GetInstance();
+
 void DebugManager::Initialize()
 {
 	debugTexture = TextureBuffer::LoadTexture("Resources/debugfont.png");

@@ -33,13 +33,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ランダムの初期化処理
 	Random::Initialize();
 
-
-
 	// Audioの初期化処理
 	SoundManager::GetInstance()->Initialize();
 
 	// ビュープロジェクションの初期化処理
-	View::GetInstance().Initialize();
+	view->Initialize();
 
 	// デバッグマネージャの初期化
 	DebugManager::GetInstance()->Initialize();
@@ -98,6 +96,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			break;
 		}
 	}
+
+	view->DestroyInstance();
 
 	// Audioの破棄
 	SoundManager::GetInstance()->DestroyInstance();

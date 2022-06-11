@@ -22,7 +22,8 @@ public:
 	void SetTarget(const Vec3& target);
 	void SetUp(const Vec3& up);
 
-	static ViewProjection& GetInstance();
+	static ViewProjection* GetInstance();
+	static void DestroyInstance();
 private:
 	ViewProjection() = default;
 	~ViewProjection() = default;
@@ -33,3 +34,5 @@ private:
 	ViewProjection& operator=(const ViewProjection&&) = delete;
 
 }typedef View;
+
+extern View* view;

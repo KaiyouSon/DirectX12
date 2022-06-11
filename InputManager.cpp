@@ -33,6 +33,11 @@ Microsoft::WRL::ComPtr<IDirectInput8> InputManager::GetDirectInput()
 	return directInput;
 }
 
+JoypadInput& InputManager::PadInstance()
+{
+	return JoypadInput::GetInstance();
+}
+
 KeyBoardInput& InputManager::KeyInstance()
 {
 	return KeyBoardInput::GetInstance();

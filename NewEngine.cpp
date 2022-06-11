@@ -72,17 +72,17 @@ void NewEngineEnd()
 	GraphicsPipeline2D::DestroyInstance();
 	GraphicsPipeline3D::DestroyInstance();
 
-	ComPtr<ID3D12Device> tmpDevice = NewEngineBase::GetInstance()->GetDevice().Get();
+	//ComPtr<ID3D12Device> tmpDevice = NewEngineBase::GetInstance()->GetDevice().Get();
 	// DirectX‚Ì”jŠü
 	NewEngineBase::DestroyInstance();
 
-	ID3D12DebugDevice* debugInterface;
+	//ID3D12DebugDevice* debugInterface;
 
-	if (SUCCEEDED(tmpDevice.Get()->QueryInterface(&debugInterface)))
-	{
-		debugInterface->ReportLiveDeviceObjects(D3D12_RLDO_DETAIL | D3D12_RLDO_IGNORE_INTERNAL);
-		debugInterface->Release();
-	}
+	//if (SUCCEEDED(tmpDevice.Get()->QueryInterface(&debugInterface)))
+	//{
+	//	debugInterface->ReportLiveDeviceObjects(D3D12_RLDO_DETAIL | D3D12_RLDO_IGNORE_INTERNAL);
+	//	debugInterface->Release();
+	//}
 
 	delete viewport;
 	delete scissorRectangle;

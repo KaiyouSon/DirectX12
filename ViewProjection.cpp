@@ -3,9 +3,7 @@
 #include "MathUtil.h"
 #include "Input.h"
 
-static float distance = 0;
-Vec3 vec;
-static float angle = 270;
+View* view = View::GetInstance();
 
 void ViewProjection::Initialize()
 {
@@ -17,12 +15,9 @@ void ViewProjection::Initialize()
 
 	// 透視投影行列の計算
 	matProjection3D = Mat4::PerspectiveConversion(
-		Radian(45),	// 上下画角45度
+		MathUtil::Radian(45),	// 上下画角45度
 		(float)WIN_WIDTH / WIN_HEIGHT, // アスペクト比(画面横幅/画面縦幅)
 		0.1f, 1000.0f);	// 先端　奥端
-
-	vec = pos - target;
-	distance = Vec3::Distance(pos, target);
 }
 
 void ViewProjection::SetPos(const Vec3& pos)
@@ -43,8 +38,13 @@ void ViewProjection::SetUp(const Vec3& up)
 	matView = Mat4::ViewConversion(pos, target, up);
 }
 
-ViewProjection& ViewProjection::GetInstance()
+ViewProjection* ViewProjection::GetInstance()
 {
-	static ViewProjection view;
+	static ViewProjection* view = new ViewProjection;
 	return view;
+}
+
+void ViewProjection::DestroyInstance()
+{
+	delete ViewProjection::GetInstance();
 }

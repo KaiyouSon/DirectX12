@@ -81,14 +81,14 @@ void Square::Update(const Transform& transform, Transform* parent)
 	{
 		constantBuffer->constMapTransform->mat =
 			this->transform.matWorld *
-			View::GetInstance().matProjection2D;
+			view->matProjection2D;
 	}
 	if (viewType == view3D)
 	{
 		constantBuffer->constMapTransform->mat =
 			this->transform.matWorld *
-			View::GetInstance().matView *
-			View::GetInstance().matProjection3D;
+			view->matView *
+			view->matProjection3D;
 	}
 }
 

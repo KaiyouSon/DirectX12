@@ -13,10 +13,12 @@ public:
 	void Initialize();	// ‰Šú‰»
 	void Update();		// XVˆ—
 
+	static JoypadInput& PadInstance();
 	static KeyBoardInput& KeyInstance();
 	static MouseInput& MouseInstance();
 
 	Microsoft::WRL::ComPtr<IDirectInput8> GetDirectInput();
+
 	static InputManager& GetInstance();
 private:
 	InputManager() = default;

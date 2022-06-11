@@ -1,5 +1,6 @@
 #pragma once
 #include "TextureBuffer.h"
+#include "DebugText.h"
 class DebugManager
 {
 private:
@@ -24,3 +25,4 @@ private:
 	DebugManager& operator=(const DebugManager&&) = delete;
 };
 
+extern DebugText* debugtext;

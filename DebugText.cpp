@@ -18,6 +18,20 @@ void DebugText::Printf(float x, float y, const Color& color, const char* fmt, ..
 	va_end(args);
 }
 
+void DebugText::Printf(float x, float y, const int& colorCode, const char* fmt, ...)
+{
+	Color color;
+	color.r = colorCode & 0xff0000;
+	color.g = colorCode & 0x00ff00;
+	color.b = colorCode & 0x0000ff;
+
+	va_list args;
+	va_start(args, fmt);
+	int w = vsnprintf(buffer, maxCharCount - 1, fmt, args);
+	TmpPrintString(x, y, color, buffer);
+	va_end(args);
+}
+
 void DebugText::DrawAll(const Texture& texture)
 {
 	if (DebugManager::GetInstance()->GetisDebug() == true)

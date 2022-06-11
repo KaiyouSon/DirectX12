@@ -22,6 +22,11 @@ public:
 	static Mat4 RotateZ(float angle);	// 回転行列ｚ軸を返す関数
 	static Mat4 Translate(const Vec3& pos);	// 平行移動を返す関数
 
+	static Mat4 Inverse(const Mat4& mat);	// 逆行列を返す関数
+
+	// 行列をデバックテクストとして表示する
+	static void PrintMat(float x, float y, const Mat4& mat, const char* str = "mat");
+
 	// ビュー変換
 	static Mat4 ViewConversion(const Vec3& pos, const Vec3& target, const Vec3& up);
 	// 透視射影変換

@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DrawManager.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
@@ -201,6 +202,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DrawManager.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConstantBuffer.h" />

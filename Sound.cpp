@@ -117,3 +117,18 @@ void SoundManager::DestroyInstance()
 	SoundManager::GetInstance()->xAudio2.Reset();
 	delete SoundManager::GetInstance();
 }
+
+Sound LoadSoundWave(const char* filePath)
+{
+	return SoundManager::GetInstance()->LoadSoundWave(filePath);
+}
+
+void PlaySoundWave(const Sound& soundData)
+{
+	SoundManager::GetInstance()->PlaySoundWave(soundData);
+}
+
+void UnLoadSoundWave(Sound* soundData)
+{
+	SoundManager::GetInstance()->UnLoadSoundWave(soundData);
+}

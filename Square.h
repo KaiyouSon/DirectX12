@@ -15,9 +15,7 @@ private:
 	ConstantBuffer* constantBuffer;
 	Texture texture;
 	Transform transform;
-
 	Vec2 size;
-
 	// 頂点データ
 	Vertex vertices[4];
 private:

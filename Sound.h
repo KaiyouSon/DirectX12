@@ -61,3 +61,7 @@ private:
 	SoundManager& operator=(const SoundManager&&) = delete;
 
 };
+
+Sound LoadSoundWave(const char* filePath);
+void PlaySoundWave(const Sound& soundData);
+void UnLoadSoundWave(Sound* soundData);

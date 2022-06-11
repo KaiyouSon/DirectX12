@@ -8,11 +8,11 @@
 class DebugText
 {
 private:
-	static const int maxCharCount = 256;
+	static const int maxCharCount = 512;
 	static const int fontWidth = 9;
 	static const int fontHeight = 18;
 	static const int fontLineCount = 14;
-	Square sprites[256];
+	Square sprites[maxCharCount];
 	int spriteIndex = 0;
 
 	Transform transform;
@@ -26,6 +26,7 @@ private:
 public:
 	void Initialize();
 	void Printf(float x, float y, const Color& color, const char* fmt, ...);
+	void Printf(float x, float y, const int& colorCode, const char* fmt, ...);
 
 	void DrawAll(const Texture& texture);
 

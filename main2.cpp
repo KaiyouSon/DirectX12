@@ -1,14 +1,11 @@
 #include "main2.h"
 #include "ViewProjection.h"
-#include "Square.h"
-#include "Cube.h"
 #include "Util.h"
 #include "MathUtil.h"
 #include "InputManager.h"
-#include "TextureBuffer.h"
-#include "DebugText.h"
+#include "DebugManager.h"
+#include "DrawManager.h"
 #include "Sound.h"
-#include "JoypadInput.h"
 
 Texture backTexture;
 Texture objTexture;
@@ -21,9 +18,9 @@ Cube* cube = new Cube;
 // 画像の読み込み
 void Load()
 {
-	backTexture = TextureBuffer::LoadTexture("Resources/bg.png");
-	objTexture = TextureBuffer::LoadTexture("Resources/pic.png");
-	testSound = SoundManager::GetInstance()->LoadSoundWave("Resources/title_bgm.wav");
+	backTexture = LoadTexture("Resources/bg.png");
+	objTexture = LoadTexture("Resources/pic.png");
+	testSound = LoadSoundWave("Resources/title_bgm.wav");
 }
 
 // 初期化処理
@@ -32,9 +29,9 @@ void Initialize()
 	bg->Initialize(Square::view2D, Vec2(WIN_WIDTH, WIN_HEIGHT));
 	cube->Initialize();
 
-	View::GetInstance().SetPos(Vec3(0, 0, -30));
-	View::GetInstance().SetTarget(Vec3::zero);
-	View::GetInstance().SetUp(Vec3::up);
+	view->SetPos(Vec3(0, 0, -30));
+	view->SetTarget(Vec3::zero);
+	view->SetUp(Vec3::up);
 
 	JoypadInput::GetInstance().Initialize();
 }
@@ -69,23 +66,17 @@ void Update()
 	if (Input::KeyInstance().GetKey(DIK_D)) transform.pos.x += 0.5;
 	if (Input::KeyInstance().GetKey(DIK_A)) transform.pos.x -= 0.5;
 
-	if (JoypadInput::GetInstance().GetButton(BUTTON_START))  transform.pos.y += 0.5;
+	if (Input::PadInstance().GetButton(BUTTON_START))  transform.pos.y += 0.5;
 
-	View::GetInstance().SetPos(Vec3(
-		(float)(cos(Radian(angle)) * length), 0.0f, (float)(sin(Radian(angle)) * length)));
+	view->SetPos(Vec3(
+		(float)(cos(MathUtil::Radian(angle)) * length), 0.0f,
+		(float)(sin(MathUtil::Radian(angle)) * length)));
 
 	cube->Update(transform);
 
-	//SoundManager::GetInstance()->PlaySoundWave(testSound);
+	//PlaySoundWave(testSound);
 
-	DebugText::GetInstance()->
-		Printf(0, 0, Color::white, "pos = %f, %f, %f",
-			transform.pos.x, transform.pos.y, transform.pos.z);
-
-	DebugText::GetInstance()->
-		Printf(0, 60, Color::white, "LeftStick = %f, %f",
-			JoypadInput::GetInstance().GetLeftStickVec().x,
-			JoypadInput::GetInstance().GetLeftStickVec().y);
+	debugtext->Printf(0, 0, 0xff0000, "%d", 0);
 }
 
 // 描画処理
@@ -104,7 +95,7 @@ void Draw2D()
 // インスタンスのdelete
 void Destroy()
 {
-	SoundManager::GetInstance()->UnLoadSoundWave(&testSound);
+	UnLoadSoundWave(&testSound);
 	delete cube;
 	delete bg;
 }
