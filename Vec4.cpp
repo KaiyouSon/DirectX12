@@ -202,21 +202,15 @@ bool Vec4::operator==(float num)
 	return x == num && y == num && z == num && w == num;
 }
 
-
-
 bool Vec4::operator!=(float num)
 {
 	return x != num || y != num || z != num || w != num;
 }
 
-
-
 bool Vec4::operator>=(float num)
 {
 	return x >= num && y >= num && z >= num && w >= num;
 }
-
-
 
 bool Vec4::operator<=(float num)
 {

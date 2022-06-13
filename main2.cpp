@@ -37,8 +37,8 @@ void Initialize()
 Transform transform2 =
 {
 	Vec3(WIN_HALF_WIDTH,WIN_HALF_HEIGHT,0),
-	Vec3(1,1,1),
-	Vec3(0,0,0),
+	Vec3::one,
+	Vec3::zero,
 };
 
 float angle = 270;
@@ -46,9 +46,9 @@ float length = 50;
 
 Transform transform =
 {
-	Vec3(0,0,0),
-	Vec3(1,1,1),
-	Vec3(0,0,0),
+	Vec3::zero,
+	Vec3::one,
+	Vec3::zero,
 };
 
 // XVˆ—
@@ -74,7 +74,10 @@ void Update()
 
 	//PlaySoundWave(testSound);
 
-	debugtext->Printf(0, 0, 0xff0000, "%d", 0);
+	Color color = Color::SetRGB(255, 255, 255);
+
+	debugtext->Printf(0, 20, Color::white, "R = %f, G = %f, B = %f");
+	debugtext->Printf(0, 40, Color::white, "H = %f, S = %f, V = %f");
 }
 
 // •`‰æˆ—

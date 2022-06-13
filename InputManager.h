@@ -6,14 +6,14 @@
 #include "KeyBoardInput.h"
 #include "MouseInput.h"
 
-#define BUTTON_A 0
-#define BUTTON_B 1
-#define BUTTON_X 2
-#define BUTTON_Y 3
-#define BUTTON_L1 4
-#define BUTTON_R1 5
-#define BUTTON_BACK 6
-#define BUTTON_START 7
+constexpr int BUTTON_A = 0;
+constexpr int BUTTON_B = 1;
+constexpr int BUTTON_X = 2;
+constexpr int BUTTON_Y = 3;
+constexpr int BUTTON_L1 = 4;
+constexpr int BUTTON_R1 = 5;
+constexpr int BUTTON_BACK = 6;
+constexpr int BUTTON_START = 7;
 
 class InputManager
 {

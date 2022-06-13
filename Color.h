@@ -2,10 +2,10 @@
 class Color
 {
 public:
-	float r, g, b, a;
-
+	float r, g, b;
+	float h, s, v;
+	float a;
 	Color();
-	Color(float r, float g, float b, float a);
 
 	const static Color red;
 	const static Color green;
@@ -13,5 +13,8 @@ public:
 	const static Color yellow;
 	const static Color white;
 	const static Color black;
+
+	static Color SetRGB(float r, float g, float b);
+	static Color SetHSV(float h, float s, float v);
 };
 

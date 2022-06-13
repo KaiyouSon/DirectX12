@@ -7,7 +7,7 @@
 // 定数バッファ用データ構造体(マテリアル)
 struct ConstBufferDateMaterial
 {
-	Color color;	// 色(RGBA)
+	Vec4 color;	// 色(RGBA)
 };
 
 // 定数バッファ用データ構造体(3D変換行列)
@@ -23,6 +23,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial;
 	// トランスフォームの定数バッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform;
+
+	ConstBufferDateMaterial* constMapMaterial;
 
 public:
 	ConstBufferDataTransform* constMapTransform = nullptr;

@@ -8,8 +8,8 @@ public:
 	float z; // ベクトルの z 成分
 
 	// コンストラクタ
-	Vec3() : x(0), y(0), z(0) {};
-	Vec3(float x, float y, float z) : x(x), y(y), z(z) {};
+	constexpr Vec3() : x(0), y(0), z(0) {};
+	constexpr Vec3(float x, float y, float z) : x(x), y(y), z(z) {};
 
 	// static変数
 	const static Vec3 left;    // Vec3(-1,0,0) と同じ意味
@@ -27,9 +27,9 @@ public:
 	Vec3 Normalized() const;    // 正規化にしたベクトル
 
 	// static関数
-	static float Dot(const Vec3& v1, const Vec3& v2);      // 二つのベクトルの内積
-	static Vec3 Cross(const Vec3& v1, const Vec3& v2);     // 二つのベクトルの外積
-	static float Distance(const Vec3& v1, const Vec3& v2); // 二つのベクトルの距離
+	static float Dot(const Vec3& v1, const Vec3& v2);		// 二つのベクトルの内積
+	static Vec3 Cross(const Vec3& v1, const Vec3& v2);		// 二つのベクトルの外積
+	static float Distance(const Vec3& v1, const Vec3& v2);	// 二つのベクトルの距離
 
 	// 二つのベクトルで各成分の一番大きな値を使用してベクトルを作成する
 	static Vec3 Max(const Vec3& v1, const Vec3& v2);

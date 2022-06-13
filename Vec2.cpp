@@ -3,8 +3,8 @@
 
 const Vec2 Vec2::left(-1, 0);
 const Vec2 Vec2::right(1, 0);
-const Vec2 Vec2::up(0, -1);
-const Vec2 Vec2::down(0, 1);
+const Vec2 Vec2::up(0, 1);
+const Vec2 Vec2::down(0, -1);
 const Vec2 Vec2::one(1, 1);
 const Vec2 Vec2::zero(0, 0);
 

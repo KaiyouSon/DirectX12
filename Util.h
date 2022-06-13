@@ -8,6 +8,7 @@ const int WIN_HALF_HEIGHT = WIN_HEIGHT / 2;
 
 class Util
 {
+public:
 	// ”äŠr‚µ‚Ä‘å‚«‚¢•û‚ð•Ô‚·
 	static float Max(float a, float b);
 

@@ -70,14 +70,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// 2D描画処理
 		Draw2D();
-		// デバッグマネージャの2D描画
-		DebugManager::GetInstance()->Draw();
 
 		// 3D描画の設定
 		NewEngineSetDraw3D();
 
 		// 3D描画処理
 		Draw3D();
+
+		// 2D描画の設定
+		NewEngineSetDraw2D();
+		// デバッグマネージャの2D描画
+		DebugManager::GetInstance()->Draw();
 
 		// ---------- ここまでに描画処理を記述 ---------- //
 
