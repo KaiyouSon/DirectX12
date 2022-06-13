@@ -28,7 +28,6 @@ Color Color::SetRGB(float r, float g, float b)
 	color.r = r;
 	color.g = g;
 	color.b = b;
-	color.a = 255;
 
 	float max = Util::Max(Util::Max(r, g), b);
 	float min = Util::Min(Util::Min(r, g), b);
@@ -64,7 +63,6 @@ Color Color::SetHSV(float h, float s, float v)
 	color.h = h;
 	color.s = s;
 	color.v = v;
-	color.a = 255;
 
 	float max = v / 100 * 255;
 	float min = max - ((s / 100) * max);
