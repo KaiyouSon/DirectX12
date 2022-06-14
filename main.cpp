@@ -5,6 +5,7 @@
 #include "ViewProjection.h"
 #include "DebugManager.h"
 #include "Util.h"
+#include "MyGUI.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -36,6 +37,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// デバッグマネージャの初期化
 	DebugManager::GetInstance()->Initialize();
 
+	GUI::GetInstance()->Initialize();
+
 	// 画像の読み込み
 	Load();
 
@@ -55,6 +58,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// デバッグマネージャの更新処理
 		DebugManager::GetInstance()->Update();
+
+		GUI::GetInstance()->Update();
 
 		// 更新処理
 		Update();
@@ -81,6 +86,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		NewEngineSetDraw2D();
 		// デバッグマネージャの2D描画
 		DebugManager::GetInstance()->Draw();
+
+		GUI::GetInstance()->Draw();
 
 		// ---------- ここまでに描画処理を記述 ---------- //
 
@@ -109,6 +116,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	// デバッグマネージャの破棄
 	DebugManager::GetInstance()->DestroyInstance();
+
+	GUI::DestroyInstance();
 
 	// インスタンスの破棄
 	Destroy();

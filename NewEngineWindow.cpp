@@ -1,4 +1,5 @@
 #include "NewEngineWindow.h"
+#include "ImGUI/imgui_impl_win32.h"
 #include <Windows.h>
 
 void NewEngineWindow::CreateGameWindow()
@@ -64,9 +65,14 @@ void NewEngineWindow::SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT)
 	WinHeight = WIN_HEIGHT;
 }
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
+	HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // ウィンドウプロシージャ
 LRESULT CALLBACK NewEngineWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+		return true;
+
 	// メッセージに応じてゲーム固有の処理を行う
 	switch (msg)
 	{
