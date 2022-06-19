@@ -73,125 +73,14 @@
     <Filter Include="ImGUI">
       <UniqueIdentifier>{bd412dbb-8b3e-42a9-a1cd-6e3b7126d5ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GUI">
+      <UniqueIdentifier>{79dd6d11-35f6-4175-95f4-e1abb2d413bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GUII">
+      <UniqueIdentifier>{256f88ef-ad73-45a9-a226-583307bda5de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Vec2.cpp">
-      <Filter>ソース ファイル\Math\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="Vec3.cpp">
-      <Filter>ソース ファイル\Math\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexBuffer.cpp">
-      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="IndexBuffer.cpp">
-      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureBuffer.cpp">
-      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewProjection.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsCommand.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsPipeline3D.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="NewEngineBase.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="NewEngineWindow.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="ScissorRectangle.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderCompiler.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderResourceView.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Viewport.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Vec4.cpp">
-      <Filter>ソース ファイル\Math\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube.cpp">
-      <Filter>ソース ファイル\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="main2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="NewEngine.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="DepthBuffer.cpp">
-      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="RootSignature.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsPipeline2D.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Mat4.cpp">
-      <Filter>ソース ファイル\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="MathUtil.cpp">
-      <Filter>ソース ファイル\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyBoardInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="MouseInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Square.cpp">
-      <Filter>ソース ファイル\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugManager.cpp">
-      <Filter>ソース ファイル\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugText.cpp">
-      <Filter>ソース ファイル\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Sound.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="JoypadInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Random.cpp">
-      <Filter>ソース ファイル\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Util.cpp">
-      <Filter>ソース ファイル\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Color.cpp">
-      <Filter>ソース ファイル\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ImGUI\imgui.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
@@ -213,8 +102,137 @@
     <ClCompile Include="ImGUI\imgui_widgets.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
-    <ClCompile Include="MyGUI.cpp">
+    <ClCompile Include="Source\main.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\main2.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MyGUI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NewEngine.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Transform.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ViewProjection.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameObject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DrawManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Color.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Random.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Util.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Square.cpp">
+      <Filter>ソース ファイル\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ConstantBuffer.cpp">
+      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DepthBuffer.cpp">
+      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IndexBuffer.cpp">
+      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TextureBuffer.cpp">
+      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\VertexBuffer.cpp">
+      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphicsCommand.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphicsPipeline2D.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphicsPipeline3D.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NewEngineBase.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NewEngineWindow.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RootSignature.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScissorRectangle.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ShaderCompiler.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ShaderResourceView.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Viewport.cpp">
+      <Filter>ソース ファイル\NewEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Cube.cpp">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Vec2.cpp">
+      <Filter>ソース ファイル\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Vec3.cpp">
+      <Filter>ソース ファイル\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Vec4.cpp">
+      <Filter>ソース ファイル\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mat4.cpp">
+      <Filter>ソース ファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MathUtil.cpp">
+      <Filter>ソース ファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\InputManager.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\JoypadInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\KeyBoardInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MouseInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DebugText.cpp">
+      <Filter>ソース ファイル\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DebugManager.cpp">
+      <Filter>ソース ファイル\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GUI\DebugLayer.cpp">
+      <Filter>ソース ファイル\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GUI\HierarchyLayer.cpp">
+      <Filter>ソース ファイル\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GUI\ProjectLayer.cpp">
+      <Filter>ソース ファイル\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GUI\SceneLayer.cpp">
+      <Filter>ソース ファイル\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -229,123 +247,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Vec2.h">
-      <Filter>ヘッダー ファイル\Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Vec3.h">
-      <Filter>ヘッダー ファイル\Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexBuffer.h">
-      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexBuffer.h">
-      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantBuffer.h">
-      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureBuffer.h">
-      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewProjection.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="NewEngineBase.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="NewEngineWindow.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="ScissorRectangle.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderCompiler.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderResourceView.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Viewport.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsCommand.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsPipeline3D.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Vec4.h">
-      <Filter>ヘッダー ファイル\Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>ヘッダー ファイル\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="main2.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="NewEngine.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="DepthBuffer.h">
-      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="RootSignature.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsPipeline2D.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MathUtil.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Mat4.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyBoardInput.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseInput.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Square.h">
-      <Filter>ヘッダー ファイル\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugManager.h">
-      <Filter>ヘッダー ファイル\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugText.h">
-      <Filter>ヘッダー ファイル\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="JoypadInput.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Util.h">
-      <Filter>ヘッダー ファイル\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Random.h">
-      <Filter>ヘッダー ファイル\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Color.h">
-      <Filter>ヘッダー ファイル\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ImGUI\imconfig.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
@@ -370,8 +271,140 @@
     <ClInclude Include="ImGUI\imstb_truetype.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="MyGUI.h">
+    <ClInclude Include="Header\DrawManager.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GameObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\main2.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\MyGUI.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Sound.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Transform.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\ViewProjection.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Color.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Random.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Util.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Square.h">
+      <Filter>ヘッダー ファイル\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\ConstantBuffer.h">
+      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\DepthBuffer.h">
+      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\VertexBuffer.h">
+      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\IndexBuffer.h">
+      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\TextureBuffer.h">
+      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GraphicsPipeline2D.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GraphicsPipeline3D.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GraphicsCommand.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\NewEngineWindow.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\NewEngine.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\NewEngineBase.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\RootSignature.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\ScissorRectangle.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\ShaderResourceView.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\ShaderCompiler.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Vertex.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Viewport.h">
+      <Filter>ヘッダー ファイル\NewEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Cube.h">
+      <Filter>ヘッダー ファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Vec3.h">
+      <Filter>ヘッダー ファイル\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Vec2.h">
+      <Filter>ヘッダー ファイル\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Vec4.h">
+      <Filter>ヘッダー ファイル\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Mat4.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\MathUtil.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\InputManager.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\JoypadInput.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\KeyBoardInput.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\MouseInput.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\DebugText.h">
+      <Filter>ヘッダー ファイル\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\DebugManager.h">
+      <Filter>ヘッダー ファイル\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GUI\DebugLayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GUI\HierarchyLayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GUI\ILayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GUI\ProjectLayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GUI\SceneLayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
