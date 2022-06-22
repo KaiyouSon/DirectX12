@@ -6,6 +6,7 @@
 #include "Header/DebugManager.h"
 #include "Header/Util.h"
 #include "Header/MyGUI.h"
+#include "ImGUI/imgui.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -52,7 +53,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ProcessMessage();
 
 		// ----------- ここから更新処理を記述 ----------- //
-
 		// Inputの更新処理
 		Input::GetInstance()->Update();
 
@@ -63,22 +63,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// 更新処理
 		Update();
 
-
 		// ---------- ここまでに更新処理を記述 ---------- //
+		
 		// 描画前処理
 		NewEnginePreDraw();
 
 		// ----------- ここから描画処理を記述 ----------- //
-
 		// 2D描画の設定
 		NewEngineSetDraw2D();
-
 		// 2D描画処理
 		Draw2D();
 
 		// 3D描画の設定
 		NewEngineSetDraw3D();
-
 		// 3D描画処理
 		Draw3D();
 
@@ -88,7 +85,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		DebugManager::GetInstance()->Draw();
 
 		GUI::GetInstance()->Draw();
-
 		// ---------- ここまでに描画処理を記述 ---------- //
 
 		// 描画後処理

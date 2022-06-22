@@ -114,4 +114,6 @@ GraphicsCommand& GraphicsCommand::GetInstance()
 {
 	static GraphicsCommand graphicsCommand;
 	return graphicsCommand;
+
+	
 }

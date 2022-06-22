@@ -25,8 +25,8 @@ void NewEngineWindow::CreateGameWindow()
 		wndClass.lpszClassName, // クラス名
 		wTITLE.c_str(),			// タイトルバーの文字
 		WS_OVERLAPPEDWINDOW,	// 標準的なウィンドウスタイル
-		CW_USEDEFAULT,			// 表示X座標(OSに任せる)
-		CW_USEDEFAULT,			// 表示Y座標(OSに任せる)
+		wrc.left,			// 表示X座標(OSに任せる)
+		0,			// 表示Y座標(OSに任せる)
 		wrc.right - wrc.left,	// ウィンドウ横幅
 		wrc.bottom - wrc.top,	// ウィンドウ縦幅
 		nullptr,				// 親ウィンドウハンドル

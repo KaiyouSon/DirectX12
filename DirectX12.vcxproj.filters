@@ -108,9 +108,6 @@
     <ClCompile Include="Source\main2.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MyGUI.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\NewEngine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -234,6 +231,15 @@
     <ClCompile Include="Source\GUI\SceneLayer.cpp">
       <Filter>ソース ファイル\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MyGUI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GUI\MainLayer.cpp">
+      <Filter>ソース ファイル\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Model.cpp">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -278,9 +284,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Header\main2.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\MyGUI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Header\Sound.h">
@@ -405,6 +408,15 @@
     </ClInclude>
     <ClInclude Include="Header\GUI\SceneLayer.h">
       <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\MyGUI.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GUI\MainLayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Model.h">
+      <Filter>ヘッダー ファイル\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

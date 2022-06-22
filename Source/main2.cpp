@@ -15,6 +15,7 @@ Sound testSound;
 
 Square* bg = new Square;
 Cube* cube = new Cube;
+Model* model = new Model;
 
 // ‰æ‘œ‚Ì“Ç‚Ýž‚Ý
 void Load()
@@ -29,6 +30,7 @@ void Initialize()
 {
 	bg->Initialize(Square::view2D, Vec2(WIN_WIDTH, WIN_HEIGHT));
 	cube->Initialize();
+	model->Load();
 
 	view->SetPos(Vec3(0, 0, -30));
 	view->SetTarget(Vec3::zero);
@@ -71,6 +73,8 @@ void Update()
 
 	cube->Update(transform);
 
+	model->Update(transform);
+
 	//PlaySoundWave(testSound);
 
 	Color color = Color::SetRGB(255, 255, 255);
@@ -83,7 +87,8 @@ void Update()
 void Draw3D()
 {
 	cube->SetTexture(objTexture);
-	cube->Draw();
+	//cube->Draw();
+	model->Draw();
 }
 
 void Draw2D()
@@ -98,4 +103,5 @@ void Destroy()
 	UnLoadSoundWave(&testSound);
 	delete cube;
 	delete bg;
+	delete model;
 }

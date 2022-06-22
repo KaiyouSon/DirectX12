@@ -1,13 +1,21 @@
 #include "Header/GUI/ProjectLayer.h"
 #include "Header/MyGUI.h"
 #include "Header/Util.h"
-#include <filesystem>
+#include "Header/DrawManager.h"
 using namespace std::filesystem;
+
+Texture cpptex;
+Texture htex;
 
 void ProjectLayer::Initialize()
 {
 	size = { 1440,340 };
 	pos = { 0,WIN_HEIGHT - size.y };
+	cpptex = LoadTexture("Resources/icon/cppFileTexture.png");
+	htex = LoadTexture("Resources/icon/headerFileTexture.png");
+
+	projectDirectroy = ".";	// プロジェクトディレクトリー
+	currentDirectroy = projectDirectroy;
 }
 
 void ProjectLayer::Update()
@@ -17,8 +25,6 @@ void ProjectLayer::Update()
 	ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
 	ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
 	ImGui::Begin("Project", nullptr, window_flags);
-
-
 
 	static float pading = 16;		// 間隔の幅
 	static float buttonSize = 128;	// ボタンの大きさ
@@ -37,20 +43,56 @@ void ProjectLayer::Update()
 		ImGui::EndMenuBar();
 	}
 
-	ImGui::Columns(padingCount, 0, false);
-	// ディレクトリ内のファイルを見る
-	for (const directory_entry& cppfile : directory_iterator("."))
+	if (currentDirectroy != path(projectDirectroy))
 	{
-		std::string filenameString = cppfile.path().filename().string();
-		if (filenameString.substr(filenameString.length() - 3) == "cpp")
+		if (ImGui::Button("<-"))
 		{
-			ImGui::Button(filenameString.c_str(), { buttonSize,buttonSize });
-			ImGui::Text(filenameString.c_str());
-			ImGui::NextColumn();
+			currentDirectroy = currentDirectroy.parent_path();
 		}
-		else continue;
+	}
+
+	ImGui::Columns(padingCount, 0, false);
+
+	// 現在のディレクトリ内のファイルを見る
+	for (auto& directroy : directory_iterator(currentDirectroy))
+	{
+		const auto& path = directroy.path();					// ディレクトリーのパス取得
+		auto relativePath = relative(path, projectDirectroy);	// 相対パス
+		std::string filenameString = relativePath.filename().string();	// ファイルの名前文字列の変換
+
+		if (directroy.is_directory())
+		{
+			if (ImGui::Button(filenameString.c_str(), { buttonSize,buttonSize }))
+			{
+				currentDirectroy /= path.filename();
+			}
+			ImGui::Text(filenameString.c_str());
+		}
+		else
+		{
+			if (filenameString.substr(filenameString.length() - 4) == ".cpp")
+			{
+				ImGui::ImageButton((ImTextureID)cpptex.GetGpuHandle().ptr, { buttonSize,buttonSize });
+				ImGui::Text(filenameString.c_str());
+			}
+			if (filenameString.substr(filenameString.length() - 2) == ".h")
+			{
+				ImGui::ImageButton((ImTextureID)htex.GetGpuHandle().ptr, { buttonSize,buttonSize });
+				ImGui::Text(filenameString.c_str());
+			}
+			else
+			{
+				if (ImGui::Button(filenameString.c_str(), { buttonSize,buttonSize }));
+				ImGui::Text(filenameString.c_str());
+			}
+		}
+		ImGui::NextColumn();
 	}
 	ImGui::Columns(1);
+
+	bool isDoubleClick = ImGui::IsMouseDoubleClicked(0);
+
+	ImGui::Text("%d", isDoubleClick);
 
 	ImGui::End();
 }

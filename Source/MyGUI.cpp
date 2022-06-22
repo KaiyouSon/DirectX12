@@ -6,6 +6,7 @@
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_impl_dx12.h"
 #include "ImGUI/imgui_impl_win32.h"
+#include "Header/GUI/MainLayer.h"
 #include "Header/GUI/SceneLayer.h"
 #include "Header/GUI/ProjectLayer.h"
 #include "Header/GUI/HierarchyLayer.h"
@@ -34,7 +35,6 @@ void MyGUI::Initialize()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
 	// Setup Platform/Renderer backends
 	ImGui_ImplWin32_Init(NewEngineWindow::GetInstance().GetHwnd());
@@ -46,6 +46,7 @@ void MyGUI::Initialize()
 		ShaderResourceView::GetInstance()->GetSrvHeap().Get()->GetCPUDescriptorHandleForHeapStart(),
 		ShaderResourceView::GetInstance()->GetSrvHeap().Get()->GetGPUDescriptorHandleForHeapStart());
 
+	MainLayer::GetInstance()->Initialize();
 	ProjectLayer::GetInstance()->Initialize();
 	SceneLayer::GetInstance()->Initialize();
 	HierarchyLayer::GetInstance()->Initialize();
@@ -59,9 +60,10 @@ void MyGUI::Update()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
+	ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.05f, 0.05f, 0.05f, 1.0f));
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
 
+	//MainLayer::GetInstance()->Update();
 	SceneLayer::GetInstance()->Update();
 	ProjectLayer::GetInstance()->Update();
 	HierarchyLayer::GetInstance()->Update();
@@ -70,15 +72,19 @@ void MyGUI::Update()
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
 
-	bool show_demo_window = true;
-	if (show_demo_window)
-		ImGui::ShowDemoWindow(&show_demo_window);
+	//bool show_demo_window = true;
+	//if (show_demo_window)
+	//	ImGui::ShowDemoWindow(&show_demo_window);
 	//ImGui::End();
 }
 
 void MyGUI::Draw()
 {
 	ImGui::Render();
+	// SRVヒープの設定コマンド
+	NewEngineBase::GetInstance()->GetCommandList()->
+		SetDescriptorHeaps(1,
+			ShaderResourceView::GetInstance()->GetSrvHeap().GetAddressOf());
 	ImGui_ImplDX12_RenderDrawData(
 		ImGui::GetDrawData(), NewEngineBase::GetInstance()->GetCommandList().Get());
 }

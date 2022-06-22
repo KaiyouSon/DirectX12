@@ -1,7 +1,12 @@
 #pragma once
 #include "Header/GUI/ILayer.h"
+#include <filesystem>
 class ProjectLayer : public ILayer
 {
+private:
+	const char* projectDirectroy;
+	std::filesystem::path currentDirectroy;
+
 public:
 	void Initialize() override;
 	void Update() override;
