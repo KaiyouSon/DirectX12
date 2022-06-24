@@ -1,7 +1,7 @@
 #include "Header/Viewport.h"
 #include "Header/NewEngineBase.h"
 #include "Header/NewEngineWindow.h"
-#include "Header/GUI/SceneLayer.h"
+#include "NewEngine/Gui/Header/SceneLayer.h"
 
 void Viewport::Update()
 {

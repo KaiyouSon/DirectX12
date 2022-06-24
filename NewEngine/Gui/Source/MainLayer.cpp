@@ -1,6 +1,6 @@
-#include "Header/GUI/MainLayer.h"
-#include "Header/GUI/ProjectLayer.h"
-#include "Header/MyGUI.h"
+#include "NewEngine/Gui/Header/MainLayer.h"
+#include "NewEngine/Gui/Header/ProjectLayer.h"
+#include "NewEngine/Gui/Header/GuiManager.h"
 #include "Header/Util.h"
 
 void MainLayer::Initialize()
@@ -66,7 +66,7 @@ void MainLayer::Update()
 	ImGui::Button("CameraMove", { 32, 24 });
 	ImGui::SameLine(40);
 	ImGui::Button("CameraRot", { 32, 24 });
-	ImGui::SameLine(72);	
+	ImGui::SameLine(72);
 	ImGui::Button("CameraScale", { 32, 24 });
 	ImGui::End();
 

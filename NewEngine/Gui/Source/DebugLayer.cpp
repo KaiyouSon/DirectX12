@@ -1,6 +1,6 @@
-#include "Header/GUI/DebugLayer.h"
-#include "Header/GUI/SceneLayer.h"
-#include "Header/MyGUI.h"
+#include "NewEngine/Gui/Header/DebugLayer.h"
+#include "NewEngine/Gui/Header/SceneLayer.h"
+#include "NewEngine/Gui/Header/GuiManager.h"
 #include "Header/Util.h"
 
 void DebugLayer::Initialize()

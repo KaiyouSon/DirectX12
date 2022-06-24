@@ -7,19 +7,21 @@
 #include "Header/DrawManager.h"
 #include "Header/Sound.h"
 #include "ImGUI/imgui.h"
+#include "ObjectManager.h"
 
 Texture backTexture;
 Texture objTexture;
-
 Sound testSound;
 
 Square* bg = new Square;
-Cube* cube = new Cube;
-Model* model = new Model;
+Object3D* model = new Object3D;
+Object3D* model2 = new Object3D;
+Cube* test = new Cube;
 
 // ‰æ‘œ‚Ì“Ç‚Ýž‚Ý
 void Load()
 {
+	LoadBasicModel();
 	backTexture = LoadTexture("Resources/bg.png");
 	objTexture = LoadTexture("Resources/pic.png");
 	testSound = LoadSoundWave("Resources/title_bgm.wav");
@@ -29,8 +31,11 @@ void Load()
 void Initialize()
 {
 	bg->Initialize(Square::view2D, Vec2(WIN_WIDTH, WIN_HEIGHT));
-	cube->Initialize();
-	model->Load();
+	test->Initialize();
+	model->Initialize(monkey);
+
+
+	model2->Initialize(cube);
 
 	view->SetPos(Vec3(0, 0, -30));
 	view->SetTarget(Vec3::zero);
@@ -54,6 +59,13 @@ Transform transform =
 	Vec3::zero,
 };
 
+Transform transform3 =
+{
+	Vec3::zero,
+	Vec3::one,
+	Vec3::zero,
+};
+
 // XVˆ—
 void Update()
 {
@@ -71,9 +83,9 @@ void Update()
 		(float)(cos(MathUtil::Radian(angle)) * length), 0.0f,
 		(float)(sin(MathUtil::Radian(angle)) * length)));
 
-	cube->Update(transform);
-
 	model->Update(transform);
+	model2->Update(transform3);
+	test->Update(transform);
 
 	//PlaySoundWave(testSound);
 
@@ -81,14 +93,21 @@ void Update()
 
 	debugtext->Printf(0, 40, Color::white, "mousePos = %f, %f",
 		mouse->GetMousePos().x, mouse->GetMousePos().y);
+	ObjectManager::GetInstance()->Update();
 }
 
 // •`‰æˆ—
 void Draw3D()
 {
-	cube->SetTexture(objTexture);
+	//cube->SetTexture(objTexture);
 	//cube->Draw();
+
+	model->SetTexture(objTexture);
 	model->Draw();
+	model2->SetTexture(objTexture);
+	//model2->Draw();
+
+	ObjectManager::GetInstance()->Draw3D();
 }
 
 void Draw2D()
@@ -101,7 +120,10 @@ void Draw2D()
 void Destroy()
 {
 	UnLoadSoundWave(&testSound);
-	delete cube;
+	delete test;
 	delete bg;
 	delete model;
+	delete model2;
+
+	ObjectManager::DestroyInstance();
 }

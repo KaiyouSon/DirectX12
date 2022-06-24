@@ -152,6 +152,13 @@
     <ClCompile Include="ImGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="ImGUI\imgui_tables.cpp" />
     <ClCompile Include="ImGUI\imgui_widgets.cpp" />
+    <ClCompile Include="NewEngine\Gui\Source\DebugLayer.cpp" />
+    <ClCompile Include="NewEngine\Gui\Source\HierarchyLayer.cpp" />
+    <ClCompile Include="NewEngine\Gui\Source\MainLayer.cpp" />
+    <ClCompile Include="NewEngine\Gui\Source\MyGUI.cpp" />
+    <ClCompile Include="NewEngine\Gui\Source\ProjectLayer.cpp" />
+    <ClCompile Include="NewEngine\Gui\Source\SceneLayer.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Source\Color.cpp" />
     <ClCompile Include="Source\ConstantBuffer.cpp" />
     <ClCompile Include="Source\Cube.cpp" />
@@ -163,11 +170,6 @@
     <ClCompile Include="Source\GraphicsCommand.cpp" />
     <ClCompile Include="Source\GraphicsPipeline2D.cpp" />
     <ClCompile Include="Source\GraphicsPipeline3D.cpp" />
-    <ClCompile Include="Source\GUI\DebugLayer.cpp" />
-    <ClCompile Include="Source\GUI\HierarchyLayer.cpp" />
-    <ClCompile Include="Source\GUI\MainLayer.cpp" />
-    <ClCompile Include="Source\GUI\ProjectLayer.cpp" />
-    <ClCompile Include="Source\GUI\SceneLayer.cpp" />
     <ClCompile Include="Source\IndexBuffer.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
     <ClCompile Include="Source\JoypadInput.cpp" />
@@ -176,9 +178,8 @@
     <ClCompile Include="Source\main2.cpp" />
     <ClCompile Include="Source\Mat4.cpp" />
     <ClCompile Include="Source\MathUtil.cpp" />
-    <ClCompile Include="Source\Model.cpp" />
+    <ClCompile Include="Source\Object3D.cpp" />
     <ClCompile Include="Source\MouseInput.cpp" />
-    <ClCompile Include="Source\MyGUI.cpp" />
     <ClCompile Include="Source\NewEngine.cpp" />
     <ClCompile Include="Source\NewEngineBase.cpp" />
     <ClCompile Include="Source\NewEngineWindow.cpp" />
@@ -231,12 +232,6 @@
     <ClInclude Include="Header\GraphicsCommand.h" />
     <ClInclude Include="Header\GraphicsPipeline2D.h" />
     <ClInclude Include="Header\GraphicsPipeline3D.h" />
-    <ClInclude Include="Header\GUI\DebugLayer.h" />
-    <ClInclude Include="Header\GUI\HierarchyLayer.h" />
-    <ClInclude Include="Header\GUI\ILayer.h" />
-    <ClInclude Include="Header\GUI\MainLayer.h" />
-    <ClInclude Include="Header\GUI\ProjectLayer.h" />
-    <ClInclude Include="Header\GUI\SceneLayer.h" />
     <ClInclude Include="Header\IndexBuffer.h" />
     <ClInclude Include="Header\InputManager.h" />
     <ClInclude Include="Header\JoypadInput.h" />
@@ -244,9 +239,8 @@
     <ClInclude Include="Header\main2.h" />
     <ClInclude Include="Header\Mat4.h" />
     <ClInclude Include="Header\MathUtil.h" />
-    <ClInclude Include="Header\Model.h" />
+    <ClInclude Include="Header\Object3D.h" />
     <ClInclude Include="Header\MouseInput.h" />
-    <ClInclude Include="Header\MyGUI.h" />
     <ClInclude Include="Header\NewEngine.h" />
     <ClInclude Include="Header\NewEngineBase.h" />
     <ClInclude Include="Header\NewEngineWindow.h" />
@@ -275,6 +269,14 @@
     <ClInclude Include="ImGUI\imstb_rectpack.h" />
     <ClInclude Include="ImGUI\imstb_textedit.h" />
     <ClInclude Include="ImGUI\imstb_truetype.h" />
+    <ClInclude Include="NewEngine\Gui\Header\DebugLayer.h" />
+    <ClInclude Include="NewEngine\Gui\Header\HierarchyLayer.h" />
+    <ClInclude Include="NewEngine\Gui\Header\ILayer.h" />
+    <ClInclude Include="NewEngine\Gui\Header\MainLayer.h" />
+    <ClInclude Include="NewEngine\Gui\Header\GuiManager.h" />
+    <ClInclude Include="NewEngine\Gui\Header\ProjectLayer.h" />
+    <ClInclude Include="NewEngine\Gui\Header\SceneLayer.h" />
+    <ClInclude Include="ObjectManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli" />

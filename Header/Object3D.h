@@ -5,7 +5,14 @@
 #include "Header/Transform.h"
 #include "Header/TextureBuffer.h"
 #include <vector>
-class Model
+
+struct ModelData
+{
+	std::vector<Vertex> vertices;
+	std::vector<unsigned short> indices;
+}typedef Model;
+
+class Object3D
 {
 private:
 	VertexBuffer* vertexBuffer;
@@ -13,19 +20,16 @@ private:
 	ConstantBuffer* constantBuffer;
 	Transform transform;
 	Texture texture;
+	ModelData modelData;
 
 public:
-	// 頂点データ配列
-	static std::vector<Vertex> vertices;
-	// 頂点インデックス配列
-	static std::vector<unsigned short> indices;
-
-public:
-	Model();
-	~Model();
-	void Load();
+	Object3D();
+	~Object3D();
+	void Initialize(const ModelData& modelData);
 	void Update(Transform& transform, Transform* parent = nullptr);
+	void Update();
 	void Draw();
 
+	void SetTexture(const Texture& texture);
 };
 

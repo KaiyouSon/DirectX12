@@ -1,5 +1,5 @@
 #pragma once
-#include "Header/GUI/ILayer.h"
+#include "NewEngine/Gui/Header/ILayer.h"
 #include <filesystem>
 class ProjectLayer : public ILayer
 {
@@ -15,6 +15,7 @@ public:
 
 	static ProjectLayer* GetInstance();
 	static void DestroyInstance();
+
 private:
 	ProjectLayer() = default;
 	~ProjectLayer() = default;

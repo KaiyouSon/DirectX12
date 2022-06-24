@@ -1,7 +1,8 @@
-#include "Header/GUI/ProjectLayer.h"
+#include "NewEngine/Gui/Header/ProjectLayer.h"
 #include "Header/MyGUI.h"
 #include "Header/Util.h"
 #include "Header/DrawManager.h"
+#include <processthreadsapi.h>
 using namespace std::filesystem;
 
 Texture cpptex;
@@ -72,6 +73,7 @@ void ProjectLayer::Update()
 		{
 			if (filenameString.substr(filenameString.length() - 4) == ".cpp")
 			{
+				// ƒNƒŠƒbƒN‚µ‚½‚ç
 				ImGui::ImageButton((ImTextureID)cpptex.GetGpuHandle().ptr, { buttonSize,buttonSize });
 				ImGui::Text(filenameString.c_str());
 			}
@@ -101,18 +103,15 @@ Vec2 ProjectLayer::GetPos()
 {
 	return pos;
 }
-
 Vec2 ProjectLayer::GetSize()
 {
 	return size;
 }
-
 ProjectLayer* ProjectLayer::GetInstance()
 {
 	static ProjectLayer* projectLayer = new ProjectLayer;
 	return projectLayer;
 }
-
 void ProjectLayer::DestroyInstance()
 {
 	delete GetInstance();

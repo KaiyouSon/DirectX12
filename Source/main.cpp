@@ -5,7 +5,7 @@
 #include "Header/ViewProjection.h"
 #include "Header/DebugManager.h"
 #include "Header/Util.h"
-#include "Header/MyGUI.h"
+#include "NewEngine/Gui/Header/GuiManager.h"
 #include "ImGUI/imgui.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -38,7 +38,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// デバッグマネージャの初期化
 	DebugManager::GetInstance()->Initialize();
 
-	GUI::GetInstance()->Initialize();
+	GuiManager::GetInstance()->Initialize();
 
 	// 画像の読み込み
 	Load();
@@ -59,12 +59,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// デバッグマネージャの更新処理
 		DebugManager::GetInstance()->Update();
 
-		GUI::GetInstance()->Update();
+		GuiManager::GetInstance()->Update();
 		// 更新処理
 		Update();
 
 		// ---------- ここまでに更新処理を記述 ---------- //
-		
+
 		// 描画前処理
 		NewEnginePreDraw();
 
@@ -84,7 +84,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// デバッグマネージャの2D描画
 		DebugManager::GetInstance()->Draw();
 
-		GUI::GetInstance()->Draw();
+		GuiManager::GetInstance()->Draw();
 		// ---------- ここまでに描画処理を記述 ---------- //
 
 		// 描画後処理
@@ -113,7 +113,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// デバッグマネージャの破棄
 	DebugManager::GetInstance()->DestroyInstance();
 
-	GUI::DestroyInstance();
+	GuiManager::DestroyInstance();
 
 	// インスタンスの破棄
 	Destroy();

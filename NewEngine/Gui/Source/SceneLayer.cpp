@@ -1,5 +1,5 @@
-#include "Header/GUI/SceneLayer.h"
-#include "Header/GUI/ProjectLayer.h"
+#include "NewEngine/Gui/Header/SceneLayer.h"
+#include "NewEngine/Gui/Header/ProjectLayer.h"
 #include "Header/MyGUI.h"
 #include "Header/Util.h"
 

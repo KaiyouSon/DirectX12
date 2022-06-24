@@ -73,11 +73,11 @@
     <Filter Include="ImGUI">
       <UniqueIdentifier>{bd412dbb-8b3e-42a9-a1cd-6e3b7126d5ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\GUI">
-      <UniqueIdentifier>{79dd6d11-35f6-4175-95f4-e1abb2d413bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\GUII">
       <UniqueIdentifier>{256f88ef-ad73-45a9-a226-583307bda5de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Gui">
+      <UniqueIdentifier>{79dd6d11-35f6-4175-95f4-e1abb2d413bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -219,26 +219,29 @@
     <ClCompile Include="Source\DebugManager.cpp">
       <Filter>ソース ファイル\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GUI\DebugLayer.cpp">
-      <Filter>ソース ファイル\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GUI\HierarchyLayer.cpp">
-      <Filter>ソース ファイル\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GUI\ProjectLayer.cpp">
-      <Filter>ソース ファイル\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GUI\SceneLayer.cpp">
-      <Filter>ソース ファイル\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MyGUI.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GUI\MainLayer.cpp">
-      <Filter>ソース ファイル\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Model.cpp">
+    <ClCompile Include="Source\Object3D.cpp">
       <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Gui\Source\DebugLayer.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Gui\Source\HierarchyLayer.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Gui\Source\MainLayer.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Gui\Source\MyGUI.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Gui\Source\ProjectLayer.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Gui\Source\SceneLayer.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -394,29 +397,32 @@
     <ClInclude Include="Header\DebugManager.h">
       <Filter>ヘッダー ファイル\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="Header\GUI\DebugLayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\GUI\HierarchyLayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\GUI\ILayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\GUI\ProjectLayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\GUI\SceneLayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\MyGUI.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\GUI\MainLayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Model.h">
+    <ClInclude Include="Header\Object3D.h">
       <Filter>ヘッダー ファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>ヘッダー ファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Gui\Header\DebugLayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Gui\Header\HierarchyLayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Gui\Header\ILayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Gui\Header\MainLayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Gui\Header\GuiManager.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Gui\Header\ProjectLayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Gui\Header\SceneLayer.h">
+      <Filter>ヘッダー ファイル\GUII</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
