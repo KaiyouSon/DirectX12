@@ -155,9 +155,10 @@
     <ClCompile Include="NewEngine\Gui\Source\DebugLayer.cpp" />
     <ClCompile Include="NewEngine\Gui\Source\HierarchyLayer.cpp" />
     <ClCompile Include="NewEngine\Gui\Source\MainLayer.cpp" />
-    <ClCompile Include="NewEngine\Gui\Source\MyGUI.cpp" />
+    <ClCompile Include="NewEngine\Gui\Source\GuiManager.cpp" />
     <ClCompile Include="NewEngine\Gui\Source\ProjectLayer.cpp" />
     <ClCompile Include="NewEngine\Gui\Source\SceneLayer.cpp" />
+    <ClCompile Include="NewEngine\Render\Source\NewEngineBase.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Source\Color.cpp" />
     <ClCompile Include="Source\ConstantBuffer.cpp" />
@@ -181,7 +182,6 @@
     <ClCompile Include="Source\Object3D.cpp" />
     <ClCompile Include="Source\MouseInput.cpp" />
     <ClCompile Include="Source\NewEngine.cpp" />
-    <ClCompile Include="Source\NewEngineBase.cpp" />
     <ClCompile Include="Source\NewEngineWindow.cpp" />
     <ClCompile Include="Source\Random.cpp" />
     <ClCompile Include="Source\RootSignature.cpp" />
@@ -242,7 +242,6 @@
     <ClInclude Include="Header\Object3D.h" />
     <ClInclude Include="Header\MouseInput.h" />
     <ClInclude Include="Header\NewEngine.h" />
-    <ClInclude Include="Header\NewEngineBase.h" />
     <ClInclude Include="Header\NewEngineWindow.h" />
     <ClInclude Include="Header\Random.h" />
     <ClInclude Include="Header\RootSignature.h" />
@@ -276,6 +275,7 @@
     <ClInclude Include="NewEngine\Gui\Header\GuiManager.h" />
     <ClInclude Include="NewEngine\Gui\Header\ProjectLayer.h" />
     <ClInclude Include="NewEngine\Gui\Header\SceneLayer.h" />
+    <ClInclude Include="NewEngine\Render\Header\NewEngineBase.h" />
     <ClInclude Include="ObjectManager.h" />
   </ItemGroup>
   <ItemGroup>

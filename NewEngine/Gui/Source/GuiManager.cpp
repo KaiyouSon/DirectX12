@@ -7,7 +7,7 @@
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_impl_dx12.h"
 #include "ImGUI/imgui_impl_win32.h"
-#include "Header/NewEngineBase.h"
+#include "NewEngine/Render/Header/NewEngineBase.h"
 #include "Header/NewEngineWindow.h"
 #include "Header/ShaderResourceView.h"
 #include "Header/Util.h"

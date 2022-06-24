@@ -1,5 +1,5 @@
 #include "Header/IndexBuffer.h"
-#include "Header/NewEngineBase.h"
+#include "NewEngine/Render/Header/NewEngineBase.h"
 #include <cassert>
 
 void IndexBuffer::Initialize(uint16_t indices[], const int& arrarySize)

@@ -1,83 +1,89 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="ソース ファイル\Sprite">
-      <UniqueIdentifier>{02e0393d-092a-481b-b672-db35cf4b7455}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Sprite">
-      <UniqueIdentifier>{0a10acd1-cbbf-46f3-bd16-c0b188a33a74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\NewEngine">
-      <UniqueIdentifier>{66065a04-0a3b-494c-8c3d-6c8c2f23527c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\NewEngine">
-      <UniqueIdentifier>{0ed94fb9-65a2-480d-bc91-3d213843b359}</UniqueIdentifier>
-    </Filter>
     <Filter Include="シェーダーファイル">
       <UniqueIdentifier>{ebea575b-6f4d-4e6e-b893-a47bace55e10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Model">
-      <UniqueIdentifier>{3b8271c5-b629-45cb-bf62-8eb912d0e343}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Model">
-      <UniqueIdentifier>{ece43e39-15df-439c-a9cc-829e3549ecc9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\NewEngine\Buffer">
-      <UniqueIdentifier>{08846fad-8ac1-4802-bf33-5a48ba8e3d65}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\NewEngine\Buffer">
-      <UniqueIdentifier>{b7bd0bb9-118e-4ba2-acc1-de14edef096b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Math">
-      <UniqueIdentifier>{1cd5c7aa-f5b9-4ef2-bb85-9fd3553545b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Math\Vector">
-      <UniqueIdentifier>{de0484d7-33d7-42ea-989b-d3d5b8da1944}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Input">
-      <UniqueIdentifier>{5030853b-bc4d-44e2-b769-e63c8d112914}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Input">
-      <UniqueIdentifier>{d67e146a-ef48-4472-a602-a07b5de54e52}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Math">
-      <UniqueIdentifier>{f5d2cf66-d8e6-4959-89b4-9820d1f97841}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Math\Vector">
-      <UniqueIdentifier>{5eb65674-f8fe-4881-9c87-c3fa969b232c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Debug">
-      <UniqueIdentifier>{20bc4921-2e3c-4374-afed-0329488c3722}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Debug">
-      <UniqueIdentifier>{142094ed-03b1-4c9b-b1fc-2f1ca9c02a04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Util">
-      <UniqueIdentifier>{f639d374-19ac-4343-aabf-87411e75570c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Util">
-      <UniqueIdentifier>{d55b502a-8e20-4ea4-9c19-84b3dd8fa1b3}</UniqueIdentifier>
     </Filter>
     <Filter Include="ImGUI">
       <UniqueIdentifier>{bd412dbb-8b3e-42a9-a1cd-6e3b7126d5ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\GUII">
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source\Sprite">
+      <UniqueIdentifier>{02e0393d-092a-481b-b672-db35cf4b7455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\NewEngine">
+      <UniqueIdentifier>{0ed94fb9-65a2-480d-bc91-3d213843b359}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\NewEngine\Buffer">
+      <UniqueIdentifier>{08846fad-8ac1-4802-bf33-5a48ba8e3d65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Model">
+      <UniqueIdentifier>{3b8271c5-b629-45cb-bf62-8eb912d0e343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Math">
+      <UniqueIdentifier>{1cd5c7aa-f5b9-4ef2-bb85-9fd3553545b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Math\Vector">
+      <UniqueIdentifier>{de0484d7-33d7-42ea-989b-d3d5b8da1944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{d67e146a-ef48-4472-a602-a07b5de54e52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Debug">
+      <UniqueIdentifier>{20bc4921-2e3c-4374-afed-0329488c3722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Util">
+      <UniqueIdentifier>{d55b502a-8e20-4ea4-9c19-84b3dd8fa1b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Gui">
+      <UniqueIdentifier>{79dd6d11-35f6-4175-95f4-e1abb2d413bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header\Sprite">
+      <UniqueIdentifier>{0a10acd1-cbbf-46f3-bd16-c0b188a33a74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\NewEngine">
+      <UniqueIdentifier>{66065a04-0a3b-494c-8c3d-6c8c2f23527c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\NewEngine\Buffer">
+      <UniqueIdentifier>{b7bd0bb9-118e-4ba2-acc1-de14edef096b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Model">
+      <UniqueIdentifier>{ece43e39-15df-439c-a9cc-829e3549ecc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Input">
+      <UniqueIdentifier>{5030853b-bc4d-44e2-b769-e63c8d112914}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Math">
+      <UniqueIdentifier>{f5d2cf66-d8e6-4959-89b4-9820d1f97841}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Math\Vector">
+      <UniqueIdentifier>{5eb65674-f8fe-4881-9c87-c3fa969b232c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Debug">
+      <UniqueIdentifier>{142094ed-03b1-4c9b-b1fc-2f1ca9c02a04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Util">
+      <UniqueIdentifier>{f639d374-19ac-4343-aabf-87411e75570c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\GUII">
       <UniqueIdentifier>{256f88ef-ad73-45a9-a226-583307bda5de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Gui">
-      <UniqueIdentifier>{79dd6d11-35f6-4175-95f4-e1abb2d413bd}</UniqueIdentifier>
+    <Filter Include="Source\Render">
+      <UniqueIdentifier>{0cd6b8a8-b44a-41d8-98cd-686e7f36ec4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Render">
+      <UniqueIdentifier>{1edb732b-13ca-4c1b-ac35-75dc673cdede}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -103,145 +109,145 @@
       <Filter>ImGUI</Filter>
     </ClCompile>
     <ClCompile Include="Source\main.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\main2.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\NewEngine.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Sound.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Transform.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\ViewProjection.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameObject.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\DrawManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Color.cpp">
-      <Filter>ソース ファイル\Util</Filter>
+      <Filter>Source\Util</Filter>
     </ClCompile>
     <ClCompile Include="Source\Random.cpp">
-      <Filter>ソース ファイル\Util</Filter>
+      <Filter>Source\Util</Filter>
     </ClCompile>
     <ClCompile Include="Source\Util.cpp">
-      <Filter>ソース ファイル\Util</Filter>
+      <Filter>Source\Util</Filter>
     </ClCompile>
     <ClCompile Include="Source\Square.cpp">
-      <Filter>ソース ファイル\Sprite</Filter>
+      <Filter>Source\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Source\ConstantBuffer.cpp">
-      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
+      <Filter>Source\NewEngine\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="Source\DepthBuffer.cpp">
-      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
+      <Filter>Source\NewEngine\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="Source\IndexBuffer.cpp">
-      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
+      <Filter>Source\NewEngine\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="Source\TextureBuffer.cpp">
-      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
+      <Filter>Source\NewEngine\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="Source\VertexBuffer.cpp">
-      <Filter>ソース ファイル\NewEngine\Buffer</Filter>
+      <Filter>Source\NewEngine\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="Source\GraphicsCommand.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
+      <Filter>Source\NewEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\GraphicsPipeline2D.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
+      <Filter>Source\NewEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\GraphicsPipeline3D.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\NewEngineBase.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
+      <Filter>Source\NewEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\NewEngineWindow.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
+      <Filter>Source\NewEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\RootSignature.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
+      <Filter>Source\NewEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\ScissorRectangle.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
+      <Filter>Source\NewEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\ShaderCompiler.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
+      <Filter>Source\NewEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\ShaderResourceView.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
+      <Filter>Source\NewEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\Viewport.cpp">
-      <Filter>ソース ファイル\NewEngine</Filter>
+      <Filter>Source\NewEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\Cube.cpp">
-      <Filter>ソース ファイル\Model</Filter>
+      <Filter>Source\Model</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vec2.cpp">
-      <Filter>ソース ファイル\Math\Vector</Filter>
+      <Filter>Source\Math\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vec3.cpp">
-      <Filter>ソース ファイル\Math\Vector</Filter>
+      <Filter>Source\Math\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vec4.cpp">
-      <Filter>ソース ファイル\Math\Vector</Filter>
+      <Filter>Source\Math\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mat4.cpp">
-      <Filter>ソース ファイル\Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\MathUtil.cpp">
-      <Filter>ソース ファイル\Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\InputManager.cpp">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClCompile>
     <ClCompile Include="Source\JoypadInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClCompile>
     <ClCompile Include="Source\KeyBoardInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClCompile>
     <ClCompile Include="Source\MouseInput.cpp">
-      <Filter>ソース ファイル\Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClCompile>
     <ClCompile Include="Source\DebugText.cpp">
-      <Filter>ソース ファイル\Debug</Filter>
+      <Filter>Source\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Source\DebugManager.cpp">
-      <Filter>ソース ファイル\Debug</Filter>
+      <Filter>Source\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Source\Object3D.cpp">
-      <Filter>ソース ファイル\Model</Filter>
+      <Filter>Source\Model</Filter>
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
-      <Filter>ソース ファイル\Model</Filter>
+      <Filter>Source\Model</Filter>
     </ClCompile>
     <ClCompile Include="NewEngine\Gui\Source\DebugLayer.cpp">
-      <Filter>ソース ファイル\Gui</Filter>
+      <Filter>Source\Gui</Filter>
     </ClCompile>
     <ClCompile Include="NewEngine\Gui\Source\HierarchyLayer.cpp">
-      <Filter>ソース ファイル\Gui</Filter>
+      <Filter>Source\Gui</Filter>
     </ClCompile>
     <ClCompile Include="NewEngine\Gui\Source\MainLayer.cpp">
-      <Filter>ソース ファイル\Gui</Filter>
+      <Filter>Source\Gui</Filter>
     </ClCompile>
-    <ClCompile Include="NewEngine\Gui\Source\MyGUI.cpp">
-      <Filter>ソース ファイル\Gui</Filter>
+    <ClCompile Include="NewEngine\Gui\Source\GuiManager.cpp">
+      <Filter>Source\Gui</Filter>
     </ClCompile>
     <ClCompile Include="NewEngine\Gui\Source\ProjectLayer.cpp">
-      <Filter>ソース ファイル\Gui</Filter>
+      <Filter>Source\Gui</Filter>
     </ClCompile>
     <ClCompile Include="NewEngine\Gui\Source\SceneLayer.cpp">
-      <Filter>ソース ファイル\Gui</Filter>
+      <Filter>Source\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Render\Source\NewEngineBase.cpp">
+      <Filter>Source\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -281,148 +287,148 @@
       <Filter>ImGUI</Filter>
     </ClInclude>
     <ClInclude Include="Header\DrawManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Header\GameObject.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Header\main2.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Header\Sound.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Header\Transform.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Header\ViewProjection.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Header\Color.h">
-      <Filter>ヘッダー ファイル\Util</Filter>
+      <Filter>Header\Util</Filter>
     </ClInclude>
     <ClInclude Include="Header\Random.h">
-      <Filter>ヘッダー ファイル\Util</Filter>
+      <Filter>Header\Util</Filter>
     </ClInclude>
     <ClInclude Include="Header\Util.h">
-      <Filter>ヘッダー ファイル\Util</Filter>
+      <Filter>Header\Util</Filter>
     </ClInclude>
     <ClInclude Include="Header\Square.h">
-      <Filter>ヘッダー ファイル\Sprite</Filter>
+      <Filter>Header\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Header\ConstantBuffer.h">
-      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
+      <Filter>Header\NewEngine\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Header\DepthBuffer.h">
-      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
+      <Filter>Header\NewEngine\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Header\VertexBuffer.h">
-      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
+      <Filter>Header\NewEngine\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Header\IndexBuffer.h">
-      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
+      <Filter>Header\NewEngine\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Header\TextureBuffer.h">
-      <Filter>ヘッダー ファイル\NewEngine\Buffer</Filter>
+      <Filter>Header\NewEngine\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Header\GraphicsPipeline2D.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
+      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\GraphicsPipeline3D.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
+      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\GraphicsCommand.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
+      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\NewEngineWindow.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
+      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\NewEngine.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\NewEngineBase.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
+      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\RootSignature.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
+      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\ScissorRectangle.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
+      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\ShaderResourceView.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
+      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\ShaderCompiler.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
+      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\Vertex.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
+      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\Viewport.h">
-      <Filter>ヘッダー ファイル\NewEngine</Filter>
+      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\Cube.h">
-      <Filter>ヘッダー ファイル\Model</Filter>
+      <Filter>Header\Model</Filter>
     </ClInclude>
     <ClInclude Include="Header\Vec3.h">
-      <Filter>ヘッダー ファイル\Math\Vector</Filter>
+      <Filter>Header\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Header\Vec2.h">
-      <Filter>ヘッダー ファイル\Math\Vector</Filter>
+      <Filter>Header\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Header\Vec4.h">
-      <Filter>ヘッダー ファイル\Math\Vector</Filter>
+      <Filter>Header\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Header\Mat4.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
+      <Filter>Header\Math</Filter>
     </ClInclude>
     <ClInclude Include="Header\MathUtil.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
+      <Filter>Header\Math</Filter>
     </ClInclude>
     <ClInclude Include="Header\InputManager.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
+      <Filter>Header\Input</Filter>
     </ClInclude>
     <ClInclude Include="Header\JoypadInput.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
+      <Filter>Header\Input</Filter>
     </ClInclude>
     <ClInclude Include="Header\KeyBoardInput.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
+      <Filter>Header\Input</Filter>
     </ClInclude>
     <ClInclude Include="Header\MouseInput.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
+      <Filter>Header\Input</Filter>
     </ClInclude>
     <ClInclude Include="Header\DebugText.h">
-      <Filter>ヘッダー ファイル\Debug</Filter>
+      <Filter>Header\Debug</Filter>
     </ClInclude>
     <ClInclude Include="Header\DebugManager.h">
-      <Filter>ヘッダー ファイル\Debug</Filter>
+      <Filter>Header\Debug</Filter>
     </ClInclude>
     <ClInclude Include="Header\Object3D.h">
-      <Filter>ヘッダー ファイル\Model</Filter>
+      <Filter>Header\Model</Filter>
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
-      <Filter>ヘッダー ファイル\Model</Filter>
+      <Filter>Header\Model</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\DebugLayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
+      <Filter>Header\GUII</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\HierarchyLayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
+      <Filter>Header\GUII</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\ILayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
+      <Filter>Header\GUII</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\MainLayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
+      <Filter>Header\GUII</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\GuiManager.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
+      <Filter>Header\GUII</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\ProjectLayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
+      <Filter>Header\GUII</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\SceneLayer.h">
-      <Filter>ヘッダー ファイル\GUII</Filter>
+      <Filter>Header\GUII</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Render\Header\NewEngineBase.h">
+      <Filter>Header\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

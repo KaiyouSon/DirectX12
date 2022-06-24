@@ -5,17 +5,21 @@
 #include <processthreadsapi.h>
 using namespace std::filesystem;
 
-Texture cpptex;
-Texture htex;
+Texture cppTex;
+Texture hTex;
+Texture objTex;
+Texture folderTex;
 
 void ProjectLayer::Initialize()
 {
 	size = { 1440,340 };
 	pos = { 0,WIN_HEIGHT - size.y };
-	cpptex = LoadTexture("Resources/icon/cppFileTexture.png");
-	htex = LoadTexture("Resources/icon/headerFileTexture.png");
+	cppTex = LoadTexture("NewEngine/Resources/icon/cppFileTex.png");
+	hTex = LoadTexture("NewEngine/Resources/icon/hFileTex.png");
+	objTex = LoadTexture("NewEngine/Resources/icon/objFileTex.png");
+	folderTex = LoadTexture("NewEngine/Resources/icon/folderTex.png");
 
-	projectDirectroy = ".";	// プロジェクトディレクトリー
+	projectDirectroy = "NewEngine";	// プロジェクトディレクトリー
 	currentDirectroy = projectDirectroy;
 }
 
@@ -63,6 +67,12 @@ void ProjectLayer::Update()
 
 		if (directroy.is_directory())
 		{
+			//if (ImGui::ImageButton((ImTextureID)folderTex.GetGpuHandle().ptr, { buttonSize,buttonSize }))
+			//{
+			//	currentDirectroy /= path.filename();
+			//}
+
+			// フォルダー
 			if (ImGui::Button(filenameString.c_str(), { buttonSize,buttonSize }))
 			{
 				currentDirectroy /= path.filename();
@@ -71,30 +81,33 @@ void ProjectLayer::Update()
 		}
 		else
 		{
+			// cppファイル
 			if (filenameString.substr(filenameString.length() - 4) == ".cpp")
 			{
-				// クリックしたら
-				ImGui::ImageButton((ImTextureID)cpptex.GetGpuHandle().ptr, { buttonSize,buttonSize });
+				ImGui::ImageButton((ImTextureID)cppTex.GetGpuHandle().ptr, { buttonSize,buttonSize });
 				ImGui::Text(filenameString.c_str());
 			}
-			if (filenameString.substr(filenameString.length() - 2) == ".h")
+			// hファイル
+			else if (filenameString.substr(filenameString.length() - 2) == ".h")
 			{
-				ImGui::ImageButton((ImTextureID)htex.GetGpuHandle().ptr, { buttonSize,buttonSize });
+				ImGui::ImageButton((ImTextureID)hTex.GetGpuHandle().ptr, { buttonSize,buttonSize });
+				ImGui::Text(filenameString.c_str());
+			}
+			// objファイル
+			else if (filenameString.substr(filenameString.length() - 4) == ".obj")
+			{
+				ImGui::ImageButton((ImTextureID)objTex.GetGpuHandle().ptr, { buttonSize,buttonSize });
 				ImGui::Text(filenameString.c_str());
 			}
 			else
 			{
-				if (ImGui::Button(filenameString.c_str(), { buttonSize,buttonSize }));
+				ImGui::Button(filenameString.c_str(), { buttonSize,buttonSize });
 				ImGui::Text(filenameString.c_str());
 			}
 		}
 		ImGui::NextColumn();
 	}
 	ImGui::Columns(1);
-
-	bool isDoubleClick = ImGui::IsMouseDoubleClicked(0);
-
-	ImGui::Text("%d", isDoubleClick);
 
 	ImGui::End();
 }
