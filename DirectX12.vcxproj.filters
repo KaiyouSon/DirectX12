@@ -15,17 +15,11 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source\Sprite">
-      <UniqueIdentifier>{02e0393d-092a-481b-b672-db35cf4b7455}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\NewEngine">
       <UniqueIdentifier>{0ed94fb9-65a2-480d-bc91-3d213843b359}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\NewEngine\Buffer">
       <UniqueIdentifier>{08846fad-8ac1-4802-bf33-5a48ba8e3d65}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Model">
-      <UniqueIdentifier>{3b8271c5-b629-45cb-bf62-8eb912d0e343}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Math">
       <UniqueIdentifier>{1cd5c7aa-f5b9-4ef2-bb85-9fd3553545b8}</UniqueIdentifier>
@@ -43,17 +37,11 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Header\Sprite">
-      <UniqueIdentifier>{0a10acd1-cbbf-46f3-bd16-c0b188a33a74}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header\NewEngine">
       <UniqueIdentifier>{66065a04-0a3b-494c-8c3d-6c8c2f23527c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header\NewEngine\Buffer">
       <UniqueIdentifier>{b7bd0bb9-118e-4ba2-acc1-de14edef096b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\Model">
-      <UniqueIdentifier>{ece43e39-15df-439c-a9cc-829e3549ecc9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header\Math">
       <UniqueIdentifier>{f5d2cf66-d8e6-4959-89b4-9820d1f97841}</UniqueIdentifier>
@@ -162,9 +150,6 @@
     <ClCompile Include="Source\DrawManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Square.cpp">
-      <Filter>Source\Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ConstantBuffer.cpp">
       <Filter>Source\NewEngine\Buffer</Filter>
     </ClCompile>
@@ -207,9 +192,6 @@
     <ClCompile Include="Source\Viewport.cpp">
       <Filter>Source\NewEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Cube.cpp">
-      <Filter>Source\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Vec2.cpp">
       <Filter>Source\Math\Vector</Filter>
     </ClCompile>
@@ -230,12 +212,6 @@
     </ClCompile>
     <ClCompile Include="Source\DebugManager.cpp">
       <Filter>Source\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Object3D.cpp">
-      <Filter>Source\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>Source\Model</Filter>
     </ClCompile>
     <ClCompile Include="NewEngine\Gui\Source\DebugLayer.cpp">
       <Filter>Source\Gui</Filter>
@@ -289,6 +265,9 @@
       <Filter>Source\Developer\Object\Object3D</Filter>
     </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\DrawManager.cpp">
+      <Filter>Source\Developer\Object\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Object\Other\ObjectManager.cpp">
       <Filter>Source\Developer\Object\Other</Filter>
     </ClCompile>
   </ItemGroup>
@@ -346,9 +325,6 @@
     <ClInclude Include="Header\ViewProjection.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Square.h">
-      <Filter>Header\Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="Header\ConstantBuffer.h">
       <Filter>Header\NewEngine\Buffer</Filter>
     </ClInclude>
@@ -397,9 +373,6 @@
     <ClInclude Include="Header\Viewport.h">
       <Filter>Header\NewEngine</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Cube.h">
-      <Filter>Header\Model</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Vec3.h">
       <Filter>Header\Math\Vector</Filter>
     </ClInclude>
@@ -420,12 +393,6 @@
     </ClInclude>
     <ClInclude Include="Header\DebugManager.h">
       <Filter>Header\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Object3D.h">
-      <Filter>Header\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>Header\Model</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\DebugLayer.h">
       <Filter>Header\GUII</Filter>
@@ -482,6 +449,9 @@
       <Filter>Header\Developer\Object\Object3D</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\DrawManager.h">
+      <Filter>Header\Developer\Object\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Object\Other\ObjectManager.h">
       <Filter>Header\Developer\Object\Other</Filter>
     </ClInclude>
   </ItemGroup>

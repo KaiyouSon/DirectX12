@@ -167,12 +167,11 @@
     <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Cube.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Object3D.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\DrawManager.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Object\Other\ObjectManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Color.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Random.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Util.cpp" />
-    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Source\ConstantBuffer.cpp" />
-    <ClCompile Include="Source\Cube.cpp" />
     <ClCompile Include="Source\DebugManager.cpp" />
     <ClCompile Include="Source\DebugText.cpp" />
     <ClCompile Include="Source\DepthBuffer.cpp" />
@@ -186,7 +185,6 @@
     <ClCompile Include="Source\main2.cpp" />
     <ClCompile Include="Source\Mat4.cpp" />
     <ClCompile Include="Source\MathUtil.cpp" />
-    <ClCompile Include="Source\Object3D.cpp" />
     <ClCompile Include="Source\NewEngine.cpp" />
     <ClCompile Include="Source\NewEngineWindow.cpp" />
     <ClCompile Include="Source\RootSignature.cpp" />
@@ -194,7 +192,6 @@
     <ClCompile Include="Source\ShaderCompiler.cpp" />
     <ClCompile Include="Source\ShaderResourceView.cpp" />
     <ClCompile Include="Source\Sound.cpp" />
-    <ClCompile Include="Source\Square.cpp" />
     <ClCompile Include="Source\TextureBuffer.cpp" />
     <ClCompile Include="Source\Transform.cpp" />
     <ClCompile Include="Source\Vec2.cpp" />
@@ -226,7 +223,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\ConstantBuffer.h" />
-    <ClInclude Include="Header\Cube.h" />
     <ClInclude Include="Header\DebugManager.h" />
     <ClInclude Include="Header\DebugText.h" />
     <ClInclude Include="Header\DepthBuffer.h" />
@@ -239,7 +235,6 @@
     <ClInclude Include="Header\main2.h" />
     <ClInclude Include="Header\Mat4.h" />
     <ClInclude Include="Header\MathUtil.h" />
-    <ClInclude Include="Header\Object3D.h" />
     <ClInclude Include="Header\NewEngine.h" />
     <ClInclude Include="Header\NewEngineWindow.h" />
     <ClInclude Include="Header\RootSignature.h" />
@@ -247,7 +242,6 @@
     <ClInclude Include="Header\ShaderCompiler.h" />
     <ClInclude Include="Header\ShaderResourceView.h" />
     <ClInclude Include="Header\Sound.h" />
-    <ClInclude Include="Header\Square.h" />
     <ClInclude Include="Header\TextureBuffer.h" />
     <ClInclude Include="Header\Transform.h" />
     <ClInclude Include="Header\Vec2.h" />
@@ -280,11 +274,11 @@
     <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Cube.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Object3D.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\DrawManager.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Object\Other\ObjectManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Color.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Random.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Util.h" />
     <ClInclude Include="NewEngine\Render\Header\NewEngineBase.h" />
-    <ClInclude Include="ObjectManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli" />

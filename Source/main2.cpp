@@ -5,9 +5,9 @@
 #include "NewEngine/Header/Developer/Input/InputManager.h"
 #include "Header/DebugManager.h"
 #include "NewEngine/Header/Developer/Object/Other/DrawManager.h"
+#include "NewEngine/Header/Developer/Object/Other/ObjectManager.h"
 #include "Header/Sound.h"
 #include "ImGUI/imgui.h"
-#include "ObjectManager.h"
 
 Texture backTexture;
 Texture objTexture;
