@@ -163,6 +163,10 @@
     <ClCompile Include="NewEngine\Source\Developer\Input\JoypadInput.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Input\KeyBoardInput.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Input\MouseInput.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\Square.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Cube.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Object3D.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Object\Other\DrawManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Color.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Random.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Util.cpp" />
@@ -272,6 +276,10 @@
     <ClInclude Include="NewEngine\Header\Developer\Input\JoypadInput.h" />
     <ClInclude Include="NewEngine\Header\Developer\Input\KeyBoardInput.h" />
     <ClInclude Include="NewEngine\Header\Developer\Input\MouseInput.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\Square.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Cube.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Object3D.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Object\Other\DrawManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Color.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Random.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Util.h" />

@@ -1,7 +1,6 @@
 #include "NewEngine/Gui/Header/ProjectLayer.h"
-#include "Header/MyGUI.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
-#include "Header/DrawManager.h"
+#include "NewEngine/Header/Developer/Object/Other/DrawManager.h"
 #include <processthreadsapi.h>
 using namespace std::filesystem;
 

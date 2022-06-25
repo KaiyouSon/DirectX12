@@ -2,7 +2,6 @@
 #include "NewEngine/Gui/Header/SceneLayer.h"
 #include "NewEngine/Gui/Header/GuiManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
-#include "Header/DrawManager.h"
 #include "ObjectManager.h"
 
 void HierarchyLayer::Initialize()

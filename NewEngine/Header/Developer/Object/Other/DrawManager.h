@@ -1,7 +1,7 @@
 #pragma once
-#include "Header/Square.h"
-#include "Header/Cube.h"
-#include "Header/Object3D.h"
+#include "NewEngine/Header/Developer/Object/Object3D/Cube.h"
+#include "NewEngine/Header/Developer/Object/Object3D/Object3D.h"
+#include "NewEngine/Header/Developer/Object/Object2D/Square.h"
 #include "Header/TextureBuffer.h"
 
 // テクスチャーの読み込み

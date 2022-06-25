@@ -6,7 +6,6 @@
 #include "Header/DebugManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include "NewEngine/Gui/Header/GuiManager.h"
-#include "ImGUI/imgui.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)

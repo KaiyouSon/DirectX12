@@ -91,6 +91,30 @@
     <Filter Include="Header\Developer\Util">
       <UniqueIdentifier>{c114a9f0-fd56-40e7-9188-5a7ec45f430e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Developer\Object">
+      <UniqueIdentifier>{117a8dd3-3ddc-41ce-9f23-ae9983cf8c86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Developer\Object\Object3D">
+      <UniqueIdentifier>{ac670bac-76b7-4485-be61-793c005e8cdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Developer\Object\Object2D">
+      <UniqueIdentifier>{f53c939f-8689-4e71-8f1e-76adc2adba10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Developer\Object\Other">
+      <UniqueIdentifier>{39eabe2a-4601-4599-a0bc-87a28b0c2e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Developer\Object">
+      <UniqueIdentifier>{caa4cac8-a121-40ae-a325-bb27cdcea57d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Developer\Object\Object3D">
+      <UniqueIdentifier>{77c437cb-71c6-4003-9cb4-b1fa2f2d2796}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Developer\Object\Object2D">
+      <UniqueIdentifier>{27f66026-8aa8-4bfd-9e12-a340ca0bed29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Developer\Object\Other">
+      <UniqueIdentifier>{4a7d6d31-2394-4009-9928-b7ca79df5161}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGUI\imgui.cpp">
@@ -254,6 +278,18 @@
     </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Util\Util.cpp">
       <Filter>Source\Developer\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\Square.cpp">
+      <Filter>Source\Developer\Object\Object2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Cube.cpp">
+      <Filter>Source\Developer\Object\Object3D</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Object3D.cpp">
+      <Filter>Source\Developer\Object\Object3D</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Object\Other\DrawManager.cpp">
+      <Filter>Source\Developer\Object\Other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -435,6 +471,18 @@
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Util\Random.h">
       <Filter>Header\Developer\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\Square.h">
+      <Filter>Header\Developer\Object\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Cube.h">
+      <Filter>Header\Developer\Object\Object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Object3D.h">
+      <Filter>Header\Developer\Object\Object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Object\Other\DrawManager.h">
+      <Filter>Header\Developer\Object\Other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
