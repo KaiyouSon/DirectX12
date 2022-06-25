@@ -1,5 +1,5 @@
-#include "Header/Mat4.h"
-#include "Header/MathUtil.h"
+#include "NewEngine/Header/Developer/Math/Mat4.h"
+#include "NewEngine/Header/Developer/Math/MathUtil.h"
 #include "Header/DebugText.h"
 
 Mat4::Mat4() :

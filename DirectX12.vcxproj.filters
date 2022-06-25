@@ -21,12 +21,6 @@
     <Filter Include="Source\NewEngine\Buffer">
       <UniqueIdentifier>{08846fad-8ac1-4802-bf33-5a48ba8e3d65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Math">
-      <UniqueIdentifier>{1cd5c7aa-f5b9-4ef2-bb85-9fd3553545b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Math\Vector">
-      <UniqueIdentifier>{de0484d7-33d7-42ea-989b-d3d5b8da1944}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Debug">
       <UniqueIdentifier>{20bc4921-2e3c-4374-afed-0329488c3722}</UniqueIdentifier>
     </Filter>
@@ -42,12 +36,6 @@
     </Filter>
     <Filter Include="Header\NewEngine\Buffer">
       <UniqueIdentifier>{b7bd0bb9-118e-4ba2-acc1-de14edef096b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\Math">
-      <UniqueIdentifier>{f5d2cf66-d8e6-4959-89b4-9820d1f97841}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\Math\Vector">
-      <UniqueIdentifier>{5eb65674-f8fe-4881-9c87-c3fa969b232c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header\Debug">
       <UniqueIdentifier>{142094ed-03b1-4c9b-b1fc-2f1ca9c02a04}</UniqueIdentifier>
@@ -103,6 +91,12 @@
     <Filter Include="Header\Developer\Object\Other">
       <UniqueIdentifier>{4a7d6d31-2394-4009-9928-b7ca79df5161}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Developer\Math">
+      <UniqueIdentifier>{1372c687-48b5-4467-9b55-0b4b24d494db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Developer\Math">
+      <UniqueIdentifier>{590935c1-a828-435e-8837-a3f876a738f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGUI\imgui.cpp">
@@ -142,12 +136,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\ViewProjection.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GameObject.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DrawManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\ConstantBuffer.cpp">
@@ -191,21 +179,6 @@
     </ClCompile>
     <ClCompile Include="Source\Viewport.cpp">
       <Filter>Source\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Vec2.cpp">
-      <Filter>Source\Math\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Vec3.cpp">
-      <Filter>Source\Math\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Vec4.cpp">
-      <Filter>Source\Math\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mat4.cpp">
-      <Filter>Source\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MathUtil.cpp">
-      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\DebugText.cpp">
       <Filter>Source\Debug</Filter>
@@ -270,6 +243,21 @@
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\ObjectManager.cpp">
       <Filter>Source\Developer\Object\Other</Filter>
     </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Math\Mat4.cpp">
+      <Filter>Source\Developer\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Math\MathUtil.cpp">
+      <Filter>Source\Developer\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Math\Vec2.cpp">
+      <Filter>Source\Developer\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Math\Vec3.cpp">
+      <Filter>Source\Developer\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Math\Vec4.cpp">
+      <Filter>Source\Developer\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -306,12 +294,6 @@
     </ClInclude>
     <ClInclude Include="ImGUI\imstb_truetype.h">
       <Filter>ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\DrawManager.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\GameObject.h">
-      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Header\main2.h">
       <Filter>Header</Filter>
@@ -372,21 +354,6 @@
     </ClInclude>
     <ClInclude Include="Header\Viewport.h">
       <Filter>Header\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Vec3.h">
-      <Filter>Header\Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Vec2.h">
-      <Filter>Header\Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Vec4.h">
-      <Filter>Header\Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Mat4.h">
-      <Filter>Header\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\MathUtil.h">
-      <Filter>Header\Math</Filter>
     </ClInclude>
     <ClInclude Include="Header\DebugText.h">
       <Filter>Header\Debug</Filter>
@@ -453,6 +420,21 @@
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\ObjectManager.h">
       <Filter>Header\Developer\Object\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Math\Mat4.h">
+      <Filter>Header\Developer\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Math\MathUtil.h">
+      <Filter>Header\Developer\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Math\Vec2.h">
+      <Filter>Header\Developer\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Math\Vec3.h">
+      <Filter>Header\Developer\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Math\Vec4.h">
+      <Filter>Header\Developer\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

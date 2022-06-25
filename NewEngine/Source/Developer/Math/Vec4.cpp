@@ -1,4 +1,4 @@
-#include "Header/Vec4.h"
+#include "NewEngine/Header/Developer/Math/Vec4.h"
 #include <math.h>
 
 float Vec4::Magnitude() const { return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2) + pow(w, 2)); }

@@ -4,7 +4,7 @@
 #include "Header/TextureBuffer.h"
 #include "Header/ConstantBuffer.h"
 #include "Header/Transform.h"
-#include "Header/Vec2.h"
+#include "NewEngine/Header/Developer/Math/MathUtil.h"
 #include <d3d12.h>
 
 class Cube

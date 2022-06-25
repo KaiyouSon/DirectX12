@@ -1,4 +1,4 @@
-#include "Header/Vec3.h"
+#include "NewEngine/Header/Developer/Math/Vec3.h"
 #include <math.h>
 
 const Vec3 Vec3::left(-1, 0, 0);

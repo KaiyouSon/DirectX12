@@ -1,9 +1,9 @@
 #pragma once
 #include <math.h>
-#include "Header/Vec2.h"
-#include "Header/Vec3.h"
-#include "Header/Vec4.h"
-#include "Header/Mat4.h"
+#include "NewEngine/Header/Developer/Math/Vec2.h"
+#include "NewEngine/Header/Developer/Math/Vec3.h"
+#include "NewEngine/Header/Developer/Math/Vec4.h"
+#include "NewEngine/Header/Developer/Math/Mat4.h"
 
 class MathUtil
 {

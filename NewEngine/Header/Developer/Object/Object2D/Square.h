@@ -4,7 +4,7 @@
 #include "Header/TextureBuffer.h"
 #include "Header/ConstantBuffer.h"
 #include "Header/Transform.h"
-#include "Header/MathUtil.h"
+#include "NewEngine/Header/Developer/Math/MathUtil.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 
 class Square
