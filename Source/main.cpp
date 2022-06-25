@@ -1,10 +1,10 @@
 #include "Header/NewEngine.h"
 #include "Header/main2.h"
-#include "Header/InputManager.h"
+#include "NewEngine/Header/Developer/Input/InputManager.h"
 #include "Header/Sound.h"
 #include "Header/ViewProjection.h"
 #include "Header/DebugManager.h"
-#include "Header/Util.h"
+#include "NewEngine/Header/Developer/Util/Util.h"
 #include "NewEngine/Gui/Header/GuiManager.h"
 #include "ImGUI/imgui.h"
 

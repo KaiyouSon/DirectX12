@@ -1,8 +1,8 @@
 #pragma once
 #define DIRECTINPUT_VERSION 0x0800	// DirectInputのバージョン指定
-#include "Header/JoypadInput.h"
-#include "Header/KeyBoardInput.h"
-#include "Header/MouseInput.h"
+#include "NewEngine/Header/Developer/Input/JoypadInput.h"
+#include "NewEngine/Header/Developer/Input/KeyBoardInput.h"
+#include "NewEngine/Header/Developer/Input/MouseInput.h"
 #include <dinput.h>
 #include <wrl.h>
 

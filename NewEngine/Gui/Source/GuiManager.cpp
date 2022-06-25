@@ -10,7 +10,7 @@
 #include "NewEngine/Render/Header/NewEngineBase.h"
 #include "Header/NewEngineWindow.h"
 #include "Header/ShaderResourceView.h"
-#include "Header/Util.h"
+#include "NewEngine/Header/Developer/Util/Util.h"
 
 struct FrameContext
 {
@@ -72,9 +72,9 @@ void GuiManager::Update()
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
 
-	bool show_demo_window = true;
-	if (show_demo_window)
-		ImGui::ShowDemoWindow(&show_demo_window);
+	//bool show_demo_window = true;
+	//if (show_demo_window)
+	//	ImGui::ShowDemoWindow(&show_demo_window);
 }
 
 void GuiManager::Draw()

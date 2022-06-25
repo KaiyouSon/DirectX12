@@ -1,7 +1,7 @@
 #pragma once
+#include "Header/MathUtil.h"
 #include <dinput.h>
 #include <wrl.h>
-#include "Header/MathUtil.h"
 
 class MouseInput
 {

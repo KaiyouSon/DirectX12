@@ -1,5 +1,5 @@
-#include "Header/Color.h"
-#include "Header/Util.h"
+#include "NewEngine/Header/Developer/Util/Color.h"
+#include "NewEngine/Header/Developer/Util/Util.h"
 
 const Color Color::red = Color::SetRGB(255, 0, 0);
 const Color Color::green = Color::SetRGB(0, 255, 0);

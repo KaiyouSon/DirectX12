@@ -1,6 +1,6 @@
-#include "Header/KeyBoardInput.h"
+#include "NewEngine/Header/Developer/Input/InputManager.h"
+#include "NewEngine/Header/Developer/Input/KeyBoardInput.h"
 #include "Header/NewEngineWindow.h"
-#include "Header/InputManager.h"
 #include <cassert>
 
 void KeyBoardInput::Initialize()

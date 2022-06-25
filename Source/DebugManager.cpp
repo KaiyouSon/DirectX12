@@ -1,7 +1,7 @@
 #include "Header/DebugManager.h"
 #include "Header/DebugText.h"
 #include "Header/TextureBuffer.h"
-#include "Header/InputManager.h"
+#include "NewEngine/Header/Developer/Input/InputManager.h"
 
 DebugText* debugtext = DebugText::GetInstance();
 

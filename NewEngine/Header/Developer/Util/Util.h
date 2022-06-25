@@ -1,6 +1,6 @@
 #pragma once
-#include "Header/Color.h"
-#include "Header/Random.h"
+#include "NewEngine/Header/Developer/Util/Color.h"
+#include "NewEngine/Header/Developer/Util/Random.h"
 
 const int WIN_WIDTH = 1920;
 const int WIN_HEIGHT = 1010;

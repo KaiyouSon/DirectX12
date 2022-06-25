@@ -1,6 +1,6 @@
-#include "Header/MouseInput.h"
+#include "NewEngine/Header/Developer/Input/InputManager.h"
+#include "NewEngine/Header/Developer/Input/MouseInput.h"
 #include "Header/NewEngineWindow.h"
-#include "Header/InputManager.h"
 #include <cassert>
 
 void MouseInput::Initialize()
