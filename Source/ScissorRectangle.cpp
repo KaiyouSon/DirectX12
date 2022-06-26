@@ -1,5 +1,5 @@
 #include "Header/ScissorRectangle.h"
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/NewEngineWindow.h"
 
 void ScissorRectangle::Update()
@@ -14,5 +14,5 @@ void ScissorRectangle::Update()
 	scissorRect.bottom = scissorRect.top + 
 		NewEngineWindow::GetInstance().GetWinHeight(); // 切り抜き座標下
 	// シザー矩形設定コマンドを、コマンドリストに積む
-	NewEngineBase::GetInstance()->GetCommandList()->RSSetScissorRects(1, &scissorRect);
+	RenderBase::GetInstance()->GetCommandList()->RSSetScissorRects(1, &scissorRect);
 }

@@ -1,4 +1,4 @@
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/NewEngineWindow.h"
 #include <cassert>
 #include <string>
@@ -6,7 +6,7 @@
 #pragma comment(lib,"dxgi.lib")
 using namespace Microsoft::WRL;
 
-void NewEngineBase::Initialize()
+void RenderBase::Initialize()
 {
 	AdapterInit();
 
@@ -27,7 +27,7 @@ void NewEngineBase::Initialize()
 	FenceInit();
 }
 
-void NewEngineBase::AdapterInit()
+void RenderBase::AdapterInit()
 {
 	// DXGIファクトリーの生成
 	result = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory));
@@ -62,7 +62,7 @@ void NewEngineBase::AdapterInit()
 		}
 	}
 }
-void NewEngineBase::DeviceInit()
+void RenderBase::DeviceInit()
 {
 	//----------------------------- デバイスの生成 -----------------------------//
 	// 対応レベルの配列
@@ -87,7 +87,7 @@ void NewEngineBase::DeviceInit()
 		}
 	}
 }
-void NewEngineBase::CommandListInit()
+void RenderBase::CommandListInit()
 {
 	// コマンドアロケータを生成
 	result = device.Get()->CreateCommandAllocator(
@@ -101,7 +101,7 @@ void NewEngineBase::CommandListInit()
 		IID_PPV_ARGS(&commandList));
 	assert(SUCCEEDED(result));
 }
-void NewEngineBase::CommandQueueInit()
+void RenderBase::CommandQueueInit()
 {
 	//コマンドキューの設定
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
@@ -109,7 +109,7 @@ void NewEngineBase::CommandQueueInit()
 	result = device.Get()->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue));
 	assert(SUCCEEDED(result));
 }
-void NewEngineBase::SwapChainInit()
+void RenderBase::SwapChainInit()
 {
 	//------------------------- スワップチェーンの生成 -------------------------//
 	// スワップチェーンの設定
@@ -129,7 +129,7 @@ void NewEngineBase::SwapChainInit()
 	swapChain1.As(&swapChain);
 	assert(SUCCEEDED(result));
 }
-void NewEngineBase::DescriptorHeapInit()
+void RenderBase::DescriptorHeapInit()
 {
 	// デスクリプタヒープの設定
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV; // レンダーターゲットビュー
@@ -137,13 +137,13 @@ void NewEngineBase::DescriptorHeapInit()
 	// デスクリプタヒープの生成
 	device.Get()->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
 }
-void NewEngineBase::BackBufferInit()
+void RenderBase::BackBufferInit()
 {
 	//----------------------------- バックバッファ -----------------------------//
 	// バックバッファ
 	backBuffers.resize(swapChainDesc.BufferCount);
 }
-void NewEngineBase::RenderTargetViewInit()
+void RenderBase::RenderTargetViewInit()
 {
 	//------------------ レンダーターゲットビュー(RTV)の生成 -------------------//
 	for (size_t i = 0; i < backBuffers.size(); i++)
@@ -164,7 +164,7 @@ void NewEngineBase::RenderTargetViewInit()
 		device.Get()->CreateRenderTargetView(backBuffers[i].Get(), &rtvDesc, rtvHandle);
 	}
 }
-void NewEngineBase::FenceInit()
+void RenderBase::FenceInit()
 {
 	// フェンスの生成
 	result = device.Get()->CreateFence(
@@ -172,58 +172,58 @@ void NewEngineBase::FenceInit()
 }
 
 #pragma region // ------------------------- ゲッター関連 ------------------------- //
-ComPtr<ID3D12Device> NewEngineBase::GetDevice()
+ComPtr<ID3D12Device> RenderBase::GetDevice()
 {
 	return device;
 }
-ComPtr<IDXGISwapChain4> NewEngineBase::GetSwapChain()
+ComPtr<IDXGISwapChain4> RenderBase::GetSwapChain()
 {
 	return swapChain;
 }
-ComPtr<ID3D12CommandAllocator> NewEngineBase::GetCommandAllocataor()
+ComPtr<ID3D12CommandAllocator> RenderBase::GetCommandAllocataor()
 {
 	return cmdAllocator;
 }
-ComPtr<ID3D12GraphicsCommandList> NewEngineBase::GetCommandList()
+ComPtr<ID3D12GraphicsCommandList> RenderBase::GetCommandList()
 {
 	return commandList;
 }
-ComPtr<ID3D12CommandQueue> NewEngineBase::GetCommandQueue()
+ComPtr<ID3D12CommandQueue> RenderBase::GetCommandQueue()
 {
 	return commandQueue;
 }
-ComPtr<ID3D12DescriptorHeap> NewEngineBase::GetRtvHeap()
+ComPtr<ID3D12DescriptorHeap> RenderBase::GetRtvHeap()
 {
 	return rtvHeap;
 }
-D3D12_DESCRIPTOR_HEAP_DESC NewEngineBase::GetRTVHeapDesc()
+D3D12_DESCRIPTOR_HEAP_DESC RenderBase::GetRTVHeapDesc()
 {
 	return rtvHeapDesc;
 }
-ComPtr<ID3D12Fence> NewEngineBase::GetFence()
+ComPtr<ID3D12Fence> RenderBase::GetFence()
 {
 	return fence;
 }
-UINT64 NewEngineBase::GetFenceVal()
+UINT64 RenderBase::GetFenceVal()
 {
 	return fenceVal;
 }
-UINT64 NewEngineBase::PreIncreFenceVal()
+UINT64 RenderBase::PreIncreFenceVal()
 {
 	++fenceVal;
 	return fenceVal;
 }
-std::vector<ComPtr<ID3D12Resource>> NewEngineBase::GetBackBuffers()
+std::vector<ComPtr<ID3D12Resource>> RenderBase::GetBackBuffers()
 {
 	return backBuffers;
 }
-NewEngineBase* NewEngineBase::GetInstance()
+RenderBase* RenderBase::GetInstance()
 {
-	static NewEngineBase* newEngineBase = new NewEngineBase;
-	return newEngineBase;
+	static RenderBase* renderBase = new RenderBase;
+	return renderBase;
 }
-void NewEngineBase::DestroyInstance()
+void RenderBase::DestroyInstance()
 {
-	delete NewEngineBase::GetInstance();
+	delete RenderBase::GetInstance();
 }
 #pragma endregion

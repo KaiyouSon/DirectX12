@@ -1,5 +1,5 @@
 #include "Header/TextureBuffer.h"
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/ShaderResourceView.h"
 #include <cassert>
 using namespace std;
@@ -65,7 +65,7 @@ Texture TextureBuffer::LoadTexture(const string filePath)
 	texture.SetTextureSize(Vec2(textureResourceDesc.Width, textureResourceDesc.Height));
 
 	// テクスチャバッファの生成
-	result = NewEngineBase::GetInstance()->GetDevice()->
+	result = RenderBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&textureHeapProp,
 			D3D12_HEAP_FLAG_NONE,
@@ -130,7 +130,7 @@ Texture TextureBuffer::GetDefaultTexture()
 	texture.SetTextureSize(Vec2(textureResourceDesc.Width, textureResourceDesc.Height));
 
 	// テクスチャバッファの生成
-	result = NewEngineBase::GetInstance()->GetDevice()->
+	result = RenderBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&textureHeapProp,
 			D3D12_HEAP_FLAG_NONE,

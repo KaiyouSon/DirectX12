@@ -1,5 +1,5 @@
 #include "Header/IndexBuffer.h"
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 #include <cassert>
 
 void IndexBuffer::Initialize(uint16_t indices[], const int& arrarySize)
@@ -24,7 +24,7 @@ void IndexBuffer::Initialize(uint16_t indices[], const int& arrarySize)
 
 	// インデックスバッファの生成
 
-	result = NewEngineBase::GetInstance()->GetDevice()->
+	result = RenderBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&heapProp, // ヒープ設定
 			D3D12_HEAP_FLAG_NONE,
@@ -73,7 +73,7 @@ void IndexBuffer::Initialize(std::vector<unsigned short> indices)
 	HRESULT result;
 
 	// インデックスバッファの生成
-	result = NewEngineBase::GetInstance()->GetDevice()->
+	result = RenderBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&heapProp, // ヒープ設定
 			D3D12_HEAP_FLAG_NONE,

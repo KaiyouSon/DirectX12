@@ -1,5 +1,5 @@
 #include "Header/NewEngine.h"
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/NewEngineWindow.h"
 #include "Header/ShaderResourceView.h"
 #include "Header/ShaderCompiler.h"
@@ -33,7 +33,7 @@ void NewEngineInit()
 	NewEngineWindow::GetInstance().CreateGameWindow();
 
 	// DirectXの初期化処理
-	NewEngineBase::GetInstance()->Initialize();
+	RenderBase::GetInstance()->Initialize();
 
 	// 深度バッファの初期化
 	DepthBuffer::GetInstance()->Initialize();
@@ -82,9 +82,9 @@ void NewEngineEnd()
 	GraphicsPipeline2D::DestroyInstance();
 	GraphicsPipeline3D::DestroyInstance();
 
-	//ComPtr<ID3D12Device> tmpDevice = NewEngineBase::GetInstance()->GetDevice().Get();
+	//ComPtr<ID3D12Device> tmpDevice = RenderBase::GetInstance()->GetDevice().Get();
 	// DirectXの破棄
-	NewEngineBase::DestroyInstance();
+	RenderBase::DestroyInstance();
 
 	//ID3D12DebugDevice* debugInterface;
 

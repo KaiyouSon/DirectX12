@@ -1,5 +1,5 @@
 #include "Header/ShaderResourceView.h"
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 #include <cassert>
 using namespace Microsoft::WRL;
 
@@ -17,7 +17,7 @@ void ShaderResourceView::Initialize()
 	HRESULT result;
 
 	// 設定を元にSRV用デスクリプタヒープを生成
-	result = NewEngineBase::GetInstance()->GetDevice()->
+	result = RenderBase::GetInstance()->GetDevice()->
 		CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 }
@@ -28,7 +28,7 @@ void ShaderResourceView::CreateSrv(Texture& texture, const D3D12_RESOURCE_DESC& 
 	D3D12_CPU_DESCRIPTOR_HANDLE srvCpuHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
-	UINT descriptorSize = NewEngineBase::GetInstance()->GetDevice()->
+	UINT descriptorSize = RenderBase::GetInstance()->GetDevice()->
 		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 	srvCpuHandle.ptr += descriptorSize * incrementIndex;
@@ -44,7 +44,7 @@ void ShaderResourceView::CreateSrv(Texture& texture, const D3D12_RESOURCE_DESC& 
 	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
-	NewEngineBase::GetInstance()->GetDevice()->
+	RenderBase::GetInstance()->GetDevice()->
 		CreateShaderResourceView(texture.buffer.Get(), &srvDesc, srvCpuHandle);
 
 	incrementIndex++;

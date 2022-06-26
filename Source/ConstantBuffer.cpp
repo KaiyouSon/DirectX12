@@ -1,5 +1,5 @@
 #include "Header/ConstantBuffer.h"
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 #include <cassert>
 using namespace Microsoft::WRL;
 
@@ -21,7 +21,7 @@ void ConstantBuffer::MaterialBufferInit()
 	HRESULT result;
 
 	// 定数バッファの生成
-	result = NewEngineBase::GetInstance()->GetDevice()->
+	result = RenderBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&cbHeapProp,	// ヒープの設定
 			D3D12_HEAP_FLAG_NONE,
@@ -58,7 +58,7 @@ void ConstantBuffer::TransformBufferInit()
 	HRESULT result;
 
 	// 定数バッファの生成
-	result = NewEngineBase::GetInstance()->GetDevice()->
+	result = RenderBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&cbHeapProp,	// ヒープの設定
 			D3D12_HEAP_FLAG_NONE,

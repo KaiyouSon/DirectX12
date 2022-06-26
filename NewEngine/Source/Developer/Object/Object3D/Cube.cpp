@@ -1,6 +1,6 @@
 #include "NewEngine/Header/Developer/Object/Object3D/Cube.h"
 #include "NewEngine/Header/Developer/Input/InputManager.h"
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/TextureBuffer.h"
 #include "Header/ViewProjection.h"
 #include "Header/ShaderResourceView.h"
@@ -161,35 +161,35 @@ void Cube::Update(Transform& transform, Transform* parent)
 void Cube::Draw()
 {
 	// プリミティブ形状の設定コマンド
-	NewEngineBase::GetInstance()->GetCommandList()->
+	RenderBase::GetInstance()->GetCommandList()->
 		IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	// 頂点バッファビューの設定コマンド
-	NewEngineBase::GetInstance()->GetCommandList()->
+	RenderBase::GetInstance()->GetCommandList()->
 		IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
 	// インデックスバッファビューの設定コマンド
-	NewEngineBase::GetInstance()->GetCommandList()->
+	RenderBase::GetInstance()->GetCommandList()->
 		IASetIndexBuffer(indexBuffer->GetibViewAddress());
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	NewEngineBase::GetInstance()->GetCommandList()->
+	RenderBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(
 			0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
 
 	// SRVヒープの設定コマンド
-	NewEngineBase::GetInstance()->GetCommandList()->
+	RenderBase::GetInstance()->GetCommandList()->
 		SetDescriptorHeaps(1,
 			ShaderResourceView::GetInstance()->GetSrvHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	NewEngineBase::GetInstance()->GetCommandList()->
+	RenderBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootDescriptorTable(1, texture.GetGpuHandle());
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	NewEngineBase::GetInstance()->GetCommandList()->
+	RenderBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(
 			2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
 
-	NewEngineBase::GetInstance()->GetCommandList()->
+	RenderBase::GetInstance()->GetCommandList()->
 		DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);
 }
 

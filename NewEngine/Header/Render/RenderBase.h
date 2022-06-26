@@ -4,7 +4,7 @@
 #include <vector>
 #include <wrl.h>
 
-class NewEngineBase
+class RenderBase
 {
 public:
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr <T>;
@@ -59,15 +59,15 @@ public:
 	UINT64 GetFenceVal();
 	UINT64 PreIncreFenceVal();
 
-	static NewEngineBase* GetInstance();
+	static RenderBase* GetInstance();
 	static void DestroyInstance();
 private:
-	NewEngineBase() = default;
-	~NewEngineBase() = default;
+	RenderBase() = default;
+	~RenderBase() = default;
 
-	NewEngineBase(const NewEngineBase&) = delete;
-	NewEngineBase& operator=(const NewEngineBase&) = delete;
-	NewEngineBase(const NewEngineBase&&) = delete;
-	NewEngineBase& operator=(const NewEngineBase&&) = delete;
+	RenderBase(const RenderBase&) = delete;
+	RenderBase& operator=(const RenderBase&) = delete;
+	RenderBase(const RenderBase&&) = delete;
+	RenderBase& operator=(const RenderBase&&) = delete;
 };
 

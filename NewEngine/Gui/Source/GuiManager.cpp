@@ -7,7 +7,7 @@
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_impl_dx12.h"
 #include "ImGUI/imgui_impl_win32.h"
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/NewEngineWindow.h"
 #include "Header/ShaderResourceView.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
@@ -39,7 +39,7 @@ void GuiManager::Initialize()
 	// Setup Platform/Renderer backends
 	ImGui_ImplWin32_Init(NewEngineWindow::GetInstance().GetHwnd());
 	ImGui_ImplDX12_Init(
-		NewEngineBase::GetInstance()->GetDevice().Get(),
+		RenderBase::GetInstance()->GetDevice().Get(),
 		NUM_FRAMES_IN_FLIGHT,
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
 		ShaderResourceView::GetInstance()->GetSrvHeap().Get(),
@@ -81,11 +81,11 @@ void GuiManager::Draw()
 {
 	ImGui::Render();
 	// SRVヒープの設定コマンド
-	NewEngineBase::GetInstance()->GetCommandList()->
+	RenderBase::GetInstance()->GetCommandList()->
 		SetDescriptorHeaps(1,
 			ShaderResourceView::GetInstance()->GetSrvHeap().GetAddressOf());
 	ImGui_ImplDX12_RenderDrawData(
-		ImGui::GetDrawData(), NewEngineBase::GetInstance()->GetCommandList().Get());
+		ImGui::GetDrawData(), RenderBase::GetInstance()->GetCommandList().Get());
 }
 
 GuiManager* GuiManager::GetInstance()

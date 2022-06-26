@@ -1,6 +1,6 @@
 #include "Header/GraphicsPipeline2D.h"
 #include "Header/ShaderCompiler.h"
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/RootSignature.h"
 #include <cassert>
 
@@ -81,7 +81,7 @@ void GraphicsPipeline2D::Initialize()
 	HRESULT result;
 
 	// パイプランステートの生成
-	result = NewEngineBase::GetInstance()->GetDevice()->
+	result = RenderBase::GetInstance()->GetDevice()->
 		CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 }

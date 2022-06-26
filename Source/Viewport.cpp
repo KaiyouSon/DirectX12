@@ -1,5 +1,5 @@
 #include "Header/Viewport.h"
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/NewEngineWindow.h"
 #include "NewEngine/Gui/Header/SceneLayer.h"
 
@@ -15,5 +15,5 @@ void Viewport::Update()
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	// ビューポート設定コマンドを、コマンドリストに積む
-	NewEngineBase::GetInstance()->GetCommandList()->RSSetViewports(1, &viewport);
+	RenderBase::GetInstance()->GetCommandList()->RSSetViewports(1, &viewport);
 }

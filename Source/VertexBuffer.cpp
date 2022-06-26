@@ -1,5 +1,5 @@
 #include "Header/VertexBuffer.h"
-#include "NewEngine/Header/Render/NewEngineBase.h"
+#include "NewEngine/Header/Render/RenderBase.h"
 
 #include <cassert>
 
@@ -26,7 +26,7 @@ void VertexBuffer::Initialize(Vertex vertices[], int arrarySize)
 	HRESULT result;
 
 	// 頂点バッファの生成
-	result = NewEngineBase::GetInstance()->GetDevice()->
+	result = RenderBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&heapProp, // ヒープ設定
 			D3D12_HEAP_FLAG_NONE,
@@ -79,7 +79,7 @@ void VertexBuffer::Initialize(std::vector<Vertex> vertices)
 	HRESULT result;
 
 	// 頂点バッファの生成
-	result = NewEngineBase::GetInstance()->GetDevice()->
+	result = RenderBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&heapProp, // ヒープ設定
 			D3D12_HEAP_FLAG_NONE,
