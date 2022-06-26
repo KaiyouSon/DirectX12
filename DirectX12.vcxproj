@@ -179,9 +179,6 @@
     <ClCompile Include="NewEngine\Source\Developer\Util\Util.cpp" />
     <ClCompile Include="NewEngine\Source\Render\RenderBase.cpp" />
     <ClCompile Include="Source\ConstantBuffer.cpp" />
-    <ClCompile Include="Source\GraphicsCommand.cpp" />
-    <ClCompile Include="Source\GraphicsPipeline2D.cpp" />
-    <ClCompile Include="Source\GraphicsPipeline3D.cpp" />
     <ClCompile Include="Source\IndexBuffer.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\main2.cpp" />
@@ -217,9 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\ConstantBuffer.h" />
-    <ClInclude Include="Header\GraphicsCommand.h" />
-    <ClInclude Include="Header\GraphicsPipeline2D.h" />
-    <ClInclude Include="Header\GraphicsPipeline3D.h" />
     <ClInclude Include="Header\IndexBuffer.h" />
     <ClInclude Include="Header\main2.h" />
     <ClInclude Include="Header\NewEngine.h" />

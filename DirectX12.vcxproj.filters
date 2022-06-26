@@ -150,15 +150,6 @@
     <ClCompile Include="Source\VertexBuffer.cpp">
       <Filter>Source\NewEngine\Buffer</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GraphicsCommand.cpp">
-      <Filter>Source\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GraphicsPipeline2D.cpp">
-      <Filter>Source\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GraphicsPipeline3D.cpp">
-      <Filter>Source\NewEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\NewEngineWindow.cpp">
       <Filter>Source\NewEngine</Filter>
     </ClCompile>
@@ -306,15 +297,6 @@
     </ClInclude>
     <ClInclude Include="Header\TextureBuffer.h">
       <Filter>Header\NewEngine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\GraphicsPipeline2D.h">
-      <Filter>Header\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\GraphicsPipeline3D.h">
-      <Filter>Header\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\GraphicsCommand.h">
-      <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\NewEngineWindow.h">
       <Filter>Header\NewEngine</Filter>

@@ -1,9 +1,6 @@
 #include "Header/NewEngine.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/NewEngineWindow.h"
-#include "Header/GraphicsPipeline2D.h"
-#include "Header/GraphicsPipeline3D.h"
-#include "Header/GraphicsCommand.h"
 #include "Header/Viewport.h"
 #include "Header/ScissorRectangle.h"
 
@@ -12,15 +9,13 @@
 #include <wrl.h>
 using namespace Microsoft::WRL;
 
-Viewport* viewport = new Viewport;
-ScissorRectangle* scissorRectangle = new ScissorRectangle;
-
 void NewEngineInit()
 {
 #ifdef _DEBUG
 	//デバッグレイヤーをオンに
 	ComPtr<ID3D12Debug> debugController;
-	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(debugController.GetAddressOf())))) {
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(debugController.GetAddressOf()))))
+	{
 		debugController.Get()->EnableDebugLayer();
 	}
 #endif
@@ -30,10 +25,6 @@ void NewEngineInit()
 
 	// DirectXの初期化処理
 	RenderBase::GetInstance()->Initialize();
-
-	// グラフィックスパイプラインの初期化
-	GraphicsPipeline2D::GetInstance()->Initialize();
-	GraphicsPipeline3D::GetInstance()->Initialize();
 
 	// Inputの初期化
 	Input::GetInstance()->Initialize();
@@ -48,10 +39,6 @@ void NewEngineEnd()
 	// ウィンドウクラスを登録解除
 	NewEngineWindow::GetInstance().TerminateGameWindow();
 
-	// グラフィックスパイプラインの破棄
-	GraphicsPipeline2D::DestroyInstance();
-	GraphicsPipeline3D::DestroyInstance();
-
 	//ComPtr<ID3D12Device> tmpDevice = RenderBase::GetInstance()->GetDevice().Get();
 	// DirectXの破棄
 	RenderBase::DestroyInstance();
@@ -65,9 +52,6 @@ void NewEngineEnd()
 	//}
 
 	Input::GetInstance()->DestoryInstance();
-
-	delete viewport;
-	delete scissorRectangle;
 }
 void ProcessMessage()
 {
@@ -91,27 +75,20 @@ bool CloseWindow()
 }
 void SetBackgroundColor(float Red, float Green, float Blue)
 {
-	GraphicsCommand::GetInstance().SetBackgroundColor(Red, Green, Blue);
 }
 void NewEnginePreDraw()
 {
-	GraphicsCommand::GetInstance().PreDraw();
-
-	// ビューポートの処理
-	viewport->Update();
-
-	// シザー矩形の処理
-	scissorRectangle->Update();
+	RenderBase::GetInstance()->PreDraw();
 }
 void NewEngineSetDraw3D()
 {
-	GraphicsCommand::GetInstance().Draw3D();
+	RenderBase::GetInstance()->Draw3D();
 }
 void NewEngineSetDraw2D()
 {
-	GraphicsCommand::GetInstance().Draw2D();
+	RenderBase::GetInstance()->Draw2D();
 }
 void NewEnginePostDraw()
 {
-	GraphicsCommand::GetInstance().PostDraw();
+	RenderBase::GetInstance()->PostDraw();
 }

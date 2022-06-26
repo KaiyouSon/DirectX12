@@ -100,7 +100,7 @@ void Draw3D()
 void Draw2D()
 {
 	bg->SetTexture(backTexture);
-	//bg->Draw();
+	bg->Draw();
 }
 
 // インスタンスのdelete

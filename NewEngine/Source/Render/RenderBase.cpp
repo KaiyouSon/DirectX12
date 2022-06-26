@@ -1,5 +1,7 @@
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/NewEngineWindow.h"
+#include "Header/Viewport.h"
+#include "Header/ScissorRectangle.h"
 #include <cassert>
 #include <string>
 #include <d3dcompiler.h>
@@ -7,6 +9,9 @@
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"d3dcompiler.lib")
 using namespace Microsoft::WRL;
+
+Viewport* viewport = new Viewport;
+ScissorRectangle* scissorRectangle = new ScissorRectangle;
 
 void RenderBase::Initialize()
 {
@@ -18,6 +23,97 @@ void RenderBase::Initialize()
 	SrvInit();				// シェーダーリソースビュー関連の初期化
 	ShaderCompilerInit();	// シェーダーコンパイラーの初期化
 	RootSignatureInit();	// ルードシグネチャーの初期化
+	GraphicsPipelineInit();	// グラフィックスパイプラインの初期化
+}
+
+void RenderBase::PreDraw()
+{
+	//---------------------- リソースバリアの変更コマンド ----------------------//
+	// バックバッファの番号を取得（2つなので0番か1番）
+	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
+	// １．リソースバリアで書き込み可能に変更
+	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get();	// バックバッファを指定
+	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;	// 表示状態から
+	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
+	commandList->ResourceBarrier(1, &barrierDesc);
+
+	//--------------------------- 描画先指定コマンド ---------------------------//
+	// ２．描画先の変更
+	// レンダーターゲットビューのハンドルを取得
+	rtvHandle = rtvDescHeap->GetCPUDescriptorHandleForHeapStart();
+	rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
+
+	// 深度ステンシルビュー用デスクリプタヒープのハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescHeap->GetCPUDescriptorHandleForHeapStart();
+	commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+
+	// 画面クリア R G B A
+	commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+
+	// 深度バッファクリア
+	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
+	// ルートシグネチャの設定コマンド
+	commandList->SetGraphicsRootSignature(rootSignature.Get());
+
+	// プリミティブ形状の設定コマンド
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+
+	// ビューポートの処理
+	viewport->Update();
+
+	// シザー矩形の処理
+	scissorRectangle->Update();
+}
+void RenderBase::Draw3D()
+{
+	// パイプラインステートの設定コマンド( 3D版 )
+	commandList->SetPipelineState(pipelineState3D.Get());
+}
+void RenderBase::Draw2D()
+{
+	// パイプラインステートの設定コマンド( 2D版 )
+	commandList->SetPipelineState(pipelineState2D.Get());
+}
+void RenderBase::PostDraw()
+{
+	HRESULT result;
+
+	//---------------------- リソースバリアの復帰コマンド ----------------------//
+	// ５．リソースバリアを戻す
+	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
+	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
+	commandList->ResourceBarrier(1, &barrierDesc);
+
+	//-------------------------- コマンドのフラッシュ --------------------------//
+	// 命令のクローズ
+	result = commandList->Close();
+	assert(SUCCEEDED(result));
+	// コマンドリストの実行
+	ID3D12CommandList* commandLists[] = { commandList.Get() };
+	commandQueue->ExecuteCommandLists(1, commandLists);
+
+	// 画面に表示するバッファをフリップ（裏表の入替え）
+	result = swapChain->Present(1, 0);
+	assert(SUCCEEDED(result));
+
+	// コマンドの実行完了を待つ
+	commandQueue->Signal(fence.Get(), ++fenceVal);
+	//RenderBase::GetInstance()->PreIncreFenceVal());
+	if (fence.Get()->GetCompletedValue() != fenceVal)
+	{
+		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+		fence->SetEventOnCompletion(fenceVal, event);
+		WaitForSingleObject(event, INFINITE);
+		CloseHandle(event);
+	}
+
+	// キューをクリア
+	result = commandAllocator->Reset();
+	assert(SUCCEEDED(result));
+	// 再びコマンドリストを貯める準備
+	result = commandList.Get()->Reset(commandAllocator.Get(), nullptr);
+	assert(SUCCEEDED(result));
 }
 
 void RenderBase::CreateSrv(Texture& texture, const D3D12_RESOURCE_DESC& textureResourceDesc)
@@ -115,16 +211,21 @@ void RenderBase::CommandInit()
 	HRESULT result;
 
 	// コマンドアロケータを生成
-	result = device.Get()->CreateCommandAllocator(
+	result = device->CreateCommandAllocator
+	(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		IID_PPV_ARGS(&cmdAllocator));
+		IID_PPV_ARGS(&commandAllocator)
+	);
 	assert(SUCCEEDED(result));
 
 	// コマンドリストを生成
-	result = device.Get()->CreateCommandList(0,
+	result = device->CreateCommandList
+	(
+		0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		cmdAllocator.Get(), nullptr,
-		IID_PPV_ARGS(&commandList));
+		commandAllocator.Get(), nullptr,
+		IID_PPV_ARGS(&commandList)
+	);
 	assert(SUCCEEDED(result));
 
 	//コマンドキューの設定
@@ -167,7 +268,7 @@ void RenderBase::SwapChainInit()
 	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount; // 裏表の２つ
 
 	// デスクリプタヒープの生成
-	device.Get()->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvDescHeap));
+	device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvDescHeap));
 
 	// バックバッファ
 	backBuffers.resize(swapChainDesc.BufferCount);
@@ -187,7 +288,7 @@ void RenderBase::SwapChainInit()
 		rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 		rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 		// レンダーターゲットビューの生成
-		device.Get()->CreateRenderTargetView(backBuffers[i].Get(), &rtvDesc, rtvHandle);
+		device->CreateRenderTargetView(backBuffers[i].Get(), &rtvDesc, rtvHandle);
 	}
 }
 void RenderBase::FenceInit()
@@ -195,7 +296,7 @@ void RenderBase::FenceInit()
 	HRESULT result;
 
 	// フェンスの生成
-	result = device.Get()->CreateFence(
+	result = device->CreateFence(
 		fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence.GetAddressOf()));
 }
 void RenderBase::DepthBufferInit()
@@ -221,32 +322,33 @@ void RenderBase::DepthBufferInit()
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;	// 深度値フォーマット
 
 	// リソースの生成
-	result = RenderBase::GetInstance()->GetDevice()->
-		CreateCommittedResource(
-			&depthHeapProp,
-			D3D12_HEAP_FLAG_NONE,
-			&depthResourceDesc,
-			D3D12_RESOURCE_STATE_DEPTH_WRITE, // 深度値書き込みに使用
-			&depthClearValue,
-			IID_PPV_ARGS(&depthBuffer));
+	result = device->CreateCommittedResource
+	(
+		&depthHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&depthResourceDesc,
+		D3D12_RESOURCE_STATE_DEPTH_WRITE, // 深度値書き込みに使用
+		&depthClearValue,
+		IID_PPV_ARGS(&depthBuffer)
+	);
 	assert(SUCCEEDED(result));
 
 	// 深度ビュー用デスクリプタヒープの作成
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;	// 深度ビューは一つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV; // デプスステンシルビュー
-	result = RenderBase::GetInstance()->GetDevice()->
-		CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvDescHeap));
+	result = device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvDescHeap));
 
 	// 深度ビュー作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvView = {};
 	dsvView.Format = DXGI_FORMAT_D32_FLOAT;	// 深度値フォーマット
 	dsvView.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	RenderBase::GetInstance()->GetDevice()->
-		CreateDepthStencilView(
-			depthBuffer.Get(),
-			&dsvView,
-			dsvDescHeap->GetCPUDescriptorHandleForHeapStart());
+	device->CreateDepthStencilView
+	(
+		depthBuffer.Get(),
+		&dsvView,
+		dsvDescHeap->GetCPUDescriptorHandleForHeapStart()
+	);
 }
 void RenderBase::SrvInit()
 {
@@ -262,8 +364,7 @@ void RenderBase::SrvInit()
 	srvHeapDesc.NumDescriptors = kMaxSRVCount;
 
 	// 設定を元にSRV用デスクリプタヒープを生成
-	result = RenderBase::GetInstance()->GetDevice()->
-		CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvDescHeap));
+	result = device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvDescHeap));
 	assert(SUCCEEDED(result));
 }
 void RenderBase::ShaderCompilerInit()
@@ -433,15 +534,170 @@ void RenderBase::RootSignatureInit()
 		&rootSignatureDesc,
 		D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob,
-		RenderBase::GetInstance()->GeterrorBlob().GetAddressOf());
+		&errorBlob);
 	assert(SUCCEEDED(result));
-	result = RenderBase::GetInstance()->GetDevice()->
-		CreateRootSignature(
-			0,
-			rootSigBlob->GetBufferPointer(),
-			rootSigBlob->GetBufferSize(),
-			IID_PPV_ARGS(&rootSignature));
+	result = device->CreateRootSignature
+	(
+		0,
+		rootSigBlob->GetBufferPointer(),
+		rootSigBlob->GetBufferSize(),
+		IID_PPV_ARGS(&rootSignature)
+	);
 	assert(SUCCEEDED(result));
+}
+void RenderBase::GraphicsPipelineInit()
+{
+	// グラフィックスパイプライン3D用
+	{
+		// グラフィックスパイプライン設定
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
+
+		// シェーダーの設定
+		pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
+		pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
+		pipelineDesc.PS.pShaderBytecode = ps3DBlob->GetBufferPointer();
+		pipelineDesc.PS.BytecodeLength = ps3DBlob->GetBufferSize();
+
+		// サンプルマスクの設定
+		pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
+
+		// ラスタライザの設定
+		pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;	// 背面をカリング
+		pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;	// ポリゴン内塗りつぶし
+		pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
+
+		// デプスステンシルステートの設定
+		pipelineDesc.DepthStencilState.DepthEnable = true; // 深度テストを行う
+		pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;	// 書き込み許可
+		pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;	// 小さいほうを採用
+		pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;	// 深度値フォーマット
+
+		// ブレンドステート
+		//pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask =
+		//	D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
+
+		// レンダーターゲットのブレンド設定
+		D3D12_RENDER_TARGET_BLEND_DESC& blendDesc = pipelineDesc.BlendState.RenderTarget[0];
+		blendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+		blendDesc.BlendEnable = true;					// ブレンドを有効にする
+		blendDesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;	// 加算
+		blendDesc.SrcBlendAlpha = D3D12_BLEND_ONE;		// ソースの値を100％使う
+		blendDesc.DestBlendAlpha = D3D12_BLEND_ZERO;	// デストの値を  0％使う
+
+		// 加算合成
+		//blendDesc.BlendOp = D3D12_BLEND_OP_ADD;	// 加算
+		//blendDesc.SrcBlend = D3D12_BLEND_ONE;		// ソースの値を100％使う
+		//blendDesc.DestBlend = D3D12_BLEND_ONE;	// デストの値を100％使う
+
+		// 減算合成
+		//blendDesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;	// デストからソースを減算
+		//blendDesc.SrcBlend = D3D12_BLEND_ONE;				// ソースの値を100％使う
+		//blendDesc.DestBlend = D3D12_BLEND_ONE;			// デストの値を100％使う
+
+		// 色反転
+		//blendDesc.BlendOp = D3D12_BLEND_OP_ADD;				// 加算
+		//blendDesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;		// 1.0f-デストカラーの値
+		//blendDesc.DestBlend = D3D12_BLEND_ZERO;				// 使わない
+
+		// 半透明合成
+		blendDesc.BlendOp = D3D12_BLEND_OP_ADD;				// 加算
+		blendDesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;			// ソースのアルファ値
+		blendDesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;		// 1.0f-ソースのアルファ値
+
+		// 頂点レイアウトの設定
+		pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
+		pipelineDesc.InputLayout.NumElements = sizeof(inputLayout) / sizeof(inputLayout[0]);
+
+		// 図形の形状設定
+		pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+
+		// その他の設定
+		pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
+		pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
+		pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
+
+		// パイプラインにルートシグネチャをセット
+		pipelineDesc.pRootSignature = rootSignature.Get();
+
+		HRESULT result;
+
+		// パイプランステートの生成
+		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState3D));
+		assert(SUCCEEDED(result));
+	}
+
+	// グラフィックスパイプライン2D用
+	{
+		// グラフィックスパイプライン設定
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
+
+		// シェーダーの設定
+		pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
+		pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
+		pipelineDesc.PS.pShaderBytecode = ps2DBlob->GetBufferPointer();
+		pipelineDesc.PS.BytecodeLength = ps2DBlob->GetBufferSize();
+
+		// サンプルマスクの設定
+		pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
+
+		// ラスタライザの設定
+		pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;	// 背面をカリング
+		pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;	// ポリゴン内塗りつぶし
+		pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
+
+		// ブレンドステート
+		//pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask =
+		//	D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
+
+		// レンダーターゲットのブレンド設定
+		D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
+		blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+		blenddesc.BlendEnable = true;					// ブレンドを有効にする
+		blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;	// 加算
+		blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;		// ソースの値を100％使う
+		blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;	// デストの値を  0％使う
+
+		// 加算合成
+		//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;	// 加算
+		//blenddesc.SrcBlend = D3D12_BLEND_ONE;		// ソースの値を100％使う
+		//blenddesc.DestBlend = D3D12_BLEND_ONE;	// デストの値を100％使う
+
+		// 減算合成
+		//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;	// デストからソースを減算
+		//blenddesc.SrcBlend = D3D12_BLEND_ONE;				// ソースの値を100％使う
+		//blenddesc.DestBlend = D3D12_BLEND_ONE;			// デストの値を100％使う
+
+		// 色反転
+		//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;				// 加算
+		//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;		// 1.0f-デストカラーの値
+		//blenddesc.DestBlend = D3D12_BLEND_ZERO;				// 使わない
+
+		// 半透明合成
+		blenddesc.BlendOp = D3D12_BLEND_OP_ADD;				// 加算
+		blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;			// ソースのアルファ値
+		blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;		// 1.0f-ソースのアルファ値
+
+		// 頂点レイアウトの設定
+		pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
+		pipelineDesc.InputLayout.NumElements = sizeof(inputLayout) / sizeof(inputLayout[0]);
+
+		// 図形の形状設定
+		pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+
+		// その他の設定
+		pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
+		pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
+		pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
+
+		// パイプラインにルートシグネチャをセット
+		pipelineDesc.pRootSignature = rootSignature.Get();
+
+		HRESULT result;
+
+		// パイプランステートの生成
+		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState2D));
+		assert(SUCCEEDED(result));
+	}
 }
 #pragma endregion
 
@@ -453,10 +709,7 @@ ComPtr<ID3D12Device> RenderBase::GetDevice()
 }
 
 // コマンド関連
-ComPtr<ID3D12CommandAllocator> RenderBase::GetCommandAllocataor()
-{
-	return cmdAllocator;
-}
+
 ComPtr<ID3D12GraphicsCommandList> RenderBase::GetCommandList()
 {
 	return commandList;
@@ -511,36 +764,20 @@ ComPtr<ID3D12DescriptorHeap> RenderBase::GetSrvDescHeap()
 	return srvDescHeap;
 }
 
-// シェーダーコンパイラー関連
-ComPtr<ID3DBlob> RenderBase::GetvsBlob()
-{
-	return vsBlob;
-}
-ComPtr<ID3DBlob> RenderBase::Getps3DBlob()
-{
-	return ps3DBlob;
-}
-ComPtr<ID3DBlob> RenderBase::Getps2DBlob()
-{
-	return ps2DBlob;
-}
-ComPtr<ID3DBlob> RenderBase::GeterrorBlob()
-{
-	return errorBlob;
-}
-D3D12_INPUT_ELEMENT_DESC* RenderBase::GetInputLayout()
-{
-	return inputLayout;
-}
-int RenderBase::GetInputLayoutSize()
-{
-	return sizeof(inputLayout) / sizeof(inputLayout[0]);
-}
-
 // ルードシグネチャー関連
 ComPtr<ID3D12RootSignature> RenderBase::GetRootSignature()
 {
 	return rootSignature;
+}
+
+// グラフィックスパイプライン関連
+ComPtr<ID3D12PipelineState> RenderBase::GetPipelineState3D()
+{
+	return pipelineState3D;
+}
+ComPtr<ID3D12PipelineState> RenderBase::GetPipelineState2D()
+{
+	return pipelineState2D;
 }
 
 // シングルトン関連
@@ -552,5 +789,7 @@ RenderBase* RenderBase::GetInstance()
 void RenderBase::DestroyInstance()
 {
 	delete RenderBase::GetInstance();
+	delete viewport;
+	delete scissorRectangle;
 }
 #pragma endregion

@@ -15,7 +15,7 @@ private:
 	ComPtr<IDXGIFactory7> dxgiFactory;
 
 	// コマンド関連
-	ComPtr<ID3D12CommandAllocator> cmdAllocator;
+	ComPtr<ID3D12CommandAllocator> commandAllocator;
 	ComPtr<ID3D12GraphicsCommandList> commandList;
 	ComPtr<ID3D12CommandQueue> commandQueue;
 
@@ -48,8 +48,21 @@ private:
 	// ルートシグネチャ
 	ComPtr<ID3D12RootSignature> rootSignature;
 
+	// グラフィックスパイプライン関連
+	ComPtr <ID3D12PipelineState> pipelineState3D;
+	ComPtr <ID3D12PipelineState> pipelineState2D;
+
+	// 描画処理関連
+	D3D12_RESOURCE_BARRIER barrierDesc{};	// リソースバリア
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;	// レンダーターゲットビューのハンドル
+	float clearColor[4];	// 画面色
+
 public:
 	void Initialize();
+	void PreDraw();
+	void Draw3D();
+	void Draw2D();
+	void PostDraw();
 	void CreateSrv(Texture& texture, const D3D12_RESOURCE_DESC& textureResourceDesc);
 
 private:
@@ -62,11 +75,11 @@ private:
 	void SrvInit();
 	void ShaderCompilerInit();
 	void RootSignatureInit();
+	void GraphicsPipelineInit();
 
 public:
 	ComPtr<ID3D12Device> GetDevice();
 	ComPtr<IDXGISwapChain4> GetSwapChain();
-	ComPtr<ID3D12CommandAllocator> GetCommandAllocataor();
 	ComPtr<ID3D12GraphicsCommandList> GetCommandList();
 	ComPtr<ID3D12CommandQueue> GetCommandQueue();
 	ComPtr<ID3D12DescriptorHeap> GetRtvHeap();
@@ -79,14 +92,10 @@ public:
 	ComPtr<ID3D12DescriptorHeap> GetDsvDescHeap();
 	ComPtr<ID3D12DescriptorHeap> GetSrvDescHeap();
 
-	ComPtr<ID3DBlob> GetvsBlob();		 // 頂点シェーダオブジェクトを取得する関数
-	ComPtr<ID3DBlob> Getps3DBlob();		 // ピクセルシェーダオブジェクトを取得する関数
-	ComPtr<ID3DBlob> Getps2DBlob();		 // ピクセルシェーダオブジェクトを取得する関数
-	ComPtr<ID3DBlob> GeterrorBlob();	 // エラーオブジェクトを取得する関数
-	D3D12_INPUT_ELEMENT_DESC* GetInputLayout();		// 頂点レイアウトを取得する関数
-	int GetInputLayoutSize();						// 頂点レイアウトの要素数を取得する関数
-
 	ComPtr<ID3D12RootSignature> GetRootSignature();		// ルートシグネチャを取得する関数
+
+	ComPtr <ID3D12PipelineState> GetPipelineState3D();	// 3D用パイプラインステートを取得する関数
+	ComPtr <ID3D12PipelineState> GetPipelineState2D();	// 2D用パイプラインステートを取得する関数
 	
 	static RenderBase* GetInstance();
 	static void DestroyInstance();

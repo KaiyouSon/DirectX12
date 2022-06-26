@@ -9,9 +9,7 @@ private:
 	Vec3 up = { 0,1,0 };		// 上方向ベクトル
 
 public:
-	//XMMATRIX matView;	// ビュー変換行列
-	Mat4 matView;
-
+	Mat4 matView;			// ビュー変換行列
 	Mat4 matProjection2D;	// 平行投影行列
 	Mat4 matProjection3D;	// 透視投影行列
 
