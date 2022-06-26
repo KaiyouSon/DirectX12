@@ -1,6 +1,5 @@
 #include "NewEngine/Gui/Header/SceneLayer.h"
 #include "NewEngine/Gui/Header/ProjectLayer.h"
-#include "Header/MyGUI.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 
 void SceneLayer::Initialize()
@@ -21,7 +20,6 @@ void SceneLayer::Update()
 
 	ImGui::End();
 	ImGui::PopStyleColor();
-
 }
 
 Vec2 SceneLayer::GetPos()

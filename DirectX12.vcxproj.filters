@@ -37,9 +37,6 @@
     <Filter Include="Header\NewEngine\Buffer">
       <UniqueIdentifier>{b7bd0bb9-118e-4ba2-acc1-de14edef096b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header\Debug">
-      <UniqueIdentifier>{142094ed-03b1-4c9b-b1fc-2f1ca9c02a04}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header\GUII">
       <UniqueIdentifier>{256f88ef-ad73-45a9-a226-583307bda5de}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,12 @@
     </Filter>
     <Filter Include="Header\Developer\Math">
       <UniqueIdentifier>{590935c1-a828-435e-8837-a3f876a738f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Developer\Debug">
+      <UniqueIdentifier>{dea8a3b4-6a87-470c-aacd-5fb18e84c25e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Developer\Debug">
+      <UniqueIdentifier>{57813e76-e1c1-4b39-b6a1-2e767e0fd812}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -180,12 +183,6 @@
     <ClCompile Include="Source\Viewport.cpp">
       <Filter>Source\NewEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DebugText.cpp">
-      <Filter>Source\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DebugManager.cpp">
-      <Filter>Source\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="NewEngine\Gui\Source\DebugLayer.cpp">
       <Filter>Source\Gui</Filter>
     </ClCompile>
@@ -257,6 +254,12 @@
     </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Math\Vec4.cpp">
       <Filter>Source\Developer\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Debug\DebugManager.cpp">
+      <Filter>Source\Developer\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Debug\DebugText.cpp">
+      <Filter>Source\Developer\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -334,9 +337,6 @@
     <ClInclude Include="Header\NewEngineWindow.h">
       <Filter>Header\NewEngine</Filter>
     </ClInclude>
-    <ClInclude Include="Header\NewEngine.h">
-      <Filter>Header\NewEngine</Filter>
-    </ClInclude>
     <ClInclude Include="Header\RootSignature.h">
       <Filter>Header\NewEngine</Filter>
     </ClInclude>
@@ -354,12 +354,6 @@
     </ClInclude>
     <ClInclude Include="Header\Viewport.h">
       <Filter>Header\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\DebugText.h">
-      <Filter>Header\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\DebugManager.h">
-      <Filter>Header\Debug</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\DebugLayer.h">
       <Filter>Header\GUII</Filter>
@@ -435,6 +429,15 @@
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Math\Vec4.h">
       <Filter>Header\Developer\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\NewEngine.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Debug\DebugManager.h">
+      <Filter>Header\Developer\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Debug\DebugText.h">
+      <Filter>Header\Developer\Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

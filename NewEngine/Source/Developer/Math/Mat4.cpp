@@ -1,6 +1,6 @@
 #include "NewEngine/Header/Developer/Math/Mat4.h"
 #include "NewEngine/Header/Developer/Math/MathUtil.h"
-#include "Header/DebugText.h"
+#include "NewEngine/Header/Developer/Debug/DebugText.h"
 
 Mat4::Mat4() :
 	mat{

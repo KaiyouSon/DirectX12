@@ -1,10 +1,10 @@
 #include "Header/NewEngine.h"
 #include "Header/main2.h"
 #include "NewEngine/Header/Developer/Input/InputManager.h"
+#include "NewEngine/Header/Developer/Util/Util.h"
 #include "Header/Sound.h"
 #include "Header/ViewProjection.h"
-#include "Header/DebugManager.h"
-#include "NewEngine/Header/Developer/Util/Util.h"
+#include "NewEngine/Header/Developer/Debug/DebugManager.h"
 #include "NewEngine/Gui/Header/GuiManager.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -21,9 +21,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	// NewEngineの初期化
 	NewEngineInit();
-
-	// Inputの初期化処理
-	Input::GetInstance()->Initialize();
 
 	// ランダムの初期化処理
 	Random::Initialize();
@@ -52,8 +49,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ProcessMessage();
 
 		// ----------- ここから更新処理を記述 ----------- //
-		// Inputの更新処理
-		Input::GetInstance()->Update();
+		NewEngineUpda();
 
 		// デバッグマネージャの更新処理
 		DebugManager::GetInstance()->Update();
@@ -103,8 +99,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 
 	view->DestroyInstance();
-
-	Input::GetInstance()->DestoryInstance();
 
 	// Audioの破棄
 	SoundManager::GetInstance()->DestroyInstance();

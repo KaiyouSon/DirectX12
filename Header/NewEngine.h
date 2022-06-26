@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
+
 void NewEngineInit();
+void NewEngineUpda();
 void NewEngineEnd();
 void ProcessMessage();
 

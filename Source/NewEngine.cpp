@@ -10,6 +10,8 @@
 #include "Header/RootSignature.h"
 #include "Header/Viewport.h"
 #include "Header/ScissorRectangle.h"
+
+#include "NewEngine/Header/Developer/Input/InputManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include <wrl.h>
 using namespace Microsoft::WRL;
@@ -50,6 +52,14 @@ void NewEngineInit()
 	// グラフィックスパイプラインの初期化
 	GraphicsPipeline2D::GetInstance()->Initialize();
 	GraphicsPipeline3D::GetInstance()->Initialize();
+
+	// Inputの初期化
+	Input::GetInstance()->Initialize();
+}
+void NewEngineUpda()
+{
+	// Inputの更新処理
+	Input::GetInstance()->Update();
 }
 void NewEngineEnd()
 {
@@ -83,6 +93,8 @@ void NewEngineEnd()
 	//	debugInterface->ReportLiveDeviceObjects(D3D12_RLDO_DETAIL | D3D12_RLDO_IGNORE_INTERNAL);
 	//	debugInterface->Release();
 	//}
+
+	Input::GetInstance()->DestoryInstance();
 
 	delete viewport;
 	delete scissorRectangle;

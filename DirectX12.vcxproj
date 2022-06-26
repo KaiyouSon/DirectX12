@@ -159,6 +159,8 @@
     <ClCompile Include="NewEngine\Gui\Source\ProjectLayer.cpp" />
     <ClCompile Include="NewEngine\Gui\Source\SceneLayer.cpp" />
     <ClCompile Include="NewEngine\Render\Source\NewEngineBase.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Debug\DebugManager.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Debug\DebugText.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Input\InputManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Input\JoypadInput.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Input\KeyBoardInput.cpp" />
@@ -177,8 +179,6 @@
     <ClCompile Include="NewEngine\Source\Developer\Util\Random.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Util.cpp" />
     <ClCompile Include="Source\ConstantBuffer.cpp" />
-    <ClCompile Include="Source\DebugManager.cpp" />
-    <ClCompile Include="Source\DebugText.cpp" />
     <ClCompile Include="Source\DepthBuffer.cpp" />
     <ClCompile Include="Source\GraphicsCommand.cpp" />
     <ClCompile Include="Source\GraphicsPipeline2D.cpp" />
@@ -221,8 +221,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\ConstantBuffer.h" />
-    <ClInclude Include="Header\DebugManager.h" />
-    <ClInclude Include="Header\DebugText.h" />
     <ClInclude Include="Header\DepthBuffer.h" />
     <ClInclude Include="Header\GraphicsCommand.h" />
     <ClInclude Include="Header\GraphicsPipeline2D.h" />
@@ -257,6 +255,8 @@
     <ClInclude Include="NewEngine\Gui\Header\GuiManager.h" />
     <ClInclude Include="NewEngine\Gui\Header\ProjectLayer.h" />
     <ClInclude Include="NewEngine\Gui\Header\SceneLayer.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Debug\DebugManager.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Debug\DebugText.h" />
     <ClInclude Include="NewEngine\Header\Developer\Input\InputManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Input\JoypadInput.h" />
     <ClInclude Include="NewEngine\Header\Developer\Input\KeyBoardInput.h" />

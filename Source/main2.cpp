@@ -3,7 +3,7 @@
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include "NewEngine/Header/Developer/Math/MathUtil.h"
 #include "NewEngine/Header/Developer/Input/InputManager.h"
-#include "Header/DebugManager.h"
+#include "NewEngine/Header/Developer/Debug/DebugManager.h"
 #include "NewEngine/Header/Developer/Object/Other/DrawManager.h"
 #include "NewEngine/Header/Developer/Object/Other/ObjectManager.h"
 #include "Header/Sound.h"
@@ -12,11 +12,11 @@
 Texture backTexture;
 Texture objTexture;
 Sound testSound;
+Model barbla;
 
 Square* bg = new Square;
 Object3D* model = new Object3D;
-Object3D* model2 = new Object3D;
-Cube* test = new Cube;
+Cube* testCube = new Cube;
 
 // ‰æ‘œ‚Ì“Ç‚Ýž‚Ý
 void Load()
@@ -25,17 +25,16 @@ void Load()
 	backTexture = LoadTexture("Resources/bg.png");
 	objTexture = LoadTexture("Resources/pic.png");
 	testSound = LoadSoundWave("Resources/title_bgm.wav");
+	barbla = LoadModel("Resources/barbla.obj");
 }
 
 // ‰Šú‰»ˆ—
 void Initialize()
 {
 	bg->Initialize(Square::view2D, Vec2(WIN_WIDTH, WIN_HEIGHT));
-	test->Initialize();
-	model->Initialize(monkey);
-
-
-	model2->Initialize(cube);
+	model->Initialize(barbla);
+	//model->Initialize(monkey);
+	testCube->Initialize();
 
 	view->SetPos(Vec3(0, 0, -30));
 	view->SetTarget(Vec3::zero);
@@ -53,13 +52,6 @@ float angle = 270;
 float length = 50;
 
 Transform transform =
-{
-	Vec3::zero,
-	Vec3::one,
-	Vec3::zero,
-};
-
-Transform transform3 =
 {
 	Vec3::zero,
 	Vec3::one,
@@ -84,8 +76,9 @@ void Update()
 		(float)(sin(MathUtil::Radian(angle)) * length)));
 
 	model->Update(transform);
-	model2->Update(transform3);
-	test->Update(transform);
+
+	testCube->Update(transform);
+
 
 	//PlaySoundWave(testSound);
 
@@ -99,13 +92,7 @@ void Update()
 // •`‰æˆ—
 void Draw3D()
 {
-	//cube->SetTexture(objTexture);
-	//cube->Draw();
-
-	model->SetTexture(objTexture);
 	model->Draw();
-	model2->SetTexture(objTexture);
-	//model2->Draw();
 
 	ObjectManager::GetInstance()->Draw3D();
 }
@@ -120,10 +107,9 @@ void Draw2D()
 void Destroy()
 {
 	UnLoadSoundWave(&testSound);
-	delete test;
 	delete bg;
 	delete model;
-	delete model2;
+	delete testCube;
 
 	ObjectManager::DestroyInstance();
 }
