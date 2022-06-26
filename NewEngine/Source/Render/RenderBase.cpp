@@ -709,75 +709,15 @@ ComPtr<ID3D12Device> RenderBase::GetDevice()
 }
 
 // コマンド関連
-
 ComPtr<ID3D12GraphicsCommandList> RenderBase::GetCommandList()
 {
 	return commandList;
-}
-ComPtr<ID3D12CommandQueue> RenderBase::GetCommandQueue()
-{
-	return commandQueue;
-}
-
-// スワップチェーン関連
-ComPtr<IDXGISwapChain4> RenderBase::GetSwapChain()
-{
-	return swapChain;
-}
-ComPtr<ID3D12DescriptorHeap> RenderBase::GetRtvHeap()
-{
-	return rtvDescHeap;
-}
-D3D12_DESCRIPTOR_HEAP_DESC RenderBase::GetRtvDescHeap()
-{
-	return rtvHeapDesc;
-}
-std::vector<ComPtr<ID3D12Resource>> RenderBase::GetBackBuffers()
-{
-	return backBuffers;
-}
-
-// フェンス関連
-ComPtr<ID3D12Fence> RenderBase::GetFence()
-{
-	return fence;
-}
-UINT64 RenderBase::GetFenceVal()
-{
-	return fenceVal;
-}
-UINT64 RenderBase::PreIncreFenceVal()
-{
-	++fenceVal;
-	return fenceVal;
-}
-
-// 深度バッファ用デスクリプタヒープ
-ComPtr<ID3D12DescriptorHeap> RenderBase::GetDsvDescHeap()
-{
-	return dsvDescHeap;
 }
 
 // srv用デスクリプタヒープ
 ComPtr<ID3D12DescriptorHeap> RenderBase::GetSrvDescHeap()
 {
 	return srvDescHeap;
-}
-
-// ルードシグネチャー関連
-ComPtr<ID3D12RootSignature> RenderBase::GetRootSignature()
-{
-	return rootSignature;
-}
-
-// グラフィックスパイプライン関連
-ComPtr<ID3D12PipelineState> RenderBase::GetPipelineState3D()
-{
-	return pipelineState3D;
-}
-ComPtr<ID3D12PipelineState> RenderBase::GetPipelineState2D()
-{
-	return pipelineState2D;
 }
 
 // シングルトン関連

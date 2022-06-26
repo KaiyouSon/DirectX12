@@ -34,9 +34,6 @@
     <Filter Include="Header\NewEngine\Buffer">
       <UniqueIdentifier>{b7bd0bb9-118e-4ba2-acc1-de14edef096b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header\GUII">
-      <UniqueIdentifier>{256f88ef-ad73-45a9-a226-583307bda5de}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Render">
       <UniqueIdentifier>{0cd6b8a8-b44a-41d8-98cd-686e7f36ec4f}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,9 @@
     </Filter>
     <Filter Include="Header\Developer\Debug">
       <UniqueIdentifier>{57813e76-e1c1-4b39-b6a1-2e767e0fd812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Gui">
+      <UniqueIdentifier>{256f88ef-ad73-45a9-a226-583307bda5de}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -311,25 +311,25 @@
       <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\DebugLayer.h">
-      <Filter>Header\GUII</Filter>
+      <Filter>Header\Gui</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\HierarchyLayer.h">
-      <Filter>Header\GUII</Filter>
+      <Filter>Header\Gui</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\ILayer.h">
-      <Filter>Header\GUII</Filter>
+      <Filter>Header\Gui</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\MainLayer.h">
-      <Filter>Header\GUII</Filter>
+      <Filter>Header\Gui</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\GuiManager.h">
-      <Filter>Header\GUII</Filter>
+      <Filter>Header\Gui</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\ProjectLayer.h">
-      <Filter>Header\GUII</Filter>
+      <Filter>Header\Gui</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Gui\Header\SceneLayer.h">
-      <Filter>Header\GUII</Filter>
+      <Filter>Header\Gui</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Input\InputManager.h">
       <Filter>Header\Developer\Input</Filter>
