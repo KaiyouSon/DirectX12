@@ -2,7 +2,6 @@
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/GraphicsPipeline2D.h"
 #include "Header/GraphicsPipeline3D.h"
-#include "Header/RootSignature.h"
 #include <cassert>
 
 void GraphicsCommand::PreDraw()
@@ -40,7 +39,7 @@ void GraphicsCommand::PreDraw()
 
 	// ルートシグネチャの設定コマンド
 	RenderBase::GetInstance()->GetCommandList()->
-		SetGraphicsRootSignature(RootSignature::GetInstance()->GetRootSignature().Get());
+		SetGraphicsRootSignature(RenderBase::GetInstance()->GetRootSignature().Get());
 
 	// プリミティブ形状の設定コマンド
 	RenderBase::GetInstance()->GetCommandList()->

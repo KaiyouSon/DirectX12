@@ -187,7 +187,6 @@
     <ClCompile Include="Source\main2.cpp" />
     <ClCompile Include="Source\NewEngine.cpp" />
     <ClCompile Include="Source\NewEngineWindow.cpp" />
-    <ClCompile Include="Source\RootSignature.cpp" />
     <ClCompile Include="Source\ScissorRectangle.cpp" />
     <ClCompile Include="Source\Sound.cpp" />
     <ClCompile Include="Source\TextureBuffer.cpp" />
@@ -225,7 +224,6 @@
     <ClInclude Include="Header\main2.h" />
     <ClInclude Include="Header\NewEngine.h" />
     <ClInclude Include="Header\NewEngineWindow.h" />
-    <ClInclude Include="Header\RootSignature.h" />
     <ClInclude Include="Header\ScissorRectangle.h" />
     <ClInclude Include="Header\Sound.h" />
     <ClInclude Include="Header\TextureBuffer.h" />

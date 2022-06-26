@@ -1,6 +1,5 @@
 #include "Header/GraphicsPipeline3D.h"
 #include "NewEngine/Header/Render/RenderBase.h"
-#include "Header/RootSignature.h"
 #include <cassert>
 using namespace Microsoft::WRL;
 
@@ -80,7 +79,7 @@ void GraphicsPipeline3D::Initialize()
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = RootSignature::GetInstance()->GetRootSignature().Get();
+	pipelineDesc.pRootSignature = RenderBase::GetInstance()->GetRootSignature().Get();
 
 	HRESULT result;
 

@@ -10,6 +10,7 @@ class RenderBase
 public:
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr <T>;
 private:
+	// デバイス関連
 	ComPtr<ID3D12Device> device;
 	ComPtr<IDXGIFactory7> dxgiFactory;
 
@@ -44,11 +45,15 @@ private:
 	ComPtr <ID3DBlob> errorBlob;	// エラーオブジェクト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[3];		// 頂点レイアウト
 
+	// ルートシグネチャ
+	ComPtr<ID3D12RootSignature> rootSignature;
+
 public:
 	void Initialize();
 	void CreateSrv(Texture& texture, const D3D12_RESOURCE_DESC& textureResourceDesc);
 
 private:
+	// 初期化関連
 	void DeviceInit();
 	void CommandInit();
 	void SwapChainInit();
@@ -56,6 +61,8 @@ private:
 	void DepthBufferInit();
 	void SrvInit();
 	void ShaderCompilerInit();
+	void RootSignatureInit();
+
 public:
 	ComPtr<ID3D12Device> GetDevice();
 	ComPtr<IDXGISwapChain4> GetSwapChain();
@@ -79,6 +86,8 @@ public:
 	D3D12_INPUT_ELEMENT_DESC* GetInputLayout();		// 頂点レイアウトを取得する関数
 	int GetInputLayoutSize();						// 頂点レイアウトの要素数を取得する関数
 
+	ComPtr<ID3D12RootSignature> GetRootSignature();		// ルートシグネチャを取得する関数
+	
 	static RenderBase* GetInstance();
 	static void DestroyInstance();
 private:
@@ -89,5 +98,6 @@ private:
 	RenderBase& operator=(const RenderBase&) = delete;
 	RenderBase(const RenderBase&&) = delete;
 	RenderBase& operator=(const RenderBase&&) = delete;
+
 };
 

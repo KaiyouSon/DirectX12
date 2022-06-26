@@ -4,7 +4,6 @@
 #include "Header/GraphicsPipeline2D.h"
 #include "Header/GraphicsPipeline3D.h"
 #include "Header/GraphicsCommand.h"
-#include "Header/RootSignature.h"
 #include "Header/Viewport.h"
 #include "Header/ScissorRectangle.h"
 
@@ -32,9 +31,6 @@ void NewEngineInit()
 	// DirectXの初期化処理
 	RenderBase::GetInstance()->Initialize();
 
-	// ルートシグネチャの初期化
-	RootSignature::GetInstance()->Initialize();
-
 	// グラフィックスパイプラインの初期化
 	GraphicsPipeline2D::GetInstance()->Initialize();
 	GraphicsPipeline3D::GetInstance()->Initialize();
@@ -51,9 +47,6 @@ void NewEngineEnd()
 {
 	// ウィンドウクラスを登録解除
 	NewEngineWindow::GetInstance().TerminateGameWindow();
-
-	// ルートシグネチャの破棄
-	RootSignature::DestroyInstance();
 
 	// グラフィックスパイプラインの破棄
 	GraphicsPipeline2D::DestroyInstance();

@@ -162,9 +162,6 @@
     <ClCompile Include="Source\NewEngineWindow.cpp">
       <Filter>Source\NewEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RootSignature.cpp">
-      <Filter>Source\NewEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ScissorRectangle.cpp">
       <Filter>Source\NewEngine</Filter>
     </ClCompile>
@@ -320,9 +317,6 @@
       <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\NewEngineWindow.h">
-      <Filter>Header\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\RootSignature.h">
       <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\ScissorRectangle.h">
