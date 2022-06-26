@@ -1,6 +1,5 @@
 #include "Header/TextureBuffer.h"
 #include "NewEngine/Header/Render/RenderBase.h"
-#include "Header/ShaderResourceView.h"
 #include <cassert>
 using namespace std;
 using namespace DirectX;
@@ -91,7 +90,7 @@ Texture TextureBuffer::LoadTexture(const string filePath)
 		assert(SUCCEEDED(result));
 	}
 
-	ShaderResourceView::GetInstance()->CreateSrv(texture, textureResourceDesc);
+	RenderBase::GetInstance()->CreateSrv(texture, textureResourceDesc);
 
 	return texture;
 }
@@ -149,7 +148,7 @@ Texture TextureBuffer::GetDefaultTexture()
 		sizeof(Vec4) * imageDataCount // 全サイズ
 	);
 
-	ShaderResourceView::GetInstance()->CreateSrv(texture, textureResourceDesc);
+	RenderBase::GetInstance()->CreateSrv(texture, textureResourceDesc);
 
 	return texture;
 }

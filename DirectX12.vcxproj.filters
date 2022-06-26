@@ -168,12 +168,6 @@
     <ClCompile Include="Source\ScissorRectangle.cpp">
       <Filter>Source\NewEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ShaderCompiler.cpp">
-      <Filter>Source\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ShaderResourceView.cpp">
-      <Filter>Source\NewEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Viewport.cpp">
       <Filter>Source\NewEngine</Filter>
     </ClCompile>
@@ -332,12 +326,6 @@
       <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\ScissorRectangle.h">
-      <Filter>Header\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\ShaderResourceView.h">
-      <Filter>Header\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\ShaderCompiler.h">
       <Filter>Header\NewEngine</Filter>
     </ClInclude>
     <ClInclude Include="Header\Vertex.h">

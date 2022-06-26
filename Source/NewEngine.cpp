@@ -1,8 +1,6 @@
 #include "Header/NewEngine.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/NewEngineWindow.h"
-#include "Header/ShaderResourceView.h"
-#include "Header/ShaderCompiler.h"
 #include "Header/GraphicsPipeline2D.h"
 #include "Header/GraphicsPipeline3D.h"
 #include "Header/GraphicsCommand.h"
@@ -34,14 +32,6 @@ void NewEngineInit()
 	// DirectXの初期化処理
 	RenderBase::GetInstance()->Initialize();
 
-	// シェーダーリソースビューの初期化
-	ShaderResourceView::GetInstance()->Initialize();
-
-	// シェーダファイルの読み込みとコンパイル
-	ShaderCompiler::GetInstance()->BasicVSCompile();
-	ShaderCompiler::GetInstance()->BasicPSCompile();
-	ShaderCompiler::GetInstance()->BasicPSCompile2();
-
 	// ルートシグネチャの初期化
 	RootSignature::GetInstance()->Initialize();
 
@@ -61,12 +51,6 @@ void NewEngineEnd()
 {
 	// ウィンドウクラスを登録解除
 	NewEngineWindow::GetInstance().TerminateGameWindow();
-
-	// シェーダーリソースビューの破棄
-	ShaderResourceView::DestroyInstance();
-
-	// シェーダーコンパイラーの破棄
-	ShaderCompiler::DestroyInstance();
 
 	// ルートシグネチャの破棄
 	RootSignature::DestroyInstance();

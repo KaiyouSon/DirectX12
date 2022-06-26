@@ -189,8 +189,6 @@
     <ClCompile Include="Source\NewEngineWindow.cpp" />
     <ClCompile Include="Source\RootSignature.cpp" />
     <ClCompile Include="Source\ScissorRectangle.cpp" />
-    <ClCompile Include="Source\ShaderCompiler.cpp" />
-    <ClCompile Include="Source\ShaderResourceView.cpp" />
     <ClCompile Include="Source\Sound.cpp" />
     <ClCompile Include="Source\TextureBuffer.cpp" />
     <ClCompile Include="Source\Transform.cpp" />
@@ -229,8 +227,6 @@
     <ClInclude Include="Header\NewEngineWindow.h" />
     <ClInclude Include="Header\RootSignature.h" />
     <ClInclude Include="Header\ScissorRectangle.h" />
-    <ClInclude Include="Header\ShaderCompiler.h" />
-    <ClInclude Include="Header\ShaderResourceView.h" />
     <ClInclude Include="Header\Sound.h" />
     <ClInclude Include="Header\TextureBuffer.h" />
     <ClInclude Include="Header\Transform.h" />

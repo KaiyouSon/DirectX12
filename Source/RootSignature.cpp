@@ -1,5 +1,4 @@
 #include "Header/RootSignature.h"
-#include "Header/ShaderCompiler.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 #include <cassert>
 using namespace Microsoft::WRL;
@@ -58,7 +57,7 @@ void RootSignature::Initialize()
 		&rootSignatureDesc,
 		D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob,
-		ShaderCompiler::GetInstance()->GeterrorBlob().GetAddressOf());
+		RenderBase::GetInstance()->GeterrorBlob().GetAddressOf());
 	assert(SUCCEEDED(result));
 	result = RenderBase::GetInstance()->GetDevice()->
 		CreateRootSignature(

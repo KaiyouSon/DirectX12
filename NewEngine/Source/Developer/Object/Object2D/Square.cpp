@@ -1,7 +1,6 @@
 #include "NewEngine/Header/Developer/Object/Object2D/Square.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/ViewProjection.h"
-#include "Header/ShaderResourceView.h"
 
 Square::Square() :
 	vertexBuffer(new VertexBuffer),
@@ -109,7 +108,7 @@ void Square::Draw()
 	// SRVヒープの設定コマンド
 	RenderBase::GetInstance()->GetCommandList()->
 		SetDescriptorHeaps(1,
-			ShaderResourceView::GetInstance()->GetSrvHeap().GetAddressOf());
+			RenderBase::GetInstance()->GetSrvDescHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	RenderBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootDescriptorTable(1, texture.GetGpuHandle());

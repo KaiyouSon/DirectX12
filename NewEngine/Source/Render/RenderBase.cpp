@@ -2,21 +2,56 @@
 #include "Header/NewEngineWindow.h"
 #include <cassert>
 #include <string>
+#include <d3dcompiler.h>
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
+#pragma comment(lib,"d3dcompiler.lib")
 using namespace Microsoft::WRL;
 
 void RenderBase::Initialize()
 {
-	DeviceInit();		// デバイスの初期化
-	CommandInit();		// コマンド関連の初期化
-	SwapChainInit();	// スワップチェンの初期化
-	FenceInit();		// フェンスの初期化
-	DepthBufferInit();	// 深度バッファの初期化
+	DeviceInit();			// デバイスの初期化
+	CommandInit();			// コマンド関連の初期化
+	SwapChainInit();		// スワップチェンの初期化
+	FenceInit();			// フェンスの初期化
+	DepthBufferInit();		// 深度バッファの初期化
+	SrvInit();				// シェーダーリソースビュー関連の初期化
+	ShaderCompilerInit();	// シェーダーコンパイラーの初期化
 }
 
+void RenderBase::CreateSrv(Texture& texture, const D3D12_RESOURCE_DESC& textureResourceDesc)
+{
+	// SRVヒープの先頭ハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE srvCpuHandle = srvDescHeap->GetCPUDescriptorHandleForHeapStart();
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvDescHeap->GetGPUDescriptorHandleForHeapStart();
+
+	UINT descriptorSize = RenderBase::GetInstance()->GetDevice()->
+		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	srvCpuHandle.ptr += descriptorSize * incrementIndex;
+	srvGpuHandle.ptr += descriptorSize * incrementIndex;
+
+	texture.SetCpuHandle(srvCpuHandle);
+	texture.SetGpuHandle(srvGpuHandle);
+
+	// シェーダーリソースビュー設定
+	srvDesc.Format = textureResourceDesc.Format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	// 2Dテクスチャ
+	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
+
+	// ハンドルの指す位置にシェーダーリソースビュー作成
+	RenderBase::GetInstance()->GetDevice()->
+		CreateShaderResourceView(texture.buffer.Get(), &srvDesc, srvCpuHandle);
+
+	incrementIndex++;
+}
+
+#pragma region 各初期化
 void RenderBase::DeviceInit()
 {
+	HRESULT result;
+
 	// DXGIファクトリーの生成
 	result = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory));
 	assert(SUCCEEDED(result));
@@ -77,6 +112,7 @@ void RenderBase::DeviceInit()
 void RenderBase::CommandInit()
 {
 	HRESULT result;
+
 	// コマンドアロケータを生成
 	result = device.Get()->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
@@ -98,6 +134,8 @@ void RenderBase::CommandInit()
 }
 void RenderBase::SwapChainInit()
 {
+	HRESULT result;
+
 	// リソースの設定
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	swapChainDesc.Width = NewEngineWindow::GetInstance().GetWinWidth();
@@ -153,12 +191,16 @@ void RenderBase::SwapChainInit()
 }
 void RenderBase::FenceInit()
 {
+	HRESULT result;
+
 	// フェンスの生成
 	result = device.Get()->CreateFence(
 		fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence.GetAddressOf()));
 }
 void RenderBase::DepthBufferInit()
 {
+	HRESULT result;
+
 	// リソースの設定
 	D3D12_RESOURCE_DESC depthResourceDesc{};
 	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -176,8 +218,6 @@ void RenderBase::DepthBufferInit()
 	D3D12_CLEAR_VALUE depthClearValue{};
 	depthClearValue.DepthStencil.Depth = 1.0f;	// 深度値1.0f(最大値)でクリア
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;	// 深度値フォーマット
-
-	HRESULT result;
 
 	// リソースの生成
 	result = RenderBase::GetInstance()->GetDevice()->
@@ -207,6 +247,139 @@ void RenderBase::DepthBufferInit()
 			&dsvView,
 			dsvDescHeap->GetCPUDescriptorHandleForHeapStart());
 }
+void RenderBase::SrvInit()
+{
+	HRESULT result;
+
+	// SRVの最大個数
+	const size_t kMaxSRVCount = 2056;
+
+	// デスクリプタヒープの設定
+	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
+	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;	// シェーダから見えるように
+	srvHeapDesc.NumDescriptors = kMaxSRVCount;
+
+	// 設定を元にSRV用デスクリプタヒープを生成
+	result = RenderBase::GetInstance()->GetDevice()->
+		CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvDescHeap));
+	assert(SUCCEEDED(result));
+}
+void RenderBase::ShaderCompilerInit()
+{
+	// 頂点シェーダーファイルの読み込みとコンパイラー
+	{
+		HRESULT result;
+
+		// 頂点シェーダの読み込みとコンパイル
+		result = D3DCompileFromFile(
+			L"BasicVS.hlsl", // シェーダファイル名
+			nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+			"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
+			D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+			0,
+			&vsBlob, &errorBlob);
+
+		// シェーダのエラー内容を表示
+		if (FAILED(result))
+		{
+			// errorBlobからエラー内容をstring型にコピー
+			std::string error;
+			error.resize(errorBlob->GetBufferSize());
+			std::copy_n((char*)errorBlob->GetBufferPointer(),
+				errorBlob->GetBufferSize(),
+				error.begin());
+			error += "\n";
+			// エラー内容を出力ウィンドウに表示
+			OutputDebugStringA(error.c_str());
+			assert(0);
+		}
+
+		// 頂点シェーダに渡すための頂点データを整える
+		inputLayout[0] =
+		{	// xyz座標
+			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		};
+		inputLayout[1] =
+		{	// xyz座標
+			"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		};
+		inputLayout[2] =
+		{	// uv座標
+			"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+
+		};
+	}
+
+	// 3D用ピクセルシェーダファイルの読み込みとコンパイル
+	{
+		HRESULT result;
+
+		// ピクセルシェーダの読み込みとコンパイル
+		result = D3DCompileFromFile(
+			L"BasicPS.hlsl", // シェーダファイル名
+			nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+			"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
+			D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+			0,
+			&ps3DBlob, &errorBlob);
+
+		// シェーダのエラー内容を表示
+		if (FAILED(result))
+		{
+			// errorBlobからエラー内容をstring型にコピー
+			std::string error;
+			error.resize(errorBlob->GetBufferSize());
+			std::copy_n((char*)errorBlob->GetBufferPointer(),
+				errorBlob->GetBufferSize(),
+				error.begin());
+			error += "\n";
+			// エラー内容を出力ウィンドウに表示
+			OutputDebugStringA(error.c_str());
+			assert(0);
+		}
+	}
+
+	// 2D用ピクセルシェーダファイルの読み込みとコンパイル
+	{
+		HRESULT result;
+
+		// ピクセルシェーダファイルの読み込みとコンパイル
+		result = D3DCompileFromFile(
+			L"BasicPS2.hlsl", // シェーダファイル名
+			nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+			"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
+			D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+			0,
+			&ps2DBlob, &errorBlob);
+
+		// シェーダのエラー内容を表示
+		if (FAILED(result))
+		{
+			// errorBlobからエラー内容をstring型にコピー
+			std::string error;
+			error.resize(errorBlob->GetBufferSize());
+			std::copy_n((char*)errorBlob->GetBufferPointer(),
+				errorBlob->GetBufferSize(),
+				error.begin());
+			error += "\n";
+			// エラー内容を出力ウィンドウに表示
+			OutputDebugStringA(error.c_str());
+			assert(0);
+		}
+	}
+}
+
+#pragma endregion
 
 #pragma region ゲッター関連
 ComPtr<ID3D12Device> RenderBase::GetDevice()
@@ -254,10 +427,46 @@ std::vector<ComPtr<ID3D12Resource>> RenderBase::GetBackBuffers()
 {
 	return backBuffers;
 }
+
+// 深度バッファ用デスクリプタヒープ
 ComPtr<ID3D12DescriptorHeap> RenderBase::GetDsvDescHeap()
 {
 	return dsvDescHeap;
 }
+
+// srv用デスクリプタヒープ
+ComPtr<ID3D12DescriptorHeap> RenderBase::GetSrvDescHeap()
+{
+	return srvDescHeap;
+}
+
+// シェーダーコンパイラー関連
+ComPtr<ID3DBlob> RenderBase::GetvsBlob()
+{
+	return vsBlob;
+}
+ComPtr<ID3DBlob> RenderBase::Getps3DBlob()
+{
+	return ps3DBlob;
+}
+ComPtr<ID3DBlob> RenderBase::Getps2DBlob()
+{
+	return ps2DBlob;
+}
+ComPtr<ID3DBlob> RenderBase::GeterrorBlob()
+{
+	return errorBlob;
+}
+D3D12_INPUT_ELEMENT_DESC* RenderBase::GetInputLayout()
+{
+	return inputLayout;
+}
+int RenderBase::GetInputLayoutSize()
+{
+	return sizeof(inputLayout) / sizeof(inputLayout[0]);
+}
+
+
 
 RenderBase* RenderBase::GetInstance()
 {

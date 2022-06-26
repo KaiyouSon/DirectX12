@@ -9,7 +9,6 @@
 #include "ImGUI/imgui_impl_win32.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/NewEngineWindow.h"
-#include "Header/ShaderResourceView.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 
 struct FrameContext
@@ -42,9 +41,9 @@ void GuiManager::Initialize()
 		RenderBase::GetInstance()->GetDevice().Get(),
 		NUM_FRAMES_IN_FLIGHT,
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-		ShaderResourceView::GetInstance()->GetSrvHeap().Get(),
-		ShaderResourceView::GetInstance()->GetSrvHeap().Get()->GetCPUDescriptorHandleForHeapStart(),
-		ShaderResourceView::GetInstance()->GetSrvHeap().Get()->GetGPUDescriptorHandleForHeapStart());
+		RenderBase::GetInstance()->GetSrvDescHeap().Get(),
+		RenderBase::GetInstance()->GetSrvDescHeap().Get()->GetCPUDescriptorHandleForHeapStart(),
+		RenderBase::GetInstance()->GetSrvDescHeap().Get()->GetGPUDescriptorHandleForHeapStart());
 
 	MainLayer::GetInstance()->Initialize();
 	ProjectLayer::GetInstance()->Initialize();
@@ -83,7 +82,7 @@ void GuiManager::Draw()
 	// SRVヒープの設定コマンド
 	RenderBase::GetInstance()->GetCommandList()->
 		SetDescriptorHeaps(1,
-			ShaderResourceView::GetInstance()->GetSrvHeap().GetAddressOf());
+			RenderBase::GetInstance()->GetSrvDescHeap().GetAddressOf());
 	ImGui_ImplDX12_RenderDrawData(
 		ImGui::GetDrawData(), RenderBase::GetInstance()->GetCommandList().Get());
 }

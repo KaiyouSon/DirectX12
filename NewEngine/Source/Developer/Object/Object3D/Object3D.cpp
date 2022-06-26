@@ -2,7 +2,6 @@
 #include "NewEngine/Header/Developer/Math/MathUtil.h"
 #include "Header/Vertex.h"
 #include "NewEngine/Header/Render/RenderBase.h"
-#include "Header/ShaderResourceView.h"
 #include "Header/ViewProjection.h"
 using namespace std;
 
@@ -84,7 +83,7 @@ void Object3D::Draw()
 	// SRVヒープの設定コマンド
 	RenderBase::GetInstance()->GetCommandList()->
 		SetDescriptorHeaps(1,
-			ShaderResourceView::GetInstance()->GetSrvHeap().GetAddressOf());
+			RenderBase::GetInstance()->GetSrvDescHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	RenderBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootDescriptorTable(1, texture.GetGpuHandle());

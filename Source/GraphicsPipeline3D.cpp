@@ -1,5 +1,4 @@
 #include "Header/GraphicsPipeline3D.h"
-#include "Header/ShaderCompiler.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/RootSignature.h"
 #include <cassert>
@@ -12,13 +11,13 @@ void GraphicsPipeline3D::Initialize()
 
 	// シェーダーの設定
 	pipelineDesc.VS.pShaderBytecode =
-		ShaderCompiler::GetInstance()->GetvsBlob()->GetBufferPointer();
+		RenderBase::GetInstance()->GetvsBlob()->GetBufferPointer();
 	pipelineDesc.VS.BytecodeLength =
-		ShaderCompiler::GetInstance()->GetvsBlob()->GetBufferSize();
+		RenderBase::GetInstance()->GetvsBlob()->GetBufferSize();
 	pipelineDesc.PS.pShaderBytecode =
-		ShaderCompiler::GetInstance()->GetpsBlob()->GetBufferPointer();
+		RenderBase::GetInstance()->Getps3DBlob()->GetBufferPointer();
 	pipelineDesc.PS.BytecodeLength =
-		ShaderCompiler::GetInstance()->GetpsBlob()->GetBufferSize();
+		RenderBase::GetInstance()->Getps3DBlob()->GetBufferSize();
 
 	// サンプルマスクの設定
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
@@ -68,9 +67,9 @@ void GraphicsPipeline3D::Initialize()
 
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs =
-		ShaderCompiler::GetInstance()->GetInputLayout();
+		RenderBase::GetInstance()->GetInputLayout();
 	pipelineDesc.InputLayout.NumElements =
-		ShaderCompiler::GetInstance()->GetInputLayoutSize();
+		RenderBase::GetInstance()->GetInputLayoutSize();
 
 	// 図形の形状設定
 	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;

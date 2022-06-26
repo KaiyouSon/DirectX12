@@ -3,7 +3,6 @@
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/TextureBuffer.h"
 #include "Header/ViewProjection.h"
-#include "Header/ShaderResourceView.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include "ImGUI/imgui.h"
 #include <d3d12.h>
@@ -179,7 +178,7 @@ void Cube::Draw()
 	// SRVヒープの設定コマンド
 	RenderBase::GetInstance()->GetCommandList()->
 		SetDescriptorHeaps(1,
-			ShaderResourceView::GetInstance()->GetSrvHeap().GetAddressOf());
+			RenderBase::GetInstance()->GetSrvDescHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	RenderBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootDescriptorTable(1, texture.GetGpuHandle());
