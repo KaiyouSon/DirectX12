@@ -21,9 +21,6 @@
     <Filter Include="Source\NewEngine\Buffer">
       <UniqueIdentifier>{08846fad-8ac1-4802-bf33-5a48ba8e3d65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Debug">
-      <UniqueIdentifier>{20bc4921-2e3c-4374-afed-0329488c3722}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Gui">
       <UniqueIdentifier>{79dd6d11-35f6-4175-95f4-e1abb2d413bd}</UniqueIdentifier>
     </Filter>
@@ -201,9 +198,6 @@
     <ClCompile Include="NewEngine\Gui\Source\SceneLayer.cpp">
       <Filter>Source\Gui</Filter>
     </ClCompile>
-    <ClCompile Include="NewEngine\Render\Source\NewEngineBase.cpp">
-      <Filter>Source\Render</Filter>
-    </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Input\InputManager.cpp">
       <Filter>Source\Developer\Input</Filter>
     </ClCompile>
@@ -260,6 +254,9 @@
     </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Debug\DebugText.cpp">
       <Filter>Source\Developer\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Render\NewEngineBase.cpp">
+      <Filter>Source\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -376,9 +373,6 @@
     <ClInclude Include="NewEngine\Gui\Header\SceneLayer.h">
       <Filter>Header\GUII</Filter>
     </ClInclude>
-    <ClInclude Include="NewEngine\Render\Header\NewEngineBase.h">
-      <Filter>Header\Render</Filter>
-    </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Input\InputManager.h">
       <Filter>Header\Developer\Input</Filter>
     </ClInclude>
@@ -438,6 +432,9 @@
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Debug\DebugText.h">
       <Filter>Header\Developer\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Render\NewEngineBase.h">
+      <Filter>Header\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

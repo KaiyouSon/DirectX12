@@ -158,7 +158,6 @@
     <ClCompile Include="NewEngine\Gui\Source\GuiManager.cpp" />
     <ClCompile Include="NewEngine\Gui\Source\ProjectLayer.cpp" />
     <ClCompile Include="NewEngine\Gui\Source\SceneLayer.cpp" />
-    <ClCompile Include="NewEngine\Render\Source\NewEngineBase.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Debug\DebugManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Debug\DebugText.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Input\InputManager.cpp" />
@@ -178,6 +177,7 @@
     <ClCompile Include="NewEngine\Source\Developer\Util\Color.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Random.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Util.cpp" />
+    <ClCompile Include="NewEngine\Source\Render\NewEngineBase.cpp" />
     <ClCompile Include="Source\ConstantBuffer.cpp" />
     <ClCompile Include="Source\DepthBuffer.cpp" />
     <ClCompile Include="Source\GraphicsCommand.cpp" />
@@ -274,7 +274,7 @@
     <ClInclude Include="NewEngine\Header\Developer\Util\Color.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Random.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Util.h" />
-    <ClInclude Include="NewEngine\Render\Header\NewEngineBase.h" />
+    <ClInclude Include="NewEngine\Header\Render\NewEngineBase.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli" />
