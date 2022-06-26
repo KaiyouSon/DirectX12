@@ -8,28 +8,14 @@ using namespace Microsoft::WRL;
 
 void RenderBase::Initialize()
 {
-	AdapterInit();
-
-	DeviceInit();
-
-	CommandListInit();
-
-	CommandQueueInit();
-
-	SwapChainInit();
-
-	DescriptorHeapInit();
-
-	BackBufferInit();
-
-	RenderTargetViewInit();
-
-	FenceInit();
-
-	DepthBufferInit();
+	DeviceInit();		// デバイスの初期化
+	CommandInit();		// コマンド関連の初期化
+	SwapChainInit();	// スワップチェンの初期化
+	FenceInit();		// フェンスの初期化
+	DepthBufferInit();	// 深度バッファの初期化
 }
 
-void RenderBase::AdapterInit()
+void RenderBase::DeviceInit()
 {
 	// DXGIファクトリーの生成
 	result = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory));
@@ -37,6 +23,8 @@ void RenderBase::AdapterInit()
 
 	// アダプターの列挙用
 	std::vector<ComPtr<IDXGIAdapter4>> adapters;
+	// ここに特定の名前を持つアダプターオブジェクトが入る
+	ComPtr<IDXGIAdapter4> tmpAdapter;
 
 	// パフォーマンスが高いものから順に、全てのアダプターを列挙する
 	for (UINT i = 0;
@@ -63,10 +51,7 @@ void RenderBase::AdapterInit()
 			break;
 		}
 	}
-}
-void RenderBase::DeviceInit()
-{
-	//----------------------------- デバイスの生成 -----------------------------//
+
 	// 対応レベルの配列
 	D3D_FEATURE_LEVEL levels[] =
 	{
@@ -89,22 +74,22 @@ void RenderBase::DeviceInit()
 		}
 	}
 }
-void RenderBase::CommandListInit()
+void RenderBase::CommandInit()
 {
+	HRESULT result;
 	// コマンドアロケータを生成
 	result = device.Get()->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		IID_PPV_ARGS(&cmdAllocator));
 	assert(SUCCEEDED(result));
+
 	// コマンドリストを生成
 	result = device.Get()->CreateCommandList(0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		cmdAllocator.Get(), nullptr,
 		IID_PPV_ARGS(&commandList));
 	assert(SUCCEEDED(result));
-}
-void RenderBase::CommandQueueInit()
-{
+
 	//コマンドキューの設定
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
 	//コマンドキューを生成
@@ -113,48 +98,48 @@ void RenderBase::CommandQueueInit()
 }
 void RenderBase::SwapChainInit()
 {
-	//------------------------- スワップチェーンの生成 -------------------------//
-	// スワップチェーンの設定
+	// リソースの設定
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	swapChainDesc.Width = NewEngineWindow::GetInstance().GetWinWidth();
 	swapChainDesc.Height = NewEngineWindow::GetInstance().GetWinHeight();
-	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // 色情報の書式
-	swapChainDesc.SampleDesc.Count = 1; // マルチサンプルしない
-	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER; // バックバッファ用
-	swapChainDesc.BufferCount = 2; // バッファ数を２つに設定
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // フリップ後は破棄
+	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;				 // 色情報の書式
+	swapChainDesc.SampleDesc.Count = 1;								 // マルチサンプルしない
+	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;				 // バックバッファ用
+	swapChainDesc.BufferCount = 2;									 // バッファ数を２つに設定
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;		 // フリップ後は破棄
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+
 	// スワップチェーンの生成
 	ComPtr<IDXGISwapChain1> swapChain1;
-	result = dxgiFactory->CreateSwapChainForHwnd(
-		commandQueue.Get(), NewEngineWindow::GetInstance().GetHwnd(), &swapChainDesc, nullptr, nullptr,
-		&swapChain1);
+	result = dxgiFactory->CreateSwapChainForHwnd
+	(
+		commandQueue.Get(),
+		NewEngineWindow::GetInstance().GetHwnd(),
+		&swapChainDesc,
+		nullptr,
+		nullptr,
+		&swapChain1
+	);
 	swapChain1.As(&swapChain);
 	assert(SUCCEEDED(result));
-}
-void RenderBase::DescriptorHeapInit()
-{
+
 	// デスクリプタヒープの設定
-	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV; // レンダーターゲットビュー
+	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;		// レンダーターゲットビュー
 	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount; // 裏表の２つ
+
 	// デスクリプタヒープの生成
-	device.Get()->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
-}
-void RenderBase::BackBufferInit()
-{
-	//----------------------------- バックバッファ -----------------------------//
+	device.Get()->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvDescHeap));
+
 	// バックバッファ
 	backBuffers.resize(swapChainDesc.BufferCount);
-}
-void RenderBase::RenderTargetViewInit()
-{
-	//------------------ レンダーターゲットビュー(RTV)の生成 -------------------//
+
+	// スワップチェーンの全てのバッファについて処理する
 	for (size_t i = 0; i < backBuffers.size(); i++)
-		// スワップチェーンの全てのバッファについて処理する
 	{
 		// スワップチェーンからバッファを取得
 		swapChain->GetBuffer((UINT)i, IID_PPV_ARGS(&backBuffers[i]));
 		// デスクリプタヒープのハンドルを取得
-		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
+		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvDescHeap->GetCPUDescriptorHandleForHeapStart();
 		// 裏か表かでアドレスがずれる
 		rtvHandle.ptr += i * device.Get()->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 		// レンダーターゲットビューの設定
@@ -202,7 +187,7 @@ void RenderBase::DepthBufferInit()
 			&depthResourceDesc,
 			D3D12_RESOURCE_STATE_DEPTH_WRITE, // 深度値書き込みに使用
 			&depthClearValue,
-			IID_PPV_ARGS(&depthBuff));
+			IID_PPV_ARGS(&depthBuffer));
 	assert(SUCCEEDED(result));
 
 	// 深度ビュー用デスクリプタヒープの作成
@@ -218,12 +203,12 @@ void RenderBase::DepthBufferInit()
 	dsvView.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	RenderBase::GetInstance()->GetDevice()->
 		CreateDepthStencilView(
-			depthBuff.Get(),
+			depthBuffer.Get(),
 			&dsvView,
 			dsvDescHeap->GetCPUDescriptorHandleForHeapStart());
 }
 
-#pragma region // ------------------------- ゲッター関連 ------------------------- //
+#pragma region ゲッター関連
 ComPtr<ID3D12Device> RenderBase::GetDevice()
 {
 	return device;
@@ -246,9 +231,9 @@ ComPtr<ID3D12CommandQueue> RenderBase::GetCommandQueue()
 }
 ComPtr<ID3D12DescriptorHeap> RenderBase::GetRtvHeap()
 {
-	return rtvHeap;
+	return rtvDescHeap;
 }
-D3D12_DESCRIPTOR_HEAP_DESC RenderBase::GetRTVHeapDesc()
+D3D12_DESCRIPTOR_HEAP_DESC RenderBase::GetRtvDescHeap()
 {
 	return rtvHeapDesc;
 }
@@ -273,6 +258,7 @@ ComPtr<ID3D12DescriptorHeap> RenderBase::GetDsvDescHeap()
 {
 	return dsvDescHeap;
 }
+
 RenderBase* RenderBase::GetInstance()
 {
 	static RenderBase* renderBase = new RenderBase;

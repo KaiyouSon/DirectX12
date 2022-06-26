@@ -23,7 +23,7 @@ void GraphicsCommand::PreDraw()
 	rtvHandle = RenderBase::GetInstance()->
 		GetRtvHeap()->GetCPUDescriptorHandleForHeapStart();
 	rtvHandle.ptr += bbIndex * RenderBase::GetInstance()->GetDevice()->
-		GetDescriptorHandleIncrementSize(RenderBase::GetInstance()->GetRTVHeapDesc().Type);
+		GetDescriptorHandleIncrementSize(RenderBase::GetInstance()->GetRtvDescHeap().Type);
 
 	// 深度ステンシルビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = RenderBase::GetInstance()->

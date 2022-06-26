@@ -25,15 +25,15 @@ void Load()
 	backTexture = LoadTexture("Resources/bg.png");
 	objTexture = LoadTexture("Resources/pic.png");
 	testSound = LoadSoundWave("Resources/title_bgm.wav");
-	barbla = LoadModel("Resources/barbla.obj");
+	//barbla = LoadModel("Resources/barbla.obj");
 }
 
 // ‰Šú‰»ˆ—
 void Initialize()
 {
 	bg->Initialize(Square::view2D, Vec2(WIN_WIDTH, WIN_HEIGHT));
-	model->Initialize(barbla);
-	//model->Initialize(monkey);
+	//model->Initialize(barbla);
+	model->Initialize(monkey);
 	testCube->Initialize();
 
 	view->SetPos(Vec3(0, 0, -30));
@@ -54,7 +54,7 @@ float length = 50;
 Transform transform =
 {
 	Vec3::zero,
-	Vec3::one,
+	Vec3::one * 10,
 	Vec3::zero,
 };
 
