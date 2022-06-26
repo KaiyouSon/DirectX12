@@ -141,9 +141,6 @@
     <ClCompile Include="Source\ConstantBuffer.cpp">
       <Filter>Source\NewEngine\Buffer</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DepthBuffer.cpp">
-      <Filter>Source\NewEngine\Buffer</Filter>
-    </ClCompile>
     <ClCompile Include="Source\IndexBuffer.cpp">
       <Filter>Source\NewEngine\Buffer</Filter>
     </ClCompile>
@@ -308,9 +305,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Header\ConstantBuffer.h">
-      <Filter>Header\NewEngine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\DepthBuffer.h">
       <Filter>Header\NewEngine\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Header\VertexBuffer.h">

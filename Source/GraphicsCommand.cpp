@@ -2,7 +2,6 @@
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "Header/GraphicsPipeline2D.h"
 #include "Header/GraphicsPipeline3D.h"
-#include "Header/DepthBuffer.h"
 #include "Header/RootSignature.h"
 #include <cassert>
 
@@ -27,8 +26,8 @@ void GraphicsCommand::PreDraw()
 		GetDescriptorHandleIncrementSize(RenderBase::GetInstance()->GetRTVHeapDesc().Type);
 
 	// 深度ステンシルビュー用デスクリプタヒープのハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = DepthBuffer::GetInstance()->
-		GetDsvHeap()->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = RenderBase::GetInstance()->
+		GetDsvDescHeap()->GetCPUDescriptorHandleForHeapStart();
 	RenderBase::GetInstance()->GetCommandList()->
 		OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 

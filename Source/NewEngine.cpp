@@ -6,7 +6,6 @@
 #include "Header/GraphicsPipeline2D.h"
 #include "Header/GraphicsPipeline3D.h"
 #include "Header/GraphicsCommand.h"
-#include "Header/DepthBuffer.h"
 #include "Header/RootSignature.h"
 #include "Header/Viewport.h"
 #include "Header/ScissorRectangle.h"
@@ -35,9 +34,6 @@ void NewEngineInit()
 	// DirectXの初期化処理
 	RenderBase::GetInstance()->Initialize();
 
-	// 深度バッファの初期化
-	DepthBuffer::GetInstance()->Initialize();
-
 	// シェーダーリソースビューの初期化
 	ShaderResourceView::GetInstance()->Initialize();
 
@@ -65,9 +61,6 @@ void NewEngineEnd()
 {
 	// ウィンドウクラスを登録解除
 	NewEngineWindow::GetInstance().TerminateGameWindow();
-
-	// 深度バッファの破棄
-	DepthBuffer::DestroyInstance();
 
 	// シェーダーリソースビューの破棄
 	ShaderResourceView::DestroyInstance();

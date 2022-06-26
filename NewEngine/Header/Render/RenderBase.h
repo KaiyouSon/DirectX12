@@ -32,6 +32,10 @@ private:
 	// スワップチェーンの設定
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 
+	// 深度ビュー用デスクリプタヒープ
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvDescHeap;
+	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff;
+
 public:
 	void Initialize();
 
@@ -45,6 +49,7 @@ private:
 	void BackBufferInit();
 	void RenderTargetViewInit();
 	void FenceInit();
+	void DepthBufferInit();
 
 public:
 	ComPtr<ID3D12Device> GetDevice();
@@ -58,6 +63,7 @@ public:
 	ComPtr<ID3D12Fence> GetFence();
 	UINT64 GetFenceVal();
 	UINT64 PreIncreFenceVal();
+	ComPtr<ID3D12DescriptorHeap> GetDsvDescHeap();
 
 	static RenderBase* GetInstance();
 	static void DestroyInstance();
