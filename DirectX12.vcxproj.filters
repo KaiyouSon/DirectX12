@@ -5,9 +5,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="シェーダーファイル">
-      <UniqueIdentifier>{ebea575b-6f4d-4e6e-b893-a47bace55e10}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ImGUI">
       <UniqueIdentifier>{bd412dbb-8b3e-42a9-a1cd-6e3b7126d5ce}</UniqueIdentifier>
     </Filter>
@@ -15,24 +12,12 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source\NewEngine">
-      <UniqueIdentifier>{0ed94fb9-65a2-480d-bc91-3d213843b359}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\NewEngine\Buffer">
-      <UniqueIdentifier>{08846fad-8ac1-4802-bf33-5a48ba8e3d65}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Gui">
       <UniqueIdentifier>{79dd6d11-35f6-4175-95f4-e1abb2d413bd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Header\NewEngine">
-      <UniqueIdentifier>{66065a04-0a3b-494c-8c3d-6c8c2f23527c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\NewEngine\Buffer">
-      <UniqueIdentifier>{b7bd0bb9-118e-4ba2-acc1-de14edef096b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Render">
       <UniqueIdentifier>{0cd6b8a8-b44a-41d8-98cd-686e7f36ec4f}</UniqueIdentifier>
@@ -97,6 +82,21 @@
     <Filter Include="Header\Gui">
       <UniqueIdentifier>{256f88ef-ad73-45a9-a226-583307bda5de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Render\Buffer">
+      <UniqueIdentifier>{d2a9d334-35c1-4264-9900-6d58bd7e450b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Render\Buffer">
+      <UniqueIdentifier>{b7bd0bb9-118e-4ba2-acc1-de14edef096b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{ebea575b-6f4d-4e6e-b893-a47bace55e10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Developer\Component">
+      <UniqueIdentifier>{adf165e6-eeec-4fde-9113-9620645ca794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Developer\Component">
+      <UniqueIdentifier>{dad0205d-fcef-4700-8c16-9784e303e65e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGUI\imgui.cpp">
@@ -120,62 +120,11 @@
     <ClCompile Include="ImGUI\imgui_widgets.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\main2.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\NewEngine.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Sound.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Transform.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\ViewProjection.cpp">
       <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ConstantBuffer.cpp">
-      <Filter>Source\NewEngine\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\IndexBuffer.cpp">
-      <Filter>Source\NewEngine\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\TextureBuffer.cpp">
-      <Filter>Source\NewEngine\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\VertexBuffer.cpp">
-      <Filter>Source\NewEngine\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\NewEngineWindow.cpp">
-      <Filter>Source\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ScissorRectangle.cpp">
-      <Filter>Source\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Viewport.cpp">
-      <Filter>Source\NewEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="NewEngine\Gui\Source\DebugLayer.cpp">
-      <Filter>Source\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="NewEngine\Gui\Source\HierarchyLayer.cpp">
-      <Filter>Source\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="NewEngine\Gui\Source\MainLayer.cpp">
-      <Filter>Source\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="NewEngine\Gui\Source\GuiManager.cpp">
-      <Filter>Source\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="NewEngine\Gui\Source\ProjectLayer.cpp">
-      <Filter>Source\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="NewEngine\Gui\Source\SceneLayer.cpp">
-      <Filter>Source\Gui</Filter>
     </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Input\InputManager.cpp">
       <Filter>Source\Developer\Input</Filter>
@@ -234,19 +183,82 @@
     <ClCompile Include="NewEngine\Source\Developer\Debug\DebugText.cpp">
       <Filter>Source\Developer\Debug</Filter>
     </ClCompile>
+    <ClCompile Include="NewEngine\Source\Render\Buffer\ConstantBuffer.cpp">
+      <Filter>Source\Render\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Render\Buffer\IndexBuffer.cpp">
+      <Filter>Source\Render\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Render\Buffer\TextureBuffer.cpp">
+      <Filter>Source\Render\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Render\Buffer\VertexBuffer.cpp">
+      <Filter>Source\Render\Buffer</Filter>
+    </ClCompile>
     <ClCompile Include="NewEngine\Source\Render\RenderBase.cpp">
       <Filter>Source\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Render\RenderWindow.cpp">
+      <Filter>Source\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Render\ScissorRectangle.cpp">
+      <Filter>Source\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Render\Viewport.cpp">
+      <Filter>Source\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Gui\DebugLayer.cpp">
+      <Filter>Source\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Gui\GuiManager.cpp">
+      <Filter>Source\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Gui\HierarchyLayer.cpp">
+      <Filter>Source\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Gui\MainLayer.cpp">
+      <Filter>Source\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Gui\ProjectLayer.cpp">
+      <Filter>Source\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Gui\SceneLayer.cpp">
+      <Filter>Source\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\main2.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\NewEngine.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Object\Other\GameObject.cpp">
+      <Filter>Source\Developer\Object\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Component\IComponent.cpp">
+      <Filter>Source\Developer\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Component\Transform.cpp">
+      <Filter>Source\Developer\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Gui\InspectorLayer.cpp">
+      <Filter>Source\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Header\Gui\ILayer.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
-      <Filter>シェーダーファイル</Filter>
+      <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="BasicVS.hlsl">
-      <Filter>シェーダーファイル</Filter>
+      <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="BasicPS2.hlsl">
-      <Filter>シェーダーファイル</Filter>
+      <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -274,62 +286,11 @@
     <ClInclude Include="ImGUI\imstb_truetype.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="Header\main2.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Sound.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Transform.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Header\ViewProjection.h">
       <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\ConstantBuffer.h">
-      <Filter>Header\NewEngine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\VertexBuffer.h">
-      <Filter>Header\NewEngine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\IndexBuffer.h">
-      <Filter>Header\NewEngine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\TextureBuffer.h">
-      <Filter>Header\NewEngine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\NewEngineWindow.h">
-      <Filter>Header\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\ScissorRectangle.h">
-      <Filter>Header\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Vertex.h">
-      <Filter>Header\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Viewport.h">
-      <Filter>Header\NewEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="NewEngine\Gui\Header\DebugLayer.h">
-      <Filter>Header\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="NewEngine\Gui\Header\HierarchyLayer.h">
-      <Filter>Header\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="NewEngine\Gui\Header\ILayer.h">
-      <Filter>Header\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="NewEngine\Gui\Header\MainLayer.h">
-      <Filter>Header\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="NewEngine\Gui\Header\GuiManager.h">
-      <Filter>Header\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="NewEngine\Gui\Header\ProjectLayer.h">
-      <Filter>Header\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="NewEngine\Gui\Header\SceneLayer.h">
-      <Filter>Header\Gui</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Input\InputManager.h">
       <Filter>Header\Developer\Input</Filter>
@@ -382,9 +343,6 @@
     <ClInclude Include="NewEngine\Header\Developer\Math\Vec4.h">
       <Filter>Header\Developer\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Header\NewEngine.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Debug\DebugManager.h">
       <Filter>Header\Developer\Debug</Filter>
     </ClInclude>
@@ -394,10 +352,73 @@
     <ClInclude Include="NewEngine\Header\Render\RenderBase.h">
       <Filter>Header\Render</Filter>
     </ClInclude>
+    <ClInclude Include="NewEngine\Header\Render\Buffer\ConstantBuffer.h">
+      <Filter>Header\Render\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Render\Buffer\IndexBuffer.h">
+      <Filter>Header\Render\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Render\Buffer\TextureBuffer.h">
+      <Filter>Header\Render\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Render\Buffer\VertexBuffer.h">
+      <Filter>Header\Render\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Render\RenderWindow.h">
+      <Filter>Header\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Render\ScissorRectangle.h">
+      <Filter>Header\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Render\Vertex.h">
+      <Filter>Header\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Render\Viewport.h">
+      <Filter>Header\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Gui\DebugLayer.h">
+      <Filter>Header\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Gui\GuiManager.h">
+      <Filter>Header\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Gui\HierarchyLayer.h">
+      <Filter>Header\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Gui\ILayer.h">
+      <Filter>Header\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Gui\MainLayer.h">
+      <Filter>Header\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Gui\ProjectLayer.h">
+      <Filter>Header\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Gui\SceneLayer.h">
+      <Filter>Header\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\main2.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\NewEngine.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Object\Other\GameObject.h">
+      <Filter>Header\Developer\Object\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Component\IComponent.h">
+      <Filter>Header\Developer\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Component\Transform.h">
+      <Filter>Header\Developer\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Gui\InspectorLayer.h">
+      <Filter>Header\Gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli">
-      <Filter>シェーダーファイル</Filter>
+      <Filter>Shader</Filter>
     </None>
   </ItemGroup>
 </Project>

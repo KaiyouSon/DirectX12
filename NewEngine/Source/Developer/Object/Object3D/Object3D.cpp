@@ -1,7 +1,7 @@
 #include "NewEngine/Header/Developer/Object/Object3D/Object3D.h"
 #include "NewEngine/Header/Developer/Math/MathUtil.h"
-#include "Header/Vertex.h"
 #include "NewEngine/Header/Render/RenderBase.h"
+#include "NewEngine/Header/Render/Vertex.h"
 #include "Header/ViewProjection.h"
 using namespace std;
 
@@ -32,32 +32,40 @@ void Object3D::Initialize(const ModelData& modelData)
 	constantBuffer->TransformBufferInit();
 
 	texture = TextureBuffer::GetDefaultTexture();
+
+	//transform =
+	//{
+	//	Vec3::zero,
+	//	Vec3::one,
+	//	Vec3::zero,
+	//};
 }
 
 void Object3D::Update(Transform& transform, Transform* parent)
 {
-	this->transform = transform;
-	this->transform.Update();
+	//this->transform = transform;
+	//this->transform.Update();
 
-	if (parent != nullptr)
-	{
-		this->transform.matWorld *= parent->matWorld;
-	}
+	//if (parent != nullptr)
+	//{
+	//	this->transform.matWorld *= parent->matWorld;
+	//}
 
-	// 定数バッファに転送
-	constantBuffer->constMapTransform->mat =
-		this->transform.matWorld *
-		view->matView *
-		view->matProjection3D;
+	//// 定数バッファに転送
+	//constantBuffer->constMapTransform->mat =
+	//	this->transform.matWorld *
+	//	view->matView *
+	//	view->matProjection3D;
 }
 
 void Object3D::Update()
 {
-	this->transform.Update();
+	GetComponent<Transform>("Transform")->Update();
+	//this->transform.Update();
 
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
-		this->transform.matWorld *
+		GetComponent<Transform>("Transform")->matWorld *
 		view->matView *
 		view->matProjection3D;
 }

@@ -1,7 +1,7 @@
 #include "NewEngine/Header/Render/RenderBase.h"
-#include "Header/NewEngineWindow.h"
-#include "Header/Viewport.h"
-#include "Header/ScissorRectangle.h"
+#include "NewEngine/Header/Render/RenderWindow.h"
+#include "NewEngine/Header/Render/Viewport.h"
+#include "NewEngine/Header/Render/ScissorRectangle.h"
 #include <cassert>
 #include <string>
 #include <d3dcompiler.h>
@@ -240,8 +240,8 @@ void RenderBase::SwapChainInit()
 
 	// リソースの設定
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
-	swapChainDesc.Width = NewEngineWindow::GetInstance().GetWinWidth();
-	swapChainDesc.Height = NewEngineWindow::GetInstance().GetWinHeight();
+	swapChainDesc.Width = RenderWindow::GetInstance().GetWinWidth();
+	swapChainDesc.Height = RenderWindow::GetInstance().GetWinHeight();
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;				 // 色情報の書式
 	swapChainDesc.SampleDesc.Count = 1;								 // マルチサンプルしない
 	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;				 // バックバッファ用
@@ -254,7 +254,7 @@ void RenderBase::SwapChainInit()
 	result = dxgiFactory->CreateSwapChainForHwnd
 	(
 		commandQueue.Get(),
-		NewEngineWindow::GetInstance().GetHwnd(),
+		RenderWindow::GetInstance().GetHwnd(),
 		&swapChainDesc,
 		nullptr,
 		nullptr,
@@ -306,8 +306,8 @@ void RenderBase::DepthBufferInit()
 	// リソースの設定
 	D3D12_RESOURCE_DESC depthResourceDesc{};
 	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	depthResourceDesc.Width = NewEngineWindow::GetInstance().GetWinWidth();		// 幅
-	depthResourceDesc.Height = NewEngineWindow::GetInstance().GetWinHeight(); // 高さ
+	depthResourceDesc.Width = RenderWindow::GetInstance().GetWinWidth();		// 幅
+	depthResourceDesc.Height = RenderWindow::GetInstance().GetWinHeight(); // 高さ
 	depthResourceDesc.DepthOrArraySize = 1;
 	depthResourceDesc.Format = DXGI_FORMAT_D32_FLOAT;	// 深度値デフォルト
 	depthResourceDesc.SampleDesc.Count = 1;

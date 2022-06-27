@@ -4,9 +4,9 @@ using namespace std;
 
 ObjectManager::~ObjectManager()
 {
-	for (int i = 0; i < modelList.size(); i++)
+	for (int i = 0; i < objectList.size(); i++)
 	{
-		delete modelList[i];
+		delete objectList[i];
 	}
 }
 
@@ -14,28 +14,39 @@ void ObjectManager::CreateCube()
 {
 	Object3D* cubeModel = new Object3D;
 	cubeModel->Initialize(cube);
-	modelList.push_back(cubeModel);
+	objectList.push_back(cubeModel);
+	cubeModel->SetTag("Cube");
 }
 
 void ObjectManager::CreateSphere()
 {
 	Object3D* cubeModel = new Object3D;
 	cubeModel->Initialize(sphere);
-	modelList.push_back(cubeModel);
+	objectList.push_back(cubeModel);
+	cubeModel->SetTag("Sphere");
 }
 
 void ObjectManager::CreateMonkey()
 {
 	Object3D* cubeModel = new Object3D;
 	cubeModel->Initialize(monkey);
-	modelList.push_back(cubeModel);
+	objectList.push_back(cubeModel);
+	cubeModel->SetTag("Monkey");
+}
+
+void ObjectManager::CreateModel(const ModelData& modelData)
+{
+	Object3D* model = new Object3D;
+	model->Initialize(modelData);
+	objectList.push_back(model);
+	model->SetTag("model");
 }
 
 void ObjectManager::Update()
 {
-	for (int i = 0; i < modelList.size(); i++)
+	for (int i = 0; i < objectList.size(); i++)
 	{
-		modelList[i]->Update();
+		objectList[i]->Update();
 	}
 }
 
@@ -45,10 +56,20 @@ void ObjectManager::Draw2D()
 
 void ObjectManager::Draw3D()
 {
-	for (int i = 0; i < modelList.size(); i++)
+	for (int i = 0; i < objectList.size(); i++)
 	{
-		modelList[i]->Draw();
+		objectList[i]->Draw();
 	}
+}
+
+void ObjectManager::SetObjectList(std::vector<Object3D*> objectList)
+{
+	this->objectList = objectList;
+}
+
+std::vector<Object3D*> ObjectManager::GetObjectList()
+{
+	return objectList;
 }
 
 ObjectManager* ObjectManager::GetInstance()

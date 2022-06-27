@@ -1,5 +1,5 @@
 #include "NewEngine/Header/Developer/Input/InputManager.h"
-#include "Header/NewEngineWindow.h"
+#include "NewEngine/Header/Render/RenderWindow.h"
 #include <cassert>
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
@@ -14,7 +14,7 @@ void InputManager::Initialize()
 
 	// DirectInput‚Ì‰Šú‰»
 	result = DirectInput8Create(
-		NewEngineWindow::GetInstance().GetHInstance(),
+		RenderWindow::GetInstance().GetHInstance(),
 		DIRECTINPUT_VERSION,
 		IID_IDirectInput8,
 		(void**)&directInput, nullptr);

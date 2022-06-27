@@ -1,7 +1,6 @@
 #include "NewEngine/Header/Developer/Object/Object3D/Cube.h"
 #include "NewEngine/Header/Developer/Input/InputManager.h"
 #include "NewEngine/Header/Render/RenderBase.h"
-#include "Header/TextureBuffer.h"
 #include "Header/ViewProjection.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include "ImGUI/imgui.h"
@@ -154,7 +153,7 @@ void Cube::Update(Transform& transform, Transform* parent)
 		view->matView *
 		view->matProjection3D;
 
-	InspectorWindow(transform);
+	//InspectorWindow(transform);
 }
 
 void Cube::Draw()

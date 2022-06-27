@@ -4,16 +4,20 @@
 class ObjectManager
 {
 private:
-	std::vector<Object3D*> modelList;
+	std::vector<Object3D*> objectList;
 
 public:
 	~ObjectManager();
 	void CreateCube();
 	void CreateSphere();
 	void CreateMonkey();
+	void CreateModel(const ModelData& modelData);
 	void Update();
 	void Draw2D();
 	void Draw3D();
+
+	void SetObjectList(std::vector<Object3D*> objectList);
+	std::vector<Object3D*> GetObjectList();
 
 	static ObjectManager* GetInstance();
 	static void DestroyInstance();

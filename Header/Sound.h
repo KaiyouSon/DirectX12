@@ -15,14 +15,14 @@ struct ChunkHeader
 struct RiffHeader
 {
 	ChunkHeader chunk;	// "RIFF"
-	char type[4];	// "WAVE"
+	char type[4];		// "WAVE"
 };
 
 // FMTチャンク
 struct FormatChunk
 {
 	ChunkHeader chunk;	// "fmt"
-	WAVEFORMATEX fmt; // 波形フォーマット
+	WAVEFORMATEX fmt;	// 波形フォーマット
 };
 
 // 音声データ

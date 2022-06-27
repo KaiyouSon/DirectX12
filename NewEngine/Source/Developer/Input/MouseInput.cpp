@@ -1,6 +1,6 @@
 #include "NewEngine/Header/Developer/Input/InputManager.h"
 #include "NewEngine/Header/Developer/Input/MouseInput.h"
-#include "Header/NewEngineWindow.h"
+#include "NewEngine/Header/Render/RenderWindow.h"
 #include <cassert>
 
 void MouseInput::Initialize()
@@ -18,7 +18,7 @@ void MouseInput::Initialize()
 
 	// 排他制御レベルのセット
 	result = mouse->SetCooperativeLevel(
-		NewEngineWindow::GetInstance().GetHwnd(),
+		RenderWindow::GetInstance().GetHwnd(),
 		DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	assert(SUCCEEDED(result));
 }
@@ -38,7 +38,7 @@ void MouseInput::Update()
 	GetCursorPos(&tmpMousePos);
 
 	// ウィンドウ座標に変換する
-	ScreenToClient(NewEngineWindow::GetInstance().GetHwnd(), &tmpMousePos);
+	ScreenToClient(RenderWindow::GetInstance().GetHwnd(), &tmpMousePos);
 	mousePos.x = static_cast<float>(tmpMousePos.x);
 	mousePos.y = static_cast<float>(tmpMousePos.y);
 }

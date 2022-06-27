@@ -152,12 +152,12 @@
     <ClCompile Include="ImGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="ImGUI\imgui_tables.cpp" />
     <ClCompile Include="ImGUI\imgui_widgets.cpp" />
-    <ClCompile Include="NewEngine\Gui\Source\DebugLayer.cpp" />
-    <ClCompile Include="NewEngine\Gui\Source\HierarchyLayer.cpp" />
-    <ClCompile Include="NewEngine\Gui\Source\MainLayer.cpp" />
-    <ClCompile Include="NewEngine\Gui\Source\GuiManager.cpp" />
-    <ClCompile Include="NewEngine\Gui\Source\ProjectLayer.cpp" />
-    <ClCompile Include="NewEngine\Gui\Source\SceneLayer.cpp" />
+    <ClCompile Include="NewEngine\Header\Gui\ILayer.cpp" />
+    <ClCompile Include="NewEngine\main.cpp" />
+    <ClCompile Include="NewEngine\main2.cpp" />
+    <ClCompile Include="NewEngine\NewEngine.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Component\IComponent.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Component\Transform.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Debug\DebugManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Debug\DebugText.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Input\InputManager.cpp" />
@@ -173,23 +173,27 @@
     <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Cube.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Object3D.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\DrawManager.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Object\Other\GameObject.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\ObjectManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Color.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Random.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Util.cpp" />
+    <ClCompile Include="NewEngine\Source\Gui\DebugLayer.cpp" />
+    <ClCompile Include="NewEngine\Source\Gui\GuiManager.cpp" />
+    <ClCompile Include="NewEngine\Source\Gui\HierarchyLayer.cpp" />
+    <ClCompile Include="NewEngine\Source\Gui\InspectorLayer.cpp" />
+    <ClCompile Include="NewEngine\Source\Gui\MainLayer.cpp" />
+    <ClCompile Include="NewEngine\Source\Gui\ProjectLayer.cpp" />
+    <ClCompile Include="NewEngine\Source\Gui\SceneLayer.cpp" />
+    <ClCompile Include="NewEngine\Source\Render\Buffer\ConstantBuffer.cpp" />
+    <ClCompile Include="NewEngine\Source\Render\Buffer\IndexBuffer.cpp" />
+    <ClCompile Include="NewEngine\Source\Render\Buffer\TextureBuffer.cpp" />
+    <ClCompile Include="NewEngine\Source\Render\Buffer\VertexBuffer.cpp" />
+    <ClCompile Include="NewEngine\Source\Render\RenderWindow.cpp" />
     <ClCompile Include="NewEngine\Source\Render\RenderBase.cpp" />
-    <ClCompile Include="Source\ConstantBuffer.cpp" />
-    <ClCompile Include="Source\IndexBuffer.cpp" />
-    <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\main2.cpp" />
-    <ClCompile Include="Source\NewEngine.cpp" />
-    <ClCompile Include="Source\NewEngineWindow.cpp" />
-    <ClCompile Include="Source\ScissorRectangle.cpp" />
+    <ClCompile Include="NewEngine\Source\Render\ScissorRectangle.cpp" />
+    <ClCompile Include="NewEngine\Source\Render\Viewport.cpp" />
     <ClCompile Include="Source\Sound.cpp" />
-    <ClCompile Include="Source\TextureBuffer.cpp" />
-    <ClCompile Include="Source\Transform.cpp" />
-    <ClCompile Include="Source\VertexBuffer.cpp" />
-    <ClCompile Include="Source\Viewport.cpp" />
     <ClCompile Include="Source\ViewProjection.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -213,18 +217,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header\ConstantBuffer.h" />
-    <ClInclude Include="Header\IndexBuffer.h" />
-    <ClInclude Include="Header\main2.h" />
-    <ClInclude Include="Header\NewEngine.h" />
-    <ClInclude Include="Header\NewEngineWindow.h" />
-    <ClInclude Include="Header\ScissorRectangle.h" />
     <ClInclude Include="Header\Sound.h" />
-    <ClInclude Include="Header\TextureBuffer.h" />
-    <ClInclude Include="Header\Transform.h" />
-    <ClInclude Include="Header\Vertex.h" />
-    <ClInclude Include="Header\VertexBuffer.h" />
-    <ClInclude Include="Header\Viewport.h" />
     <ClInclude Include="Header\ViewProjection.h" />
     <ClInclude Include="ImGUI\imconfig.h" />
     <ClInclude Include="ImGUI\imgui.h" />
@@ -234,13 +227,8 @@
     <ClInclude Include="ImGUI\imstb_rectpack.h" />
     <ClInclude Include="ImGUI\imstb_textedit.h" />
     <ClInclude Include="ImGUI\imstb_truetype.h" />
-    <ClInclude Include="NewEngine\Gui\Header\DebugLayer.h" />
-    <ClInclude Include="NewEngine\Gui\Header\HierarchyLayer.h" />
-    <ClInclude Include="NewEngine\Gui\Header\ILayer.h" />
-    <ClInclude Include="NewEngine\Gui\Header\MainLayer.h" />
-    <ClInclude Include="NewEngine\Gui\Header\GuiManager.h" />
-    <ClInclude Include="NewEngine\Gui\Header\ProjectLayer.h" />
-    <ClInclude Include="NewEngine\Gui\Header\SceneLayer.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Component\IComponent.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Component\Transform.h" />
     <ClInclude Include="NewEngine\Header\Developer\Debug\DebugManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Debug\DebugText.h" />
     <ClInclude Include="NewEngine\Header\Developer\Input\InputManager.h" />
@@ -256,11 +244,30 @@
     <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Cube.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Object3D.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\DrawManager.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Object\Other\GameObject.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\ObjectManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Color.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Random.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Util.h" />
+    <ClInclude Include="NewEngine\Header\Gui\DebugLayer.h" />
+    <ClInclude Include="NewEngine\Header\Gui\GuiManager.h" />
+    <ClInclude Include="NewEngine\Header\Gui\HierarchyLayer.h" />
+    <ClInclude Include="NewEngine\Header\Gui\ILayer.h" />
+    <ClInclude Include="NewEngine\Header\Gui\InspectorLayer.h" />
+    <ClInclude Include="NewEngine\Header\Gui\MainLayer.h" />
+    <ClInclude Include="NewEngine\Header\Gui\ProjectLayer.h" />
+    <ClInclude Include="NewEngine\Header\Gui\SceneLayer.h" />
+    <ClInclude Include="NewEngine\Header\Render\Buffer\ConstantBuffer.h" />
+    <ClInclude Include="NewEngine\Header\Render\Buffer\IndexBuffer.h" />
+    <ClInclude Include="NewEngine\Header\Render\Buffer\TextureBuffer.h" />
+    <ClInclude Include="NewEngine\Header\Render\Buffer\VertexBuffer.h" />
+    <ClInclude Include="NewEngine\Header\Render\RenderWindow.h" />
     <ClInclude Include="NewEngine\Header\Render\RenderBase.h" />
+    <ClInclude Include="NewEngine\Header\Render\ScissorRectangle.h" />
+    <ClInclude Include="NewEngine\Header\Render\Vertex.h" />
+    <ClInclude Include="NewEngine\Header\Render\Viewport.h" />
+    <ClInclude Include="NewEngine\main2.h" />
+    <ClInclude Include="NewEngine\NewEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli" />

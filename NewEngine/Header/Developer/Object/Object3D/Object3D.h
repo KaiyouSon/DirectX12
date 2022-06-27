@@ -1,9 +1,10 @@
 #pragma once
-#include "Header/VertexBuffer.h"
-#include "Header/IndexBuffer.h"
-#include "Header/ConstantBuffer.h"
-#include "Header/Transform.h"
-#include "Header/TextureBuffer.h"
+#include "NewEngine/Header/Render/Buffer/VertexBuffer.h"
+#include "NewEngine/Header/Render/Buffer/IndexBuffer.h"
+#include "NewEngine/Header/Render/Buffer/ConstantBuffer.h"
+#include "NewEngine/Header/Render/Buffer/TextureBuffer.h"
+#include "NewEngine/Header/Developer/Component/Transform.h"
+#include "NewEngine/Header/Developer/Object/Other/GameObject.h"
 #include <vector>
 
 struct ModelData
@@ -12,13 +13,13 @@ struct ModelData
 	std::vector<unsigned short> indices;
 }typedef Model;
 
-class Object3D
+class Object3D : public GameObject
 {
 private:
 	VertexBuffer* vertexBuffer;
 	IndexBuffer* indexBuffer;
 	ConstantBuffer* constantBuffer;
-	Transform transform;
+	//Transform* transform;
 	Texture texture;
 	ModelData modelData;
 

@@ -1,6 +1,6 @@
 #include "NewEngine/Header/Developer/Input/InputManager.h"
 #include "NewEngine/Header/Developer/Input/KeyBoardInput.h"
-#include "Header/NewEngineWindow.h"
+#include "NewEngine/Header/Render/RenderWindow.h"
 #include <cassert>
 
 void KeyBoardInput::Initialize()
@@ -18,7 +18,7 @@ void KeyBoardInput::Initialize()
 
 	// 排他制御レベルのセット
 	result = keyboard->SetCooperativeLevel(
-		NewEngineWindow::GetInstance().GetHwnd(),
+		RenderWindow::GetInstance().GetHwnd(),
 		DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 }

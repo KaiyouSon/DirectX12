@@ -1,9 +1,9 @@
 #pragma once
+#include "NewEngine/Header/Render/Buffer/TextureBuffer.h"
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <vector>
 #include <wrl.h>
-#include "Header/TextureBuffer.h"
 
 class RenderBase
 {

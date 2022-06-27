@@ -1,8 +1,7 @@
 #include "NewEngine/Header/Developer/Input/InputManager.h"
 #include "NewEngine/Header/Developer/Input/JoypadInput.h"
-#include "Header/NewEngineWindow.h"
+#include "NewEngine/Header/Render/RenderWindow.h"
 #include <cassert>
-
 #pragma comment(lib, "xinput.lib")
 
 void JoypadInput::Initialize()
@@ -26,7 +25,7 @@ void JoypadInput::Initialize()
 
 	// 排他制御レベルのセット
 	result = joypad->SetCooperativeLevel(
-		NewEngineWindow::GetInstance().GetHwnd(),
+		RenderWindow::GetInstance().GetHwnd(),
 		DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	assert(SUCCEEDED(result));
 

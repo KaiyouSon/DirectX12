@@ -1,11 +1,11 @@
 #pragma once
-#include "Header/VertexBuffer.h"
-#include "Header/IndexBuffer.h"
-#include "Header/TextureBuffer.h"
-#include "Header/ConstantBuffer.h"
-#include "Header/Transform.h"
+#include "NewEngine/Header/Render/Buffer/VertexBuffer.h"
+#include "NewEngine/Header/Render/Buffer/IndexBuffer.h"
+#include "NewEngine/Header/Render/Buffer/TextureBuffer.h"
+#include "NewEngine/Header/Render/Buffer/ConstantBuffer.h"
 #include "NewEngine/Header/Developer/Math/MathUtil.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
+#include "NewEngine/Header/Developer/Component/Transform.h"
 
 class Square
 {

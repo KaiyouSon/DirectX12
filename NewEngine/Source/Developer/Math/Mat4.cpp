@@ -249,57 +249,25 @@ Mat4 Mat4::ParallelConversion(int WIN_WIDTH, int WIN_HEIGHT)
 Mat4 Mat4::operator*(const Mat4& other) const
 {
 	return {
-		//	一行目
-		mat[0][0] * other.mat[0][0] + mat[0][1] * other.mat[1][0] +
-		mat[0][2] * other.mat[2][0] + mat[0][3] * other.mat[3][0],
+		mat[0][0] * other.mat[0][0] + mat[0][1] * other.mat[1][0] + mat[0][2] * other.mat[2][0] + mat[0][3] * other.mat[3][0],
+		mat[0][0] * other.mat[0][1] + mat[0][1] * other.mat[1][1] + mat[0][2] * other.mat[2][1] + mat[0][3] * other.mat[3][1],
+		mat[0][0] * other.mat[0][2] + mat[0][1] * other.mat[1][2] + mat[0][2] * other.mat[2][2] + mat[0][3] * other.mat[3][2],
+		mat[0][0] * other.mat[0][3] + mat[0][1] * other.mat[1][3] + mat[0][2] * other.mat[2][3] + mat[0][3] * other.mat[3][3],
 
-		mat[0][0] * other.mat[0][1] + mat[0][1] * other.mat[1][1] +
-		mat[0][2] * other.mat[2][1] + mat[0][3] * other.mat[3][1],
+		mat[1][0] * other.mat[0][0] + mat[1][1] * other.mat[1][0] + mat[1][2] * other.mat[2][0] + mat[1][3] * other.mat[3][0],
+		mat[1][0] * other.mat[0][1] + mat[1][1] * other.mat[1][1] + mat[1][2] * other.mat[2][1] + mat[1][3] * other.mat[3][1],
+		mat[1][0] * other.mat[0][2] + mat[1][1] * other.mat[1][2] + mat[1][2] * other.mat[2][2] + mat[1][3] * other.mat[3][2],
+		mat[1][0] * other.mat[0][3] + mat[1][1] * other.mat[1][3] + mat[1][2] * other.mat[2][3] + mat[1][3] * other.mat[3][3],
 
-		mat[0][0] * other.mat[0][2] + mat[0][1] * other.mat[1][2] +
-		mat[0][2] * other.mat[2][2] + mat[0][3] * other.mat[3][2],
+		mat[2][0] * other.mat[0][0] + mat[2][1] * other.mat[1][0] + mat[2][2] * other.mat[2][0] + mat[2][3] * other.mat[3][0],
+		mat[2][0] * other.mat[0][1] + mat[2][1] * other.mat[1][1] + mat[2][2] * other.mat[2][1] + mat[2][3] * other.mat[3][1],
+		mat[2][0] * other.mat[0][2] + mat[2][1] * other.mat[1][2] + mat[2][2] * other.mat[2][2] + mat[2][3] * other.mat[3][2],
+		mat[2][0] * other.mat[0][3] + mat[2][1] * other.mat[1][3] + mat[2][2] * other.mat[2][3] + mat[2][3] * other.mat[3][3],
 
-		mat[0][0] * other.mat[0][3] + mat[0][1] * other.mat[1][3] +
-		mat[0][2] * other.mat[2][3] + mat[0][3] * other.mat[3][3],
-
-		// 二行目
-		mat[1][0] * other.mat[0][0] + mat[1][1] * other.mat[1][0] +
-		mat[1][2] * other.mat[2][0] + mat[1][3] * other.mat[3][0],
-
-		mat[1][0] * other.mat[0][1] + mat[1][1] * other.mat[1][1] +
-		mat[1][2] * other.mat[2][1] + mat[1][3] * other.mat[3][1],
-
-		mat[1][0] * other.mat[0][2] + mat[1][1] * other.mat[1][2] +
-		mat[1][2] * other.mat[2][2] + mat[1][3] * other.mat[3][2],
-
-		mat[1][0] * other.mat[0][3] + mat[1][1] * other.mat[1][3] +
-		mat[1][2] * other.mat[2][3] + mat[1][3] * other.mat[3][3],
-
-		// 三行目
-		mat[2][0] * other.mat[0][0] + mat[2][1] * other.mat[1][0] +
-		mat[2][2] * other.mat[2][0] + mat[2][3] * other.mat[3][0],
-
-		mat[2][0] * other.mat[0][1] + mat[2][1] * other.mat[1][1] +
-		mat[2][2] * other.mat[2][1] + mat[2][3] * other.mat[3][1],
-
-		mat[2][0] * other.mat[0][2] + mat[2][1] * other.mat[1][2] +
-		mat[2][2] * other.mat[2][2] + mat[2][3] * other.mat[3][2],
-
-		mat[2][0] * other.mat[0][3] + mat[2][1] * other.mat[1][3] +
-		mat[2][2] * other.mat[2][3] + mat[2][3] * other.mat[3][3],
-
-		// 四行目
-		mat[3][0] * other.mat[0][0] + mat[3][1] * other.mat[1][0] +
-		mat[3][2] * other.mat[2][0] + mat[3][3] * other.mat[3][0],
-
-		mat[3][0] * other.mat[0][1] + mat[3][1] * other.mat[1][1] +
-		mat[3][2] * other.mat[2][1] + mat[3][3] * other.mat[3][1],
-
-		mat[3][0] * other.mat[0][2] + mat[3][1] * other.mat[1][2] +
-		mat[3][2] * other.mat[2][2] + mat[3][3] * other.mat[3][2],
-
-		mat[3][0] * other.mat[0][3] + mat[3][1] * other.mat[1][3] +
-		mat[3][2] * other.mat[2][3] + mat[3][3] * other.mat[3][3],
+		mat[3][0] * other.mat[0][0] + mat[3][1] * other.mat[1][0] + mat[3][2] * other.mat[2][0] + mat[3][3] * other.mat[3][0],
+		mat[3][0] * other.mat[0][1] + mat[3][1] * other.mat[1][1] + mat[3][2] * other.mat[2][1] + mat[3][3] * other.mat[3][1],
+		mat[3][0] * other.mat[0][2] + mat[3][1] * other.mat[1][2] + mat[3][2] * other.mat[2][2] + mat[3][3] * other.mat[3][2],
+		mat[3][0] * other.mat[0][3] + mat[3][1] * other.mat[1][3] + mat[3][2] * other.mat[2][3] + mat[3][3] * other.mat[3][3]
 	};
 }
 
