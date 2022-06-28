@@ -1,6 +1,6 @@
 #include "NewEngine/Header/Developer/Object/Object2D/Square.h"
+#include "NewEngine/Header/Developer/Object/Other/ViewProjection.h"
 #include "NewEngine/Header/Render/RenderBase.h"
-#include "Header/ViewProjection.h"
 
 Square::Square() :
 	vertexBuffer(new VertexBuffer),

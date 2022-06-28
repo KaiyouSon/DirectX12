@@ -152,14 +152,16 @@
     <ClCompile Include="ImGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="ImGUI\imgui_tables.cpp" />
     <ClCompile Include="ImGUI\imgui_widgets.cpp" />
-    <ClCompile Include="NewEngine\Header\Gui\ILayer.cpp" />
     <ClCompile Include="NewEngine\main.cpp" />
     <ClCompile Include="NewEngine\main2.cpp" />
     <ClCompile Include="NewEngine\NewEngine.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\IComponent.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\Transform.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Debug\DebugCamera.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Debug\DebugManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Debug\DebugText.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\DeveloperManager.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\FileOperation.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Input\InputManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Input\JoypadInput.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Input\KeyBoardInput.cpp" />
@@ -175,6 +177,8 @@
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\DrawManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\GameObject.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\ObjectManager.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Object\Other\ViewProjection.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Sound.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Color.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Random.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Util.cpp" />
@@ -193,8 +197,6 @@
     <ClCompile Include="NewEngine\Source\Render\RenderBase.cpp" />
     <ClCompile Include="NewEngine\Source\Render\ScissorRectangle.cpp" />
     <ClCompile Include="NewEngine\Source\Render\Viewport.cpp" />
-    <ClCompile Include="Source\Sound.cpp" />
-    <ClCompile Include="Source\ViewProjection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -217,8 +219,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header\Sound.h" />
-    <ClInclude Include="Header\ViewProjection.h" />
     <ClInclude Include="ImGUI\imconfig.h" />
     <ClInclude Include="ImGUI\imgui.h" />
     <ClInclude Include="ImGUI\imgui_impl_dx12.h" />
@@ -229,8 +229,11 @@
     <ClInclude Include="ImGUI\imstb_truetype.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\IComponent.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\Transform.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Debug\DebugCamera.h" />
     <ClInclude Include="NewEngine\Header\Developer\Debug\DebugManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Debug\DebugText.h" />
+    <ClInclude Include="NewEngine\Header\Developer\DeveloperManager.h" />
+    <ClInclude Include="NewEngine\Header\Developer\FileOperation.h" />
     <ClInclude Include="NewEngine\Header\Developer\Input\InputManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Input\JoypadInput.h" />
     <ClInclude Include="NewEngine\Header\Developer\Input\KeyBoardInput.h" />
@@ -246,6 +249,8 @@
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\DrawManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\GameObject.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\ObjectManager.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Object\Other\ViewProjection.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Sound.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Color.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Random.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Util.h" />

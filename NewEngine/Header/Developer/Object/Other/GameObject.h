@@ -7,6 +7,7 @@ class GameObject
 {
 protected:
 	std::string tag;
+	std::string modelType;
 	bool isShowDataToInspector;
 	std::vector<IComponent*> components;
 public:
@@ -14,9 +15,11 @@ public:
 	virtual ~GameObject();
 
 	void SetTag(std::string tag);
+	void SetModelType(std::string modelType);
 	void SetisShowDataToInspector(bool isShowDataToInspector);
 
 	std::string GetTag();
+	std::string GetModelType();
 	bool GetisShowDataToInspector();
 
 	template<class T>

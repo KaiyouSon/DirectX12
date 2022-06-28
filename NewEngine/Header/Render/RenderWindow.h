@@ -28,30 +28,18 @@ public:
 	void TerminateGameWindow();
 
 	// ウィンドウメッセージ処理
-	void ProcessMessage();
+	unsigned int ProcessMessage();
 
 	void SetWindowTitle(const std::string TITLE);
 	void SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT);
 
 public:
-	// ウィンドウの横幅を取得する関数
 	int GetWinWidth() { return WinWidth; };
-
-	// ウィンドウの縦幅を取得する関数
 	int GetWinHeight() { return WinHeight; };
-
-	// ウィンドウの横幅の半分を取得する関数
-	int GetHalfWinWidth() { return WinWidth / 2; };
-
-	// ウィンドウの縦幅の半分を取得する関数
-	int GetHalfWinHeight() { return WinHeight / 2; };
 
 	// ウィンドウハンドルの取得
 	HWND GetHwnd() { return hwnd; }
 	HINSTANCE GetHInstance() { return wndClass.hInstance; }
-
-	// ウィンドウメッセージを取得する関数
-	UINT GetProcessMessage() { return msg.message; }
 
 	static RenderWindow& GetInstance();
 

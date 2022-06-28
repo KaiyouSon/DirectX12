@@ -120,12 +120,6 @@
     <ClCompile Include="ImGUI\imgui_widgets.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Sound.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ViewProjection.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Input\InputManager.cpp">
       <Filter>Source\Developer\Input</Filter>
     </ClCompile>
@@ -246,8 +240,20 @@
     <ClCompile Include="NewEngine\Source\Gui\InspectorLayer.cpp">
       <Filter>Source\Gui</Filter>
     </ClCompile>
-    <ClCompile Include="NewEngine\Header\Gui\ILayer.cpp">
-      <Filter>Source</Filter>
+    <ClCompile Include="NewEngine\Source\Developer\Debug\DebugCamera.cpp">
+      <Filter>Source\Developer\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\DeveloperManager.cpp">
+      <Filter>Source\Developer</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\FileOperation.cpp">
+      <Filter>Source\Developer</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Object\Other\ViewProjection.cpp">
+      <Filter>Source\Developer\Object\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Sound.cpp">
+      <Filter>Source\Developer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -285,12 +291,6 @@
     </ClInclude>
     <ClInclude Include="ImGUI\imstb_truetype.h">
       <Filter>ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Sound.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\ViewProjection.h">
-      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Input\InputManager.h">
       <Filter>Header\Developer\Input</Filter>
@@ -414,6 +414,21 @@
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Gui\InspectorLayer.h">
       <Filter>Header\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Debug\DebugCamera.h">
+      <Filter>Header\Developer\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\DeveloperManager.h">
+      <Filter>Header\Developer</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\FileOperation.h">
+      <Filter>Header\Developer</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Object\Other\ViewProjection.h">
+      <Filter>Header\Developer\Object\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Sound.h">
+      <Filter>Header\Developer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

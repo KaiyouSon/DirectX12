@@ -1,8 +1,8 @@
 #include "NewEngine/Header/Developer/Object/Object3D/Object3D.h"
+#include "NewEngine/Header/Developer/Object/Other/ViewProjection.h"
 #include "NewEngine/Header/Developer/Math/MathUtil.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "NewEngine/Header/Render/Vertex.h"
-#include "Header/ViewProjection.h"
 using namespace std;
 
 Object3D::Object3D() :

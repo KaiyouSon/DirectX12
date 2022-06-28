@@ -1,10 +1,8 @@
 #include "NewEngine/NewEngine.h"
+#include "NewEngine/Header/Gui/GuiManager.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "NewEngine/Header/Render/RenderWindow.h"
-#include "NewEngine/Header/Render/Viewport.h"
-#include "NewEngine/Header/Render/ScissorRectangle.h"
-#include "NewEngine/Header/Developer/Input/InputManager.h"
-#include "NewEngine/Header/Developer/Util/Util.h"
+#include "NewEngine/Header/Developer/DeveloperManager.h"
 #include <wrl.h>
 using namespace Microsoft::WRL;
 
@@ -19,19 +17,34 @@ void NewEngineInit()
 	}
 #endif
 
-	// WindowsAPI初期化
 	RenderWindow::GetInstance().CreateGameWindow();
-
-	// DirectXの初期化処理
 	RenderBase::GetInstance()->Initialize();
-
-	// Inputの初期化
-	Input::GetInstance()->Initialize();
+	DeveloperManager::GetInstance()->Initialize();
+	GuiManager::GetInstance()->Initialize();
 }
 void NewEngineUpda()
 {
-	// Inputの更新処理
-	Input::GetInstance()->Update();
+	DeveloperManager::GetInstance()->Update();
+	GuiManager::GetInstance()->Update();
+}
+void NewEnginePreDraw()
+{
+	RenderBase::GetInstance()->PreDraw();
+}
+void NewEngineSetDraw3D()
+{
+	RenderBase::GetInstance()->Draw3D();
+	DeveloperManager::GetInstance()->Draw3D();
+}
+void NewEngineSetDraw2D()
+{
+	RenderBase::GetInstance()->Draw2D();
+	DeveloperManager::GetInstance()->Draw2D();
+}
+void NewEnginePostDraw()
+{
+	GuiManager::GetInstance()->Draw();
+	RenderBase::GetInstance()->PostDraw();
 }
 void NewEngineEnd()
 {
@@ -40,6 +53,8 @@ void NewEngineEnd()
 
 	//ComPtr<ID3D12Device> tmpDevice = RenderBase::GetInstance()->GetDevice().Get();
 	// DirectXの破棄
+	GuiManager::DestroyInstance();
+	DeveloperManager::DestroyInstance();
 	RenderBase::DestroyInstance();
 
 	//ID3D12DebugDevice* debugInterface;
@@ -49,13 +64,13 @@ void NewEngineEnd()
 	//	debugInterface->ReportLiveDeviceObjects(D3D12_RLDO_DETAIL | D3D12_RLDO_IGNORE_INTERNAL);
 	//	debugInterface->Release();
 	//}
-
-	Input::GetInstance()->DestoryInstance();
 }
-void ProcessMessage()
+
+bool ProcessMessage()
 {
 	//ウインドウズのメッセージを処理する
-	RenderWindow::GetInstance().ProcessMessage();
+	if (RenderWindow::GetInstance().ProcessMessage() == WM_QUIT) return true;
+	return false;
 }
 void SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT)
 {
@@ -65,29 +80,9 @@ void SetWindowTitle(const std::string TITLE)
 {
 	RenderWindow::GetInstance().SetWindowTitle(TITLE);
 }
-bool CloseWindow()
-{
-	if (RenderWindow::GetInstance().GetProcessMessage() == WM_QUIT)
-		return true;
-
-	return false;
-}
 void SetBackgroundColor(float Red, float Green, float Blue)
 {
-}
-void NewEnginePreDraw()
-{
-	RenderBase::GetInstance()->PreDraw();
-}
-void NewEngineSetDraw3D()
-{
-	RenderBase::GetInstance()->Draw3D();
-}
-void NewEngineSetDraw2D()
-{
-	RenderBase::GetInstance()->Draw2D();
-}
-void NewEnginePostDraw()
-{
-	RenderBase::GetInstance()->PostDraw();
+	RenderBase::GetInstance()->clearColor[0] = Red / 255;
+	RenderBase::GetInstance()->clearColor[1] = Green / 255;
+	RenderBase::GetInstance()->clearColor[2] = Blue / 255;
 }

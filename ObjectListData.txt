@@ -1,0 +1,5 @@
+ObjectListSize 1
+Object0ModelType Sphere
+Object0Transformpos 3 -16.65 0 
+Object0Transformrot 0 0 0 
+Object0Transformscale 3.98 3.22 1 

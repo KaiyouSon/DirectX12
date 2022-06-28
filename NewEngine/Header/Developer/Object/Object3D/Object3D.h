@@ -19,7 +19,6 @@ private:
 	VertexBuffer* vertexBuffer;
 	IndexBuffer* indexBuffer;
 	ConstantBuffer* constantBuffer;
-	//Transform* transform;
 	Texture texture;
 	ModelData modelData;
 

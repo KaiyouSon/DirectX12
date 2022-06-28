@@ -25,7 +25,6 @@ void RenderBase::Initialize()
 	RootSignatureInit();	// ルードシグネチャーの初期化
 	GraphicsPipelineInit();	// グラフィックスパイプラインの初期化
 }
-
 void RenderBase::PreDraw()
 {
 	//---------------------- リソースバリアの変更コマンド ----------------------//
@@ -115,7 +114,6 @@ void RenderBase::PostDraw()
 	result = commandList.Get()->Reset(commandAllocator.Get(), nullptr);
 	assert(SUCCEEDED(result));
 }
-
 void RenderBase::CreateSrv(Texture& texture, const D3D12_RESOURCE_DESC& textureResourceDesc)
 {
 	// SRVヒープの先頭ハンドルを取得
@@ -144,7 +142,7 @@ void RenderBase::CreateSrv(Texture& texture, const D3D12_RESOURCE_DESC& textureR
 	incrementIndex++;
 }
 
-#pragma region 各初期化
+// 各初期化
 void RenderBase::DeviceInit()
 {
 	HRESULT result;
@@ -699,23 +697,17 @@ void RenderBase::GraphicsPipelineInit()
 		assert(SUCCEEDED(result));
 	}
 }
-#pragma endregion
 
-#pragma region ゲッター関連
-// デバイス
-ComPtr<ID3D12Device> RenderBase::GetDevice()
+// ゲッター
+ComPtr<ID3D12Device> RenderBase::GetDevice() const
 {
 	return device;
 }
-
-// コマンド関連
-ComPtr<ID3D12GraphicsCommandList> RenderBase::GetCommandList()
+ComPtr<ID3D12GraphicsCommandList> RenderBase::GetCommandList() const
 {
 	return commandList;
 }
-
-// srv用デスクリプタヒープ
-ComPtr<ID3D12DescriptorHeap> RenderBase::GetSrvDescHeap()
+ComPtr<ID3D12DescriptorHeap> RenderBase::GetSrvDescHeap()const
 {
 	return srvDescHeap;
 }
@@ -732,4 +724,3 @@ void RenderBase::DestroyInstance()
 	delete viewport;
 	delete scissorRectangle;
 }
-#pragma endregion

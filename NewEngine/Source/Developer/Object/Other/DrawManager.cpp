@@ -21,9 +21,9 @@ ModelData LoadModel(const char* filePath)
 	if (file.fail()) assert(0);
 
 	ModelData modelData;
-	std::vector<Vec3> positions;
-	std::vector<Vec3> normals;
-	std::vector<Vec2> texcoords;
+	vector<Vec3> positions;
+	vector<Vec3> normals;
+	vector<Vec2> texcoords;
 
 	// 1çsÇ∏Ç¬ì«Ç›çûÇﬁ
 	string line;

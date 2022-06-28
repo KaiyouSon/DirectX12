@@ -22,6 +22,11 @@ void GameObject::SetTag(string tag)
 	this->tag = tag;
 }
 
+void GameObject::SetModelType(std::string modelType)
+{
+	this->modelType = modelType;
+}
+
 void GameObject::SetisShowDataToInspector(bool isShowDataToInspector)
 {
 	this->isShowDataToInspector = isShowDataToInspector;
@@ -30,6 +35,11 @@ void GameObject::SetisShowDataToInspector(bool isShowDataToInspector)
 string GameObject::GetTag()
 {
 	return tag;
+}
+
+std::string GameObject::GetModelType()
+{
+	return modelType;
 }
 
 bool GameObject::GetisShowDataToInspector()

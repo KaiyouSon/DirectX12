@@ -1,8 +1,7 @@
-#include "NewEngine/Header/Developer/Object/Object3D/Cube.h"
-#include "NewEngine/Header/Developer/Input/InputManager.h"
 #include "NewEngine/Header/Render/RenderBase.h"
-#include "Header/ViewProjection.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
+#include "NewEngine/Header/Developer/Object/Object3D/Cube.h"
+#include "NewEngine/Header/Developer/Object/Other/ViewProjection.h"
 #include "ImGUI/imgui.h"
 #include <d3d12.h>
 

@@ -15,12 +15,9 @@ public:
 
 public:
 	void Initialize();
-
 	void SetPos(const Vec3& pos);
 	void SetTarget(const Vec3& target);
 	void SetUp(const Vec3& up);
-
-	void InspectorWindow();
 
 	static ViewProjection* GetInstance();
 	static void DestroyInstance();

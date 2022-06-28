@@ -2,117 +2,53 @@
 #include "NewEngine/main2.h"
 #include "NewEngine/Header/Developer/Input/InputManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
-#include "Header/Sound.h"
-#include "Header/ViewProjection.h"
-#include "NewEngine/Header/Developer/Debug/DebugManager.h"
-#include "NewEngine/Header/Gui/GuiManager.h"
+#include "NewEngine/Header/Developer/Object/Other/ObjectManager.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-	// ウィンドウタイトルを設定する
-	SetWindowTitle("NewEngine");
+	SetWindowTitle("NewEngine");			// タイトル
+	SetWindowSize(WIN_WIDTH, WIN_HEIGHT);	// サイズ
+	SetBackgroundColor(25.5, 63.75, 127.5);	// 背景色
+	NewEngineInit();	// エンジンの初期化
+	Load();			// ゲーム内のロード処理
+	Initialize();	// ゲーム内の初期化処理
 
-	// 画面サイズを設定する
-	SetWindowSize(WIN_WIDTH, WIN_HEIGHT);
-
-	// 画面の背景色を設定する
-	SetBackgroundColor(25.5, 63.75, 127.5);
-
-	// NewEngineの初期化
-	NewEngineInit();
-
-	// ランダムの初期化処理
-	Random::Initialize();
-
-	// Audioの初期化処理
-	SoundManager::GetInstance()->Initialize();
-
-	// ビュープロジェクションの初期化処理
-	view->Initialize();
-
-	// デバッグマネージャの初期化
-	DebugManager::GetInstance()->Initialize();
-
-	GuiManager::GetInstance()->Initialize();
-
-	// 画像の読み込み
-	Load();
-
-	// 初期化処理
-	Initialize();
-
+	ObjectManager::GetInstance()->LoadData();
 	// ゲームループ
 	while (true)
 	{
-		//ウインドウズのメッセージを処理する
-		ProcessMessage();
-
+		////////////////////////////////////////////////////
 		// ----------- ここから更新処理を記述 ----------- //
-		NewEngineUpda();
-
-		// デバッグマネージャの更新処理
-		DebugManager::GetInstance()->Update();
-
-		GuiManager::GetInstance()->Update();
-		// 更新処理
-		Update();
-
+		////////////////////////////////////////////////////
+		NewEngineUpda();	// エンジンの更新処理
+		Update();			// ゲーム内の更新処理
+		////////////////////////////////////////////////////
 		// ---------- ここまでに更新処理を記述 ---------- //
-
-		// 描画前処理
-		NewEnginePreDraw();
-
+		////////////////////////////////////////////////////
+		NewEnginePreDraw();		// エンジン描画前処理
+		////////////////////////////////////////////////////
 		// ----------- ここから描画処理を記述 ----------- //
-		// 2D描画の設定
-		NewEngineSetDraw2D();
-		// 2D描画処理
-		Draw2D();
-
-		// 3D描画の設定
-		NewEngineSetDraw3D();
-		// 3D描画処理
-		Draw3D();
-
-		// 2D描画の設定
-		NewEngineSetDraw2D();
-		// デバッグマネージャの2D描画
-		DebugManager::GetInstance()->Draw();
-
-		GuiManager::GetInstance()->Draw();
+		////////////////////////////////////////////////////
+		NewEngineSetDraw2D();	// エンジンの2D描画設定
+		Draw2D();				// ゲーム内の2D描画処理
+		NewEngineSetDraw3D();	// エンジンの3D描画設定
+		Draw3D();				// ゲーム内の3D描画処理
+		////////////////////////////////////////////////////
 		// ---------- ここまでに描画処理を記述 ---------- //
+		////////////////////////////////////////////////////
+		NewEnginePostDraw();	// エンジン描画後処理
 
-		// 描画後処理
-		NewEnginePostDraw();
-
-		// Xボタンで終了メッセージが来たらゲームループを抜ける
-		if (CloseWindow())
+		// XボタンもしくはESCキーでゲームループを抜ける
+		if (ProcessMessage() || key->GetKey(DIK_ESCAPE))
 		{
-			break;
-		}
-
-		// ESCキーで終了メッセージが来たらゲームループを抜ける
-		if (key->GetKey(DIK_ESCAPE))
-		{
+			ObjectManager::GetInstance()->SaveData();
 			break;
 		}
 	}
 
-	view->DestroyInstance();
-
-	// Audioの破棄
-	SoundManager::GetInstance()->DestroyInstance();
-
-	// デバッグマネージャの破棄
-	DebugManager::GetInstance()->DestroyInstance();
-
-	GuiManager::DestroyInstance();
-
-	// インスタンスの破棄
-	Destroy();
-
-	// NewEngineの終了処理
-	NewEngineEnd();
+	Destroy();	// インスタンスの破棄
+	NewEngineEnd();	// エンジンのエンド処理
 
 	// 正常終了
 	return 0;

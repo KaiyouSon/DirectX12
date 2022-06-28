@@ -3,6 +3,7 @@
 #include "NewEngine/Header/Gui/GuiManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include "NewEngine/Header/Developer/Object/Other/ObjectManager.h"
+#include "NewEngine/Header/Developer/Input/InputManager.h"
 
 void HierarchyLayer::Initialize()
 {
@@ -43,6 +44,7 @@ void HierarchyLayer::Update()
 		if (ImGui::TreeNode(tmpObjectList->GetTag().c_str()))
 		{
 			tmpObjectList->SetisShowDataToInspector(true);
+			if (key->GetKeyTrigger(DIK_DELETE)) ObjectManager::GetInstance()->DestroyModel(tmpObjectList);
 			ImGui::TreePop();
 		}
 		else

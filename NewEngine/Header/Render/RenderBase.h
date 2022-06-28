@@ -31,10 +31,10 @@ private:
 	void GraphicsPipelineInit();
 
 public:
-	ComPtr<ID3D12Device> GetDevice();
-	ComPtr<ID3D12GraphicsCommandList> GetCommandList();
-	ComPtr<ID3D12DescriptorHeap> GetSrvDescHeap();
-	
+	ComPtr<ID3D12Device> GetDevice() const;
+	ComPtr<ID3D12GraphicsCommandList> GetCommandList() const;
+	ComPtr<ID3D12DescriptorHeap> GetSrvDescHeap() const;
+
 	static RenderBase* GetInstance();
 	static void DestroyInstance();
 private:
@@ -92,6 +92,7 @@ private:
 	// 描画処理関連
 	D3D12_RESOURCE_BARRIER barrierDesc{};	// リソースバリア
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;	// レンダーターゲットビューのハンドル
+public:
 	float clearColor[4];	// 画面色
 };
 

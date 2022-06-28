@@ -94,7 +94,7 @@ void InspectorLayer::Update()
 
 				//ImGui::Text("	x		  y		  z");
 				ImGui::DragFloat3("Postion", tmpPos, 0.05);
-				ImGui::DragFloat3("Rotation", tmpRot, 0.1);
+				ImGui::DragFloat3("Rotation", tmpRot, 0.2);
 				ImGui::DragFloat3("Scale", tmpScale, 0.01);
 
 				tmpObjectList->GetComponent<Transform>("Transform")->pos.x = tmpPos[0];
@@ -112,8 +112,6 @@ void InspectorLayer::Update()
 			break;
 		}
 	}
-
-	//ObjectManager::GetInstance()->GetObjectList()[0]->GetComponent<Transform>("Transform")->pos.x *= 2;
 
 	ImGui::End();
 }

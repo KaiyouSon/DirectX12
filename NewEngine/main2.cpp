@@ -1,12 +1,13 @@
 #include "NewEngine/main2.h"
-#include "Header/ViewProjection.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include "NewEngine/Header/Developer/Math/MathUtil.h"
 #include "NewEngine/Header/Developer/Input/InputManager.h"
 #include "NewEngine/Header/Developer/Debug/DebugManager.h"
 #include "NewEngine/Header/Developer/Object/Other/DrawManager.h"
 #include "NewEngine/Header/Developer/Object/Other/ObjectManager.h"
-#include "Header/Sound.h"
+#include "NewEngine/Header/Developer/Object/Other/ViewProjection.h"
+#include "NewEngine/Header/Developer/Debug/DebugCamera.h"
+#include "NewEngine/Header/Developer/Sound.h"
 #include "ImGUI/imgui.h"
 
 Texture backTexture;
@@ -36,11 +37,13 @@ void Initialize()
 	//model->Initialize(monkey);
 	testCube->Initialize();
 
-	ObjectManager::GetInstance()->CreateCube();
+	//ObjectManager::GetInstance()->CreateCube();
 
-	view->SetPos(Vec3(0, 0, -30));
+	view->SetPos(Vec3(0, 0, -50));
 	view->SetTarget(Vec3::zero);
 	view->SetUp(Vec3::up);
+
+	DebugCamera::GetInstance()->Initialize();
 }
 
 Transform transform2 =
@@ -53,55 +56,41 @@ Transform transform2 =
 float angle = 270;
 float length = 50;
 
-//Transform transform =
-//{
-//	Vec3::zero,
-//	Vec3::one * 10,
-//	Vec3::zero,
-//};
-
 // 更新処理
 void Update()
 {
 	bg->Update(transform2);
 
-	if (key->GetKey(DIK_LEFT))  angle--;
-	if (key->GetKey(DIK_RIGHT)) angle++;
+	//if (key->GetKey(DIK_LEFT))  angle--;
+	//if (key->GetKey(DIK_RIGHT)) angle++;
 
-	//if (key->GetKey(DIK_W)) transform.pos.y += 0.5;
-	//if (key->GetKey(DIK_S)) transform.pos.y -= 0.5;
-	//if (key->GetKey(DIK_D)) transform.pos.x += 0.5;
-	//if (key->GetKey(DIK_A)) transform.pos.x -= 0.5;
-
-	view->SetPos(Vec3(
-		(float)(cos(MathUtil::Radian(angle)) * length), 0.0f,
-		(float)(sin(MathUtil::Radian(angle)) * length)));
-	//model->Update(transform);
-
-	//testCube->Update(transform);
-
+	//view->SetPos(Vec3(
+	//	(float)(cos(MathUtil::Radian(angle)) * length), 0.0f,
+	//	(float)(sin(MathUtil::Radian(angle)) * length)));
 
 	//PlaySoundWave(testSound);
 
-	Color color = Color::SetRGB(255, 255, 255);
+	DebugCamera::GetInstance()->Update();
 
-	debugtext->Printf(0, 40, Color::white, "mousePos = %f, %f",
+
+
+	//debugtext->Printf(0, 0, 0xffffff, "%f, %f",
+	//	mouse->GetMouseVelocity().x, mouse->GetMouseVelocity().y);
+
+	debugtext->Printf(0, 0, 0xffffff, "%f, %f",
 		mouse->GetMousePos().x, mouse->GetMousePos().y);
-	ObjectManager::GetInstance()->Update();
 }
 
 // 描画処理
 void Draw3D()
 {
-	//model->Draw();
 
-	ObjectManager::GetInstance()->Draw3D();
 }
 
 void Draw2D()
 {
 	bg->SetTexture(backTexture);
-	bg->Draw();
+	//bg->Draw();
 }
 
 // インスタンスのdelete
@@ -111,6 +100,4 @@ void Destroy()
 	delete bg;
 	//delete model;
 	delete testCube;
-
-	ObjectManager::DestroyInstance();
 }

@@ -15,6 +15,10 @@ public:
 	void Update();
 	void Draw2D();
 	void Draw3D();
+	void DestroyModel(Object3D* object3D);
+
+	void LoadData();
+	void SaveData();
 
 	void SetObjectList(std::vector<Object3D*> objectList);
 	std::vector<Object3D*> GetObjectList();

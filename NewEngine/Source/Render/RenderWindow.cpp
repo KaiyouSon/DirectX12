@@ -45,7 +45,7 @@ void RenderWindow::TerminateGameWindow()
 	UnregisterClass(wndClass.lpszClassName, wndClass.hInstance);
 }
 
-void RenderWindow::ProcessMessage()
+unsigned int RenderWindow::ProcessMessage()
 {
 	// メッセージがある?
 	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -53,17 +53,8 @@ void RenderWindow::ProcessMessage()
 		TranslateMessage(&msg);	// キー入力メッセージの処理
 		DispatchMessage(&msg);	// プロシージャにメッセージを送る
 	}
-}
 
-void RenderWindow::SetWindowTitle(const std::string TITLE)
-{
-	this->TITLE = TITLE;
-}
-
-void RenderWindow::SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT)
-{
-	WinWidth = WIN_WIDTH;
-	WinHeight = WIN_HEIGHT;
+	return msg.message;
 }
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
@@ -86,6 +77,17 @@ LRESULT CALLBACK RenderWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LP
 
 	// 標準のメッセージ処理を行う
 	return DefWindowProc(hwnd, msg, wparam, lparam);
+}
+
+void RenderWindow::SetWindowTitle(const std::string TITLE)
+{
+	this->TITLE = TITLE;
+}
+
+void RenderWindow::SetWindowSize(int WIN_WIDTH, int WIN_HEIGHT)
+{
+	WinWidth = WIN_WIDTH;
+	WinHeight = WIN_HEIGHT;
 }
 
 RenderWindow& RenderWindow::GetInstance()
