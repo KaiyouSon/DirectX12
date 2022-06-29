@@ -4,10 +4,18 @@
 #include <processthreadsapi.h>
 using namespace std::filesystem;
 
-Texture cppTex;
-Texture hTex;
-Texture objTex;
-Texture folderTex;
+Texture* cppTex;
+Texture* hTex;
+Texture* objTex;
+Texture* folderTex;
+
+ProjectLayer::~ProjectLayer()
+{
+	UnLoadTexture(cppTex);
+	UnLoadTexture(hTex);
+	UnLoadTexture(objTex);
+	UnLoadTexture(folderTex);
+}
 
 void ProjectLayer::Initialize()
 {
@@ -18,7 +26,7 @@ void ProjectLayer::Initialize()
 	objTex = LoadTexture("NewEngine/Resources/icon/objFileTex.png");
 	folderTex = LoadTexture("NewEngine/Resources/icon/folderTex.png");
 
-	projectDirectroy = "NewEngine";	// プロジェクトディレクトリー
+	projectDirectroy = "GameProject";	// プロジェクトディレクトリー
 	currentDirectroy = projectDirectroy;
 }
 
@@ -83,19 +91,19 @@ void ProjectLayer::Update()
 			// cppファイル
 			if (filenameString.substr(filenameString.length() - 4) == ".cpp")
 			{
-				ImGui::ImageButton((ImTextureID)cppTex.GetGpuHandle().ptr, { buttonSize,buttonSize });
+				ImGui::ImageButton((ImTextureID)cppTex->GetGpuHandle().ptr, { buttonSize,buttonSize });
 				ImGui::Text(filenameString.c_str());
 			}
 			// hファイル
 			else if (filenameString.substr(filenameString.length() - 2) == ".h")
 			{
-				ImGui::ImageButton((ImTextureID)hTex.GetGpuHandle().ptr, { buttonSize,buttonSize });
+				ImGui::ImageButton((ImTextureID)hTex->GetGpuHandle().ptr, { buttonSize,buttonSize });
 				ImGui::Text(filenameString.c_str());
 			}
 			// objファイル
 			else if (filenameString.substr(filenameString.length() - 4) == ".obj")
 			{
-				ImGui::ImageButton((ImTextureID)objTex.GetGpuHandle().ptr, { buttonSize,buttonSize });
+				ImGui::ImageButton((ImTextureID)objTex->GetGpuHandle().ptr, { buttonSize,buttonSize });
 				ImGui::Text(filenameString.c_str());
 			}
 			else

@@ -1,10 +1,14 @@
 #include "NewEngine/Header/Developer/Object/Other/GameObject.h"
 #include "NewEngine/Header/Developer/Component/Transform.h"
+#include "NewEngine/Header/Developer/Component/Texture.h"
 using namespace std;
 
 GameObject::GameObject() :
 	isShowDataToInspector(false)
 {
+	Texture* texture = new Texture;
+	components.push_back(texture);
+
 	Transform* transform = new Transform;
 	components.push_back(transform);
 }

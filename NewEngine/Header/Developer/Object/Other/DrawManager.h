@@ -5,9 +5,11 @@
 #include "NewEngine/Header/Render/Buffer/TextureBuffer.h"
 
 // テクスチャーの読み込み
-Texture LoadTexture(const char* filePath);
+Texture* LoadTexture(const char* filePath);
 // モデルの読み込み
 ModelData LoadModel(const char* filePath);
+
+void UnLoadTexture(Texture* texture);
 
 extern Model cube;
 extern Model sphere;

@@ -32,13 +32,6 @@ void Object3D::Initialize(const ModelData& modelData)
 	constantBuffer->TransformBufferInit();
 
 	texture = TextureBuffer::GetDefaultTexture();
-
-	//transform =
-	//{
-	//	Vec3::zero,
-	//	Vec3::one,
-	//	Vec3::zero,
-	//};
 }
 
 void Object3D::Update(Transform& transform, Transform* parent)

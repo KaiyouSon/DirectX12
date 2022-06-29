@@ -10,22 +10,25 @@
 #include "NewEngine/Header/Developer/Sound.h"
 #include "ImGUI/imgui.h"
 
-Texture backTexture;
-Texture objTexture;
+Texture* backTexture;
+Texture* objTexture;
 Sound testSound;
 Model barbla;
 
 Square* bg = new Square;
-//Object3D* model = new Object3D;
 Cube* testCube = new Cube;
 
 // ‰æ‘œ‚Ì“Ç‚Ýž‚Ý
 void Load()
 {
 	LoadBasicModel();
+	gameTextureList->PushToTextureList(LoadTexture("Resources/bg.png"), "bg");
+	gameTextureList->PushToTextureList(LoadTexture("Resources/pic.png"), "obj");
+
 	backTexture = LoadTexture("Resources/bg.png");
 	objTexture = LoadTexture("Resources/pic.png");
 	testSound = LoadSoundWave("Resources/title_bgm.wav");
+
 	//barbla = LoadModel("Resources/barbla.obj");
 }
 
@@ -71,14 +74,6 @@ void Update()
 	//PlaySoundWave(testSound);
 
 	DebugCamera::GetInstance()->Update();
-
-
-
-	//debugtext->Printf(0, 0, 0xffffff, "%f, %f",
-	//	mouse->GetMouseVelocity().x, mouse->GetMouseVelocity().y);
-
-	debugtext->Printf(0, 0, 0xffffff, "%f, %f",
-		mouse->GetMousePos().x, mouse->GetMousePos().y);
 }
 
 // •`‰æˆ—
@@ -89,7 +84,7 @@ void Draw3D()
 
 void Draw2D()
 {
-	bg->SetTexture(backTexture);
+	//bg->SetTexture(backTexture);
 	//bg->Draw();
 }
 
@@ -97,7 +92,11 @@ void Draw2D()
 void Destroy()
 {
 	UnLoadSoundWave(&testSound);
-	delete bg;
 	//delete model;
+	delete bg;
 	delete testCube;
+	delete gameTextureList;
+
+	UnLoadTexture(backTexture);
+	UnLoadTexture(objTexture);
 }

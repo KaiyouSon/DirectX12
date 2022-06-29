@@ -18,7 +18,7 @@ public:
 
 private:
 	ProjectLayer() = default;
-	~ProjectLayer() = default;
+	~ProjectLayer();
 
 	ProjectLayer(const ProjectLayer&) = delete;
 	ProjectLayer& operator=(const ProjectLayer&) = delete;

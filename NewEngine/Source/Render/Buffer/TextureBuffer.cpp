@@ -13,10 +13,10 @@ TextureBuffer::~TextureBuffer()
 }
 
 // テクスチャのロード
-Texture TextureBuffer::LoadTexture(const string filePath)
+Texture* TextureBuffer::LoadTexture(const string filePath)
 {
 	HRESULT result;
-	Texture texture;
+	Texture* texture = new Texture;
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 	wstring wfilePath(filePath.begin(), filePath.end());
@@ -61,7 +61,7 @@ Texture TextureBuffer::LoadTexture(const string filePath)
 	textureResourceDesc.SampleDesc.Count = 1;
 
 	// テクスチャのサイズをセット
-	texture.SetTextureSize(Vec2(textureResourceDesc.Width, textureResourceDesc.Height));
+	texture->SetTextureSize(Vec2(textureResourceDesc.Width, textureResourceDesc.Height));
 
 	// テクスチャバッファの生成
 	result = RenderBase::GetInstance()->GetDevice()->
@@ -71,7 +71,7 @@ Texture TextureBuffer::LoadTexture(const string filePath)
 			&textureResourceDesc,
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
-			IID_PPV_ARGS(&texture.buffer));
+			IID_PPV_ARGS(&texture->buffer));
 	assert(SUCCEEDED(result));
 
 	// 全ミップマップについて
@@ -80,7 +80,7 @@ Texture TextureBuffer::LoadTexture(const string filePath)
 		// 全ミップマップレベルを指定してイメージを取得
 		const Image* img = scratchImg.GetImage(i, 0, 0);
 		// テクスチャバッファにデータ転送
-		result = texture.buffer->WriteToSubresource(
+		result = texture->buffer->WriteToSubresource(
 			(UINT)i,
 			nullptr,				// 全領域へコピー
 			img->pixels,			// 元データアドレス
@@ -90,7 +90,9 @@ Texture TextureBuffer::LoadTexture(const string filePath)
 		assert(SUCCEEDED(result));
 	}
 
-	RenderBase::GetInstance()->CreateSrv(texture, textureResourceDesc);
+	RenderBase::GetInstance()->CreateSrv(*texture, textureResourceDesc);
+
+	texture->buffer->SetName(L"Texture");
 
 	return texture;
 }
@@ -153,27 +155,7 @@ Texture TextureBuffer::GetDefaultTexture()
 	return texture;
 }
 
-void Texture::SetCpuHandle(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle)
+void TextureBuffer::UnLoadTexture(Texture* texture)
 {
-	this->cpuHandle = cpuHandle;
-}
-
-void Texture::SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle)
-{
-	this->gpuHandle = gpuHandle;
-}
-
-void Texture::SetTextureSize(const Vec2& textureSize)
-{
-	this->textureSize = textureSize;
-}
-
-D3D12_GPU_DESCRIPTOR_HANDLE Texture::GetGpuHandle()
-{
-	return gpuHandle;
-}
-
-Vec2 Texture::GetTextureSize()
-{
-	return textureSize;
+	delete texture;
 }

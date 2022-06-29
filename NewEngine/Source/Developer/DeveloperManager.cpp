@@ -8,7 +8,9 @@
 void DeveloperManager::Initialize()
 {
 	InputManager::GetInstance()->Initialize();
+#ifdef _DEBUG
 	DebugManager::GetInstance()->Initialize();
+#endif
 	SoundManager::GetInstance()->Initialize();
 	ViewProjection::GetInstance()->Initialize();
 	Random::Initialize();
@@ -17,7 +19,9 @@ void DeveloperManager::Initialize()
 void DeveloperManager::Update()
 {
 	InputManager::GetInstance()->Update();
+#ifdef _DEBUG
 	DebugManager::GetInstance()->Update();
+#endif
 	ObjectManager::GetInstance()->Update();
 }
 
@@ -28,7 +32,9 @@ void DeveloperManager::Draw3D()
 
 void DeveloperManager::Draw2D()
 {
+#ifdef _DEBUG
 	DebugManager::GetInstance()->Draw();
+#endif
 	ObjectManager::GetInstance()->Draw2D();
 }
 
@@ -41,7 +47,9 @@ DeveloperManager* DeveloperManager::GetInstance()
 void DeveloperManager::DestroyInstance()
 {
 	InputManager::DestoryInstance();
+#ifdef _DEBUG
 	DebugManager::DestroyInstance();
+#endif
 	SoundManager::DestroyInstance();
 	ObjectManager::DestroyInstance();
 	ViewProjection::DestroyInstance();

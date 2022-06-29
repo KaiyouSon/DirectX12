@@ -2,6 +2,9 @@
 #include "NewEngine/Header/Gui/ILayer.h"
 class InspectorLayer : public ILayer
 {
+private:
+	void MenuBarUpdate();
+
 public:
 	void Initialize() override;
 	void Update() override;

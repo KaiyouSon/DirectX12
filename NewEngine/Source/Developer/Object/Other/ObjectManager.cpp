@@ -53,8 +53,6 @@ void ObjectManager::Update()
 	for (int i = 0; i < objectList.size(); i++)
 	{
 		objectList[i]->Update();
-
-		if (objectList[i] == nullptr) objectList.erase(objectList.begin() + i);
 	}
 }
 
@@ -77,7 +75,7 @@ void ObjectManager::DestroyModel(Object3D* object3D)
 		if (objectList[i] == object3D)
 		{
 			delete objectList[i];
-			objectList[i] == nullptr;
+			objectList[i] = nullptr;
 			objectList.erase(objectList.begin() + i);
 		}
 	}

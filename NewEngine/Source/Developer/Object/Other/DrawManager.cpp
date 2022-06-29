@@ -6,9 +6,9 @@
 #include <vector>
 using namespace std;
 
-Texture LoadTexture(const char* filePath)
+Texture* LoadTexture(const char* filePath)
 {
-	return  TextureBuffer::LoadTexture(filePath);
+	return TextureBuffer::LoadTexture(filePath);
 }
 
 ModelData LoadModel(const char* filePath)
@@ -105,6 +105,11 @@ ModelData LoadModel(const char* filePath)
 	file.close();
 
 	return modelData;
+}
+
+void UnLoadTexture(Texture* texture)
+{
+	TextureBuffer::UnLoadTexture(texture);
 }
 
 Model cube;

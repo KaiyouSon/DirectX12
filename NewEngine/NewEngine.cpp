@@ -20,12 +20,16 @@ void NewEngineInit()
 	RenderWindow::GetInstance().CreateGameWindow();
 	RenderBase::GetInstance()->Initialize();
 	DeveloperManager::GetInstance()->Initialize();
+#ifdef _DEBUG
 	GuiManager::GetInstance()->Initialize();
+#endif
 }
 void NewEngineUpda()
 {
 	DeveloperManager::GetInstance()->Update();
+#ifdef _DEBUG
 	GuiManager::GetInstance()->Update();
+#endif
 }
 void NewEnginePreDraw()
 {
@@ -43,7 +47,9 @@ void NewEngineSetDraw2D()
 }
 void NewEnginePostDraw()
 {
+#ifdef _DEBUG
 	GuiManager::GetInstance()->Draw();
+#endif
 	RenderBase::GetInstance()->PostDraw();
 }
 void NewEngineEnd()
@@ -52,13 +58,14 @@ void NewEngineEnd()
 	RenderWindow::GetInstance().TerminateGameWindow();
 
 	//ComPtr<ID3D12Device> tmpDevice = RenderBase::GetInstance()->GetDevice().Get();
-	// DirectX‚Ì”jŠü
+#ifdef _DEBUG
 	GuiManager::DestroyInstance();
+#endif
+
 	DeveloperManager::DestroyInstance();
 	RenderBase::DestroyInstance();
 
 	//ID3D12DebugDevice* debugInterface;
-
 	//if (SUCCEEDED(tmpDevice.Get()->QueryInterface(&debugInterface)))
 	//{
 	//	debugInterface->ReportLiveDeviceObjects(D3D12_RLDO_DETAIL | D3D12_RLDO_IGNORE_INTERNAL);
