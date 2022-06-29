@@ -1,6 +1,11 @@
 #include "NewEngine/Header/Developer/Component/Texture.h"
 using namespace std;
 
+Texture::Texture()
+{
+	componentName = "Texture";
+}
+
 void Texture::SetCpuHandle(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle)
 {
 	this->cpuHandle = cpuHandle;

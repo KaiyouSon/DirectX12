@@ -15,7 +15,7 @@ private:
 	std::string tag;
 public:
 	Microsoft::WRL::ComPtr<ID3D12Resource> buffer; //テクスチャのリソース
-
+	Texture();
 	void SetCpuHandle(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle);
 	void SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle);
 	void SetTextureSize(const Vec2& textureSize);

@@ -50,3 +50,8 @@ bool GameObject::GetisShowDataToInspector()
 {
 	return isShowDataToInspector;
 }
+
+vector<IComponent*> GameObject::GetComponentList()
+{
+	return components;
+}

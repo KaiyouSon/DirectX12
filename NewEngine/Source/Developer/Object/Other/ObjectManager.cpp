@@ -105,6 +105,7 @@ void ObjectManager::LoadData()
 
 		for (int i = 0; i < listSize; i++)
 		{
+			// モデルタイプの読み込み
 			if (key == "Object" + to_string(i) + "ModelType")
 			{
 				string modelType;
@@ -113,7 +114,16 @@ void ObjectManager::LoadData()
 				if (modelType == "Sphere") CreateSphere();
 				if (modelType == "Monkey") CreateMonkey();
 			}
+			//// コンポネントリストの読み込み
+			//int componentListSize = 0;
+			//if (key == "ComponentListSize")
+			//{
+			//	lineStream >> componentListSize;
+			//}
+			//for (int j = 0; j < componentListSize; j++)
+			//{
 
+			//}
 			if (key == "Object" + to_string(i) + "Transform" + "pos")
 			{
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->pos.x;
@@ -131,6 +141,13 @@ void ObjectManager::LoadData()
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->scale.x;
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->scale.y;
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->scale.z;
+			}
+			else if (key == "Object" + to_string(i) + "TextureTag")
+			{
+				string tmpTag;
+				lineStream >> tmpTag;
+				if (tmpTag != "")
+					objectList[i]->SetTexture(*gameTextureList->GetTexture(tmpTag));
 			}
 		}
 	}
@@ -150,27 +167,43 @@ void ObjectManager::SaveData()
 		// モデルのタイプ
 		file << "Object" + to_string(i) + "ModelType ";
 		file << objectList[i]->GetModelType() << "\n";
-		// トランスフォーム
+		// コンポネントリスト
+		file << "ComponentListSize ";
+		file << objectList[i]->GetComponentList().size() << "\n";
+		// コンポネントリストの中身
+		for (int j = 0; j < objectList[i]->GetComponentList().size(); j++)
 		{
-			Vec3 pos = objectList[i]->GetComponent<Transform>("Transform")->pos;
-			Vec3 rot = objectList[i]->GetComponent<Transform>("Transform")->rot;
-			Vec3 scale = objectList[i]->GetComponent<Transform>("Transform")->scale;
+			// トランスフォーム
+			if (objectList[i]->GetComponentList()[j]->GetComponentName() == "Transform")
+			{
+				Vec3 pos = objectList[i]->GetComponent<Transform>("Transform")->pos;
+				Vec3 rot = objectList[i]->GetComponent<Transform>("Transform")->rot;
+				Vec3 scale = objectList[i]->GetComponent<Transform>("Transform")->scale;
 
-			file << "Object" + to_string(i) + "Transform" + "pos ";
-			file << pos.x << " ";
-			file << pos.y << " ";
-			file << pos.z << " ";
-			file << "\n";
-			file << "Object" + to_string(i) + "Transform" + "rot ";
-			file << rot.x << " ";
-			file << rot.y << " ";
-			file << rot.z << " ";
-			file << "\n";
-			file << "Object" + to_string(i) + "Transform" + "scale ";
-			file << scale.x << " ";
-			file << scale.y << " ";
-			file << scale.z << " ";
-			file << "\n";
+				file << "Object" + to_string(i) + "Transform" + "pos ";
+				file << pos.x << " ";
+				file << pos.y << " ";
+				file << pos.z << " ";
+				file << "\n";
+				file << "Object" + to_string(i) + "Transform" + "rot ";
+				file << rot.x << " ";
+				file << rot.y << " ";
+				file << rot.z << " ";
+				file << "\n";
+				file << "Object" + to_string(i) + "Transform" + "scale ";
+				file << scale.x << " ";
+				file << scale.y << " ";
+				file << scale.z << " ";
+				file << "\n";
+			}
+
+			if (objectList[i]->GetComponentList()[j]->GetComponentName() == "Texture")
+			{
+				file << "Object" + to_string(i) + "TextureTag ";
+				string tmp = objectList[i]->GetComponent<Texture>("Texture")->GetTextureTag();
+				file << objectList[i]->GetComponent<Texture>("Texture")->GetTextureTag();
+				file << "\n";
+			}
 		}
 	}
 	file.close();

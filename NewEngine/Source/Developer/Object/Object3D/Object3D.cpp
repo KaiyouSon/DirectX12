@@ -101,4 +101,5 @@ void Object3D::Draw()
 void Object3D::SetTexture(const Texture& texture)
 {
 	this->texture = texture;
+	GetComponent<Texture>("Texture")->SetTextureTag(this->texture.GetTextureTag());
 }

@@ -79,13 +79,19 @@ void InspectorLayer::Update()
 				}
 				static int tagCurrent = -1;
 				static int item_current_idx = 0;
+				for (int i = 0; i < 2056; i++)
+				{
+					if (tmpObjectList->GetComponent<Texture>("Texture")->GetTextureTag() == tags[i])
+						tagCurrent = i;
+				}
+
 				if (ImGui::Combo("Texture Tag Name", &tagCurrent, tags, 2056))
 				{
 					tmpObjectList->SetTexture(*gameTextureList->GetTexture((tags[tagCurrent])));
 				}
 			}
+			break;
 		}
-		break;
 	}
 
 	ImGui::End();

@@ -21,6 +21,7 @@ public:
 	std::string GetTag();
 	std::string GetModelType();
 	bool GetisShowDataToInspector();
+	std::vector<IComponent*> GetComponentList();
 
 	template<class T>
 	T* GetComponent(std::string componentName)
