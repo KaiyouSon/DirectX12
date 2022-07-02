@@ -9,14 +9,72 @@
 #include "NewEngine/Header/Developer/Debug/DebugCamera.h"
 #include "NewEngine/Header/Developer/Sound.h"
 #include "ImGUI/imgui.h"
+#include<vector>
 
-Texture* backTexture;
-Texture* objTexture;
 Sound testSound;
 Model barbla;
 
 Square* bg = new Square;
-Cube* testCube = new Cube;
+//Sprite* test = new Sprite;
+
+struct Rey
+{
+	Vec3 startPos;
+	Vec3 dirVec;
+
+	Rey() : startPos(0, 0, 0), dirVec(0, 0, 0)
+	{
+	}
+
+	Rey(const Vec3& startPos, const Vec3& dirVec) :startPos(startPos), dirVec(dirVec)
+	{
+	}
+};
+struct Line
+{
+	Vec3 startPos;
+	Vec3 endPos;
+
+	Line() :startPos(0, 0, 0), endPos(0, 0, 0)
+	{
+	}
+
+	Line(const Vec3& startPos, const Vec3& endPos) :startPos(startPos), endPos(endPos)
+	{
+	}
+};
+struct Mesh
+{
+	Vec3 centerPos;		// 中心座標
+	Vec3 upperLeftPos;	// 左上座標
+	Vec3 upperRightPos;	// 右上座標
+	Vec3 lowerLeftPos;	// 左下座標
+	Vec3 lowerRightPos;	// 左上座標
+	Vec3 normal;		// 法線ベクトル
+
+	Mesh() :centerPos(0, 0, 0),
+		upperLeftPos(0, 0, 0), upperRightPos(0, 0, 0),
+		lowerLeftPos(0, 0, 0), lowerRightPos(0, 0, 0),
+		normal(0, 0, 0)
+	{
+	}
+
+	Mesh(const Vec3& centerPos, const Vec3& scale) :
+		centerPos(centerPos),
+		upperLeftPos(centerPos.x - scale.x, centerPos.y + scale.y, centerPos.z),
+		upperRightPos(centerPos.x + scale.x, centerPos.y + scale.y, centerPos.z),
+		lowerLeftPos(centerPos.x - scale.x, centerPos.y - scale.y, centerPos.z),
+		lowerRightPos(centerPos.x + scale.x, centerPos.y - scale.y, centerPos.z),
+		normal(Vec3::Cross(
+			(lowerRightPos - lowerLeftPos).Normalized(),
+			(upperLeftPos - lowerLeftPos).Normalized()))
+	{
+	}
+};
+
+bool ReyHitMesh(const Rey& rey, const Mesh& mesh);
+bool LineHitMesh(const Line& line, const Mesh& mesh);
+void Collision();
 
 // 画像の読み込み
 void Load()
@@ -25,8 +83,6 @@ void Load()
 	gameTextureList->PushToTextureList(LoadTexture("Resources/bg.png"), "bg");
 	gameTextureList->PushToTextureList(LoadTexture("Resources/pic.png"), "obj");
 
-	backTexture = LoadTexture("Resources/bg.png");
-	objTexture = LoadTexture("Resources/pic.png");
 	testSound = LoadSoundWave("Resources/title_bgm.wav");
 
 	//barbla = LoadModel("Resources/barbla.obj");
@@ -36,44 +92,40 @@ void Load()
 void Initialize()
 {
 	bg->Initialize(Square::view2D, Vec2(WIN_WIDTH, WIN_HEIGHT));
-	//model->Initialize(barbla);
-	//model->Initialize(monkey);
-	testCube->Initialize();
-
-	//ObjectManager::GetInstance()->CreateCube();
 
 	view->SetPos(Vec3(0, 0, -50));
 	view->SetTarget(Vec3::zero);
 	view->SetUp(Vec3::up);
 
 	DebugCamera::GetInstance()->Initialize();
+
+	//test->Initialize();
 }
 
-Transform transform2 =
-{
-	Vec3(WIN_HALF_WIDTH,WIN_HALF_HEIGHT,0),
-	Vec3::one,
-	Vec3::zero,
-};
-
-float angle = 270;
-float length = 50;
+Transform trans;
+static int hitType = 0;
 
 // 更新処理
 void Update()
 {
-	bg->Update(transform2);
+	if (key->GetKeyTrigger(DIK_SPACE))
+	{
+		if (hitType == 0) hitType = 1;
+		else if (hitType == 1) hitType = 0;
+	}
 
-	//if (key->GetKey(DIK_LEFT))  angle--;
-	//if (key->GetKey(DIK_RIGHT)) angle++;
+	Collision();
 
-	//view->SetPos(Vec3(
-	//	(float)(cos(MathUtil::Radian(angle)) * length), 0.0f,
-	//	(float)(sin(MathUtil::Radian(angle)) * length)));
+	bg->Update(trans);
+
+	view->SetPos(DebugCamera::GetInstance()->GetPos());
+	view->SetTarget(DebugCamera::GetInstance()->GetTarget());
+	view->SetUp(DebugCamera::GetInstance()->GetUp());
+	DebugCamera::GetInstance()->Update();
 
 	//PlaySoundWave(testSound);
 
-	DebugCamera::GetInstance()->Update();
+	//test->Update();
 }
 
 // 描画処理
@@ -84,19 +136,114 @@ void Draw3D()
 
 void Draw2D()
 {
-	//bg->SetTexture(backTexture);
+	//bg->SetTexture(*gameTextureList->GetTexture("bg"));
 	//bg->Draw();
+
+	//test->SetTexture(*gameTextureList->GetTexture("bg"));
+	//test->Draw();
 }
 
 // インスタンスのdelete
 void Destroy()
 {
 	UnLoadSoundWave(&testSound);
-	//delete model;
 	delete bg;
-	delete testCube;
 	delete gameTextureList;
+	//delete test;
+}
 
-	UnLoadTexture(backTexture);
-	UnLoadTexture(objTexture);
+void Collision()
+{
+	Object3D* cube1 = ObjectManager::GetInstance()->GetObjectList()[0];
+	Object3D* cube2 = ObjectManager::GetInstance()->GetObjectList()[1];
+	Transform* cubeTrans = cube1->GetComponent<Transform>("Transform");
+	Transform* reyTrans = cube2->GetComponent<Transform>("Transform");
+
+	// レイ
+	Rey rey =
+	{
+		reyTrans->pos + (Vec3::back * reyTrans->scale),
+		Vec3::forward
+	};
+
+	// 線分
+	Line line =
+	{
+		reyTrans->pos + (Vec3::back * reyTrans->scale),
+		reyTrans->pos - (Vec3::back * reyTrans->scale)
+	};
+
+	// メッシュ
+	Mesh mesh =
+	{
+		cubeTrans->pos + (Vec3::back * cubeTrans->scale),
+		cubeTrans->scale
+	};
+
+	if (hitType == 0)
+	{
+		if (ReyHitMesh(rey, mesh))
+		{
+			trans.pos.x = WIN_HALF_WIDTH;
+			trans.pos.y = WIN_HALF_HEIGHT;
+		}
+		else
+		{
+			trans.pos.x = -WIN_WIDTH * 2;
+			trans.pos.y = -WIN_HEIGHT * 2;
+		}
+	}
+	else
+	{
+		if (LineHitMesh(line, mesh))
+		{
+			trans.pos.x = WIN_HALF_WIDTH;
+			trans.pos.y = WIN_HALF_HEIGHT;
+		}
+		else
+		{
+			trans.pos.x = -WIN_WIDTH * 2;
+			trans.pos.y = -WIN_HEIGHT * 2;
+		}
+	}
+}
+bool ReyHitMesh(const Rey& rey, const Mesh& mesh)
+{
+	float dis1 = Vec3::Distance(rey.startPos, Vec3::zero);	// レイの始点と原点の距離
+	float dis2 = Vec3::Distance(mesh.centerPos, Vec3::zero);	// メッシュの中心座標と原点の距離
+	float dist = dis1 - dis2;	// レイの始点とメッシュ距離
+
+	// メッシュの法線とレイのベクトルでcosθを求める
+	float cosRadius = Vec3::Dot(mesh.normal * -1, rey.dirVec.Normalized());
+
+	// 当たった点
+	Vec3 inter = rey.startPos + rey.dirVec.Normalized() * dist;
+
+	if (inter.x >= mesh.lowerLeftPos.x && inter.x <= mesh.lowerRightPos.x &&
+		inter.y >= mesh.lowerLeftPos.y && inter.y <= mesh.upperLeftPos.y)
+		return true;
+
+	return false;
+}
+bool LineHitMesh(const Line& line, const Mesh& mesh)
+{
+	Vec3 v1 = line.startPos - mesh.centerPos;
+	Vec3 v2 = line.endPos - mesh.centerPos;
+	Vec3 v3 = v1 + v2;
+
+	if (Vec3::Dot(v1, mesh.normal * Vec3::Dot(v2, mesh.normal)) <= 0)
+	{
+		if (v1.x >= mesh.lowerLeftPos.x && v1.x <= mesh.lowerRightPos.x &&
+			v1.y >= mesh.lowerLeftPos.y && v1.y <= mesh.upperLeftPos.y)
+		{
+			return true;
+		}
+		if (v2.x >= mesh.lowerLeftPos.x && v2.x <= mesh.lowerRightPos.x &&
+			v2.y >= mesh.lowerLeftPos.y && v2.y <= mesh.upperLeftPos.y)
+		{
+			return true;
+		}
+
+	}
+	return false;
 }

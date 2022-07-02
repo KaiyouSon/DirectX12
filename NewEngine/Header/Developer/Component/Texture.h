@@ -20,6 +20,7 @@ public:
 	void SetGpuHandle(D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle);
 	void SetTextureSize(const Vec2& textureSize);
 	void SetTextureTag(std::string tag);
+	void SetTexture(Texture* texture);
 
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGpuHandle();
 	Vec2 GetTextureSize();

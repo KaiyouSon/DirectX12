@@ -15,17 +15,12 @@ public:
 	void Update();
 
 	// マウスの取得関連
-	bool GetMouseLeft();
-	bool GetMouseLeftTrigger();
-	bool GetMouseLeftReleased();
-	bool GetMouseRight();
-	bool GetMouseRightTrigger();
-	bool GetMouseRightReleased();
-	bool GetMouseWheel();
-	bool GetMouseWheelTrigger();
-	bool GetMouseWheelReleased();
+	bool GetClick(const int& mouse);
+	bool GetClickTrigger(const int& mouse);
+	bool GetClickReleased(const int& mouse);
+
 	Vec2 GetMousePos();
-	Vec3 GetMouseVelocity();
+	float GetWheelVec();
 
 	static MouseInput* GetInstance();
 	static void DestoryInstance();

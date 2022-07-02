@@ -14,13 +14,13 @@ Transform::Transform(Vec3 pos, Vec3 scale, Vec3 rot) :
 
 void Transform::Update()
 {
-	matScale = Mat4::Scale(scale);		// スケーリング
+	matScale = MathUtil::ConvertScalingMat(scale);		 // スケーリング
 	matRot = Mat4::Identity();
-	matRot *= Mat4::RotateZ(rot.z);		// z軸回転
-	matRot *= Mat4::RotateX(rot.x);		// x軸回転
-	matRot *= Mat4::RotateY(rot.y);		// y軸回転
-	matTrans = Mat4::Translate(pos);	// 平行移動
-	
+	matRot *= MathUtil::ConvertRotationZAxisMat(rot.z); // z軸回転
+	matRot *= MathUtil::ConvertRotationXAxisMat(rot.x); // x軸回転
+	matRot *= MathUtil::ConvertRotationYAxisMat(rot.y); // y軸回転
+	matTrans = MathUtil::ConvertTranslationMat(pos);	 // 平行移動
+
 	matWorld = Mat4::Identity();
 	matWorld *= matScale;
 	matWorld *= matRot;

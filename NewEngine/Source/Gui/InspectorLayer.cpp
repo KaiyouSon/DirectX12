@@ -18,14 +18,39 @@ void InspectorLayer::Update()
 	ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
 	ImGui::Begin("Inspector", nullptr, window_flags);
 
-	MenuBarUpdate();
+	ShowMenuBar();
+	ShowObjectList();
+	ShowSpriteList();
 
+	ImGui::End();
+}
+
+void InspectorLayer::ShowMenuBar()
+{
+	for (auto tmpObjectList : ObjectManager::GetInstance()->GetObjectList())
+	{
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("Menu"))
+			{
+				if (ImGui::BeginMenu("Add Component"))
+				{
+					ImGui::EndMenu();
+				}
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+	}
+}
+void InspectorLayer::ShowObjectList()
+{
 	for (auto tmpObjectList : ObjectManager::GetInstance()->GetObjectList())
 	{
 		// 選択したオブジェクトのコンポネントをInspectorウィンドウに表示
 		if (tmpObjectList->GetisShowDataToInspector())
 		{
-			ImGui::Text(tmpObjectList->GetTag().c_str());
+			ImGui::Text(tmpObjectList->GetName().c_str());
 			if (ImGui::CollapsingHeader("Transform"))
 			{
 				// いったん置いとく
@@ -93,25 +118,80 @@ void InspectorLayer::Update()
 			break;
 		}
 	}
-
-	ImGui::End();
 }
-
-void InspectorLayer::MenuBarUpdate()
+void InspectorLayer::ShowSpriteList()
 {
-	for (auto tmpObjectList : ObjectManager::GetInstance()->GetObjectList())
+	for (auto tmpSpriteList : ObjectManager::GetInstance()->GetSpriteList())
 	{
-		if (ImGui::BeginMenuBar())
+		// 選択したオブジェクトのコンポネントをInspectorウィンドウに表示
+		if (tmpSpriteList->GetisShowDataToInspector())
 		{
-			if (ImGui::BeginMenu("Menu"))
+			ImGui::Text(tmpSpriteList->GetName().c_str());
+			if (ImGui::CollapsingHeader("Transform"))
 			{
-				if (ImGui::BeginMenu("Add Component"))
+				// いったん置いとく
+				float tmpPos[3] =
 				{
-					ImGui::EndMenu();
-				}
-				ImGui::EndMenu();
+					tmpSpriteList->GetComponent<Transform>("Transform")->pos.x,
+					tmpSpriteList->GetComponent<Transform>("Transform")->pos.y,
+					tmpSpriteList->GetComponent<Transform>("Transform")->pos.z,
+				};
+				float tmpRot[3] =
+				{
+					tmpSpriteList->GetComponent<Transform>("Transform")->rot.x,
+					tmpSpriteList->GetComponent<Transform>("Transform")->rot.y,
+					tmpSpriteList->GetComponent<Transform>("Transform")->rot.z,
+				};
+				float tmpScale[3] =
+				{
+					tmpSpriteList->GetComponent<Transform>("Transform")->scale.x,
+					tmpSpriteList->GetComponent<Transform>("Transform")->scale.y,
+					tmpSpriteList->GetComponent<Transform>("Transform")->scale.z,
+				};
+
+				//ImGui::Text("	x		  y		  z");
+				ImGui::DragFloat3("Postion", tmpPos, 1);
+				ImGui::DragFloat3("Rotation", tmpRot, 0.2);
+				ImGui::DragFloat3("Scale", tmpScale, 0.01);
+
+				tmpSpriteList->GetComponent<Transform>("Transform")->pos.x = tmpPos[0];
+				tmpSpriteList->GetComponent<Transform>("Transform")->pos.y = tmpPos[1];
+				tmpSpriteList->GetComponent<Transform>("Transform")->pos.z = tmpPos[2];
+
+				tmpSpriteList->GetComponent<Transform>("Transform")->rot.x = tmpRot[0];
+				tmpSpriteList->GetComponent<Transform>("Transform")->rot.y = tmpRot[1];
+				tmpSpriteList->GetComponent<Transform>("Transform")->rot.z = tmpRot[2];
+
+				tmpSpriteList->GetComponent<Transform>("Transform")->scale.x = tmpScale[0];
+				tmpSpriteList->GetComponent<Transform>("Transform")->scale.y = tmpScale[1];
+				tmpSpriteList->GetComponent<Transform>("Transform")->scale.z = tmpScale[2];
 			}
-			ImGui::EndMenuBar();
+			if (ImGui::CollapsingHeader("Texture"))
+			{
+				vector <string> tmpTags = gameTextureList->GetAllTextureTag();
+				const char* tags[2056]{};
+				for (int i = 0; i < 2056; i++)
+				{
+					if (tags[i] == NULL) tags[i] = " ";
+				}
+				for (int i = 0; i < tmpTags.size(); i++)
+				{
+					tags[i] = tmpTags[i].c_str();
+				}
+				static int tagCurrent = -1;
+				static int item_current_idx = 0;
+				for (int i = 0; i < 2056; i++)
+				{
+					if (tmpSpriteList->GetComponent<Texture>("Texture")->GetTextureTag() == tags[i])
+						tagCurrent = i;
+				}
+
+				if (ImGui::Combo("Texture Tag Name", &tagCurrent, tags, 2056))
+				{
+					tmpSpriteList->SetTexture(*gameTextureList->GetTexture((tags[tagCurrent])));
+				}
+			}
+			break;
 		}
 	}
 }

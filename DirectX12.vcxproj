@@ -120,6 +120,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,6 +137,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -169,9 +171,11 @@
     <ClCompile Include="NewEngine\Source\Developer\Input\MouseInput.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Math\Mat4.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Math\MathUtil.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Math\Quaternion.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Math\Vec2.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Math\Vec3.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Math\Vec4.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\Sprite.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\Square.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Cube.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Object3D.cpp" />
@@ -242,9 +246,11 @@
     <ClInclude Include="NewEngine\Header\Developer\Input\MouseInput.h" />
     <ClInclude Include="NewEngine\Header\Developer\Math\Mat4.h" />
     <ClInclude Include="NewEngine\Header\Developer\Math\MathUtil.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Math\Quaternion.h" />
     <ClInclude Include="NewEngine\Header\Developer\Math\Vec2.h" />
     <ClInclude Include="NewEngine\Header\Developer\Math\Vec3.h" />
     <ClInclude Include="NewEngine\Header\Developer\Math\Vec4.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\Sprite.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\Square.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Cube.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Object3D.h" />

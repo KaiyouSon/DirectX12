@@ -12,7 +12,6 @@ GameObject::GameObject() :
 	Transform* transform = new Transform;
 	components.push_back(transform);
 }
-
 GameObject::~GameObject()
 {
 	for (int i = 0; i < components.size(); i++)
@@ -25,12 +24,14 @@ void GameObject::SetTag(string tag)
 {
 	this->tag = tag;
 }
-
+void GameObject::SetName(std::string name)
+{
+	this->name = name;
+}
 void GameObject::SetModelType(std::string modelType)
 {
 	this->modelType = modelType;
 }
-
 void GameObject::SetisShowDataToInspector(bool isShowDataToInspector)
 {
 	this->isShowDataToInspector = isShowDataToInspector;
@@ -40,12 +41,14 @@ string GameObject::GetTag()
 {
 	return tag;
 }
-
-std::string GameObject::GetModelType()
+string GameObject::GetName()
+{
+	return name;
+}
+string GameObject::GetModelType()
 {
 	return modelType;
 }
-
 bool GameObject::GetisShowDataToInspector()
 {
 	return isShowDataToInspector;

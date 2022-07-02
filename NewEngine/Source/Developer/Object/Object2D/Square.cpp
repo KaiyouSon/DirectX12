@@ -25,6 +25,7 @@ void Square::Initialize(int viewType, Vec2 size)
 	this->viewType = viewType;
 	this->size = size;
 
+
 	// 頂点データ
 	if (viewType == view2D)
 	{
@@ -63,6 +64,7 @@ void Square::Initialize(int viewType, Vec2 size)
 	constantBuffer->TransformBufferInit();
 
 	texture = TextureBuffer::GetDefaultTexture();
+
 }
 
 void Square::Update(const Transform& transform, Transform* parent)

@@ -43,54 +43,21 @@ void MouseInput::Update()
 	mousePos.y = static_cast<float>(tmpMousePos.y);
 }
 
-bool MouseInput::GetMouseLeft()
+bool MouseInput::GetClick(const int& mouse)
 {
-	return mouseInput.rgbButtons[0] & (0x80);
+	return mouseInput.rgbButtons[mouse] & (0x80);
 }
 
-bool MouseInput::GetMouseLeftTrigger()
+bool MouseInput::GetClickTrigger(const int& mouse)
 {
-	return (mouseInput.rgbButtons[0] & (0x80)) &&
-		!(oldMouseInput.rgbButtons[0] & (0x80));
-}
-bool MouseInput::GetMouseLeftReleased()
-{
-	return !(mouseInput.rgbButtons[0] & (0x80)) &&
-		(oldMouseInput.rgbButtons[0] & (0x80));
+	return (mouseInput.rgbButtons[mouse] & (0x80)) &&
+		!(oldMouseInput.rgbButtons[mouse] & (0x80));
 }
 
-bool MouseInput::GetMouseRight()
+bool MouseInput::GetClickReleased(const int& mouse)
 {
-	return mouseInput.rgbButtons[1] & (0x80);
-}
-
-bool MouseInput::GetMouseRightTrigger()
-{
-	return (mouseInput.rgbButtons[1] & (0x80)) &&
-		!(oldMouseInput.rgbButtons[1] & (0x80));
-}
-
-bool MouseInput::GetMouseRightReleased()
-{
-	return !(mouseInput.rgbButtons[1] & (0x80)) &&
-		(oldMouseInput.rgbButtons[1] & (0x80));
-}
-
-bool MouseInput::GetMouseWheel()
-{
-	return mouseInput.rgbButtons[2] & (0x80);
-}
-
-bool MouseInput::GetMouseWheelTrigger()
-{
-	return (mouseInput.rgbButtons[2] & (0x80)) &&
-		!(oldMouseInput.rgbButtons[2] & (0x80));
-}
-
-bool MouseInput::GetMouseWheelReleased()
-{
-	return !(mouseInput.rgbButtons[2] & (0x80)) &&
-		(oldMouseInput.rgbButtons[2] & (0x80));
+	return !(mouseInput.rgbButtons[mouse] & (0x80)) &&
+		(oldMouseInput.rgbButtons[mouse] & (0x80));
 }
 
 Vec2 MouseInput::GetMousePos()
@@ -98,10 +65,10 @@ Vec2 MouseInput::GetMousePos()
 	return mousePos;
 }
 
-Vec3 MouseInput::GetMouseVelocity()
+float MouseInput::GetWheelVec()
 {
-	Vec3 tmp = { (float)mouseInput.lX,(float)mouseInput.lY,(float)mouseInput.lZ };
-	return tmp;
+	Vec3 vec = { (float)mouseInput.lX ,(float)mouseInput.lY ,(float)mouseInput.lZ };
+	return vec.z;
 }
 
 MouseInput* MouseInput::GetInstance()

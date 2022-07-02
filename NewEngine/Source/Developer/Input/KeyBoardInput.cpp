@@ -39,19 +39,19 @@ void KeyBoardInput::Update()
 }
 
 // キーが押されてる時
-bool KeyBoardInput::GetKey(BYTE key)
+bool KeyBoardInput::GetKey(const unsigned char& key)
 {
 	return keys[key] == 128;
 }
 
 // キーを押した瞬間
-bool KeyBoardInput::GetKeyTrigger(BYTE key)
+bool KeyBoardInput::GetKeyTrigger(const unsigned char& key)
 {
 	return keys[key] && !oldkeys[key];
 }
 
 // キーを離した瞬間
-bool KeyBoardInput::GetKeyReleased(BYTE key)
+bool KeyBoardInput::GetKeyReleased(const unsigned char& key)
 {
 	return !keys[key] && oldkeys[key];
 }

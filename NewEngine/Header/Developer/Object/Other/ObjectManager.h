@@ -5,6 +5,13 @@ class ObjectManager
 {
 private:
 	std::vector<Object3D*> objectList;
+	std::vector<Sprite*> spriteList;
+
+private:
+	void LoadObjectList();
+	void LoadSpriteList();
+	void SaveObjectList();
+	void SaveSpriteList();
 
 public:
 	~ObjectManager();
@@ -12,16 +19,19 @@ public:
 	void CreateSphere();
 	void CreateMonkey();
 	void CreateModel(const ModelData& modelData);
+	void CreateSprite();
 	void Update();
 	void Draw2D();
 	void Draw3D();
+
 	void DestroyModel(Object3D* object3D);
+	void DestroySprite(Sprite* sprite);
 
 	void LoadData();
 	void SaveData();
 
-	void SetObjectList(std::vector<Object3D*> objectList);
 	std::vector<Object3D*> GetObjectList();
+	std::vector<Sprite*> GetSpriteList();
 
 	static ObjectManager* GetInstance();
 	static void DestroyInstance();

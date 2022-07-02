@@ -2,6 +2,11 @@
 #include "NewEngine/Header/Gui/ILayer.h"
 class HierarchyLayer : public ILayer
 {
+private:
+	void ShowMenuBar();
+	void ShowObjectList();
+	void ShowSpriteList();
+
 public:
 	void Initialize() override;
 	void Update() override;

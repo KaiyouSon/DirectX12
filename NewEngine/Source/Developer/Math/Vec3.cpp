@@ -41,23 +41,18 @@ Vec3 Vec3::Min(const Vec3& v1, const Vec3& v2)
 	return Vec3(v1.x <= v2.x ? v1.x : v2.x, v1.y <= v2.y ? v1.y : v2.z, v1.z <= v2.z ? v1.z : v2.z);
 }
 
-// ‚à‚¤ˆê•û‚ÌƒxƒNƒgƒ‹‚Æ‚Ì‘«‚µŽZ
 Vec3 Vec3::operator+(const Vec3& other) const { return { x + other.x, y + other.y, z + other.z }; }
-
-// ‚à‚¤ˆê•û‚ÌƒxƒNƒgƒ‹‚Æ‚Ìˆø‚«ŽZ
 Vec3 Vec3::operator-(const Vec3& other) const { return { x - other.x, y - other.y, z - other.z }; }
-
-// ‚à‚¤ˆê•û‚ÌƒxƒNƒgƒ‹‚Æ‚ÌŠ|‚¯ŽZ
 Vec3 Vec3::operator*(const Vec3& other) const { return { x * other.x, y * other.y, z * other.z }; }
-
-// ‚à‚¤ˆê•û‚ÌƒxƒNƒgƒ‹‚Æ‚ÌŠ„‚èŽZ
 Vec3 Vec3::operator/(const Vec3& other) const { return { x / other.x, y / other.y, z / other.z }; }
-
-// ˆê‚Â‚Ì’l‚Æ‚ÌŠ|‚¯ŽZ
-Vec3 Vec3::operator*(float num) const { return { x * num, y * num, z * num }; }
-
-// ˆê‚Â‚Ì’l‚Æ‚ÌŠ„‚èŽZ
-Vec3 Vec3::operator/(float num) const { return { x / num, y / num, z / num }; }
+Vec3 Vec3::operator+(const Vec2& other) const { return { x + other.x, y + other.y ,z }; }
+Vec3 Vec3::operator-(const Vec2& other) const { return { x - other.x, y - other.y ,z }; }
+Vec3 Vec3::operator*(const Vec2& other) const { return { x * other.x, y * other.y ,z }; }
+Vec3 Vec3::operator/(const Vec2& other) const { return { x / other.x, y / other.y ,z }; }
+Vec3 Vec3::operator+(float num) const { return { x + num, y + num, z + num }; }	// ˆê‚Â‚Ì’l‚Æ‚Ì‘«‚µŽZ
+Vec3 Vec3::operator-(float num) const { return { x - num, y - num, z - num }; }	// ˆê‚Â‚Ì’l‚Æ‚Ìˆø‚«ŽZ
+Vec3 Vec3::operator*(float num) const { return { x * num, y * num, z * num }; }	// ˆê‚Â‚Ì’l‚Æ‚ÌŠ|‚¯ŽZ
+Vec3 Vec3::operator/(float num) const { return { x / num, y / num, z / num }; }	// ˆê‚Â‚Ì’l‚Æ‚ÌŠ„‚èŽZ
 
 // •¡‡‘ã“ü‰‰ŽZ +=
 Vec3& Vec3::operator+=(const Vec3& other)

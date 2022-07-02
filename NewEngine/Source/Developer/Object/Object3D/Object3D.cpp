@@ -1,8 +1,7 @@
 #include "NewEngine/Header/Developer/Object/Object3D/Object3D.h"
 #include "NewEngine/Header/Developer/Object/Other/ViewProjection.h"
-#include "NewEngine/Header/Developer/Math/MathUtil.h"
+#include "NewEngine/Header/Developer/Component/Transform.h"
 #include "NewEngine/Header/Render/RenderBase.h"
-#include "NewEngine/Header/Render/Vertex.h"
 using namespace std;
 
 Object3D::Object3D() :
@@ -31,30 +30,13 @@ void Object3D::Initialize(const ModelData& modelData)
 	constantBuffer->MaterialBufferInit();
 	constantBuffer->TransformBufferInit();
 
-	texture = TextureBuffer::GetDefaultTexture();
-}
-
-void Object3D::Update(Transform& transform, Transform* parent)
-{
-	//this->transform = transform;
-	//this->transform.Update();
-
-	//if (parent != nullptr)
-	//{
-	//	this->transform.matWorld *= parent->matWorld;
-	//}
-
-	//// 定数バッファに転送
-	//constantBuffer->constMapTransform->mat =
-	//	this->transform.matWorld *
-	//	view->matView *
-	//	view->matProjection3D;
+	Texture tmpTex = TextureBuffer::GetDefaultTexture();
+	GetComponent<Texture>("Texture")->SetTexture(&tmpTex);
 }
 
 void Object3D::Update()
 {
 	GetComponent<Transform>("Transform")->Update();
-	//this->transform.Update();
 
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
@@ -87,7 +69,8 @@ void Object3D::Draw()
 			RenderBase::GetInstance()->GetSrvDescHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	RenderBase::GetInstance()->GetCommandList()->
-		SetGraphicsRootDescriptorTable(1, texture.GetGpuHandle());
+		SetGraphicsRootDescriptorTable(1,
+			GetComponent<Texture>("Texture")->GetGpuHandle());
 
 	// 定数バッファビュー(CBV)の設定コマンド
 	RenderBase::GetInstance()->GetCommandList()->
@@ -98,8 +81,7 @@ void Object3D::Draw()
 		DrawIndexedInstanced((unsigned short)this->modelData.indices.size(), 1, 0, 0, 0);
 }
 
-void Object3D::SetTexture(const Texture& texture)
+void Object3D::SetTexture(Texture& texture)
 {
-	this->texture = texture;
-	GetComponent<Texture>("Texture")->SetTextureTag(this->texture.GetTextureTag());
+	GetComponent<Texture>("Texture")->SetTexture(&texture);
 }

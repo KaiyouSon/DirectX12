@@ -225,9 +225,6 @@
     <ClCompile Include="NewEngine\main2.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="NewEngine\NewEngine.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\GameObject.cpp">
       <Filter>Source\Developer\Object\Other</Filter>
     </ClCompile>
@@ -257,6 +254,15 @@
     </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Component\Texture.cpp">
       <Filter>Source\Developer\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\NewEngine.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Math\Quaternion.cpp">
+      <Filter>Source\Developer\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\Sprite.cpp">
+      <Filter>Source\Developer\Object\Object2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -435,6 +441,12 @@
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Component\Texture.h">
       <Filter>Header\Developer\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Math\Quaternion.h">
+      <Filter>Header\Developer\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\Sprite.h">
+      <Filter>Header\Developer\Object\Object2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,10 @@ public:
 	void SetTarget(const Vec3& target);
 	void SetUp(const Vec3& up);
 
+	Vec3 GetPos();
+	Vec3 GetTarget();
+	Vec3 GetUp();
+
 	static ViewProjection* GetInstance();
 	static void DestroyInstance();
 private:

@@ -7,7 +7,7 @@ const Vec2 Vec2::up(0, 1);
 const Vec2 Vec2::down(0, -1);
 const Vec2 Vec2::one(1, 1);
 const Vec2 Vec2::zero(0, 0);
-
+ 
 // ƒxƒNƒgƒ‹‚Ì‘å‚«‚³
 float Vec2::Magnitude() const
 {

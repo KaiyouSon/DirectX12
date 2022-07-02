@@ -12,9 +12,9 @@ public:
 	void Update();		// 更新処理
 
 	// キーの取得関連
-	bool GetKey(BYTE key);
-	bool GetKeyTrigger(BYTE key);
-	bool GetKeyReleased(BYTE key);
+	bool GetKey(const unsigned char& key);
+	bool GetKeyTrigger(const unsigned char& key);
+	bool GetKeyReleased(const unsigned char& key);
 
 	static KeyBoardInput* GetInstance();
 	static void DestoryInstance();

@@ -1,0 +1,13 @@
+SpriteListSize 2
+Sprite0
+ComponentListSize 2
+Sprite0TextureTag obj
+Sprite0Transformpos 478 459 0 
+Sprite0Transformrot 0 0 0 
+Sprite0Transformscale 1 1 1 
+Sprite1
+ComponentListSize 2
+Sprite1TextureTag bg
+Sprite1Transformpos 1155 496 0 
+Sprite1Transformrot 0 0 0 
+Sprite1Transformscale 1 1 1 

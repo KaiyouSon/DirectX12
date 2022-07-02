@@ -1,4 +1,5 @@
 #pragma once
+#include "NewEngine/Header/Developer/Math/Vec2.h"
 class Vec3
 {
 public:
@@ -41,6 +42,12 @@ public:
 	Vec3 operator-(const Vec3& other) const; // ‚à‚¤ˆê•û‚ÌƒxƒNƒgƒ‹‚Æ‚Ìˆø‚«ŽZ
 	Vec3 operator*(const Vec3& other) const; // ‚à‚¤ˆê•û‚ÌƒxƒNƒgƒ‹‚Æ‚ÌŠ|‚¯ŽZ
 	Vec3 operator/(const Vec3& other) const; // ‚à‚¤ˆê•û‚ÌƒxƒNƒgƒ‹‚Æ‚ÌŠ„‚èŽZ
+	Vec3 operator+(const Vec2& other) const;		// ‚à‚¤ˆê•û‚ÌƒxƒNƒgƒ‹‚Æ‚Ì‘«‚µŽZ
+	Vec3 operator-(const Vec2& other) const;		// ‚à‚¤ˆê•û‚ÌƒxƒNƒgƒ‹‚Æ‚Ìˆø‚«ŽZ
+	Vec3 operator*(const Vec2& other) const;      // ˆê‚Â‚Ì’l‚Æ‚ÌŠ|‚¯ŽZ
+	Vec3 operator/(const Vec2& other) const;      // ˆê‚Â‚Ì’l‚Æ‚ÌŠ„‚èŽZ
+	Vec3 operator+(float num) const;		 // ˆê‚Â‚Ì’l‚Æ‚Ì‘«‚µŽZ
+	Vec3 operator-(float num) const;		 // ˆê‚Â‚Ì’l‚Æ‚Ìˆø‚«ŽZ
 	Vec3 operator*(float num) const;         // ˆê‚Â‚Ì’l‚Æ‚ÌŠ|‚¯ŽZ
 	Vec3 operator/(float num) const;         // ˆê‚Â‚Ì’l‚Æ‚ÌŠ„‚èŽZ
 

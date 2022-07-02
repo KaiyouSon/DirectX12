@@ -1,20 +1,19 @@
 #include "NewEngine/Header/Developer/Object/Other/ViewProjection.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include "NewEngine/Header/Developer/Math/MathUtil.h"
-#include "ImGUI/imgui.h"
 
 View* view = View::GetInstance();
 
 void ViewProjection::Initialize()
 {
 	// ビュー変換行列
-	matView = Mat4::ViewConversion(pos, target, up);
+	matView = MathUtil::ConvertViewProjectionMat(pos, target, up);
 
 	// 並行投影行列の計算
-	matProjection2D = Mat4::ParallelConversion(WIN_WIDTH, WIN_HEIGHT);
+	matProjection2D = MathUtil::ConvertOrthoGrphicProjectionMat(WIN_WIDTH, WIN_HEIGHT);
 
 	// 透視投影行列の計算
-	matProjection3D = Mat4::PerspectiveConversion(
+	matProjection3D = MathUtil::ConvertPerspectiveProjectionMat(
 		MathUtil::Radian(45),	// 上下画角45度
 		(float)WIN_WIDTH / WIN_HEIGHT, // アスペクト比(画面横幅/画面縦幅)
 		0.1f, 1000.0f);	// 先端　奥端
@@ -23,19 +22,30 @@ void ViewProjection::Initialize()
 void ViewProjection::SetPos(const Vec3& pos)
 {
 	this->pos = pos;
-	matView = Mat4::ViewConversion(pos, target, up);
+	matView = MathUtil::ConvertViewProjectionMat(pos, target, up);
 }
-
 void ViewProjection::SetTarget(const Vec3& target)
 {
 	this->target = target;
-	matView = Mat4::ViewConversion(pos, target, up);
+	matView = MathUtil::ConvertViewProjectionMat(pos, target, up);
 }
-
 void ViewProjection::SetUp(const Vec3& up)
 {
 	this->up = up;
-	matView = Mat4::ViewConversion(pos, target, up);
+	matView = MathUtil::ConvertViewProjectionMat(pos, target, up);
+}
+
+Vec3 ViewProjection::GetPos()
+{
+	return pos;
+}
+Vec3 ViewProjection::GetTarget()
+{
+	return target;
+}
+Vec3 ViewProjection::GetUp()
+{
+	return up;
 }
 
 ViewProjection* ViewProjection::GetInstance()
@@ -43,8 +53,7 @@ ViewProjection* ViewProjection::GetInstance()
 	static ViewProjection* view = new ViewProjection;
 	return view;
 }
-
 void ViewProjection::DestroyInstance()
 {
-	delete ViewProjection::GetInstance();
+	delete GetInstance();
 }

@@ -11,7 +11,7 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff;
 
-	Vertex* vertices = nullptr;
+	std::vector<Vertex> vertices;
 	int arrarySize;
 public:
 	// リソース
@@ -22,6 +22,7 @@ public:
 public:
 	// 頂点バッファビューを取得する関数
 	D3D12_VERTEX_BUFFER_VIEW* GetvbViewAddress();
+	void TransferToBuffer(std::vector<Vertex> vertices);
 	void TransferToBuffer();
 	void Unmap();
 };

@@ -3,7 +3,9 @@
 class InspectorLayer : public ILayer
 {
 private:
-	void MenuBarUpdate();
+	void ShowMenuBar();
+	void ShowObjectList();
+	void ShowSpriteList();
 
 public:
 	void Initialize() override;

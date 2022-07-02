@@ -6,15 +6,6 @@
 #include <dinput.h>
 #include <wrl.h>
 
-constexpr int BUTTON_A = 0;
-constexpr int BUTTON_B = 1;
-constexpr int BUTTON_X = 2;
-constexpr int BUTTON_Y = 3;
-constexpr int BUTTON_L1 = 4;
-constexpr int BUTTON_R1 = 5;
-constexpr int BUTTON_BACK = 6;
-constexpr int BUTTON_START = 7;
-
 class InputManager
 {
 private:
@@ -41,3 +32,16 @@ private:
 extern JoypadInput* pad;
 extern KeyBoardInput* key;
 extern MouseInput* mouse;
+
+constexpr int BUTTON_A = 0;
+constexpr int BUTTON_B = 1;
+constexpr int BUTTON_X = 2;
+constexpr int BUTTON_Y = 3;
+constexpr int BUTTON_L1 = 4;
+constexpr int BUTTON_R1 = 5;
+constexpr int BUTTON_BACK = 6;
+constexpr int BUTTON_START = 7;
+
+constexpr int MOUSE_LEFT = 0;
+constexpr int MOUSE_RIGHT = 1;
+constexpr int MOUSE_WHEEL = 2;

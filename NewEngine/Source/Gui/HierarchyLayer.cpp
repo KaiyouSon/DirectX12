@@ -10,12 +10,6 @@ void HierarchyLayer::Initialize()
 	size = { WIN_HALF_WIDTH / 2,670 };
 	pos = { 0,0 };
 }
-
-static bool showMenu = false;
-static bool isTest = false;
-static bool isTest2 = false;
-Vec2 menuWindowPos = { 0,0 };
-
 void HierarchyLayer::Update()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_MenuBar;
@@ -23,6 +17,17 @@ void HierarchyLayer::Update()
 	ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
 	ImGui::Begin("Hierarchy", nullptr, window_flags);
 
+	ShowMenuBar();
+
+	if (ImGui::CollapsingHeader("Object 3D")) ShowObjectList();
+	if (ImGui::CollapsingHeader("Sprite 2D")) ShowSpriteList();
+
+	ImGui::End();
+}
+
+void HierarchyLayer::ShowMenuBar()
+{
+	// メニューバー
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("Menu"))
@@ -34,33 +39,57 @@ void HierarchyLayer::Update()
 				if (ImGui::MenuItem("Monkey"))	ObjectManager::GetInstance()->CreateMonkey();
 				ImGui::EndMenu();
 			}
+			if (ImGui::MenuItem("Sprite 2D"))
+			{
+				ObjectManager::GetInstance()->CreateSprite();
+			}
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
 	}
+}
 
+void HierarchyLayer::ShowObjectList()
+{
+	// オブジェクトの表示
 	for (auto tmpObjectList : ObjectManager::GetInstance()->GetObjectList())
 	{
-		if (ImGui::TreeNode(tmpObjectList->GetTag().c_str()))
+		if (ImGui::TreeNode(tmpObjectList->GetName().c_str()))
 		{
 			tmpObjectList->SetisShowDataToInspector(true);
-			if (key->GetKeyTrigger(DIK_DELETE)) ObjectManager::GetInstance()->DestroyModel(tmpObjectList);
+
+			if (key->GetKeyTrigger(DIK_DELETE))
+				ObjectManager::GetInstance()->DestroyModel(tmpObjectList);
+
 			ImGui::TreePop();
 		}
-		else
-		{
-			tmpObjectList->SetisShowDataToInspector(false);
-		}
+		else tmpObjectList->SetisShowDataToInspector(false);
 	}
-
-	ImGui::End();
 }
+
+void HierarchyLayer::ShowSpriteList()
+{
+	// スプライトの表示
+	for (auto tmpSpriteList : ObjectManager::GetInstance()->GetSpriteList())
+	{
+		if (ImGui::TreeNode(tmpSpriteList->GetName().c_str()))
+		{
+			tmpSpriteList->SetisShowDataToInspector(true);
+
+			if (key->GetKeyTrigger(DIK_DELETE))
+				ObjectManager::GetInstance()->DestroySprite(tmpSpriteList);
+
+			ImGui::TreePop();
+		}
+		else tmpSpriteList->SetisShowDataToInspector(false);
+	}
+}
+
 
 Vec2 HierarchyLayer::GetPos()
 {
 	return pos;
 }
-
 Vec2 HierarchyLayer::GetSize()
 {
 	return size;
@@ -71,7 +100,6 @@ HierarchyLayer* HierarchyLayer::GetInstance()
 	static HierarchyLayer* hierarchyLayer = new HierarchyLayer;
 	return hierarchyLayer;
 }
-
 void HierarchyLayer::DestroyInstance()
 {
 	delete GetInstance();

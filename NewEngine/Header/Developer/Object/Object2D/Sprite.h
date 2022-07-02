@@ -3,27 +3,23 @@
 #include "NewEngine/Header/Render/Buffer/IndexBuffer.h"
 #include "NewEngine/Header/Render/Buffer/ConstantBuffer.h"
 #include "NewEngine/Header/Render/Buffer/TextureBuffer.h"
+#include "NewEngine/Header/Developer/Component/Transform.h"
 #include "NewEngine/Header/Developer/Object/Other/GameObject.h"
 #include <vector>
 
-struct ModelData
-{
-	std::vector<Vertex> vertices;
-	std::vector<unsigned short> indices;
-}typedef Model;
-
-class Object3D : public GameObject
+class Sprite : public GameObject
 {
 private:
 	VertexBuffer* vertexBuffer;
 	IndexBuffer* indexBuffer;
 	ConstantBuffer* constantBuffer;
-	ModelData modelData;
+	std::vector<Vertex> vertices;
+	std::vector<unsigned short> indices;
 
 public:
-	Object3D();
-	~Object3D();
-	void Initialize(const ModelData& modelData);
+	Sprite();
+	~Sprite();
+	void Initialize();
 	void Update();
 	void Draw();
 
