@@ -14,6 +14,16 @@ Color::Color() :
 {
 }
 
+Color::Color(float r, float g, float b) :
+	r(r), g(g), b(b), a(255)
+{
+}
+
+Color::Color(float r, float g, float b, float a) :
+	r(r), g(g), b(b), a(a)
+{
+}
+
 Color Color::SetRGB(float r, float g, float b)
 {
 	if (r > 255) r = 255;

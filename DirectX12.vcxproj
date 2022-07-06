@@ -178,7 +178,6 @@
     <ClCompile Include="NewEngine\Source\Developer\Math\Vec4.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\Sprite.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\Square.cpp" />
-    <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Cube.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Object3D.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\DrawManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\GameObject.cpp" />
@@ -254,7 +253,6 @@
     <ClInclude Include="NewEngine\Header\Developer\Math\Vec4.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\Sprite.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\Square.h" />
-    <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Cube.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Object3D.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\DrawManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\GameObject.h" />

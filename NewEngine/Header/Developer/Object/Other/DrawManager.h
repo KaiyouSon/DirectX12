@@ -1,5 +1,4 @@
 #pragma once
-#include "NewEngine/Header/Developer/Object/Object3D/Cube.h"
 #include "NewEngine/Header/Developer/Object/Object3D/Object3D.h"
 #include "NewEngine/Header/Developer/Object/Object2D/Square.h"
 #include "NewEngine/Header/Developer/Object/Object2D/Sprite.h"

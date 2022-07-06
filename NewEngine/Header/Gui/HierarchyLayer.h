@@ -10,7 +10,7 @@ private:
 	int oldSprNode;
 
 private:
-	void ShowMenuBar();
+	void ShowMenuContest();
 	void ShowObjectList();
 	void ShowSpriteList();
 

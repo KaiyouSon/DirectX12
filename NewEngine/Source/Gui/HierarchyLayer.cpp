@@ -21,38 +21,47 @@ void HierarchyLayer::Update()
 	ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
 	ImGui::Begin("Hierarchy", nullptr, window_flags);
 
-	ShowMenuBar();
-
-	if (ImGui::CollapsingHeader("Object 3D")) ShowObjectList();
-	if (ImGui::CollapsingHeader("Sprite 2D")) ShowSpriteList();
-
-	ImGui::Text("currentObjNode = %d", currentObjNode);
-
-	ImGui::End();
-}
-
-void HierarchyLayer::ShowMenuBar()
-{
 	// メニューバー
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("Menu"))
 		{
-			if (ImGui::BeginMenu("Object 3D"))
-			{
-				if (ImGui::MenuItem("Cube"))	ObjectManager::GetInstance()->CreateCube();
-				if (ImGui::MenuItem("Sphere"))	ObjectManager::GetInstance()->CreateSphere();
-				if (ImGui::MenuItem("Monkey"))	ObjectManager::GetInstance()->CreateMonkey();
-				ImGui::EndMenu();
-			}
-			if (ImGui::MenuItem("Sprite 2D"))
-			{
-				ObjectManager::GetInstance()->CreateSprite();
-			}
+			ShowMenuContest();
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
 	}
+
+	ShowObjectList();
+	ShowSpriteList();
+
+	// 右クリックしたら
+	if (ImGui::GetMouseClickedCount(1))
+		ImGui::OpenPopup("RightClick");
+
+	if (ImGui::BeginPopup("RightClick"))
+	{
+		ShowMenuContest();
+		ImGui::EndPopup();
+	}
+
+	ImGui::End();
+}
+
+void HierarchyLayer::ShowMenuContest()
+{
+	if (ImGui::BeginMenu("Object 3D"))
+	{
+		if (ImGui::MenuItem("Cube"))	ObjectManager::GetInstance()->CreateCube();
+		if (ImGui::MenuItem("Sphere"))	ObjectManager::GetInstance()->CreateSphere();
+		if (ImGui::MenuItem("Monkey"))	ObjectManager::GetInstance()->CreateMonkey();
+		ImGui::EndMenu();
+	}
+	if (ImGui::MenuItem("Sprite 2D"))
+	{
+		ObjectManager::GetInstance()->CreateSprite();
+	}
+
 }
 void HierarchyLayer::ShowObjectList()
 {
@@ -70,7 +79,10 @@ void HierarchyLayer::ShowObjectList()
 		if (ImGui::TreeNode(nameChar))
 		{
 			if (key->GetKeyTrigger(DIK_DELETE))
-				ObjectManager::GetInstance()->DestroyModel(objList[i]);
+			{
+				ObjectManager::GetInstance()->DestroyModel(objList[currentObjNode]);
+				currentObjNode = -1;
+			}
 			ImGui::TreePop();
 		}
 
@@ -91,8 +103,6 @@ void HierarchyLayer::ShowObjectList()
 			}
 		}
 		else objList[i]->SetisShowDataToInspector(false);
-
-
 	}
 }
 void HierarchyLayer::ShowSpriteList()
@@ -111,7 +121,10 @@ void HierarchyLayer::ShowSpriteList()
 		if (ImGui::TreeNode(nameChar))
 		{
 			if (key->GetKeyTrigger(DIK_DELETE))
-				ObjectManager::GetInstance()->DestroySprite(sprList[i]);
+			{
+				ObjectManager::GetInstance()->DestroySprite(sprList[currentObjNode]);
+				currentSprNode = -1;
+			}
 			ImGui::TreePop();
 		}
 
@@ -132,8 +145,6 @@ void HierarchyLayer::ShowSpriteList()
 			}
 		}
 		else sprList[i]->SetisShowDataToInspector(false);
-
-
 	}
 }
 

@@ -36,6 +36,10 @@ void GameObject::SetName(std::string name)
 {
 	this->name = name;
 }
+void GameObject::SetColor(const Color& color)
+{
+	this->color = color;
+}
 void GameObject::SetModelType(std::string modelType)
 {
 	this->modelType = modelType;
@@ -56,6 +60,10 @@ string GameObject::GetName()
 string GameObject::GetModelType()
 {
 	return modelType;
+}
+Color GameObject::GetColor()
+{
+	return color;
 }
 bool GameObject::GetisShowDataToInspector()
 {

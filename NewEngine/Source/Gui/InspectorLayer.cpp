@@ -3,6 +3,7 @@
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include "NewEngine/Header/Developer/Object/Other/GameObject.h"
 #include "NewEngine/Header/Developer/Component/ComponentManager.h"
+#include "NewEngine/Header/Developer/Util/Util.h"
 using namespace std;
 
 void InspectorLayer::Initialize()
@@ -86,7 +87,10 @@ void InspectorLayer::ShowSpriteList()
 			ShowNameString(*sprList[i]);
 
 			// タグ
-			ShowTagString(*sprList[i]);	ImGui::Separator();
+			ShowTagString(*sprList[i]);	ImGui::SameLine();
+
+			// 描画レイヤー
+			ShowDrawLayer(*sprList[i]); ImGui::Separator();
 
 			// トランスフォームコンポネント
 			ShowTransform(*sprList[i]);	ImGui::Separator();
@@ -114,10 +118,10 @@ void InspectorLayer::ShowSpriteList()
 	//		//ImGui::InputText("Name", tag, 100);
 	//		//tmpSpriteList->SetTag(tag);
 
-	//		// 描画フラグ
-	//		bool flag = tmpSpriteList->GetLayer();
-	//		ImGui::Checkbox("DrawToForward", &flag);
-	//		tmpSpriteList->SetLayer(flag);
+	//		
+	//		
+	//		;
+	//		
 
 	//		if (ImGui::CollapsingHeader("Transform"))
 	//		{
@@ -228,6 +232,17 @@ void InspectorLayer::ShowTagString(GameObject& gameObject)
 		ImGui::EndPopup();
 	}
 }
+void InspectorLayer::ShowDrawLayer(Sprite& sprite)
+{
+	bool flag = sprite.GetLayer();
+	ImGui::Checkbox("DrawLayer", &flag);
+	sprite.SetLayer(flag);
+
+	ImGui::SameLine();
+
+	string str = flag ? "Forward" : "Back";
+	ImGui::Text(str.c_str());
+}
 void InspectorLayer::ShowTransform(GameObject& gameObject)
 {
 	if (ImGui::CollapsingHeader("Transform"))
@@ -252,7 +267,8 @@ void InspectorLayer::ShowTransform(GameObject& gameObject)
 			gameObject.GetComponent<Transform>()->scale.z,
 		};
 
-		ImGui::DragFloat3("Postion", tmpPos, 0.05);
+		if (typeid(gameObject) == typeid(Object3D))	ImGui::DragFloat3("Postion", tmpPos, 0.05);
+		if (typeid(gameObject) == typeid(Sprite))	ImGui::DragFloat3("Postion", tmpPos, 0.5);
 		ImGui::DragFloat3("Rotation", tmpRot, 0.2);
 		ImGui::DragFloat3("Scale", tmpScale, 0.01);
 
@@ -273,7 +289,7 @@ void InspectorLayer::ShowTexture(GameObject& gameObject)
 {
 	if (ImGui::CollapsingHeader("Texture"))
 	{
-		ImGui::Text("TextureTagName"); ImGui::SameLine();
+		ImGui::Text("Texture TagName"); ImGui::SameLine();
 		ImGui::Text(gameObject.GetComponent<Texture>()->GetTextureTag().c_str()); ImGui::SameLine();
 
 		if (ImGui::Button("    ", ImVec2(14, 14)))
@@ -291,6 +307,21 @@ void InspectorLayer::ShowTexture(GameObject& gameObject)
 			}
 			ImGui::EndPopup();
 		}
+
+		ImGui::Text("Texture Color"); ImGui::SameLine();
+		float tmpColor[4] =
+		{
+			gameObject.GetColor().r / 255,
+			gameObject.GetColor().g / 255,
+			gameObject.GetColor().b / 255,
+			gameObject.GetColor().a / 255
+		};
+		ImGui::ColorEdit4("Color", tmpColor);
+		gameObject.SetColor(Color(
+			tmpColor[0] * 255,
+			tmpColor[1] * 255,
+			tmpColor[2] * 255,
+			tmpColor[3] * 255));
 	}
 }
 

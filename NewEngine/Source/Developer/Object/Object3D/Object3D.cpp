@@ -43,6 +43,8 @@ void Object3D::Update()
 		GetComponent<Transform>()->matWorld *
 		view->matView *
 		view->matProjection3D;
+
+	constantBuffer->SetColor(this->color);
 }
 
 void Object3D::Draw()
@@ -84,4 +86,9 @@ void Object3D::Draw()
 void Object3D::SetTexture(Texture& texture)
 {
 	GetComponent<Texture>()->SetTexture(&texture);
+}
+void Object3D::SetColor(Color& color)
+{
+	this->color = color;
+
 }

@@ -144,9 +144,6 @@
     <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\Square.cpp">
       <Filter>Source\Developer\Object\Object2D</Filter>
     </ClCompile>
-    <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Cube.cpp">
-      <Filter>Source\Developer\Object\Object3D</Filter>
-    </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Object3D.cpp">
       <Filter>Source\Developer\Object\Object3D</Filter>
     </ClCompile>
@@ -327,9 +324,6 @@
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\Square.h">
       <Filter>Header\Developer\Object\Object2D</Filter>
-    </ClInclude>
-    <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Cube.h">
-      <Filter>Header\Developer\Object\Object3D</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Object3D.h">
       <Filter>Header\Developer\Object\Object3D</Filter>

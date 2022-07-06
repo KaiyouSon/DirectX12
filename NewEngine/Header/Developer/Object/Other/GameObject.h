@@ -1,5 +1,6 @@
 #pragma once
 #include "NewEngine/Header/Developer/Component/IComponent.h"
+#include "NewEngine/Header/Developer/Util/Util.h"
 #include <vector>
 #include <string>
 
@@ -12,18 +13,22 @@ protected:
 	bool isShowDataToInspector;
 	std::vector<IComponent*> components;
 
+	Color color;
+
 public:
 	GameObject();
 	virtual ~GameObject();
 
 	void SetisShow(bool isShow);
 	void SetName(std::string name);
+	void SetColor(const Color& color);
 	void SetModelType(std::string modelType);
 	void SetisShowDataToInspector(bool isShowDataToInspector);
 
 	bool GetisShow();
 	std::string GetName();
 	std::string GetModelType();
+	Color GetColor();
 	bool GetisShowDataToInspector();
 	std::vector<IComponent*> GetComponentList();
 

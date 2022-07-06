@@ -6,6 +6,8 @@ public:
 	float h, s, v;
 	float a;
 	Color();
+	Color(float r, float g, float b);
+	Color(float r, float g, float b, float a);
 
 	const static Color red;
 	const static Color green;

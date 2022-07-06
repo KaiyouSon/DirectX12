@@ -28,5 +28,6 @@ public:
 	void Draw();
 
 	void SetTexture(Texture& texture);
+	void SetColor(Color& color);
 };
 

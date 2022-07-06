@@ -1,9 +1,9 @@
 SpriteListSize 2
 Sprite0
-Sprite0isShow 0
-Sprite0Layer 0
+Sprite0isShow 1
+Sprite0Layer 1
 ComponentListSize 3
-Sprite0Transformpos -20.55 555 0 
+Sprite0Transformpos 963.75 555 0 
 Sprite0Transformrot 0 0 0 
 Sprite0Transformscale 1 1 1 
 Sprite0TextureTag scope
