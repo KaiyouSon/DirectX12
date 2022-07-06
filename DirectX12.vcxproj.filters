@@ -264,6 +264,9 @@
     <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\Sprite.cpp">
       <Filter>Source\Developer\Object\Object2D</Filter>
     </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Component\Tag.cpp">
+      <Filter>Source\Developer\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -447,6 +450,9 @@
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\Sprite.h">
       <Filter>Header\Developer\Object\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Component\Tag.h">
+      <Filter>Header\Developer\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

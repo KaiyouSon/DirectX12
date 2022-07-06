@@ -5,7 +5,8 @@ public:
 	void Initialize();
 	void Update();
 	void Draw3D();
-	void Draw2D();
+	void Draw2DToBack();
+	void Draw2DToForward();
 
 	static DeveloperManager* GetInstance();
 	static void DestroyInstance();

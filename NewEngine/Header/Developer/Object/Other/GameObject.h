@@ -6,9 +6,9 @@
 class GameObject
 {
 protected:
-	std::string tag;
 	std::string name;
 	std::string modelType;
+	bool isShow;
 	bool isShowDataToInspector;
 	std::vector<IComponent*> components;
 
@@ -16,12 +16,12 @@ public:
 	GameObject();
 	virtual ~GameObject();
 
-	void SetTag(std::string tag);
+	void SetisShow(bool isShow);
 	void SetName(std::string name);
 	void SetModelType(std::string modelType);
 	void SetisShowDataToInspector(bool isShowDataToInspector);
 
-	std::string GetTag();
+	bool GetisShow();
 	std::string GetName();
 	std::string GetModelType();
 	bool GetisShowDataToInspector();

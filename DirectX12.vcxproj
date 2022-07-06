@@ -159,6 +159,7 @@
     <ClCompile Include="NewEngine\NewEngine.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\ComponentManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\IComponent.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Component\Tag.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\Texture.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\Transform.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Debug\DebugCamera.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="ImGUI\imstb_truetype.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\ComponentManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\IComponent.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Component\Tag.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\Texture.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\Transform.h" />
     <ClInclude Include="NewEngine\Header\Developer\Debug\DebugCamera.h" />

@@ -1,5 +1,6 @@
 #pragma once
 #include "NewEngine/Header/Gui/ILayer.h"
+#include "NewEngine//Header/Developer/Object/Other/ObjectManager.h"
 class InspectorLayer : public ILayer
 {
 private:
@@ -7,9 +8,15 @@ private:
 	void ShowObjectList();
 	void ShowSpriteList();
 
+	void ShowisShowFlag(GameObject& gameObject);
+	void ShowNameString(GameObject& gameObject);
+
 public:
+	bool isChangeObjName;
+
 	void Initialize() override;
 	void Update() override;
+
 	Vec2 GetPos() override;
 	Vec2 GetSize() override;
 

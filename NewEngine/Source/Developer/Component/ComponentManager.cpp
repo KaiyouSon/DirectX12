@@ -1,6 +1,4 @@
 #include "NewEngine/Header/Developer/Component/ComponentManager.h"
-#include "NewEngine/Header/Developer/Component/Texture.h"
-#include "NewEngine/Header/Developer/Component/Transform.h"
 
 ComponentManager::ComponentManager()
 {

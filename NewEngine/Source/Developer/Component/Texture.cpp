@@ -18,9 +18,9 @@ void Texture::SetTextureSize(const Vec2& textureSize)
 {
 	this->textureSize = textureSize;
 }
-void Texture::SetTextureTag(std::string tag)
+void Texture::SetTextureTag(string textureTag)
 {
-	this->tag = tag;
+	this->textureTag = textureTag;
 }
 void Texture::SetTexture(Texture* texture)
 {
@@ -37,7 +37,7 @@ Vec2 Texture::GetTextureSize()
 }
 std::string Texture::GetTextureTag()
 {
-	return tag;
+	return textureTag;
 }
 
 TextureList::~TextureList()

@@ -43,10 +43,13 @@ void NewEngineSetDraw3D()
 void NewEngineSetDraw2D()
 {
 	RenderBase::GetInstance()->Draw2D();
-	DeveloperManager::GetInstance()->Draw2D();
+	DeveloperManager::GetInstance()->Draw2DToBack();
 }
 void NewEnginePostDraw()
 {
+	RenderBase::GetInstance()->Draw2D();
+	DeveloperManager::GetInstance()->Draw2DToForward();
+
 #ifdef _DEBUG
 	GuiManager::GetInstance()->Draw();
 #endif

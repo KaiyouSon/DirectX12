@@ -1,7 +1,6 @@
 #include "NewEngine/Header/Gui/InspectorLayer.h"
 #include "NewEngine/Header/Gui/GuiManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
-#include "NewEngine/Header/Developer/Object/Other/ObjectManager.h"
 #include "NewEngine/Header/Developer/Object/Other/GameObject.h"
 using namespace std;
 
@@ -9,8 +8,9 @@ void InspectorLayer::Initialize()
 {
 	size = { 480,WIN_HEIGHT };
 	pos = { WIN_WIDTH - size.x,0 };
-}
 
+	isChangeObjName = false;
+}
 void InspectorLayer::Update()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_MenuBar;
@@ -50,6 +50,12 @@ void InspectorLayer::ShowObjectList()
 		// 選択したオブジェクトのコンポネントをInspectorウィンドウに表示
 		if (tmpObjectList->GetisShowDataToInspector())
 		{
+			// 表示フラグ
+			ShowisShowFlag(*tmpObjectList);	ImGui::SameLine();
+
+			// 名前
+			ShowNameString(*tmpObjectList);
+
 			ImGui::Text(tmpObjectList->GetName().c_str());
 			if (ImGui::CollapsingHeader("Transform"))
 			{
@@ -73,7 +79,6 @@ void InspectorLayer::ShowObjectList()
 					tmpObjectList->GetComponent<Transform>("Transform")->scale.z,
 				};
 
-				//ImGui::Text("	x		  y		  z");
 				ImGui::DragFloat3("Postion", tmpPos, 0.05);
 				ImGui::DragFloat3("Rotation", tmpRot, 0.2);
 				ImGui::DragFloat3("Scale", tmpScale, 0.01);
@@ -126,7 +131,24 @@ void InspectorLayer::ShowSpriteList()
 		// 選択したオブジェクトのコンポネントをInspectorウィンドウに表示
 		if (tmpSpriteList->GetisShowDataToInspector())
 		{
-			ImGui::Text(tmpSpriteList->GetName().c_str());
+			// 表示フラグ
+			ShowisShowFlag(*tmpSpriteList);
+			ImGui::SameLine();
+
+			// タグ
+			//char tag[100] = {};
+			//for (int i = 0; i < tmpSpriteList->GetName().size(); i++)
+			//{
+			//	tag[i] = tmpSpriteList->GetTag().c_str()[i];
+			//}
+			//ImGui::InputText("Name", tag, 100);
+			//tmpSpriteList->SetTag(tag);
+
+			// 描画フラグ
+			bool flag = tmpSpriteList->GetLayer();
+			ImGui::Checkbox("DrawToForward", &flag);
+			tmpSpriteList->SetLayer(flag);
+
 			if (ImGui::CollapsingHeader("Transform"))
 			{
 				// いったん置いとく
@@ -194,6 +216,29 @@ void InspectorLayer::ShowSpriteList()
 			break;
 		}
 	}
+}
+
+void InspectorLayer::ShowisShowFlag(GameObject& gameObject)
+{
+	bool isShow = gameObject.GetisShow();
+	ImGui::Checkbox(" ", &isShow);
+	gameObject.SetisShow(isShow);
+}
+void InspectorLayer::ShowNameString(GameObject& gameObject)
+{
+	char str[100] = {};
+	for (int i = 0; i < gameObject.GetName().size(); i++)
+	{
+		str[i] = gameObject.GetName().c_str()[i];
+	}
+	if (ImGui::InputText("  ", str, 100) == true)
+	{
+		isChangeObjName = true;
+		//gameObject.GetName().clear();
+	}
+	ImGui::Text("%d", isChangeObjName);
+	gameObject.SetName(str);
+
 }
 
 Vec2 InspectorLayer::GetPos()

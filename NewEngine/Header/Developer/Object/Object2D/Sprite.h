@@ -15,6 +15,7 @@ private:
 	ConstantBuffer* constantBuffer;
 	std::vector<Vertex> vertices;
 	std::vector<unsigned short> indices;
+	bool layer;
 
 public:
 	Sprite();
@@ -23,6 +24,9 @@ public:
 	void Update();
 	void Draw();
 
+	bool GetLayer();
+
 	void SetTexture(Texture& texture);
+	void SetLayer(bool layer);
 };
 

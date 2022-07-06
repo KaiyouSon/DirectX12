@@ -15,7 +15,6 @@ void DeveloperManager::Initialize()
 	ViewProjection::GetInstance()->Initialize();
 	Random::Initialize();
 }
-
 void DeveloperManager::Update()
 {
 	InputManager::GetInstance()->Update();
@@ -29,13 +28,16 @@ void DeveloperManager::Draw3D()
 {
 	ObjectManager::GetInstance()->Draw3D();
 }
-
-void DeveloperManager::Draw2D()
+void DeveloperManager::Draw2DToBack()
+{
+	ObjectManager::GetInstance()->Draw2DToBack();
+}
+void DeveloperManager::Draw2DToForward()
 {
 #ifdef _DEBUG
 	DebugManager::GetInstance()->Draw();
 #endif
-	ObjectManager::GetInstance()->Draw2D();
+	ObjectManager::GetInstance()->Draw2DToForward();
 }
 
 DeveloperManager* DeveloperManager::GetInstance()
@@ -43,7 +45,6 @@ DeveloperManager* DeveloperManager::GetInstance()
 	static DeveloperManager* developerManager = new DeveloperManager;
 	return developerManager;
 }
-
 void DeveloperManager::DestroyInstance()
 {
 	InputManager::DestoryInstance();

@@ -33,7 +33,6 @@ void ObjectManager::CreateCube()
 		}
 	}
 	objectList.push_back(cubeModel);
-	cubeModel->SetTag("Cube");
 	cubeModel->SetModelType("Cube");
 }
 void ObjectManager::CreateSphere()
@@ -52,7 +51,6 @@ void ObjectManager::CreateSphere()
 		}
 	}
 	objectList.push_back(cubeModel);
-	cubeModel->SetTag("Sphere");
 	cubeModel->SetModelType("Sphere");
 }
 void ObjectManager::CreateMonkey()
@@ -71,7 +69,6 @@ void ObjectManager::CreateMonkey()
 		}
 	}
 	objectList.push_back(cubeModel);
-	cubeModel->SetTag("Monkey");
 	cubeModel->SetModelType("Monkey");
 }
 void ObjectManager::CreateModel(const ModelData& modelData)
@@ -79,7 +76,6 @@ void ObjectManager::CreateModel(const ModelData& modelData)
 	Object3D* model = new Object3D;
 	model->Initialize(modelData);
 	objectList.push_back(model);
-	model->SetTag("model");
 	model->SetModelType("model");
 }
 void ObjectManager::CreateSprite()
@@ -98,7 +94,6 @@ void ObjectManager::CreateSprite()
 		}
 	}
 	spriteList.push_back(sprite);
-	sprite->SetTag("Sprite");
 	sprite->SetModelType("Sprite");
 }
 void ObjectManager::DestroyModel(Object3D* object3D)
@@ -138,18 +133,30 @@ void ObjectManager::Update()
 		spriteList[i]->Update();
 	}
 }
-void ObjectManager::Draw2D()
-{
-	for (int i = 0; i < spriteList.size(); i++)
-	{
-		spriteList[i]->Draw();
-	}
-}
 void ObjectManager::Draw3D()
 {
 	for (int i = 0; i < objectList.size(); i++)
 	{
-		objectList[i]->Draw();
+		if (objectList[i]->GetisShow() == true)
+			objectList[i]->Draw();
+	}
+}
+void ObjectManager::Draw2DToBack()
+{
+	for (int i = 0; i < spriteList.size(); i++)
+	{
+		if (spriteList[i]->GetLayer() == false &&
+			spriteList[i]->GetisShow() == true)
+			spriteList[i]->Draw();
+	}
+}
+void ObjectManager::Draw2DToForward()
+{
+	for (int i = 0; i < spriteList.size(); i++)
+	{
+		if (spriteList[i]->GetLayer() == true &&
+			spriteList[i]->GetisShow() == true)
+			spriteList[i]->Draw();
 	}
 }
 
@@ -170,7 +177,6 @@ void ObjectManager::LoadObjectList()
 	string filename = "ObjectListData.txt";
 	file.open(filename);
 	string line;
-	string objKey;
 	int listSize = 0;
 	while (getline(file, line))
 	{
@@ -185,10 +191,12 @@ void ObjectManager::LoadObjectList()
 			lineStream >> listSize;
 		}
 
+		string numberKey;
 		for (int i = 0; i < listSize; i++)
 		{
+			numberKey = "Object" + to_string(i);
 			// モデルタイプの読み込み
-			if (key == "Object" + to_string(i) + "ModelType")
+			if (key == numberKey + "ModelType")
 			{
 				string modelType;
 				lineStream >> modelType;
@@ -197,25 +205,25 @@ void ObjectManager::LoadObjectList()
 				if (modelType == "Monkey") CreateMonkey();
 			}
 
-			if (key == "Object" + to_string(i) + "Transform" + "pos")
+			if (key == numberKey + "Transform" + "pos")
 			{
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->pos.x;
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->pos.y;
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->pos.z;
 			}
-			else if (key == "Object" + to_string(i) + "Transform" + "rot")
+			else if (key == numberKey + "Transform" + "rot")
 			{
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->rot.x;
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->rot.y;
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->rot.z;
 			}
-			else if (key == "Object" + to_string(i) + "Transform" + "scale")
+			else if (key == numberKey + "Transform" + "scale")
 			{
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->scale.x;
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->scale.y;
 				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->scale.z;
 			}
-			else if (key == "Object" + to_string(i) + "TextureTag")
+			else if (key == numberKey + "TextureTag")
 			{
 				string tmpTag;
 				lineStream >> tmpTag;
@@ -233,7 +241,6 @@ void ObjectManager::LoadSpriteList()
 	string filename = "SpriteListData.txt";
 	file.open(filename);
 	string line;
-	string objKey;
 	int listSize = 0;
 	while (getline(file, line))
 	{
@@ -248,29 +255,48 @@ void ObjectManager::LoadSpriteList()
 			lineStream >> listSize;
 		}
 
+		string numberStr;
 		for (int i = 0; i < listSize; i++)
 		{
-			if (key == "Sprite" + to_string(i))	CreateSprite();
+			numberStr = "Sprite" + to_string(i);
 
-			if (key == "Sprite" + to_string(i) + "Transform" + "pos")
+			if (key == numberStr)	CreateSprite();
+
+			//	表示フラグ
+			if (key == (numberStr + "isShow"))
+			{
+				bool isShow;
+				lineStream >> isShow;
+				spriteList[i]->SetisShow(isShow);
+			}
+
+			// レイヤー
+			if (key == (numberStr + "Layer"))
+			{
+				bool layer;
+				lineStream >> layer;
+				spriteList[i]->SetLayer(layer);
+			}
+
+			if (key == numberStr + "Transform" + "pos")
 			{
 				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->pos.x;
 				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->pos.y;
 				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->pos.z;
 			}
-			else if (key == "Sprite" + to_string(i) + "Transform" + "rot")
+			else if (key == numberStr + "Transform" + "rot")
 			{
 				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->rot.x;
 				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->rot.y;
 				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->rot.z;
 			}
-			else if (key == "Sprite" + to_string(i) + "Transform" + "scale")
+			else if (key == numberStr + "Transform" + "scale")
 			{
 				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->scale.x;
 				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->scale.y;
 				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->scale.z;
 			}
-			else if (key == "Sprite" + to_string(i) + "TextureTag")
+			else if (key == numberStr + "TextureTag")
 			{
 				string tmpTag;
 				lineStream >> tmpTag;
@@ -289,10 +315,13 @@ void ObjectManager::SaveObjectList()
 	file.open(filename, std::ios::out);
 	//リストのサイズをセーブ
 	file << "ObjectListSize " << objectList.size() << "\n";
+
+	string numberStr;
 	for (int i = 0; i < objectList.size(); i++)
 	{
+		numberStr = "Object" + to_string(i);
 		// モデルのタイプ
-		file << "Object" + to_string(i) + "ModelType ";
+		file << numberStr + "ModelType ";
 		file << objectList[i]->GetModelType() << "\n";
 		// コンポネントリスト
 		file << "ComponentListSize ";
@@ -303,24 +332,20 @@ void ObjectManager::SaveObjectList()
 			// トランスフォーム
 			if (objectList[i]->GetComponentList()[j]->GetComponentName() == "Transform")
 			{
-				Vec3 pos = objectList[i]->GetComponent<Transform>("Transform")->pos;
-				Vec3 rot = objectList[i]->GetComponent<Transform>("Transform")->rot;
-				Vec3 scale = objectList[i]->GetComponent<Transform>("Transform")->scale;
-
-				file << "Object" + to_string(i) + "Transform" + "pos ";
-				file << pos.x << " ";
-				file << pos.y << " ";
-				file << pos.z << " ";
+				file << numberStr + "Transform" + "pos ";
+				file << objectList[i]->GetComponent<Transform>("Transform")->pos.x << " ";
+				file << objectList[i]->GetComponent<Transform>("Transform")->pos.y << " ";
+				file << objectList[i]->GetComponent<Transform>("Transform")->pos.z << " ";
 				file << "\n";
-				file << "Object" + to_string(i) + "Transform" + "rot ";
-				file << rot.x << " ";
-				file << rot.y << " ";
-				file << rot.z << " ";
+				file << numberStr + "Transform" + "rot ";
+				file << objectList[i]->GetComponent<Transform>("Transform")->rot.x << " ";
+				file << objectList[i]->GetComponent<Transform>("Transform")->rot.y << " ";
+				file << objectList[i]->GetComponent<Transform>("Transform")->rot.z << " ";
 				file << "\n";
-				file << "Object" + to_string(i) + "Transform" + "scale ";
-				file << scale.x << " ";
-				file << scale.y << " ";
-				file << scale.z << " ";
+				file << numberStr + "Transform" + "scale ";
+				file << objectList[i]->GetComponent<Transform>("Transform")->scale.x << " ";
+				file << objectList[i]->GetComponent<Transform>("Transform")->scale.y << " ";
+				file << objectList[i]->GetComponent<Transform>("Transform")->scale.z << " ";
 				file << "\n";
 			}
 
@@ -342,10 +367,22 @@ void ObjectManager::SaveSpriteList()
 	file.open(filename, std::ios::out);
 	//リストのサイズをセーブ
 	file << "SpriteListSize " << spriteList.size() << "\n";
+
+	string numberStr;
 	for (int i = 0; i < spriteList.size(); i++)
 	{
-		// モデルのタイプ
-		file << "Sprite" + to_string(i) + "\n";
+		numberStr = "Sprite" + to_string(i);
+
+		// スプライト
+		file << numberStr + "\n";
+		// 表示フラグ
+		file << numberStr + "isShow ";
+		file << spriteList[i]->GetisShow();
+		file << "\n";
+		// 描画設定
+		file << numberStr + "Layer ";
+		file << spriteList[i]->GetLayer();
+		file << "\n";
 		// コンポネントリスト
 		file << "ComponentListSize ";
 		file << spriteList[i]->GetComponentList().size() << "\n";
@@ -355,30 +392,26 @@ void ObjectManager::SaveSpriteList()
 			// トランスフォーム
 			if (spriteList[i]->GetComponentList()[j]->GetComponentName() == "Transform")
 			{
-				Vec3 pos = spriteList[i]->GetComponent<Transform>("Transform")->pos;
-				Vec3 rot = spriteList[i]->GetComponent<Transform>("Transform")->rot;
-				Vec3 scale = spriteList[i]->GetComponent<Transform>("Transform")->scale;
-
-				file << "Sprite" + to_string(i) + "Transform" + "pos ";
-				file << pos.x << " ";
-				file << pos.y << " ";
-				file << pos.z << " ";
+				file << numberStr + "Transform" + "pos ";
+				file << spriteList[i]->GetComponent<Transform>("Transform")->pos.x << " ";
+				file << spriteList[i]->GetComponent<Transform>("Transform")->pos.y << " ";
+				file << spriteList[i]->GetComponent<Transform>("Transform")->pos.z << " ";
 				file << "\n";
-				file << "Sprite" + to_string(i) + "Transform" + "rot ";
-				file << rot.x << " ";
-				file << rot.y << " ";
-				file << rot.z << " ";
+				file << numberStr + "Transform" + "rot ";
+				file << spriteList[i]->GetComponent<Transform>("Transform")->rot.x << " ";
+				file << spriteList[i]->GetComponent<Transform>("Transform")->rot.y << " ";
+				file << spriteList[i]->GetComponent<Transform>("Transform")->rot.z << " ";
 				file << "\n";
-				file << "Sprite" + to_string(i) + "Transform" + "scale ";
-				file << scale.x << " ";
-				file << scale.y << " ";
-				file << scale.z << " ";
+				file << numberStr + "Transform" + "scale ";
+				file << spriteList[i]->GetComponent<Transform>("Transform")->scale.x << " ";
+				file << spriteList[i]->GetComponent<Transform>("Transform")->scale.y << " ";
+				file << spriteList[i]->GetComponent<Transform>("Transform")->scale.z << " ";
 				file << "\n";
 			}
 
 			if (spriteList[i]->GetComponentList()[j]->GetComponentName() == "Texture")
 			{
-				file << "Sprite" + to_string(i) + "TextureTag ";
+				file << numberStr + "TextureTag ";
 				string tmp = spriteList[i]->GetComponent<Texture>("Texture")->GetTextureTag();
 				file << spriteList[i]->GetComponent<Texture>("Texture")->GetTextureTag();
 				file << "\n";

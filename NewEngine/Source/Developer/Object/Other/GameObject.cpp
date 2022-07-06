@@ -1,16 +1,24 @@
 #include "NewEngine/Header/Developer/Object/Other/GameObject.h"
-#include "NewEngine/Header/Developer/Component/Transform.h"
-#include "NewEngine/Header/Developer/Component/Texture.h"
+#include "NewEngine/Header/Developer/Component/ComponentManager.h"
 using namespace std;
 
 GameObject::GameObject() :
+	isShow(true),
 	isShowDataToInspector(false)
 {
-	Texture* texture = new Texture;
-	components.push_back(texture);
+	// デフォルトで持っているコンポネント
 
+	// タグ
+	Tag* tag = new Tag;
+	components.push_back(tag);
+
+	// トランスフォーム
 	Transform* transform = new Transform;
 	components.push_back(transform);
+
+	// テクスチャー
+	Texture* texture = new Texture;
+	components.push_back(texture);
 }
 GameObject::~GameObject()
 {
@@ -20,9 +28,9 @@ GameObject::~GameObject()
 	}
 }
 
-void GameObject::SetTag(string tag)
+void GameObject::SetisShow(bool isShow)
 {
-	this->tag = tag;
+	this->isShow = isShow;
 }
 void GameObject::SetName(std::string name)
 {
@@ -37,9 +45,9 @@ void GameObject::SetisShowDataToInspector(bool isShowDataToInspector)
 	this->isShowDataToInspector = isShowDataToInspector;
 }
 
-string GameObject::GetTag()
+bool GameObject::GetisShow()
 {
-	return tag;
+	return isShow;
 }
 string GameObject::GetName()
 {

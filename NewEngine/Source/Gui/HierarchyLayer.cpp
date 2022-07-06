@@ -1,14 +1,18 @@
 #include "NewEngine/Header/Gui/HierarchyLayer.h"
+#include "NewEngine/Header/Gui/InspectorLayer.h"
 #include "NewEngine/Header/Gui/SceneLayer.h"
 #include "NewEngine/Header/Gui/GuiManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
-#include "NewEngine/Header/Developer/Object/Other/ObjectManager.h"
 #include "NewEngine/Header/Developer/Input/InputManager.h"
+using namespace std;
 
 void HierarchyLayer::Initialize()
 {
 	size = { WIN_HALF_WIDTH / 2,670 };
 	pos = { 0,0 };
+
+	currentObjNode = -1, oldObjNode = -1;
+	currentSprNode = -1, oldSprNode = -1;
 }
 void HierarchyLayer::Update()
 {
@@ -48,43 +52,82 @@ void HierarchyLayer::ShowMenuBar()
 		ImGui::EndMenuBar();
 	}
 }
-
 void HierarchyLayer::ShowObjectList()
 {
-	// オブジェクトの表示
-	for (auto tmpObjectList : ObjectManager::GetInstance()->GetObjectList())
+	auto objList = ObjectManager::GetInstance()->GetObjectList();
+
+	// オブジェクト一覧の表示
+	for (int i = 0; i < objList.size(); i++)
 	{
-		if (ImGui::TreeNode(tmpObjectList->GetName().c_str()))
+		// 名前の処理（タイトルの）
+		string  nameStr = objList[i]->GetName();
+		const char* nameChar = {};
+		if (objList[i]->GetName().size() <= 0)	nameChar = "##";
+		else nameChar = nameStr.c_str();
+
+		if (ImGui::TreeNodeEx((void*)(intptr_t)i, 0, nameChar))
 		{
-			tmpObjectList->SetisShowDataToInspector(true);
-
 			if (key->GetKeyTrigger(DIK_DELETE))
-				ObjectManager::GetInstance()->DestroyModel(tmpObjectList);
-
+				ObjectManager::GetInstance()->DestroyModel(objList[i]);
 			ImGui::TreePop();
 		}
-		else tmpObjectList->SetisShowDataToInspector(false);
+		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+		{
+			oldObjNode = currentObjNode;
+			currentObjNode = i;
+
+			currentSprNode = -1, oldSprNode = -1;
+		}
+
+		if (currentObjNode >= 0)
+		{
+			if (currentObjNode != oldObjNode)
+			{
+				if (currentObjNode >= 0)	objList[currentObjNode]->SetisShowDataToInspector(true);
+				if (oldObjNode >= 0)		objList[oldObjNode]->SetisShowDataToInspector(false);
+			}
+		}
+		else objList[i]->SetisShowDataToInspector(false);
 	}
 }
-
 void HierarchyLayer::ShowSpriteList()
 {
-	// スプライトの表示
-	for (auto tmpSpriteList : ObjectManager::GetInstance()->GetSpriteList())
+	auto sprList = ObjectManager::GetInstance()->GetSpriteList();
+
+	// スプライト一覧の表示
+	for (int i = 0; i < sprList.size(); i++)
 	{
-		if (ImGui::TreeNode(tmpSpriteList->GetName().c_str()))
+		// 名前の処理（タイトルの）
+		string  nameStr = sprList[i]->GetName();
+		const char* nameChar = {};
+		if (sprList[i]->GetName().size() <= 0)	nameChar = "##";
+		else nameChar = nameStr.c_str();
+
+		if (ImGui::TreeNodeEx((void*)(intptr_t)i, 0, nameChar))
 		{
-			tmpSpriteList->SetisShowDataToInspector(true);
-
 			if (key->GetKeyTrigger(DIK_DELETE))
-				ObjectManager::GetInstance()->DestroySprite(tmpSpriteList);
-
+				ObjectManager::GetInstance()->DestroySprite(sprList[i]);
 			ImGui::TreePop();
 		}
-		else tmpSpriteList->SetisShowDataToInspector(false);
+		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+		{
+			oldSprNode = currentSprNode;
+			currentSprNode = i;
+
+			currentObjNode = -1, oldObjNode = -1;
+		}
+
+		if (currentSprNode >= 0)
+		{
+			if (currentSprNode != oldSprNode)
+			{
+				if (currentSprNode >= 0)	sprList[currentSprNode]->SetisShowDataToInspector(true);
+				if (oldSprNode >= 0)		sprList[oldSprNode]->SetisShowDataToInspector(false);
+			}
+		}
+		else sprList[i]->SetisShowDataToInspector(false);
 	}
 }
-
 
 Vec2 HierarchyLayer::GetPos()
 {

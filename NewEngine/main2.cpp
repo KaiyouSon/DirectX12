@@ -6,6 +6,7 @@
 #include "NewEngine/Header/Developer/Object/Other/DrawManager.h"
 #include "NewEngine/Header/Developer/Object/Other/ObjectManager.h"
 #include "NewEngine/Header/Developer/Object/Other/ViewProjection.h"
+#include "NewEngine/Header/Developer/Component/Tag.h"
 #include "NewEngine/Header/Developer/Debug/DebugCamera.h"
 #include "NewEngine/Header/Developer/Sound.h"
 #include "ImGUI/imgui.h"
@@ -13,9 +14,6 @@
 
 Sound testSound;
 Model barbla;
-
-Square* bg = new Square;
-//Sprite* test = new Sprite;
 
 struct Rey
 {
@@ -82,6 +80,7 @@ void Load()
 	LoadBasicModel();
 	gameTextureList->PushToTextureList(LoadTexture("Resources/bg.png"), "bg");
 	gameTextureList->PushToTextureList(LoadTexture("Resources/pic.png"), "obj");
+	gameTextureList->PushToTextureList(LoadTexture("Resources/scope.png"), "scope");
 
 	testSound = LoadSoundWave("Resources/title_bgm.wav");
 
@@ -91,8 +90,6 @@ void Load()
 // 初期化処理
 void Initialize()
 {
-	bg->Initialize(Square::view2D, Vec2(WIN_WIDTH, WIN_HEIGHT));
-
 	view->SetPos(Vec3(0, 0, -50));
 	view->SetTarget(Vec3::zero);
 	view->SetUp(Vec3::up);
@@ -116,8 +113,6 @@ void Update()
 
 	Collision();
 
-	bg->Update(trans);
-
 	view->SetPos(DebugCamera::GetInstance()->GetPos());
 	view->SetTarget(DebugCamera::GetInstance()->GetTarget());
 	view->SetUp(DebugCamera::GetInstance()->GetUp());
@@ -128,34 +123,19 @@ void Update()
 	//test->Update();
 }
 
-// 描画処理
-void Draw3D()
-{
-
-}
-
-void Draw2D()
-{
-	//bg->SetTexture(*gameTextureList->GetTexture("bg"));
-	//bg->Draw();
-
-	//test->SetTexture(*gameTextureList->GetTexture("bg"));
-	//test->Draw();
-}
-
 // インスタンスのdelete
 void Destroy()
 {
 	UnLoadSoundWave(&testSound);
-	delete bg;
 	delete gameTextureList;
-	//delete test;
+	delete tagList;
 }
 
 void Collision()
 {
 	Object3D* cube1 = ObjectManager::GetInstance()->GetObjectList()[0];
 	Object3D* cube2 = ObjectManager::GetInstance()->GetObjectList()[1];
+	Sprite* backGround = ObjectManager::GetInstance()->GetSpriteList()[1];
 	Transform* cubeTrans = cube1->GetComponent<Transform>("Transform");
 	Transform* reyTrans = cube2->GetComponent<Transform>("Transform");
 
@@ -182,29 +162,13 @@ void Collision()
 
 	if (hitType == 0)
 	{
-		if (ReyHitMesh(rey, mesh))
-		{
-			trans.pos.x = WIN_HALF_WIDTH;
-			trans.pos.y = WIN_HALF_HEIGHT;
-		}
-		else
-		{
-			trans.pos.x = -WIN_WIDTH * 2;
-			trans.pos.y = -WIN_HEIGHT * 2;
-		}
+		if (ReyHitMesh(rey, mesh))	backGround->SetisShow(true);
+		else						backGround->SetisShow(false);
 	}
 	else
 	{
-		if (LineHitMesh(line, mesh))
-		{
-			trans.pos.x = WIN_HALF_WIDTH;
-			trans.pos.y = WIN_HALF_HEIGHT;
-		}
-		else
-		{
-			trans.pos.x = -WIN_WIDTH * 2;
-			trans.pos.y = -WIN_HEIGHT * 2;
-		}
+		if (LineHitMesh(line, mesh)) backGround->SetisShow(true);
+		else						 backGround->SetisShow(false);
 	}
 }
 bool ReyHitMesh(const Rey& rey, const Mesh& mesh)

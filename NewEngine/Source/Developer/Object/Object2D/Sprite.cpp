@@ -6,7 +6,7 @@
 
 Sprite::Sprite() :
 	vertexBuffer(new VertexBuffer), indexBuffer(new IndexBuffer),
-	constantBuffer(new ConstantBuffer)
+	constantBuffer(new ConstantBuffer), layer(true)
 {
 }
 
@@ -89,6 +89,11 @@ void Sprite::Draw()
 		DrawIndexedInstanced((unsigned short)indices.size(), 1, 0, 0, 0);
 }
 
+bool Sprite::GetLayer()
+{
+	return layer;
+}
+
 void Sprite::SetTexture(Texture& texture)
 {
 	GetComponent<Texture>("Texture")->SetTexture(&texture);
@@ -113,4 +118,9 @@ void Sprite::SetTexture(Texture& texture)
 		vertexBuffer->TransferToBuffer(vertices);
 		vertexBuffer->Unmap();
 	}
+}
+
+void Sprite::SetLayer(bool layer)
+{
+	this->layer = layer;
 }

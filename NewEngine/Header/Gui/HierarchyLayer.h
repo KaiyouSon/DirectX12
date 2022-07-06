@@ -1,7 +1,14 @@
 #pragma once
 #include "NewEngine/Header/Gui/ILayer.h"
+#include "NewEngine//Header/Developer/Object/Other/ObjectManager.h"
 class HierarchyLayer : public ILayer
 {
+private:
+	int currentObjNode;
+	int oldObjNode;
+	int currentSprNode;
+	int oldSprNode;
+
 private:
 	void ShowMenuBar();
 	void ShowObjectList();

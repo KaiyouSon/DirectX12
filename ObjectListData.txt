@@ -1,13 +1,13 @@
 ObjectListSize 2
 Object0ModelType Cube
-ComponentListSize 2
-Object0TextureTag obj
+ComponentListSize 3
 Object0Transformpos 0 0 0 
 Object0Transformrot 0 0 0 
 Object0Transformscale 10 10 10 
+Object0TextureTag obj
 Object1ModelType Cube
-ComponentListSize 2
-Object1TextureTag obj
-Object1Transformpos -20.85 -10 -30.9 
+ComponentListSize 3
+Object1Transformpos -23.55 -5.45 -30 
 Object1Transformrot 0 0 0 
 Object1Transformscale 1 1 10 
+Object1TextureTag obj

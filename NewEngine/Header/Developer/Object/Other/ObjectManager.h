@@ -10,6 +10,7 @@ private:
 private:
 	void LoadObjectList();
 	void LoadSpriteList();
+
 	void SaveObjectList();
 	void SaveSpriteList();
 
@@ -21,8 +22,9 @@ public:
 	void CreateModel(const ModelData& modelData);
 	void CreateSprite();
 	void Update();
-	void Draw2D();
 	void Draw3D();
+	void Draw2DToBack();
+	void Draw2DToForward();
 
 	void DestroyModel(Object3D* object3D);
 	void DestroySprite(Sprite* sprite);
