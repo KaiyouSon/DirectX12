@@ -207,21 +207,21 @@ void ObjectManager::LoadObjectList()
 
 			if (key == numberKey + "Transform" + "pos")
 			{
-				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->pos.x;
-				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->pos.y;
-				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->pos.z;
+				lineStream >> objectList[i]->GetComponent<Transform>()->pos.x;
+				lineStream >> objectList[i]->GetComponent<Transform>()->pos.y;
+				lineStream >> objectList[i]->GetComponent<Transform>()->pos.z;
 			}
 			else if (key == numberKey + "Transform" + "rot")
 			{
-				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->rot.x;
-				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->rot.y;
-				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->rot.z;
+				lineStream >> objectList[i]->GetComponent<Transform>()->rot.x;
+				lineStream >> objectList[i]->GetComponent<Transform>()->rot.y;
+				lineStream >> objectList[i]->GetComponent<Transform>()->rot.z;
 			}
 			else if (key == numberKey + "Transform" + "scale")
 			{
-				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->scale.x;
-				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->scale.y;
-				lineStream >> objectList[i]->GetComponent<Transform>("Transform")->scale.z;
+				lineStream >> objectList[i]->GetComponent<Transform>()->scale.x;
+				lineStream >> objectList[i]->GetComponent<Transform>()->scale.y;
+				lineStream >> objectList[i]->GetComponent<Transform>()->scale.z;
 			}
 			else if (key == numberKey + "TextureTag")
 			{
@@ -280,21 +280,21 @@ void ObjectManager::LoadSpriteList()
 
 			if (key == numberStr + "Transform" + "pos")
 			{
-				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->pos.x;
-				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->pos.y;
-				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->pos.z;
+				lineStream >> spriteList[i]->GetComponent<Transform>()->pos.x;
+				lineStream >> spriteList[i]->GetComponent<Transform>()->pos.y;
+				lineStream >> spriteList[i]->GetComponent<Transform>()->pos.z;
 			}
 			else if (key == numberStr + "Transform" + "rot")
 			{
-				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->rot.x;
-				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->rot.y;
-				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->rot.z;
+				lineStream >> spriteList[i]->GetComponent<Transform>()->rot.x;
+				lineStream >> spriteList[i]->GetComponent<Transform>()->rot.y;
+				lineStream >> spriteList[i]->GetComponent<Transform>()->rot.z;
 			}
 			else if (key == numberStr + "Transform" + "scale")
 			{
-				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->scale.x;
-				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->scale.y;
-				lineStream >> spriteList[i]->GetComponent<Transform>("Transform")->scale.z;
+				lineStream >> spriteList[i]->GetComponent<Transform>()->scale.x;
+				lineStream >> spriteList[i]->GetComponent<Transform>()->scale.y;
+				lineStream >> spriteList[i]->GetComponent<Transform>()->scale.z;
 			}
 			else if (key == numberStr + "TextureTag")
 			{
@@ -333,27 +333,27 @@ void ObjectManager::SaveObjectList()
 			if (objectList[i]->GetComponentList()[j]->GetComponentName() == "Transform")
 			{
 				file << numberStr + "Transform" + "pos ";
-				file << objectList[i]->GetComponent<Transform>("Transform")->pos.x << " ";
-				file << objectList[i]->GetComponent<Transform>("Transform")->pos.y << " ";
-				file << objectList[i]->GetComponent<Transform>("Transform")->pos.z << " ";
+				file << objectList[i]->GetComponent<Transform>()->pos.x << " ";
+				file << objectList[i]->GetComponent<Transform>()->pos.y << " ";
+				file << objectList[i]->GetComponent<Transform>()->pos.z << " ";
 				file << "\n";
 				file << numberStr + "Transform" + "rot ";
-				file << objectList[i]->GetComponent<Transform>("Transform")->rot.x << " ";
-				file << objectList[i]->GetComponent<Transform>("Transform")->rot.y << " ";
-				file << objectList[i]->GetComponent<Transform>("Transform")->rot.z << " ";
+				file << objectList[i]->GetComponent<Transform>()->rot.x << " ";
+				file << objectList[i]->GetComponent<Transform>()->rot.y << " ";
+				file << objectList[i]->GetComponent<Transform>()->rot.z << " ";
 				file << "\n";
 				file << numberStr + "Transform" + "scale ";
-				file << objectList[i]->GetComponent<Transform>("Transform")->scale.x << " ";
-				file << objectList[i]->GetComponent<Transform>("Transform")->scale.y << " ";
-				file << objectList[i]->GetComponent<Transform>("Transform")->scale.z << " ";
+				file << objectList[i]->GetComponent<Transform>()->scale.x << " ";
+				file << objectList[i]->GetComponent<Transform>()->scale.y << " ";
+				file << objectList[i]->GetComponent<Transform>()->scale.z << " ";
 				file << "\n";
 			}
 
 			if (objectList[i]->GetComponentList()[j]->GetComponentName() == "Texture")
 			{
 				file << "Object" + to_string(i) + "TextureTag ";
-				string tmp = objectList[i]->GetComponent<Texture>("Texture")->GetTextureTag();
-				file << objectList[i]->GetComponent<Texture>("Texture")->GetTextureTag();
+				string tmp = objectList[i]->GetComponent<Texture>()->GetTextureTag();
+				file << objectList[i]->GetComponent<Texture>()->GetTextureTag();
 				file << "\n";
 			}
 		}
@@ -393,27 +393,27 @@ void ObjectManager::SaveSpriteList()
 			if (spriteList[i]->GetComponentList()[j]->GetComponentName() == "Transform")
 			{
 				file << numberStr + "Transform" + "pos ";
-				file << spriteList[i]->GetComponent<Transform>("Transform")->pos.x << " ";
-				file << spriteList[i]->GetComponent<Transform>("Transform")->pos.y << " ";
-				file << spriteList[i]->GetComponent<Transform>("Transform")->pos.z << " ";
+				file << spriteList[i]->GetComponent<Transform>()->pos.x << " ";
+				file << spriteList[i]->GetComponent<Transform>()->pos.y << " ";
+				file << spriteList[i]->GetComponent<Transform>()->pos.z << " ";
 				file << "\n";
 				file << numberStr + "Transform" + "rot ";
-				file << spriteList[i]->GetComponent<Transform>("Transform")->rot.x << " ";
-				file << spriteList[i]->GetComponent<Transform>("Transform")->rot.y << " ";
-				file << spriteList[i]->GetComponent<Transform>("Transform")->rot.z << " ";
+				file << spriteList[i]->GetComponent<Transform>()->rot.x << " ";
+				file << spriteList[i]->GetComponent<Transform>()->rot.y << " ";
+				file << spriteList[i]->GetComponent<Transform>()->rot.z << " ";
 				file << "\n";
 				file << numberStr + "Transform" + "scale ";
-				file << spriteList[i]->GetComponent<Transform>("Transform")->scale.x << " ";
-				file << spriteList[i]->GetComponent<Transform>("Transform")->scale.y << " ";
-				file << spriteList[i]->GetComponent<Transform>("Transform")->scale.z << " ";
+				file << spriteList[i]->GetComponent<Transform>()->scale.x << " ";
+				file << spriteList[i]->GetComponent<Transform>()->scale.y << " ";
+				file << spriteList[i]->GetComponent<Transform>()->scale.z << " ";
 				file << "\n";
 			}
 
 			if (spriteList[i]->GetComponentList()[j]->GetComponentName() == "Texture")
 			{
 				file << numberStr + "TextureTag ";
-				string tmp = spriteList[i]->GetComponent<Texture>("Texture")->GetTextureTag();
-				file << spriteList[i]->GetComponent<Texture>("Texture")->GetTextureTag();
+				string tmp = spriteList[i]->GetComponent<Texture>()->GetTextureTag();
+				file << spriteList[i]->GetComponent<Texture>()->GetTextureTag();
 				file << "\n";
 			}
 		}

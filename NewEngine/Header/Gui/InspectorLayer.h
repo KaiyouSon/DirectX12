@@ -10,6 +10,9 @@ private:
 
 	void ShowisShowFlag(GameObject& gameObject);
 	void ShowNameString(GameObject& gameObject);
+	void ShowTagString(GameObject& gameObject);
+	void ShowTransform(GameObject& gameObject);
+	void ShowTexture(GameObject& gameObject);
 
 public:
 	bool isChangeObjName;

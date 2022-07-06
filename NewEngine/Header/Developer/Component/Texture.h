@@ -35,9 +35,10 @@ private:
 public:
 	~TextureList();
 	void PushToTextureList(Texture* texture, std::string tag);
-	std::vector <std::string> GetAllTextureTag();
+	std::vector <std::string> GetList();
 
 	Texture* GetTexture(std::string tag);
+	Texture* GetTexture(const int& arrayNumber);
 };
 
 extern TextureList* gameTextureList;

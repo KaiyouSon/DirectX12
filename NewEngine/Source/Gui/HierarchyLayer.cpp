@@ -26,6 +26,8 @@ void HierarchyLayer::Update()
 	if (ImGui::CollapsingHeader("Object 3D")) ShowObjectList();
 	if (ImGui::CollapsingHeader("Sprite 2D")) ShowSpriteList();
 
+	ImGui::Text("currentObjNode = %d", currentObjNode);
+
 	ImGui::End();
 }
 
@@ -65,12 +67,13 @@ void HierarchyLayer::ShowObjectList()
 		if (objList[i]->GetName().size() <= 0)	nameChar = "##";
 		else nameChar = nameStr.c_str();
 
-		if (ImGui::TreeNodeEx((void*)(intptr_t)i, 0, nameChar))
+		if (ImGui::TreeNode(nameChar))
 		{
 			if (key->GetKeyTrigger(DIK_DELETE))
 				ObjectManager::GetInstance()->DestroyModel(objList[i]);
 			ImGui::TreePop();
 		}
+
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
 		{
 			oldObjNode = currentObjNode;
@@ -88,6 +91,8 @@ void HierarchyLayer::ShowObjectList()
 			}
 		}
 		else objList[i]->SetisShowDataToInspector(false);
+
+
 	}
 }
 void HierarchyLayer::ShowSpriteList()
@@ -103,12 +108,13 @@ void HierarchyLayer::ShowSpriteList()
 		if (sprList[i]->GetName().size() <= 0)	nameChar = "##";
 		else nameChar = nameStr.c_str();
 
-		if (ImGui::TreeNodeEx((void*)(intptr_t)i, 0, nameChar))
+		if (ImGui::TreeNode(nameChar))
 		{
 			if (key->GetKeyTrigger(DIK_DELETE))
 				ObjectManager::GetInstance()->DestroySprite(sprList[i]);
 			ImGui::TreePop();
 		}
+
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
 		{
 			oldSprNode = currentSprNode;
@@ -126,6 +132,8 @@ void HierarchyLayer::ShowSpriteList()
 			}
 		}
 		else sprList[i]->SetisShowDataToInspector(false);
+
+
 	}
 }
 

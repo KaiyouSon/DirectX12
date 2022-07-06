@@ -20,7 +20,7 @@ Sprite::~Sprite()
 void Sprite::Initialize()
 {
 	Texture tmpTex = TextureBuffer::GetDefaultTexture();
-	GetComponent<Texture>("Texture")->SetTexture(&tmpTex);
+	GetComponent<Texture>()->SetTexture(&tmpTex);
 
 	float width = tmpTex.GetTextureSize().x;
 	float height = tmpTex.GetTextureSize().x;
@@ -49,11 +49,11 @@ void Sprite::Initialize()
 
 void Sprite::Update()
 {
-	GetComponent<Transform>("Transform")->Update();
+	GetComponent<Transform>()->Update();
 
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
-		GetComponent<Transform>("Transform")->matWorld *
+		GetComponent<Transform>()->matWorld *
 		view->matProjection2D;
 }
 
@@ -78,7 +78,7 @@ void Sprite::Draw()
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	RenderBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootDescriptorTable(1,
-			GetComponent<Texture>("Texture")->GetGpuHandle());
+			GetComponent<Texture>()->GetGpuHandle());
 
 	// 定数バッファビュー(CBV)の設定コマンド
 	RenderBase::GetInstance()->GetCommandList()->
@@ -96,7 +96,7 @@ bool Sprite::GetLayer()
 
 void Sprite::SetTexture(Texture& texture)
 {
-	GetComponent<Texture>("Texture")->SetTexture(&texture);
+	GetComponent<Texture>()->SetTexture(&texture);
 
 	float width = texture.GetTextureSize().x;
 	float height = texture.GetTextureSize().y;

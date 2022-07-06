@@ -20,8 +20,12 @@ private:
 	std::vector<std::string> list;
 public:
 	TagList();
+	std::string GetTag(const int& arrayNumber);
+
 	void AddTag(std::string tag);
 	void DestroyTag(std::string tag);
+
+	std::vector<std::string> GetList();
 };
 
 extern TagList* tagList;

@@ -1,8 +1,11 @@
 #include "NewEngine/Header/Developer/Component/Tag.h"
+using namespace std;
+TagList* tagList = new TagList;
 
 Tag::Tag()
 {
 	componentName = "Tag";
+	tag = tagList->GetTag(0);
 }
 
 void Tag::SetTag(std::string tag)
@@ -18,6 +21,11 @@ std::string Tag::GetTag()
 TagList::TagList()
 {
 	list.push_back("Default");
+}
+
+string TagList::GetTag(const int& arrayNumber)
+{
+	return list[arrayNumber];
 }
 
 void TagList::AddTag(std::string tag)
@@ -36,4 +44,8 @@ void TagList::DestroyTag(std::string tag)
 	}
 }
 
-TagList* tagList = new TagList;
+std::vector<std::string> TagList::GetList()
+{
+	return list;
+}
+

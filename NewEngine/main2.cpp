@@ -136,8 +136,8 @@ void Collision()
 	Object3D* cube1 = ObjectManager::GetInstance()->GetObjectList()[0];
 	Object3D* cube2 = ObjectManager::GetInstance()->GetObjectList()[1];
 	Sprite* backGround = ObjectManager::GetInstance()->GetSpriteList()[1];
-	Transform* cubeTrans = cube1->GetComponent<Transform>("Transform");
-	Transform* reyTrans = cube2->GetComponent<Transform>("Transform");
+	Transform* cubeTrans = cube1->GetComponent<Transform>();
+	Transform* reyTrans = cube2->GetComponent<Transform>();
 
 	// ƒŒƒC
 	Rey rey =

@@ -28,15 +28,11 @@ public:
 	std::vector<IComponent*> GetComponentList();
 
 	template<class T>
-	T* GetComponent(std::string componentName)
+	T* GetComponent()
 	{
-		for (int i = 0; i < components.size(); i++)
-		{
-			if (components[i]->GetComponentName() == componentName)
-			{
-				T* component = dynamic_cast<T*> (components[i]);
-				return component;
-			}
+		for (auto component : components) {
+			T* currentComponent = dynamic_cast<T*>(component);
+			if (currentComponent != nullptr) return currentComponent;
 		}
 		return nullptr;
 	}

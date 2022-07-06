@@ -54,7 +54,7 @@ void TextureList::PushToTextureList(Texture* texture, std::string tag)
 	texture->SetTextureTag(tag);
 	textureList.push_back(texture);
 }
-vector <string> TextureList::GetAllTextureTag()
+vector <string> TextureList::GetList()
 {
 	vector <string> tmp;
 	for (int i = 0; i < textureList.size(); i++)
@@ -73,6 +73,11 @@ Texture* TextureList::GetTexture(string tag)
 		}
 	}
 	return nullptr;
+}
+
+Texture* TextureList::GetTexture(const int& arrayNumber)
+{
+	return textureList[arrayNumber];
 }
 
 TextureList* gameTextureList = new TextureList;

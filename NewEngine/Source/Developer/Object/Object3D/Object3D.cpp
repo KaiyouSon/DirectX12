@@ -31,16 +31,16 @@ void Object3D::Initialize(const ModelData& modelData)
 	constantBuffer->TransformBufferInit();
 
 	Texture tmpTex = TextureBuffer::GetDefaultTexture();
-	GetComponent<Texture>("Texture")->SetTexture(&tmpTex);
+	GetComponent<Texture>()->SetTexture(&tmpTex);
 }
 
 void Object3D::Update()
 {
-	GetComponent<Transform>("Transform")->Update();
+	GetComponent<Transform>()->Update();
 
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
-		GetComponent<Transform>("Transform")->matWorld *
+		GetComponent<Transform>()->matWorld *
 		view->matView *
 		view->matProjection3D;
 }
@@ -70,7 +70,7 @@ void Object3D::Draw()
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	RenderBase::GetInstance()->GetCommandList()->
 		SetGraphicsRootDescriptorTable(1,
-			GetComponent<Texture>("Texture")->GetGpuHandle());
+			GetComponent<Texture>()->GetGpuHandle());
 
 	// 定数バッファビュー(CBV)の設定コマンド
 	RenderBase::GetInstance()->GetCommandList()->
@@ -83,5 +83,5 @@ void Object3D::Draw()
 
 void Object3D::SetTexture(Texture& texture)
 {
-	GetComponent<Texture>("Texture")->SetTexture(&texture);
+	GetComponent<Texture>()->SetTexture(&texture);
 }
