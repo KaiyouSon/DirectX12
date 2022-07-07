@@ -11,18 +11,11 @@ void DebugLayer::Initialize()
 
 void DebugLayer::Update()
 {
-	ImGuiWindowFlags window_flags = 0;
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse;
 	ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
 	ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
-	ImGui::Begin("Debug", nullptr, window_flags |= ImGuiWindowFlags_NoCollapse);
+	ImGui::Begin("User", nullptr, window_flags);
 
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	if (ImGui::CollapsingHeader("Test"))
-	//	{
-	//		ImGui::Text("Test");
-	//	}
-	//}
 
 	ImGui::End();
 }

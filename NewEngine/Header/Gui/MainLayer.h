@@ -2,6 +2,9 @@
 #include "NewEngine/Header/Gui/ILayer.h"
 class MainLayer : public ILayer
 {
+private:
+	void ShowMenuBar();
+
 public:
 	void Initialize() override;
 	void Update() override;

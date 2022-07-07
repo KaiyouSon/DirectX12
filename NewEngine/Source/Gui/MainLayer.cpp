@@ -3,6 +3,8 @@
 #include "NewEngine/Header/Gui/GuiManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 
+
+
 void MainLayer::Initialize()
 {
 	size = Vec2(WIN_WIDTH, WIN_HEIGHT);
@@ -11,17 +13,50 @@ void MainLayer::Initialize()
 
 void MainLayer::Update()
 {
+	static bool dockspaceOpen = true;
+	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+
 	ImGuiWindowFlags window_flags =
 		ImGuiWindowFlags_NoTitleBar |				// タイトルバー表示しない
 		ImGuiWindowFlags_NoResize |					// サイズ変更しない
 		ImGuiWindowFlags_NoMove |					// 座標変更しない
 		ImGuiWindowFlags_MenuBar |					// メニューバー表示
-		ImGuiWindowFlags_NoBringToFrontOnFocus |	//クリックしたら最前面に表示しない
-		ImGuiWindowFlags_NoCollapse;				// 折り畳みしない
+		ImGuiWindowFlags_NoBringToFrontOnFocus |	// クリックしたら最前面に表示しない
+		ImGuiWindowFlags_NoCollapse |				// 折り畳みしない
+		ImGuiWindowFlags_NoNavFocus;
 
-	ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
-	ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
-	ImGui::Begin("MainView", nullptr, window_flags);
+	// ウィンドウの設定
+	const ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(viewport->WorkPos);
+	ImGui::SetNextWindowSize(viewport->WorkSize);
+	ImGui::SetNextWindowViewport(viewport->ID);
+
+	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+		window_flags |= ImGuiWindowFlags_NoBackground;
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
+
+	// Submit the DockSpace
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+	{
+		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+	}
+
+	ShowMenuBar();
+
+	ImGui::End();
+	ImGui::PopStyleVar();
+
+	ImGui::Begin("Test");
+	ImGui::Text("Is Test Now");
+	ImGui::End();
+}
+
+void MainLayer::ShowMenuBar()
+{
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
@@ -61,15 +96,6 @@ void MainLayer::Update()
 
 		ImGui::EndMenuBar();
 	}
-
-	//ImGui::SameLine(8);
-	ImGui::Button("CameraMove", { 32, 24 });
-	ImGui::SameLine(40);
-	ImGui::Button("CameraRot", { 32, 24 });
-	ImGui::SameLine(72);
-	ImGui::Button("CameraScale", { 32, 24 });
-	ImGui::End();
-
 }
 
 Vec2 MainLayer::GetPos()

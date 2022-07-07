@@ -23,6 +23,7 @@ static FrameContext                 g_frameContext[NUM_FRAMES_IN_FLIGHT] = {};
 
 GuiManager::~GuiManager()
 {
+	MainLayer::DestroyInstance();
 	SceneLayer::DestroyInstance();
 	ProjectLayer::DestroyInstance();
 	HierarchyLayer::DestroyInstance();
@@ -47,7 +48,7 @@ void GuiManager::Initialize()
 		RenderBase::GetInstance()->GetSrvDescHeap().Get()->GetCPUDescriptorHandleForHeapStart(),
 		RenderBase::GetInstance()->GetSrvDescHeap().Get()->GetGPUDescriptorHandleForHeapStart());
 
-	MainLayer::GetInstance()->Initialize();
+	//MainLayer::GetInstance()->Initialize();
 	ProjectLayer::GetInstance()->Initialize();
 	SceneLayer::GetInstance()->Initialize();
 	HierarchyLayer::GetInstance()->Initialize();
@@ -60,6 +61,9 @@ void GuiManager::Update()
 	// Start the Dear ImGui frame
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
+
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	ImGui::NewFrame();
 
 	ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.05f, 0.05f, 0.05f, 1.0f));
@@ -74,11 +78,6 @@ void GuiManager::Update()
 
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
-
-	//bool show_demo_window = true;
-	//if (show_demo_window)
-	//	ImGui::ShowDemoWindow(&show_demo_window);
-
 }
 
 void GuiManager::Draw()
