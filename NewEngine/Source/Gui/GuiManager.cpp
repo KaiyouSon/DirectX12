@@ -75,9 +75,10 @@ void GuiManager::Update()
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
 
-	bool show_demo_window = true;
-	if (show_demo_window)
-		ImGui::ShowDemoWindow(&show_demo_window);
+	//bool show_demo_window = true;
+	//if (show_demo_window)
+	//	ImGui::ShowDemoWindow(&show_demo_window);
+
 }
 
 void GuiManager::Draw()

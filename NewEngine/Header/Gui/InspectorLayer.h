@@ -14,6 +14,7 @@ private:
 	void ShowDrawLayer(Sprite& sprite);
 	void ShowTransform(GameObject& gameObject);
 	void ShowTexture(GameObject& gameObject);
+	void ShowAddComponent(GameObject& gameObject);
 
 public:
 	bool isChangeObjName;

@@ -24,6 +24,10 @@ void InspectorLayer::Update()
 	ShowObjectList();
 	ShowSpriteList();
 
+	//ImGui::Columns(2, 0, false);
+
+
+
 	ImGui::End();
 }
 
@@ -68,6 +72,9 @@ void InspectorLayer::ShowObjectList()
 
 			// テクスチャーコンポネント
 			ShowTexture(*objList[i]);	ImGui::Separator();
+
+			// コンポネント追加
+			ShowAddComponent(*objList[i]);
 		}
 	}
 }
@@ -97,6 +104,9 @@ void InspectorLayer::ShowSpriteList()
 
 			// テクスチャーコンポネント
 			ShowTexture(*sprList[i]);	ImGui::Separator();
+
+			// コンポネント追加
+			ShowAddComponent(*sprList[i]);
 		}
 	}
 
@@ -323,6 +333,13 @@ void InspectorLayer::ShowTexture(GameObject& gameObject)
 			tmpColor[2] * 255,
 			tmpColor[3] * 255));
 	}
+}
+void InspectorLayer::ShowAddComponent(GameObject& gameObject)
+{
+	ImGui::Columns(3, 0, false);
+	ImGui::NextColumn();
+	ImGui::Button("Add Component", { 144,32 });
+	ImGui::Columns(1);
 }
 
 Vec2 InspectorLayer::GetPos()
