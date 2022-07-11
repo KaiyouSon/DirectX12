@@ -49,7 +49,7 @@ TextureList::~TextureList()
 	textureList.clear();
 }
 
-void TextureList::PushToTextureList(Texture* texture, std::string tag)
+void TextureList::AddTexture(Texture* texture, std::string tag)
 {
 	texture->SetTextureTag(tag);
 	textureList.push_back(texture);

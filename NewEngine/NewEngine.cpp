@@ -3,6 +3,7 @@
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "NewEngine/Header/Render/RenderWindow.h"
 #include "NewEngine/Header/Developer/DeveloperManager.h"
+#include "NewEngine/Header/DataOperator.h"
 #include <wrl.h>
 using namespace Microsoft::WRL;
 
@@ -16,7 +17,18 @@ void NewEngineInit()
 		debugController.Get()->EnableDebugLayer();
 	}
 #endif
+	DataOperator::GetInstance()->Initialize();
+	DataOperator::GetInstance()->LoadWindowData();
 
+	RenderWindow::GetInstance().SetWindowTitle(
+		DataOperator::GetInstance()->GetGameWindowTitleForStorage());
+	RenderWindow::GetInstance().SetWindowSize(
+		DataOperator::GetInstance()->GetGameWindowSizeForStorage().x,
+		DataOperator::GetInstance()->GetGameWindowSizeForStorage().y);
+#ifdef _DEBUG
+	RenderWindow::GetInstance().SetWindowTitle("NewEngine");
+	RenderWindow::GetInstance().SetWindowSize(1920, 1010);
+#endif
 	RenderWindow::GetInstance().CreateGameWindow();
 	RenderBase::GetInstance()->Initialize();
 	DeveloperManager::GetInstance()->Initialize();
@@ -67,6 +79,7 @@ void NewEngineEnd()
 
 	DeveloperManager::DestroyInstance();
 	RenderBase::DestroyInstance();
+	DataOperator::DestroyInstance();
 
 	//ID3D12DebugDevice* debugInterface;
 	//if (SUCCEEDED(tmpDevice.Get()->QueryInterface(&debugInterface)))

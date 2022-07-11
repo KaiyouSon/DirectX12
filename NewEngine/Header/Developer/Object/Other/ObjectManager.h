@@ -35,6 +35,9 @@ public:
 	std::vector<Object3D*> GetObjectList();
 	std::vector<Sprite*> GetSpriteList();
 
+	Object3D* GetObject3D(std::string objName);
+	Sprite* GetSprite(std::string objName);
+
 	static ObjectManager* GetInstance();
 	static void DestroyInstance();
 private:

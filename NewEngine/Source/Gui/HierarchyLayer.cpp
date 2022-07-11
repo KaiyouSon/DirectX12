@@ -36,8 +36,12 @@ void HierarchyLayer::Update()
 	ShowSpriteList();
 
 	// 右クリックしたら
-	if (ImGui::GetMouseClickedCount(1))
-		ImGui::OpenPopup("RightClick");
+	if (ImGui::GetMousePos().x < size.x &&
+		ImGui::GetMousePos().y < size.y)
+	{
+		if (ImGui::GetMouseClickedCount(1))
+			ImGui::OpenPopup("RightClick");
+	}
 
 	if (ImGui::BeginPopup("RightClick"))
 	{
@@ -122,7 +126,7 @@ void HierarchyLayer::ShowSpriteList()
 		{
 			if (key->GetKeyTrigger(DIK_DELETE))
 			{
-				ObjectManager::GetInstance()->DestroySprite(sprList[currentObjNode]);
+				ObjectManager::GetInstance()->DestroySprite(sprList[currentSprNode]);
 				currentSprNode = -1;
 			}
 			ImGui::TreePop();

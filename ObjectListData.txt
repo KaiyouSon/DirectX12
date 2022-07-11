@@ -1,13 +1,15 @@
 ObjectListSize 2
 Object0ModelType Cube
+Object0ModelName Mesh
 ComponentListSize 3
 Object0Transformpos 0 0 0 
 Object0Transformrot 0 0 0 
 Object0Transformscale 10 10 10 
 Object0TextureTag obj
 Object1ModelType Cube
+Object1ModelName Rey
 ComponentListSize 3
-Object1Transformpos -21.05 -5.45 -30 
+Object1Transformpos -19.05 0 -30 
 Object1Transformrot 0 0 0 
 Object1Transformscale 1 1 10 
 Object1TextureTag obj

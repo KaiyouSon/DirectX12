@@ -3,7 +3,7 @@
 #include "NewEngine/Header/Gui/SceneLayer.h"
 #include "NewEngine/Header/Gui/ProjectLayer.h"
 #include "NewEngine/Header/Gui/HierarchyLayer.h"
-#include "NewEngine/Header/Gui/DebugLayer.h"
+#include "NewEngine/Header/Gui/UserLayer.h"
 #include "NewEngine/Header/Gui/InspectorLayer.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "NewEngine/Header/Render/RenderWindow.h"
@@ -12,14 +12,7 @@
 #include "ImGUI/imgui_impl_dx12.h"
 #include "ImGUI/imgui_impl_win32.h"
 
-struct FrameContext
-{
-	ID3D12CommandAllocator* CommandAllocator;
-	UINT64                  FenceValue;
-};
-
-static int const                    NUM_FRAMES_IN_FLIGHT = 3;
-static FrameContext                 g_frameContext[NUM_FRAMES_IN_FLIGHT] = {};
+static int const NUM_FRAMES_IN_FLIGHT = 3;
 
 GuiManager::~GuiManager()
 {
@@ -27,7 +20,7 @@ GuiManager::~GuiManager()
 	SceneLayer::DestroyInstance();
 	ProjectLayer::DestroyInstance();
 	HierarchyLayer::DestroyInstance();
-	DebugLayer::DestroyInstance();
+	UserLayer::DestroyInstance();
 	InspectorLayer::DestroyInstance();
 }
 
@@ -52,7 +45,7 @@ void GuiManager::Initialize()
 	ProjectLayer::GetInstance()->Initialize();
 	SceneLayer::GetInstance()->Initialize();
 	HierarchyLayer::GetInstance()->Initialize();
-	DebugLayer::GetInstance()->Initialize();
+	UserLayer::GetInstance()->Initialize();
 	InspectorLayer::GetInstance()->Initialize();
 }
 
@@ -73,11 +66,15 @@ void GuiManager::Update()
 	SceneLayer::GetInstance()->Update();
 	ProjectLayer::GetInstance()->Update();
 	HierarchyLayer::GetInstance()->Update();
-	DebugLayer::GetInstance()->Update();
+	UserLayer::GetInstance()->Update();
 	InspectorLayer::GetInstance()->Update();
 
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
+
+	bool show_demo_window = true;
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
 }
 
 void GuiManager::Draw()

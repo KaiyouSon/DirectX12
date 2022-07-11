@@ -9,8 +9,9 @@
 #include "NewEngine/Header/Developer/Component/Tag.h"
 #include "NewEngine/Header/Developer/Debug/DebugCamera.h"
 #include "NewEngine/Header/Developer/Sound.h"
+#include "NewEngine/Header/Render/Viewport.h"
 #include "ImGUI/imgui.h"
-#include<vector>
+#include <vector>
 
 Sound testSound;
 Model barbla;
@@ -73,14 +74,15 @@ struct Mesh
 bool ReyHitMesh(const Rey& rey, const Mesh& mesh);
 bool LineHitMesh(const Line& line, const Mesh& mesh);
 void Collision();
+Vec3 Vec3MulMat(Vec3 vec, Mat4 mat);
 
 // 画像の読み込み
 void Load()
 {
 	LoadBasicModel();
-	gameTextureList->PushToTextureList(LoadTexture("Resources/bg.png"), "bg");
-	gameTextureList->PushToTextureList(LoadTexture("Resources/pic.png"), "obj");
-	gameTextureList->PushToTextureList(LoadTexture("Resources/scope.png"), "scope");
+	gameTextureList->AddTexture(LoadTexture("Resources/bg.png"), "bg");
+	gameTextureList->AddTexture(LoadTexture("Resources/pic.png"), "obj");
+	gameTextureList->AddTexture(LoadTexture("Resources/scope.png"), "scope");
 
 	testSound = LoadSoundWave("Resources/title_bgm.wav");
 
@@ -111,7 +113,49 @@ void Update()
 		else if (hitType == 1) hitType = 0;
 	}
 
-	Collision();
+	Object3D* cube1 = ObjectManager::GetInstance()->GetObjectList()[0];
+	Object3D* cube2 = ObjectManager::GetInstance()->GetObjectList()[1];
+	Sprite* backGround = ObjectManager::GetInstance()->GetSpriteList()[0];
+	Sprite* scope = ObjectManager::GetInstance()->GetSpriteList()[1];
+	Transform* cubeTrans = cube1->GetComponent<Transform>();
+	Transform* scopeTrans = scope->GetComponent<Transform>();
+
+	Mat4 viewportMat = MathUtil::ConvertViewportMat(*viewport);	// ビューポート行列
+	Mat4 viewportInvMat = Mat4::Inverse(viewportMat);			// ビューポート逆行列
+	Mat4 projectionInvMat = Mat4::Inverse(view->matProjection2D);
+	Mat4 viewInvMat = Mat4::Inverse(view->matView);
+
+	// 失敗1
+	//Mat4 scopeMat = scope->GetFinalMat();
+	//Vec3 reyPos = { scopeMat.mat[3][0],scopeMat.mat[3][1], scopeMat.mat[3][2] };
+	//reyPos = Vec3MulMat(reyPos, viewportInvMat);
+	//reyPos = Vec3MulMat(reyPos, projectionInvMat);
+	//reyPos = Vec3MulMat(reyPos, viewInvMat);
+
+	// 失敗2
+	Mat4 scopeMat = scope->GetFinalMat();
+	scopeMat *= viewportInvMat;
+	scopeMat *= projectionInvMat;
+	scopeMat *= viewInvMat;
+	Vec3 reyPos = { scopeMat.mat[3][0],scopeMat.mat[3][1], scopeMat.mat[3][2] };
+
+
+	//Rey rey =
+	//{
+	//	Vec3(reyVec.x,reyVec.y,view->GetNearZ()),
+	//	Vec3(reyVec.x,reyVec.y,view->GetFarZ())
+	//};
+
+	//Mesh mesh =
+	//{
+	//	cubeTrans->pos + (Vec3::back * cubeTrans->scale),
+	//	cubeTrans->scale
+	//};
+
+	//if (ReyHitMesh(rey, mesh))	backGround->SetisShow(true);
+	//else						backGround->SetisShow(false);
+
+	//Collision();
 
 	view->SetPos(DebugCamera::GetInstance()->GetPos());
 	view->SetTarget(DebugCamera::GetInstance()->GetTarget());
@@ -135,7 +179,7 @@ void Collision()
 {
 	Object3D* cube1 = ObjectManager::GetInstance()->GetObjectList()[0];
 	Object3D* cube2 = ObjectManager::GetInstance()->GetObjectList()[1];
-	Sprite* backGround = ObjectManager::GetInstance()->GetSpriteList()[1];
+	Sprite* backGround = ObjectManager::GetInstance()->GetSpriteList()[0];
 	Transform* cubeTrans = cube1->GetComponent<Transform>();
 	Transform* reyTrans = cube2->GetComponent<Transform>();
 
@@ -210,4 +254,18 @@ bool LineHitMesh(const Line& line, const Mesh& mesh)
 
 	}
 	return false;
+}
+
+Vec3 Vec3MulMat(Vec3 vec, Mat4 mat)
+{
+	Vec4 tmpVec = { vec.x,vec.y,vec.z,1 };
+
+	return
+	{
+		mat.mat[0][0] * tmpVec.x + mat.mat[0][1] * tmpVec.y + mat.mat[0][2] * tmpVec.z + mat.mat[0][3] * tmpVec.w,
+		mat.mat[1][0] * tmpVec.x + mat.mat[1][1] * tmpVec.y + mat.mat[1][2] * tmpVec.z + mat.mat[1][3] * tmpVec.w,
+		mat.mat[2][0] * tmpVec.x + mat.mat[2][1] * tmpVec.y + mat.mat[2][2] * tmpVec.z + mat.mat[2][3] * tmpVec.w,
+		//mat.mat[3][0] * tmpVec.x * mat.mat[3][1] * tmpVec.y * mat.mat[3][2] * tmpVec.z * mat.mat[3][3] * tmpVec.w
+	};
+
 }

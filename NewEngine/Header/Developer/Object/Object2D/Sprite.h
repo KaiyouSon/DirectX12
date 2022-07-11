@@ -25,6 +25,7 @@ public:
 	void Draw();
 
 	bool GetLayer();
+	Mat4 GetFinalMat();
 
 	void SetTexture(Texture& texture);
 	void SetLayer(bool layer);

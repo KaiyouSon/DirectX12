@@ -16,6 +16,7 @@ public:
 	float Magnitude() const;    // ベクトルの大きさ
 	float SqrMagnitude() const; // ベクトルの大きさの二乗
 	Vec4 Normalized() const;    // 正規化にしたベクトル
+	Vec4 Inverse();
 
 	// static関数
 	static float Dot(const Vec4& v1, const Vec4& v2);      // 二つのベクトルの内積
@@ -25,6 +26,7 @@ public:
 	static Vec4 Max(const Vec4& v1, const Vec4& v2);
 	// 二つのベクトルで各成分の一番小さな値を使用してベクトルを作成する
 	static Vec4 Min(const Vec4& v1, const Vec4& v2);
+
 
 	// 算術演算子のオーバーロード
 	Vec4 operator+(const Vec4& other) const; // もう一方のベクトルとの足し算

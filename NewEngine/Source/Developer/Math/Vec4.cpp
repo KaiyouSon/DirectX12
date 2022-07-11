@@ -10,6 +10,11 @@ Vec4 Vec4::Normalized() const
 	return { x / Magnitude(), y / Magnitude(), z / Magnitude(), w / Magnitude() };
 }
 
+Vec4 Vec4::Inverse()
+{
+	return { 1 / x,1 / y,1 / z,1 / w };
+}
+
 float Vec4::Distance(const Vec4& v1, const Vec4& v2)
 {
 	return sqrt(

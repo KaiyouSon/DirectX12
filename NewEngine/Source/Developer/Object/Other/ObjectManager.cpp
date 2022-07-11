@@ -191,44 +191,56 @@ void ObjectManager::LoadObjectList()
 			lineStream >> listSize;
 		}
 
-		string numberKey;
+		string numberStr;
 		for (int i = 0; i < listSize; i++)
 		{
-			numberKey = "Object" + to_string(i);
+			numberStr = "Object" + to_string(i);
 			// モデルタイプの読み込み
-			if (key == numberKey + "ModelType")
+			if (key == numberStr + "ModelType")
 			{
 				string modelType;
 				lineStream >> modelType;
 				if (modelType == "Cube") CreateCube();
 				if (modelType == "Sphere") CreateSphere();
 				if (modelType == "Monkey") CreateMonkey();
+				break;
+			}
+			if (key == numberStr + "ModelName")
+			{
+				string tmpName;
+				lineStream >> tmpName;
+				objectList[i]->SetName(tmpName);
+				break;
 			}
 
-			if (key == numberKey + "Transform" + "pos")
+			if (key == numberStr + "Transform" + "pos")
 			{
 				lineStream >> objectList[i]->GetComponent<Transform>()->pos.x;
 				lineStream >> objectList[i]->GetComponent<Transform>()->pos.y;
 				lineStream >> objectList[i]->GetComponent<Transform>()->pos.z;
+				break;
 			}
-			else if (key == numberKey + "Transform" + "rot")
+			else if (key == numberStr + "Transform" + "rot")
 			{
 				lineStream >> objectList[i]->GetComponent<Transform>()->rot.x;
 				lineStream >> objectList[i]->GetComponent<Transform>()->rot.y;
 				lineStream >> objectList[i]->GetComponent<Transform>()->rot.z;
+				break;
 			}
-			else if (key == numberKey + "Transform" + "scale")
+			else if (key == numberStr + "Transform" + "scale")
 			{
 				lineStream >> objectList[i]->GetComponent<Transform>()->scale.x;
 				lineStream >> objectList[i]->GetComponent<Transform>()->scale.y;
 				lineStream >> objectList[i]->GetComponent<Transform>()->scale.z;
+				break;
 			}
-			else if (key == numberKey + "TextureTag")
+			else if (key == numberStr + "TextureTag")
 			{
 				string tmpTag;
 				lineStream >> tmpTag;
 				if (tmpTag != "")
 					objectList[i]->SetTexture(*gameTextureList->GetTexture(tmpTag));
+				break;
 			}
 		}
 	}
@@ -260,22 +272,31 @@ void ObjectManager::LoadSpriteList()
 		{
 			numberStr = "Sprite" + to_string(i);
 
-			if (key == numberStr)	CreateSprite();
+			if (key == numberStr) { CreateSprite();	break; }
 
+			if (key == numberStr + "SpriteName")
+			{
+				string tmpName;
+				lineStream >> tmpName;
+				spriteList[i]->SetName(tmpName);
+				break;
+			}
 			//	表示フラグ
-			if (key == (numberStr + "isShow"))
+			if (key == numberStr + "isShow")
 			{
 				bool isShow;
 				lineStream >> isShow;
 				spriteList[i]->SetisShow(isShow);
+				break;
 			}
 
 			// レイヤー
-			if (key == (numberStr + "Layer"))
+			if (key == numberStr + "Layer")
 			{
 				bool layer;
 				lineStream >> layer;
 				spriteList[i]->SetLayer(layer);
+				break;
 			}
 
 			if (key == numberStr + "Transform" + "pos")
@@ -283,25 +304,30 @@ void ObjectManager::LoadSpriteList()
 				lineStream >> spriteList[i]->GetComponent<Transform>()->pos.x;
 				lineStream >> spriteList[i]->GetComponent<Transform>()->pos.y;
 				lineStream >> spriteList[i]->GetComponent<Transform>()->pos.z;
+				break;
 			}
 			else if (key == numberStr + "Transform" + "rot")
 			{
 				lineStream >> spriteList[i]->GetComponent<Transform>()->rot.x;
 				lineStream >> spriteList[i]->GetComponent<Transform>()->rot.y;
 				lineStream >> spriteList[i]->GetComponent<Transform>()->rot.z;
+				break;
 			}
 			else if (key == numberStr + "Transform" + "scale")
 			{
 				lineStream >> spriteList[i]->GetComponent<Transform>()->scale.x;
 				lineStream >> spriteList[i]->GetComponent<Transform>()->scale.y;
 				lineStream >> spriteList[i]->GetComponent<Transform>()->scale.z;
+				break;
 			}
 			else if (key == numberStr + "TextureTag")
 			{
 				string tmpTag;
 				lineStream >> tmpTag;
 				if (tmpTag != "")
-					spriteList[i]->SetTexture(*gameTextureList->GetTexture(tmpTag));
+					spriteList[i]->GetComponent<Texture>()->
+					SetTexture(gameTextureList->GetTexture(tmpTag));
+				break;
 			}
 		}
 	}
@@ -323,6 +349,9 @@ void ObjectManager::SaveObjectList()
 		// モデルのタイプ
 		file << numberStr + "ModelType ";
 		file << objectList[i]->GetModelType() << "\n";
+		// モデルの名前
+		file << numberStr + "ModelName ";
+		file << objectList[i]->GetName() << "\n";
 		// コンポネントリスト
 		file << "ComponentListSize ";
 		file << objectList[i]->GetComponentList().size() << "\n";
@@ -351,7 +380,7 @@ void ObjectManager::SaveObjectList()
 
 			if (objectList[i]->GetComponentList()[j]->GetComponentName() == "Texture")
 			{
-				file << "Object" + to_string(i) + "TextureTag ";
+				file << numberStr + "TextureTag ";
 				string tmp = objectList[i]->GetComponent<Texture>()->GetTextureTag();
 				file << objectList[i]->GetComponent<Texture>()->GetTextureTag();
 				file << "\n";
@@ -375,6 +404,9 @@ void ObjectManager::SaveSpriteList()
 
 		// スプライト
 		file << numberStr + "\n";
+		// スプライトの名前
+		file << numberStr + "SpriteName ";
+		file << spriteList[i]->GetName() << "\n";
 		// 表示フラグ
 		file << numberStr + "isShow ";
 		file << spriteList[i]->GetisShow();
@@ -428,6 +460,26 @@ std::vector<Object3D*> ObjectManager::GetObjectList()
 std::vector<Sprite*> ObjectManager::GetSpriteList()
 {
 	return spriteList;
+}
+Object3D* ObjectManager::GetObject3D(std::string objName)
+{
+	for (int i = 0; i < objectList.size(); i++)
+	{
+		if (objectList[i]->GetName() == objName)
+			return objectList[i];
+	}
+
+	return nullptr;
+}
+Sprite* ObjectManager::GetSprite(std::string objName)
+{
+	for (int i = 0; i < spriteList.size(); i++)
+	{
+		if (spriteList[i]->GetName() == objName)
+			return spriteList[i];
+	}
+
+	return nullptr;
 }
 
 ObjectManager* ObjectManager::GetInstance()

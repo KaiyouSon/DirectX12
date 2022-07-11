@@ -34,7 +34,7 @@ private:
 
 public:
 	~TextureList();
-	void PushToTextureList(Texture* texture, std::string tag);
+	void AddTexture(Texture* texture, std::string tag);
 	std::vector <std::string> GetList();
 
 	Texture* GetTexture(std::string tag);

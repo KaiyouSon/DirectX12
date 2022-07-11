@@ -5,6 +5,7 @@
 #include "NewEngine/Header/Developer/Math/Vec4.h"
 #include "NewEngine/Header/Developer/Math/Mat4.h"
 #include "NewEngine/Header/Developer/Math/Quaternion.h"
+#include "NewEngine/Header/Render/Viewport.h"
 
 class MathUtil
 {
@@ -37,4 +38,5 @@ public:
 	static Mat4 ConvertViewProjectionMat(const Vec3& pos, const Vec3& target, const Vec3& up);			// ƒrƒ…[•ÏŠ·
 	static Mat4 ConvertPerspectiveProjectionMat(float fovAngle, float aspect, float nearZ, float farZ);	// “§‹Ë‰e•ÏŠ·
 	static Mat4 ConvertOrthoGrphicProjectionMat(int WIN_WIDTH, int WIN_HEIGHT);							// •½sË‰e•ÏŠ·
+	static Mat4 ConvertViewportMat(Viewport& viewport);
 };

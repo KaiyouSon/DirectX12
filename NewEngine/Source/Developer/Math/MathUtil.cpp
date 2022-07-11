@@ -178,3 +178,15 @@ Mat4 MathUtil::ConvertOrthoGrphicProjectionMat(int WIN_WIDTH, int WIN_HEIGHT)
 		-1,1,0,1
 	};
 }
+
+Mat4 MathUtil::ConvertViewportMat(Viewport& viewport)
+{
+	Mat4 viewportMat = Mat4::Identity();
+	viewportMat.mat[0][0] = viewport.GetSize().x / 2;
+	viewportMat.mat[1][1] = -viewport.GetSize().y / 2;
+	viewportMat.mat[2][2] = viewport.GetMaxDepth() - viewport.GetMinDepth();
+	viewportMat.mat[3][0] = viewport.GetLeftTopPos().x + viewport.GetSize().x / 2;
+	viewportMat.mat[3][1] = viewport.GetLeftTopPos().y + viewport.GetSize().y / 2;
+	viewportMat.mat[3][2] = viewport.GetMinDepth();
+	return viewportMat;
+}

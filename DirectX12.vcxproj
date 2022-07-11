@@ -157,6 +157,7 @@
     <ClCompile Include="NewEngine\main.cpp" />
     <ClCompile Include="NewEngine\main2.cpp" />
     <ClCompile Include="NewEngine\NewEngine.cpp" />
+    <ClCompile Include="NewEngine\Source\DataOperator.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\ComponentManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\IComponent.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\Tag.cpp" />
@@ -187,7 +188,7 @@
     <ClCompile Include="NewEngine\Source\Developer\Util\Color.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Random.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Util\Util.cpp" />
-    <ClCompile Include="NewEngine\Source\Gui\DebugLayer.cpp" />
+    <ClCompile Include="NewEngine\Source\Gui\UserLayer.cpp" />
     <ClCompile Include="NewEngine\Source\Gui\GuiManager.cpp" />
     <ClCompile Include="NewEngine\Source\Gui\HierarchyLayer.cpp" />
     <ClCompile Include="NewEngine\Source\Gui\InspectorLayer.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="ImGUI\imstb_rectpack.h" />
     <ClInclude Include="ImGUI\imstb_textedit.h" />
     <ClInclude Include="ImGUI\imstb_truetype.h" />
+    <ClInclude Include="NewEngine\Header\DataOperator.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\ComponentManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\IComponent.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\Tag.h" />
@@ -262,7 +264,7 @@
     <ClInclude Include="NewEngine\Header\Developer\Util\Color.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Random.h" />
     <ClInclude Include="NewEngine\Header\Developer\Util\Util.h" />
-    <ClInclude Include="NewEngine\Header\Gui\DebugLayer.h" />
+    <ClInclude Include="NewEngine\Header\Gui\UserLayer.h" />
     <ClInclude Include="NewEngine\Header\Gui\GuiManager.h" />
     <ClInclude Include="NewEngine\Header\Gui\HierarchyLayer.h" />
     <ClInclude Include="NewEngine\Header\Gui\ILayer.h" />

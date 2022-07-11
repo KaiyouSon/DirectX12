@@ -2,6 +2,7 @@
 #include "NewEngine/Header/Render/RenderWindow.h"
 #include "NewEngine/Header/Render/Viewport.h"
 #include "NewEngine/Header/Render/ScissorRectangle.h"
+#include "NewEngine/Header/Gui/SceneLayer.h"
 #include <cassert>
 #include <string>
 #include <d3dcompiler.h>
@@ -10,7 +11,6 @@
 #pragma comment(lib,"d3dcompiler.lib")
 using namespace Microsoft::WRL;
 
-Viewport* viewport = new Viewport;
 ScissorRectangle* scissorRectangle = new ScissorRectangle;
 
 void RenderBase::Initialize()
@@ -59,6 +59,24 @@ void RenderBase::PreDraw()
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	// ビューポートの処理
+	viewport->SetViewport(
+		{ 0,0 },
+		{
+			(float)RenderWindow::GetInstance().GetWinWidth(),
+			(float)RenderWindow::GetInstance().GetWinHeight()
+		});
+
+#ifdef _DEBUG
+	viewport->SetViewport(
+		{
+			SceneLayer::GetInstance()->GetPos().x,
+			SceneLayer::GetInstance()->GetPos().y
+		},
+		{
+			SceneLayer::GetInstance()->GetSize().x,
+			 SceneLayer::GetInstance()->GetSize().y
+		});
+#endif
 	viewport->Update();
 
 	// シザー矩形の処理
@@ -721,6 +739,5 @@ RenderBase* RenderBase::GetInstance()
 void RenderBase::DestroyInstance()
 {
 	delete RenderBase::GetInstance();
-	delete viewport;
 	delete scissorRectangle;
 }

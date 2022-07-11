@@ -92,3 +92,8 @@ void Object3D::SetColor(Color& color)
 	this->color = color;
 
 }
+
+Mat4 Object3D::GetFinalMat()
+{
+	return constantBuffer->constMapTransform->mat;
+}

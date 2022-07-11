@@ -1,17 +1,19 @@
 SpriteListSize 2
 Sprite0
+Sprite0SpriteName backGround
 Sprite0isShow 1
-Sprite0Layer 1
+Sprite0Layer 0
 ComponentListSize 3
-Sprite0Transformpos 963.75 555 0 
+Sprite0Transformpos 960 540 0 
 Sprite0Transformrot 0 0 0 
 Sprite0Transformscale 1 1 1 
-Sprite0TextureTag scope
+Sprite0TextureTag bg
 Sprite1
-Sprite1isShow 0
-Sprite1Layer 0
+Sprite1SpriteName Scope
+Sprite1isShow 1
+Sprite1Layer 1
 ComponentListSize 3
 Sprite1Transformpos 960 540 0 
 Sprite1Transformrot 0 0 0 
 Sprite1Transformscale 1 1 1 
-Sprite1TextureTag bg
+Sprite1TextureTag scope

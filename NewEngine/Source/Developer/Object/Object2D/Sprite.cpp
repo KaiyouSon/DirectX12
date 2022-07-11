@@ -55,6 +55,29 @@ void Sprite::Update()
 	constantBuffer->constMapTransform->mat =
 		GetComponent<Transform>()->matWorld *
 		view->matProjection2D;
+
+	//Texture* texture = GetComponent<Texture>();
+
+	float width = GetComponent<Texture>()->GetTextureSize().x;
+	float height = GetComponent<Texture>()->GetTextureSize().y;
+
+	if (width / 2 != MathUtil::Absolut(vertices.at(0).pos.x) ||
+		height / 2 != MathUtil::Absolut(vertices.at(0).pos.y) ||
+		width / 2 != MathUtil::Absolut(vertices.at(1).pos.x) ||
+		height / 2 != MathUtil::Absolut(vertices.at(1).pos.y) ||
+		width / 2 != MathUtil::Absolut(vertices.at(2).pos.x) ||
+		height / 2 != MathUtil::Absolut(vertices.at(2).pos.y) ||
+		width / 2 != MathUtil::Absolut(vertices.at(3).pos.x) ||
+		height / 2 != MathUtil::Absolut(vertices.at(3).pos.y))
+	{
+		vertices.at(0).pos = { -(width / 2), +(height / 2), 0.0f };	// 左下
+		vertices.at(1).pos = { -(width / 2), -(height / 2), 0.0f };	// 左上
+		vertices.at(2).pos = { +(width / 2), +(height / 2), 0.0f }; // 右下
+		vertices.at(3).pos = { +(width / 2), -(height / 2), 0.0f }; // 右上
+
+		vertexBuffer->TransferToBuffer(vertices);
+		vertexBuffer->Unmap();
+	}
 }
 
 void Sprite::Draw()
@@ -98,29 +121,15 @@ void Sprite::SetTexture(Texture& texture)
 {
 	GetComponent<Texture>()->SetTexture(&texture);
 
-	float width = texture.GetTextureSize().x;
-	float height = texture.GetTextureSize().y;
 
-	if (width / 2 != MathUtil::Absolut(vertices.at(0).pos.x) ||
-		height / 2 != MathUtil::Absolut(vertices.at(0).pos.y) ||
-		width / 2 != MathUtil::Absolut(vertices.at(1).pos.x) ||
-		height / 2 != MathUtil::Absolut(vertices.at(1).pos.y) ||
-		width / 2 != MathUtil::Absolut(vertices.at(2).pos.x) ||
-		height / 2 != MathUtil::Absolut(vertices.at(2).pos.y) ||
-		width / 2 != MathUtil::Absolut(vertices.at(3).pos.x) ||
-		height / 2 != MathUtil::Absolut(vertices.at(3).pos.y))
-	{
-		vertices.at(0).pos = { -(width / 2), +(height / 2), 0.0f };	// 左下
-		vertices.at(1).pos = { -(width / 2), -(height / 2), 0.0f };	// 左上
-		vertices.at(2).pos = { +(width / 2), +(height / 2), 0.0f }; // 右下
-		vertices.at(3).pos = { +(width / 2), -(height / 2), 0.0f }; // 右上
-
-		vertexBuffer->TransferToBuffer(vertices);
-		vertexBuffer->Unmap();
-	}
 }
 
 void Sprite::SetLayer(bool layer)
 {
 	this->layer = layer;
+}
+
+Mat4 Sprite::GetFinalMat()
+{
+	return constantBuffer->constMapTransform->mat;
 }
