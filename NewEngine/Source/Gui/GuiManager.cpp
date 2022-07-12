@@ -61,6 +61,9 @@ void GuiManager::Update()
 
 	ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.05f, 0.05f, 0.05f, 1.0f));
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+	//ImFont bigFont;
+	//bigFont.FontSize = 16;
+	//ImGui::PushFont(&bigFont);
 
 	//MainLayer::GetInstance()->Update();
 	SceneLayer::GetInstance()->Update();
@@ -69,12 +72,13 @@ void GuiManager::Update()
 	UserLayer::GetInstance()->Update();
 	InspectorLayer::GetInstance()->Update();
 
+	//ImGui::PopFont();
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
 
-	bool show_demo_window = true;
-	if (show_demo_window)
-		ImGui::ShowDemoWindow(&show_demo_window);
+	//bool show_demo_window = true;
+	//if (show_demo_window)
+	//	ImGui::ShowDemoWindow(&show_demo_window);
 }
 
 void GuiManager::Draw()

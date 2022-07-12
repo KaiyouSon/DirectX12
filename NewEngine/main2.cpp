@@ -10,7 +10,6 @@
 #include "NewEngine/Header/Developer/Debug/DebugCamera.h"
 #include "NewEngine/Header/Developer/Sound.h"
 #include "NewEngine/Header/Render/Viewport.h"
-#include "ImGUI/imgui.h"
 #include <vector>
 
 Sound testSound;
@@ -125,14 +124,14 @@ void Update()
 	Mat4 projectionInvMat = Mat4::Inverse(view->matProjection2D);
 	Mat4 viewInvMat = Mat4::Inverse(view->matView);
 
-	// Ž¸”s1
+	// Test1
 	//Mat4 scopeMat = scope->GetFinalMat();
 	//Vec3 reyPos = { scopeMat.mat[3][0],scopeMat.mat[3][1], scopeMat.mat[3][2] };
 	//reyPos = Vec3MulMat(reyPos, viewportInvMat);
 	//reyPos = Vec3MulMat(reyPos, projectionInvMat);
 	//reyPos = Vec3MulMat(reyPos, viewInvMat);
 
-	// Ž¸”s2
+	// Test2
 	Mat4 scopeMat = scope->GetFinalMat();
 	scopeMat *= viewportInvMat;
 	scopeMat *= projectionInvMat;
@@ -155,7 +154,7 @@ void Update()
 	//if (ReyHitMesh(rey, mesh))	backGround->SetisShow(true);
 	//else						backGround->SetisShow(false);
 
-	//Collision();
+	Collision();
 
 	view->SetPos(DebugCamera::GetInstance()->GetPos());
 	view->SetTarget(DebugCamera::GetInstance()->GetTarget());
