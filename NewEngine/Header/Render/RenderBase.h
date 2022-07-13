@@ -83,15 +83,20 @@ private:
 	D3D12_INPUT_ELEMENT_DESC inputLayout[3];		// 頂点レイアウト
 
 	// ルートシグネチャ
-	ComPtr<ID3D12RootSignature> rootSignature;
+	//ComPtr<ID3D12RootSignature> rootSignature;
+
 
 	// グラフィックスパイプライン関連
 	ComPtr <ID3D12PipelineState> pipelineState3D;
-	ComPtr <ID3D12PipelineState> pipelineState2D;
 
 	// 描画処理関連
 	D3D12_RESOURCE_BARRIER barrierDesc{};	// リソースバリア
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;	// レンダーターゲットビューのハンドル
+
+public:
+	ComPtr <ID3D12PipelineState> pipelineState2D;
+	ComPtr<ID3D12RootSignature> rootSignature;
+
 public:
 	float clearColor[4];	// 画面色
 };

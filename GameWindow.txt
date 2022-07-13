@@ -1,2 +1,2 @@
 GameWindowTitle Test
-GameWindowSize 1080 720 
+GameWindowSize 1920 1080 

@@ -4,8 +4,11 @@
 #include "NewEngine/Header/Render/RenderWindow.h"
 #include "NewEngine/Header/Developer/DeveloperManager.h"
 #include "NewEngine/Header/DataOperator.h"
+#include "NewEngine/Header/Developer/Object/Object2D/Square.h"
 #include <wrl.h>
 using namespace Microsoft::WRL;
+
+extern Square* square;
 
 void NewEngineInit()
 {
@@ -22,9 +25,9 @@ void NewEngineInit()
 
 	RenderWindow::GetInstance().SetWindowTitle(
 		DataOperator::GetInstance()->GetGameWindowTitleForStorage());
-	RenderWindow::GetInstance().SetWindowSize(
-		DataOperator::GetInstance()->GetGameWindowSizeForStorage().x,
-		DataOperator::GetInstance()->GetGameWindowSizeForStorage().y);
+	//RenderWindow::GetInstance().SetWindowSize(
+	//	DataOperator::GetInstance()->GetGameWindowSizeForStorage().x,
+	//	DataOperator::GetInstance()->GetGameWindowSizeForStorage().y);
 #ifdef _DEBUG
 	RenderWindow::GetInstance().SetWindowTitle("NewEngine");
 	RenderWindow::GetInstance().SetWindowSize(1920, 1010);
@@ -50,12 +53,14 @@ void NewEnginePreDraw()
 void NewEngineSetDraw3D()
 {
 	RenderBase::GetInstance()->Draw3D();
+	square->PreDrawScene();
 	DeveloperManager::GetInstance()->Draw3D();
+	square->PostDrawScene();
 }
 void NewEngineSetDraw2D()
 {
 	RenderBase::GetInstance()->Draw2D();
-	DeveloperManager::GetInstance()->Draw2DToBack();
+	//DeveloperManager::GetInstance()->Draw2DToBack();
 }
 void NewEnginePostDraw()
 {

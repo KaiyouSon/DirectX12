@@ -10,10 +10,13 @@
 #include "NewEngine/Header/Developer/Debug/DebugCamera.h"
 #include "NewEngine/Header/Developer/Sound.h"
 #include "NewEngine/Header/Render/Viewport.h"
+#include "NewEngine/Header/Developer/Object/Object2D/Square.h"
 #include <vector>
 
 Sound testSound;
 Model barbla;
+
+Square* square = new Square;
 
 struct Rey
 {
@@ -86,6 +89,7 @@ void Load()
 	testSound = LoadSoundWave("Resources/title_bgm.wav");
 
 	//barbla = LoadModel("Resources/barbla.obj");
+
 }
 
 // 初期化処理
@@ -97,10 +101,16 @@ void Initialize()
 
 	DebugCamera::GetInstance()->Initialize();
 
-	//test->Initialize();
+	square->Initialize(Square::view2D, { WIN_HALF_WIDTH,WIN_HALF_HEIGHT });
 }
 
-Transform trans;
+Transform trans =
+{
+	{WIN_HALF_WIDTH,WIN_HALF_HEIGHT,0},
+	Vec3::one,
+	Vec3::zero
+};
+
 static int hitType = 0;
 
 // 更新処理
@@ -155,6 +165,8 @@ void Update()
 
 	//Collision();
 
+	square->Update(trans);
+
 	view->SetPos(DebugCamera::GetInstance()->GetPos());
 	view->SetTarget(DebugCamera::GetInstance()->GetTarget());
 	view->SetUp(DebugCamera::GetInstance()->GetUp());
@@ -165,12 +177,19 @@ void Update()
 	//test->Update();
 }
 
+void Draw2D()
+{
+	square->Draw();
+}
+
 // インスタンスのdelete
 void Destroy()
 {
 	UnLoadSoundWave(&testSound);
 	delete gameTextureList;
 	delete tagList;
+
+	delete square;
 }
 
 void Collision()
