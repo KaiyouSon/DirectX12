@@ -9,7 +9,6 @@
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	SetWindowTitle("NewEngine");			// タイトル
-
 	SetWindowSize(WIN_WIDTH, WIN_HEIGHT);	// サイズ
 	SetBackgroundColor(25.5, 63.75, 127.5);	// 背景色
 	NewEngineInit();	// エンジンの初期化

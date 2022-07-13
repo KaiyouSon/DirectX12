@@ -9,7 +9,7 @@ Object0TextureTag obj
 Object1ModelType Cube
 Object1ModelName Rey
 ComponentListSize 3
-Object1Transformpos -5.75 0 -26.6 
+Object1Transformpos -16 0 -26.6 
 Object1Transformrot 0 0 0 
 Object1Transformscale 1 1 10 
 Object1TextureTag obj

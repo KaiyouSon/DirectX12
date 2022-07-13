@@ -138,7 +138,6 @@ void Update()
 	scopeMat *= viewInvMat;
 	Vec3 reyPos = { scopeMat.mat[3][0],scopeMat.mat[3][1], scopeMat.mat[3][2] };
 
-
 	//Rey rey =
 	//{
 	//	Vec3(reyVec.x,reyVec.y,view->GetNearZ()),
@@ -154,7 +153,7 @@ void Update()
 	//if (ReyHitMesh(rey, mesh))	backGround->SetisShow(true);
 	//else						backGround->SetisShow(false);
 
-	Collision();
+	//Collision();
 
 	view->SetPos(DebugCamera::GetInstance()->GetPos());
 	view->SetTarget(DebugCamera::GetInstance()->GetTarget());
