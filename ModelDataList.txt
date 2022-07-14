@@ -1,0 +1,9 @@
+ListSize 4
+BasicModelDataFilePath NewEngine/BasicModel/cube.obj
+BasicModelDataTag cube
+BasicModelDataFilePath NewEngine/BasicModel/sphere.obj
+BasicModelDataTag sphere
+BasicModelDataFilePath NewEngine/BasicModel/monkey.obj
+BasicModelDataTag monkey
+LoadModelDataFilePath Resources/Triangle.obj
+LoadModelDataTag triangle

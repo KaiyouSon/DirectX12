@@ -160,6 +160,7 @@
     <ClCompile Include="NewEngine\Source\DataOperator.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\ComponentManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\IComponent.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Component\ModelData.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\Tag.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\Texture.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\Transform.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="NewEngine\Header\DataOperator.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\ComponentManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\IComponent.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Component\ModelData.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\Tag.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\Texture.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\Transform.h" />

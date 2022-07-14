@@ -14,11 +14,20 @@ void DataOperator::Initialize()
 	gameWindowSizeForStorage = { 600,400 };
 }
 
+void DataOperator::SaveData()
+{
+	SaveModelDataList();
+}
+void DataOperator::LoadData()
+{
+	LoadModelDataList();
+}
+
+// ゲームウィンドウデータ
 void DataOperator::SaveWindowData()
 {
 	ofstream file;
-	string filename = "GameWindow.txt";
-	file.open(filename, std::ios::out);
+	file.open("GameWindow.txt", std::ios::out);
 
 	// タイトルの書き込み
 	file << "GameWindowTitle ";
@@ -56,6 +65,69 @@ void DataOperator::LoadWindowData()
 		{
 			lineStream >> gameWindowSizeForStorage.x;
 			lineStream >> gameWindowSizeForStorage.y;
+			continue;
+		}
+	}
+	file.close();
+}
+
+// モデルデータリスト
+void DataOperator::SaveModelDataList()
+{
+	ofstream file;
+	file.open("ModelDataList.txt", std::ios::out);
+
+	//サイズのセーブ
+	file << "ListSize " << modelDataList->GetList().size() << "\n";
+
+	string dataType;
+	for (int i = 0; i < modelDataList->GetList().size(); i++)
+	{
+		if (i == 0) dataType = "Basic";
+		if (i == 3) dataType = "Load";
+		// ファイルパス
+		file << dataType + "ModelDataFilePath ";
+		file << modelDataList->GetList()[i].GetFilePath();
+		file << "\n";
+
+		// タグ
+		file << dataType + "ModelDataTag ";
+		file << modelDataList->GetList()[i].GetTag();
+		file << "\n";
+	}
+	file.close();
+}
+void DataOperator::LoadModelDataList()
+{
+	ifstream file;
+	file.open("ModelDataList.txt");
+	string line;
+	ModelData model;
+	int listSize = 0;
+	while (getline(file, line))
+	{
+		// 1行分の文字列をストリームに変換して解析しやすくする
+		istringstream lineStream(line);
+		// 半角スペース区切りで行の先頭文字列を取得
+		string key;
+		getline(lineStream, key, ' ');
+
+		if (key == "ListSize")	lineStream >> listSize;
+
+		if (key == "LoadModelDataFilePath")
+		{
+			string filePath;
+			lineStream >> filePath;
+
+			model = LoadModel(filePath.c_str());
+			continue;
+		}
+		if (key == "LoadModelDataTag")
+		{
+			string tag;
+			lineStream >> tag;
+
+			modelDataList->AddModelData(model, tag);
 			continue;
 		}
 	}

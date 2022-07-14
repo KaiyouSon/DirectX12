@@ -267,6 +267,9 @@
     <ClCompile Include="NewEngine\Source\DataOperator.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Component\ModelData.cpp">
+      <Filter>Source\Developer\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -453,6 +456,9 @@
     </ClInclude>
     <ClInclude Include="NewEngine\Header\DataOperator.h">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Component\ModelData.h">
+      <Filter>Header\Developer\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

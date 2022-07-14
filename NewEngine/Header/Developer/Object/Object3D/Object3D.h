@@ -4,13 +4,7 @@
 #include "NewEngine/Header/Render/Buffer/ConstantBuffer.h"
 #include "NewEngine/Header/Render/Buffer/TextureBuffer.h"
 #include "NewEngine/Header/Developer/Object/Other/GameObject.h"
-#include <vector>
-
-struct ModelData
-{
-	std::vector<Vertex> vertices;
-	std::vector<unsigned short> indices;
-}typedef Model;
+#include "NewEngine/Header/Developer/Component/ModelData.h"
 
 class Object3D : public GameObject
 {
@@ -18,7 +12,6 @@ private:
 	VertexBuffer* vertexBuffer;
 	IndexBuffer* indexBuffer;
 	ConstantBuffer* constantBuffer;
-	ModelData modelData;
 
 public:
 	Object3D();

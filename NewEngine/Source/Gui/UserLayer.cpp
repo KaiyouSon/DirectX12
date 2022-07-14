@@ -1,6 +1,8 @@
 #include "NewEngine/Header/Gui/UserLayer.h"
 #include "NewEngine/Header/Gui/SceneLayer.h"
 #include "NewEngine/Header/Gui/GuiManager.h"
+#include "NewEngine/Header/Developer/Component/ComponentManager.h"
+#include "NewEngine/Header/Developer/Object/Other/DrawManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include "NewEngine/Header/DataOperator.h"
 
@@ -18,9 +20,8 @@ void UserLayer::Update()
 	ImGui::Begin("User", nullptr, window_flags);
 
 	ImGui::Columns(6);
-	ImGui::SameLine();
-	ShowGameWindwoSetting();
-	ImGui::NextColumn();
+	ImGui::SameLine();		ShowGameWindwoSetting();			ImGui::NextColumn();
+	ImGui::SameLine(16);	ShowModelDataListSetting();			ImGui::NextColumn();
 	ImGui::End();
 }
 
@@ -28,9 +29,9 @@ void UserLayer::ShowGameWindwoSetting()
 {
 	DataOperator* dataOperator = DataOperator::GetInstance();
 	if (ImGui::Button("Game Window", { 128, 32 }))
-		ImGui::OpenPopup("GameWindwoSetting");
+		ImGui::OpenPopup("GameWindowSetting");
 
-	if (ImGui::BeginPopupModal("GameWindwoSetting"))
+	if (ImGui::BeginPopupModal("GameWindowSetting"))
 	{
 		// ƒ^ƒCƒgƒ‹‚Ì“ü—Í
 		char title[50] = {};
@@ -57,6 +58,51 @@ void UserLayer::ShowGameWindwoSetting()
 		if (ImGui::Button("Close"))
 		{
 			dataOperator->SaveWindowData();
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+}
+void UserLayer::ShowModelDataListSetting()
+{
+	if (ImGui::Button("ModelDataList", { 128, 32 }))
+		ImGui::OpenPopup("ModelDataSetting");
+
+	if (ImGui::BeginPopupModal("ModelDataSetting"))
+	{
+		static char filePath[256] = {};
+		static char modelDataName[50] = {};
+		if (ImGui::CollapsingHeader("AddModelData"))
+		{
+			ImGui::InputText("FilePath", filePath, 256);
+
+			static ModelData tmpModel;
+			if (ImGui::Button("Search File")) tmpModel = LoadModel(filePath);
+
+			if (tmpModel.GetTag() == "error")
+			{
+				ImGui::Text("Failed to load, Please check the FilePath");
+			}
+			if (tmpModel.vertices.empty() == false)
+			{
+				if (tmpModel.GetTag() != "error")
+				{
+					ImGui::Text("Loading is complete, Please enter the tag of the model data");
+					ImGui::InputText("modelDataName", modelDataName, 50);
+				
+					if (ImGui::Button("Add"))
+					{
+						ImGui::Text("Added model data to ModelDataList");
+						modelDataList->AddModelData(tmpModel, modelDataName);
+					}
+				}
+			}
+		}
+
+		ImGui::Separator();
+
+		if (ImGui::Button("Close"))
+		{
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();

@@ -1,4 +1,5 @@
 #include "NewEngine/Header/Developer/Object/Other/DrawManager.h"
+#include "NewEngine/Header/Developer/Component/ModelData.h"
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -18,7 +19,13 @@ ModelData LoadModel(const char* filePath)
 	// .objファイルを開く
 	file.open(filePath);
 	// ファイルオープン失敗をチェック
-	if (file.fail()) assert(0);
+	//if (file.fail()) assert(0);
+	if (file.fail())
+	{
+		ModelData errorModel;
+		errorModel.SetTag("error");
+		return errorModel;
+	}
 
 	ModelData modelData;
 	vector<Vec3> positions;
@@ -104,26 +111,12 @@ ModelData LoadModel(const char* filePath)
 	// ファイルを閉じる
 	file.close();
 
+	// ファイルパス
+	modelData.SetFilePath(filePath);
+
 	return modelData;
 }
-
 void UnLoadTexture(Texture* texture)
 {
 	TextureBuffer::UnLoadTexture(texture);
 }
-
-Model cube;
-Model sphere;
-Model monkey;
-void LoadBasicModel()
-{
-	// 立方体
-	cube = LoadModel("NewEngine/BasicModel/cube.obj");
-
-	// 球体
-	sphere = LoadModel("NewEngine/BasicModel/sphere.obj");
-
-	// モンキー
-	monkey = LoadModel("NewEngine/BasicModel/monkey.obj");
-}
-

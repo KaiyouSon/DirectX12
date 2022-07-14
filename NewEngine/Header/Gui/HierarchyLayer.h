@@ -13,6 +13,7 @@ private:
 	void ShowMenuContest();
 	void ShowObjectList();
 	void ShowSpriteList();
+	void ShowCreateModelWindow();
 
 public:
 	void Initialize() override;

@@ -49,23 +49,29 @@ void HierarchyLayer::Update()
 		ImGui::EndPopup();
 	}
 
+	ShowCreateModelWindow();
 	ImGui::End();
 }
-
+static bool flag = false;
 void HierarchyLayer::ShowMenuContest()
 {
 	if (ImGui::BeginMenu("Object 3D"))
 	{
 		if (ImGui::MenuItem("Cube"))	ObjectManager::GetInstance()->CreateCube();
+		ImGui::Separator();
 		if (ImGui::MenuItem("Sphere"))	ObjectManager::GetInstance()->CreateSphere();
+		ImGui::Separator();
 		if (ImGui::MenuItem("Monkey"))	ObjectManager::GetInstance()->CreateMonkey();
+		ImGui::Separator();
+		if (ImGui::MenuItem("Model"))	flag = true;
+
 		ImGui::EndMenu();
 	}
+	ImGui::Separator();
 	if (ImGui::MenuItem("Sprite 2D"))
 	{
 		ObjectManager::GetInstance()->CreateSprite();
 	}
-
 }
 void HierarchyLayer::ShowObjectList()
 {
@@ -82,7 +88,8 @@ void HierarchyLayer::ShowObjectList()
 
 		if (ImGui::TreeNode(nameChar))
 		{
-			if (key->GetKeyTrigger(DIK_DELETE))
+			if (key->GetKeyTrigger(DIK_DELETE) &&
+				currentSprNode == -1 && oldSprNode == -1)
 			{
 				ObjectManager::GetInstance()->DestroyModel(objList[currentObjNode]);
 				currentObjNode = -1;
@@ -124,7 +131,8 @@ void HierarchyLayer::ShowSpriteList()
 
 		if (ImGui::TreeNode(nameChar))
 		{
-			if (key->GetKeyTrigger(DIK_DELETE))
+			if (key->GetKeyTrigger(DIK_DELETE) &&
+				currentObjNode == -1 && oldObjNode == -1)
 			{
 				ObjectManager::GetInstance()->DestroySprite(sprList[currentSprNode]);
 				currentSprNode = -1;
@@ -149,6 +157,42 @@ void HierarchyLayer::ShowSpriteList()
 			}
 		}
 		else sprList[i]->SetisShowDataToInspector(false);
+	}
+}
+void HierarchyLayer::ShowCreateModelWindow()
+{
+	if (flag == false) return;
+
+	ImGui::OpenPopup("ModelDataSetting");
+
+	if (ImGui::BeginPopupModal("ModelDataSetting"))
+	{
+		ImGui::Text("Please select the model data");
+		if (ImGui::Button("    ", ImVec2(14, 14)))
+			ImGui::OpenPopup("ModelDataList");
+
+		if (ImGui::BeginPopup("ModelDataList"))
+		{
+			for (int i = 0; i < modelDataList->GetList().size(); i++)
+			{
+				if (ImGui::MenuItem(modelDataList->GetList()[i].GetTag().c_str()))
+				{
+					ObjectManager::GetInstance()->CreateModel(modelDataList->GetList()[i]);
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::Separator();
+			}
+			ImGui::EndPopup();
+		}
+
+		if (ImGui::Button("OK", ImVec2(128, 32)))
+		{
+			flag = false;
+			ImGui::CloseCurrentPopup();
+		}
+		//ImGui::SameLine();
+		//if (ImGui::Button("Cancel", ImVec2(128, 32)));
+		ImGui::EndPopup();
 	}
 }
 

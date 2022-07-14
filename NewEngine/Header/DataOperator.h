@@ -10,11 +10,15 @@ private:
 public:
 	void Initialize();
 
+	void SaveData();
+	void LoadData();
+
 	void SaveWindowData();
 	void LoadWindowData();
+	void SaveModelDataList();
+	void LoadModelDataList();
 
 	bool CheckSaveData();
-
 
 	void SetGameWindowParameter(std::string title, Vec2 size);
 

@@ -11,7 +11,7 @@ ModelData LoadModel(const char* filePath);
 
 void UnLoadTexture(Texture* texture);
 
-extern Model cube;
-extern Model sphere;
-extern Model monkey;
-void LoadBasicModel();
+//extern ModelData cube;
+//extern ModelData sphere;
+//extern ModelData monkey;
+//void LoadBasicModel();

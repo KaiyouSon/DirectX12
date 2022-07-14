@@ -19,6 +19,10 @@ GameObject::GameObject() :
 	// テクスチャー
 	Texture* texture = new Texture;
 	components.push_back(texture);
+
+	// モデルデータ
+	ModelData* modelData = new ModelData;
+	components.push_back(modelData);
 }
 GameObject::~GameObject()
 {

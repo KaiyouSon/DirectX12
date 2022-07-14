@@ -1,6 +1,8 @@
 #include "NewEngine/Header/Gui/SceneLayer.h"
 #include "NewEngine/Header/Gui/ProjectLayer.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
+#include "NewEngine/Header/Developer/Object/Object2D/Square.h"
+extern Square* square;
 
 void SceneLayer::Initialize()
 {
@@ -17,6 +19,8 @@ void SceneLayer::Update()
 	ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y - 19));
 	ImGui::SetNextWindowSize(ImVec2(size.x, size.y + 19));
 	ImGui::Begin("SceneView", nullptr, window_flags);
+
+//	ImGui::Image((ImTextureID)square->descHeapSRV->GetGPUDescriptorHandleForHeapStart().ptr, { 960,540 });
 
 	ImGui::End();
 	ImGui::PopStyleColor();

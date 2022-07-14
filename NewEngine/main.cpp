@@ -12,6 +12,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	SetWindowSize(WIN_WIDTH, WIN_HEIGHT);	// サイズ
 	SetBackgroundColor(25.5, 63.75, 127.5);	// 背景色
 	NewEngineInit();	// エンジンの初期化
+	DataOperator::GetInstance()->LoadData();
 	Load();			// ゲーム内のロード処理
 	Initialize();	// ゲーム内の初期化処理
 
@@ -43,6 +44,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		if (ProcessMessage() || key->GetKey(DIK_ESCAPE))
 		{
 			ObjectManager::GetInstance()->SaveData();
+			DataOperator::GetInstance()->SaveData();
 			break;
 		}
 	}

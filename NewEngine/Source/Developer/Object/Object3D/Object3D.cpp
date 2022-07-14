@@ -5,7 +5,8 @@
 using namespace std;
 
 Object3D::Object3D() :
-	vertexBuffer(new VertexBuffer), indexBuffer(new IndexBuffer),
+	vertexBuffer(new VertexBuffer),
+	indexBuffer(new IndexBuffer),
 	constantBuffer(new ConstantBuffer)
 {
 }
@@ -19,12 +20,12 @@ Object3D::~Object3D()
 
 void Object3D::Initialize(const ModelData& modelData)
 {
-	this->modelData = modelData;
+	GetComponent<ModelData>()->SetModelData(modelData);
 
 	// 頂点バッファ
-	vertexBuffer->Initialize(this->modelData.vertices);
+	vertexBuffer->Initialize(GetComponent<ModelData>()->vertices);
 	// インデックスバッファ
-	indexBuffer->Initialize(this->modelData.indices);
+	indexBuffer->Initialize(GetComponent<ModelData>()->indices);
 
 	// 定数バッファ
 	constantBuffer->MaterialBufferInit();
@@ -49,38 +50,36 @@ void Object3D::Update()
 
 void Object3D::Draw()
 {
-	// プリミティブ形状の設定コマンド
-	RenderBase::GetInstance()->GetCommandList()->
-		IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	RenderBase* renderBase = RenderBase::GetInstance();
 
 	// 頂点バッファビューの設定コマンド
-	RenderBase::GetInstance()->GetCommandList()->
+	renderBase->GetCommandList()->
 		IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
 	// インデックスバッファビューの設定コマンド
-	RenderBase::GetInstance()->GetCommandList()->
+	renderBase->GetCommandList()->
 		IASetIndexBuffer(indexBuffer->GetibViewAddress());
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	RenderBase::GetInstance()->GetCommandList()->
+	renderBase->GetCommandList()->
 		SetGraphicsRootConstantBufferView(
 			0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
 
 	// SRVヒープの設定コマンド
-	RenderBase::GetInstance()->GetCommandList()->
+	renderBase->GetCommandList()->
 		SetDescriptorHeaps(1,
-			RenderBase::GetInstance()->GetSrvDescHeap().GetAddressOf());
+			renderBase->GetSrvDescHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	RenderBase::GetInstance()->GetCommandList()->
+	renderBase->GetCommandList()->
 		SetGraphicsRootDescriptorTable(1,
 			GetComponent<Texture>()->GetGpuHandle());
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	RenderBase::GetInstance()->GetCommandList()->
+	renderBase->GetCommandList()->
 		SetGraphicsRootConstantBufferView(
 			2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
 
-	RenderBase::GetInstance()->GetCommandList()->
-		DrawIndexedInstanced((unsigned short)this->modelData.indices.size(), 1, 0, 0, 0);
+	renderBase->GetCommandList()->
+		DrawIndexedInstanced((unsigned short)GetComponent<ModelData>()->indices.size(), 1, 0, 0, 0);
 }
 
 void Object3D::SetTexture(Texture& texture)

@@ -52,12 +52,6 @@ void RenderBase::PreDraw()
 	// 深度バッファクリア
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
-	// ルートシグネチャの設定コマンド
-	commandList->SetGraphicsRootSignature(rootSignature.Get());
-
-	// プリミティブ形状の設定コマンド
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-
 	// ビューポートの処理
 	viewport->SetViewport(
 		{ 0,0 },
@@ -67,15 +61,15 @@ void RenderBase::PreDraw()
 		});
 
 #ifdef _DEBUG
-	viewport->SetViewport(
-		{
-			SceneLayer::GetInstance()->GetPos().x,
-			SceneLayer::GetInstance()->GetPos().y
-		},
-		{
-			SceneLayer::GetInstance()->GetSize().x,
-			 SceneLayer::GetInstance()->GetSize().y
-		});
+	//viewport->SetViewport(
+	//	{
+	//		SceneLayer::GetInstance()->GetPos().x,
+	//		SceneLayer::GetInstance()->GetPos().y
+	//	},
+	//	{
+	//		SceneLayer::GetInstance()->GetSize().x,
+	//		 SceneLayer::GetInstance()->GetSize().y
+	//	});
 #endif
 	viewport->Update();
 
@@ -86,11 +80,23 @@ void RenderBase::Draw3D()
 {
 	// パイプラインステートの設定コマンド( 3D版 )
 	commandList->SetPipelineState(pipelineState3D.Get());
+
+	// ルートシグネチャの設定コマンド
+	commandList->SetGraphicsRootSignature(rootSignature.Get());
+
+	// プリミティブ形状の設定コマンド
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 }
 void RenderBase::Draw2D()
 {
 	// パイプラインステートの設定コマンド( 2D版 )
 	commandList->SetPipelineState(pipelineState2D.Get());
+
+	// ルートシグネチャの設定コマンド
+	commandList->SetGraphicsRootSignature(rootSignature.Get());
+
+	// プリミティブ形状の設定コマンド
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 }
 void RenderBase::PostDraw()
 {
@@ -148,6 +154,7 @@ void RenderBase::CreateSrv(Texture& texture, const D3D12_RESOURCE_DESC& textureR
 	texture.SetGpuHandle(srvGpuHandle);
 
 	// シェーダーリソースビュー設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};	// srv設定構造体
 	srvDesc.Format = textureResourceDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	// 2Dテクスチャ

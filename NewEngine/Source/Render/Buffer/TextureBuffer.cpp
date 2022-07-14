@@ -1,6 +1,7 @@
 #include "NewEngine/Header/Render/Buffer/TextureBuffer.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 #include <cassert>
+#include <d3dx12.h>
 using namespace std;
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -149,6 +150,61 @@ Texture TextureBuffer::GetDefaultTexture()
 		sizeof(Vec4) * textureWidth, // 1ラインサイズ
 		sizeof(Vec4) * imageDataCount // 全サイズ
 	);
+
+	RenderBase::GetInstance()->CreateSrv(texture, textureResourceDesc);
+
+	return texture;
+}
+
+Texture TextureBuffer::GetRenderTexture(const Vec2& size)
+{
+	HRESULT result;
+	Texture texture;
+
+	// テクスチャリソース設定
+	CD3DX12_RESOURCE_DESC textureResourceDesc =
+		CD3DX12_RESOURCE_DESC::Tex2D(
+			DXGI_FORMAT_R8G8B8A8_UNORM,
+			size.x,
+			(UINT)size.y,
+			1, 0, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
+
+	// テクスチャバッファの生成
+	CD3DX12_HEAP_PROPERTIES texHeapProperties =
+		CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
+
+	static const float clearColor[4] = { 0.25f,0.5f,0.1f,0.0f };
+
+	CD3DX12_CLEAR_VALUE texClearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor);
+
+	result = RenderBase::GetInstance()->GetDevice()->
+		CreateCommittedResource(
+			&texHeapProperties,
+			D3D12_HEAP_FLAG_NONE,
+			&textureResourceDesc,
+			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+			&texClearValue,
+			IID_PPV_ARGS(&texture.buffer));
+	assert(SUCCEEDED(result));
+
+	// テクスチャを赤クリア
+	{
+		// 画素数
+		const UINT pixelCont = size.x * size.y;
+		// 画像１行分のデータサイズ
+		const UINT rowPitch = sizeof(UINT) * size.x;
+		// 画像全体のデータサイズ
+		const UINT depthPitch = rowPitch * size.y;
+		// 画像イメージ
+		UINT* img = new UINT[pixelCont];
+		for (int i = 0; i < pixelCont; i++) { img[i] = 0xff0000ff; }
+
+		// テクスチャバッファにデータ転送
+		result = texture.buffer->WriteToSubresource(0, nullptr,
+			img, rowPitch, depthPitch);
+		assert(SUCCEEDED(result));
+		delete[] img;
+	}
 
 	RenderBase::GetInstance()->CreateSrv(texture, textureResourceDesc);
 

@@ -22,14 +22,14 @@ private:
 	Vertex vertices[4];
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff;
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapRTV;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapDSV;
 
 	static const float clearColor[4];
-
+public:
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 private:
 	int vbArraySize;	// 頂点データの要素数
 	int ibArraySize;	// インデックスデータの要素数

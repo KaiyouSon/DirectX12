@@ -14,10 +14,11 @@ void NewEngineInit()
 {
 #ifdef _DEBUG
 	//デバッグレイヤーをオンに
-	ComPtr<ID3D12Debug> debugController;
+	ComPtr<ID3D12Debug1> debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(debugController.GetAddressOf()))))
 	{
-		debugController.Get()->EnableDebugLayer();
+		debugController->EnableDebugLayer();
+		debugController->SetEnableGPUBasedValidation(TRUE);
 	}
 #endif
 	DataOperator::GetInstance()->Initialize();
@@ -25,9 +26,9 @@ void NewEngineInit()
 
 	RenderWindow::GetInstance().SetWindowTitle(
 		DataOperator::GetInstance()->GetGameWindowTitleForStorage());
-	//RenderWindow::GetInstance().SetWindowSize(
-	//	DataOperator::GetInstance()->GetGameWindowSizeForStorage().x,
-	//	DataOperator::GetInstance()->GetGameWindowSizeForStorage().y);
+	RenderWindow::GetInstance().SetWindowSize(
+		DataOperator::GetInstance()->GetGameWindowSizeForStorage().x,
+		DataOperator::GetInstance()->GetGameWindowSizeForStorage().y);
 #ifdef _DEBUG
 	RenderWindow::GetInstance().SetWindowTitle("NewEngine");
 	RenderWindow::GetInstance().SetWindowSize(1920, 1010);
@@ -48,14 +49,26 @@ void NewEngineUpda()
 }
 void NewEnginePreDraw()
 {
+	square->PreDrawScene();
+	// 背景描画
+	RenderBase::GetInstance()->Draw2D();
+	DeveloperManager::GetInstance()->Draw2DToBack();
+
+	// モデル描画
+	RenderBase::GetInstance()->Draw3D();
+	DeveloperManager::GetInstance()->Draw3D();
+
+	// 前景描画
+	RenderBase::GetInstance()->Draw2D();
+	DeveloperManager::GetInstance()->Draw2DToForward();
+	square->PostDrawScene();
+
 	RenderBase::GetInstance()->PreDraw();
 }
 void NewEngineSetDraw3D()
 {
 	RenderBase::GetInstance()->Draw3D();
-	square->PreDrawScene();
-	DeveloperManager::GetInstance()->Draw3D();
-	square->PostDrawScene();
+
 }
 void NewEngineSetDraw2D()
 {
@@ -65,7 +78,7 @@ void NewEngineSetDraw2D()
 void NewEnginePostDraw()
 {
 	RenderBase::GetInstance()->Draw2D();
-	DeveloperManager::GetInstance()->Draw2DToForward();
+	//DeveloperManager::GetInstance()->Draw2DToForward();
 
 #ifdef _DEBUG
 	GuiManager::GetInstance()->Draw();

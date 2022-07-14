@@ -4,6 +4,7 @@ class UserLayer : public ILayer
 {
 private:
 	void ShowGameWindwoSetting();
+	void ShowModelDataListSetting();
 
 public:
 	void Initialize() override;

@@ -71,7 +71,6 @@ private:
 	ComPtr<ID3D12Resource> depthBuffer;			// 深度バッファ
 
 	// srv
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};	// srv設定構造体
 	ComPtr<ID3D12DescriptorHeap> srvDescHeap;	// srv用デスクリプタヒープ
 	UINT incrementIndex = 1;
 

@@ -3,8 +3,6 @@
 #include "NewEngine/Header/Gui/GuiManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 
-
-
 void MainLayer::Initialize()
 {
 	size = Vec2(WIN_WIDTH, WIN_HEIGHT);

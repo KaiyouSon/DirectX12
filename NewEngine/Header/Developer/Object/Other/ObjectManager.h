@@ -47,3 +47,5 @@ private:
 	ObjectManager(const ObjectManager&&) = delete;
 	ObjectManager& operator=(const ObjectManager&&) = delete;
 };
+
+extern ObjectManager* objManager;

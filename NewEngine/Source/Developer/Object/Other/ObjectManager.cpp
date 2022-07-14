@@ -22,7 +22,7 @@ void ObjectManager::CreateCube()
 	int num = 0;
 
 	Object3D* cubeModel = new Object3D;
-	cubeModel->Initialize(cube);
+	cubeModel->Initialize(modelDataList->GetModelData("cube"));
 	cubeModel->SetName("Cube");
 	for (int i = 0; i < objectList.size(); i++)
 	{
@@ -39,44 +39,55 @@ void ObjectManager::CreateSphere()
 {
 	int num = 0;
 
-	Object3D* cubeModel = new Object3D;
-	cubeModel->Initialize(sphere);
-	cubeModel->SetName("Sphere");
+	Object3D* sphereModel = new Object3D;
+	sphereModel->Initialize(modelDataList->GetModelData("sphere"));
+	sphereModel->SetName("Sphere");
 	for (int i = 0; i < objectList.size(); i++)
 	{
-		if (objectList[i]->GetName() == cubeModel->GetName())
+		if (objectList[i]->GetName() == sphereModel->GetName())
 		{
 			num += 1;
-			cubeModel->SetName("Sphere" + to_string(num));
+			sphereModel->SetName("Sphere" + to_string(num));
 		}
 	}
-	objectList.push_back(cubeModel);
-	cubeModel->SetModelType("Sphere");
+	objectList.push_back(sphereModel);
+	sphereModel->SetModelType("Sphere");
 }
 void ObjectManager::CreateMonkey()
 {
 	int num = 0;
 
-	Object3D* cubeModel = new Object3D;
-	cubeModel->Initialize(monkey);
-	cubeModel->SetName("Monkey");
+	Object3D* monkeyModel = new Object3D;
+	monkeyModel->Initialize(modelDataList->GetModelData("monkey"));
+	monkeyModel->SetName("Monkey");
 	for (int i = 0; i < objectList.size(); i++)
 	{
-		if (objectList[i]->GetName() == cubeModel->GetName())
+		if (objectList[i]->GetName() == monkeyModel->GetName())
 		{
 			num += 1;
-			cubeModel->SetName("Monkey" + to_string(num));
+			monkeyModel->SetName("Monkey" + to_string(num));
 		}
 	}
-	objectList.push_back(cubeModel);
-	cubeModel->SetModelType("Monkey");
+	objectList.push_back(monkeyModel);
+	monkeyModel->SetModelType("Monkey");
 }
 void ObjectManager::CreateModel(const ModelData& modelData)
 {
+	int num = 0;
+
 	Object3D* model = new Object3D;
 	model->Initialize(modelData);
+	model->SetName("Model");
+	for (int i = 0; i < objectList.size(); i++)
+	{
+		if (objectList[i]->GetName() == model->GetName())
+		{
+			num += 1;
+			model->SetName("Model" + to_string(num));
+		}
+	}
 	objectList.push_back(model);
-	model->SetModelType("model");
+	model->SetModelType("Model");
 }
 void ObjectManager::CreateSprite()
 {
@@ -195,16 +206,14 @@ void ObjectManager::LoadObjectList()
 		for (int i = 0; i < listSize; i++)
 		{
 			numberStr = "Object" + to_string(i);
-			// モデルタイプの読み込み
-			if (key == numberStr + "ModelType")
+			if (key == numberStr + "ModelDataTag")
 			{
-				string modelType;
-				lineStream >> modelType;
-				if (modelType == "Cube") CreateCube();
-				if (modelType == "Sphere") CreateSphere();
-				if (modelType == "Monkey") CreateMonkey();
+				string modelDataTag;
+				lineStream >> modelDataTag;
+				CreateModel(modelDataList->GetModelData(modelDataTag));
 				break;
 			}
+
 			if (key == numberStr + "ModelName")
 			{
 				string tmpName;
@@ -346,9 +355,9 @@ void ObjectManager::SaveObjectList()
 	for (int i = 0; i < objectList.size(); i++)
 	{
 		numberStr = "Object" + to_string(i);
-		// モデルのタイプ
-		file << numberStr + "ModelType ";
-		file << objectList[i]->GetModelType() << "\n";
+		// モデルデータのタグ
+		file << numberStr + "ModelDataTag ";
+		file << objectList[i]->GetComponent<ModelData>()->GetTag() << "\n";
 		// モデルの名前
 		file << numberStr + "ModelName ";
 		file << objectList[i]->GetName() << "\n";
@@ -491,3 +500,5 @@ void ObjectManager::DestroyInstance()
 {
 	delete GetInstance();
 }
+
+ObjectManager* objManager = ObjectManager::GetInstance();
