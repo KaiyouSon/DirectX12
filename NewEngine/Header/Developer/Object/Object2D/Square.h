@@ -28,8 +28,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapDSV;
 
 	static const float clearColor[4];
-public:
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapSRV;
+	//public:
+		//Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 private:
 	int vbArraySize;	// 頂点データの要素数
 	int ibArraySize;	// インデックスデータの要素数
@@ -48,6 +48,8 @@ public:
 public:
 	void SetColor(const Color& color);
 	void SetCutPosAndSize(const Vec2& cutPos, const Vec2& cutSize);
+
+	Texture GetRenderTexture();
 public:
 	enum ViewType
 	{

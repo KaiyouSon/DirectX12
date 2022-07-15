@@ -34,8 +34,8 @@ void ProjectLayer::Update()
 {
 	ImGuiWindowFlags window_flags = 0;
 	window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_MenuBar;
-	ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
-	ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
+	//ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
+	//ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
 	ImGui::Begin("Project", nullptr, window_flags);
 
 	static float pading = 16;		// ä‘äuÇÃïù

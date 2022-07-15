@@ -15,8 +15,8 @@ void UserLayer::Initialize()
 void UserLayer::Update()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse;
-	ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
-	ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
+	//ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
+	//ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
 	ImGui::Begin("User", nullptr, window_flags);
 
 	ImGui::Columns(6);
@@ -45,8 +45,8 @@ void UserLayer::ShowGameWindwoSetting()
 		// ƒTƒCƒY‚Ì“ü—Í
 		int widthAndHeight[2] =
 		{
-			dataOperator->GetGameWindowSizeForStorage().x,
-			dataOperator->GetGameWindowSizeForStorage().y,
+			(int)dataOperator->GetGameWindowSizeForStorage().x,
+			(int)dataOperator->GetGameWindowSizeForStorage().y,
 		};
 		ImGui::Text("Width & Height");
 		ImGui::InputInt2("## ", widthAndHeight);
@@ -89,13 +89,21 @@ void UserLayer::ShowModelDataListSetting()
 				{
 					ImGui::Text("Loading is complete, Please enter the tag of the model data");
 					ImGui::InputText("modelDataName", modelDataName, 50);
-				
+
 					if (ImGui::Button("Add"))
 					{
 						ImGui::Text("Added model data to ModelDataList");
 						modelDataList->AddModelData(tmpModel, modelDataName);
 					}
 				}
+			}
+		}
+
+		if (ImGui::CollapsingHeader("ModelDataList"))
+		{
+			for (int i = 0; i < modelDataList->GetList().size(); i++)
+			{
+				ImGui::MenuItem(modelDataList->GetList()[i].GetTag().c_str());
 			}
 		}
 

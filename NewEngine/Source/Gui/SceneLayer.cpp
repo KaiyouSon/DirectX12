@@ -15,15 +15,9 @@ void SceneLayer::Initialize()
 void SceneLayer::Update()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse;
-	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-	ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y - 19));
-	ImGui::SetNextWindowSize(ImVec2(size.x, size.y + 19));
 	ImGui::Begin("SceneView", nullptr, window_flags);
-
-//	ImGui::Image((ImTextureID)square->descHeapSRV->GetGPUDescriptorHandleForHeapStart().ptr, { 960,540 });
-
+	ImGui::Image((ImTextureID)square->GetRenderTexture().GetGpuHandle().ptr, { 960,540 });
 	ImGui::End();
-	ImGui::PopStyleColor();
 }
 
 Vec2 SceneLayer::GetPos()

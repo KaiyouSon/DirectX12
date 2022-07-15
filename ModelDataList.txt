@@ -5,5 +5,5 @@ BasicModelDataFilePath NewEngine/BasicModel/sphere.obj
 BasicModelDataTag sphere
 BasicModelDataFilePath NewEngine/BasicModel/monkey.obj
 BasicModelDataTag monkey
-LoadModelDataFilePath Resources/Triangle.obj
+LoadModelDataFilePath GameProject/Resources/Triangle.obj
 LoadModelDataTag triangle

@@ -16,8 +16,8 @@ void InspectorLayer::Initialize()
 void InspectorLayer::Update()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_MenuBar;
-	ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
-	ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
+	//ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
+	//ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
 	ImGui::Begin("Inspector", nullptr, window_flags);
 
 	ShowMenuBar();

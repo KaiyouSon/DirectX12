@@ -9,6 +9,7 @@ private:
 	int currentSprNode;
 	int oldSprNode;
 
+	bool isCreateModel;
 private:
 	void ShowMenuContest();
 	void ShowObjectList();

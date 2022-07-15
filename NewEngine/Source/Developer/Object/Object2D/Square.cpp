@@ -65,79 +65,79 @@ void Square::Initialize(int viewType, Vec2 size)
 	constantBuffer->MaterialBufferInit();
 	constantBuffer->TransformBufferInit();
 
-	//texture = TextureBuffer::GetRenderTexture(
-	//	{
-	//		(float)RenderWindow::GetInstance().GetWinWidth(),
-	//		(float)RenderWindow::GetInstance().GetWinHeight(),
-	//	});
+	texture = TextureBuffer::GetRenderTexture(
+		{
+			(float)RenderWindow::GetInstance().GetWinWidth(),
+			(float)RenderWindow::GetInstance().GetWinHeight(),
+		});
 
 	HRESULT result;
 	RenderBase* renderBase = RenderBase::GetInstance();
 
-	// テクスチャリソース設定
-	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
-		DXGI_FORMAT_R8G8B8A8_UNORM,
-		RenderWindow::GetInstance().GetWinWidth(),
-		(UINT)RenderWindow::GetInstance().GetWinHeight(),
-		1, 0, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
+	//// テクスチャリソース設定
+	//CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
+	//	DXGI_FORMAT_R8G8B8A8_UNORM,
+	//	RenderWindow::GetInstance().GetWinWidth(),
+	//	(UINT)RenderWindow::GetInstance().GetWinHeight(),
+	//	1, 0, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 
-	// テクスチャバッファの生成
-	CD3DX12_HEAP_PROPERTIES texHeapProperties =
-		CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
+	//// テクスチャバッファの生成
+	//CD3DX12_HEAP_PROPERTIES texHeapProperties =
+	//	CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
 
-	CD3DX12_CLEAR_VALUE texClearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor);
+	//CD3DX12_CLEAR_VALUE texClearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor);
 
-	result = renderBase->GetDevice()->CreateCommittedResource(
-		&texHeapProperties,
-		D3D12_HEAP_FLAG_NONE,
-		&texresDesc,
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		//nullptr,
-		&texClearValue,
-		IID_PPV_ARGS(&texBuff));
-	assert(SUCCEEDED(result));
+	//result = renderBase->GetDevice()->CreateCommittedResource(
+	//	&texHeapProperties,
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&texresDesc,
+	//	D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+	//	//nullptr,
+	//	&texClearValue,
+	//	IID_PPV_ARGS(&texBuff));
+	//assert(SUCCEEDED(result));
 
-	// テクスチャを赤クリア
-	{
-		// 画素数
-		const UINT pixelCont =
-			RenderWindow::GetInstance().GetWinWidth() *
-			RenderWindow::GetInstance().GetWinHeight();
-		// 画像１行分のデータサイズ
-		const UINT rowPitch = sizeof(UINT) * RenderWindow::GetInstance().GetWinWidth();
-		// 画像全体のデータサイズ
-		const UINT depthPitch = rowPitch * RenderWindow::GetInstance().GetWinHeight();
-		// 画像イメージ
-		UINT* img = new UINT[pixelCont];
-		for (int i = 0; i < pixelCont; i++) { img[i] = 0xff0000ff; }
+	//// テクスチャを赤クリア
+	//{
+	//	// 画素数
+	//	const UINT pixelCont =
+	//		RenderWindow::GetInstance().GetWinWidth() *
+	//		RenderWindow::GetInstance().GetWinHeight();
+	//	// 画像１行分のデータサイズ
+	//	const UINT rowPitch = sizeof(UINT) * RenderWindow::GetInstance().GetWinWidth();
+	//	// 画像全体のデータサイズ
+	//	const UINT depthPitch = rowPitch * RenderWindow::GetInstance().GetWinHeight();
+	//	// 画像イメージ
+	//	UINT* img = new UINT[pixelCont];
+	//	for (int i = 0; i < pixelCont; i++) { img[i] = 0xff0000ff; }
 
-		// テクスチャバッファにデータ転送
-		result = texBuff->WriteToSubresource(0, nullptr,
-			img, rowPitch, depthPitch);
-		assert(SUCCEEDED(result));
-		delete[] img;
-	}
+	//	// テクスチャバッファにデータ転送
+	//	result = texBuff->WriteToSubresource(0, nullptr,
+	//		img, rowPitch, depthPitch);
+	//	assert(SUCCEEDED(result));
+	//	delete[] img;
+	//}
 
-	// SRV用デスクリプタヒープ設定
-	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
-	srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	srvDescHeapDesc.NumDescriptors = 1;
-	// SRV用デスクリプタヒープを作成
-	result = renderBase->GetDevice()->CreateDescriptorHeap(&srvDescHeapDesc, IID_PPV_ARGS(&descHeapSRV));
-	assert(SUCCEEDED(result));
+	//// SRV用デスクリプタヒープ設定
+	//D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
+	//srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	//srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	//srvDescHeapDesc.NumDescriptors = 1;
+	//// SRV用デスクリプタヒープを作成
+	//result = renderBase->GetDevice()->CreateDescriptorHeap(&srvDescHeapDesc, IID_PPV_ARGS(&descHeapSRV));
+	//assert(SUCCEEDED(result));
 
-	// SRV設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};	// 設定構造体
-	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = 1;
+	//// SRV設定
+	//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};	// 設定構造体
+	//srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	//srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	//srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	//srvDesc.Texture2D.MipLevels = 1;
 
-	// デスクリプタヒープにSRV作成
-	renderBase->GetDevice()->CreateShaderResourceView(texBuff.Get(),	// ビューと関連付けるバッファ
-		&srvDesc,
-		descHeapSRV->GetCPUDescriptorHandleForHeapStart());
+	//// デスクリプタヒープにSRV作成
+	//renderBase->GetDevice()->CreateShaderResourceView(texBuff.Get(),	// ビューと関連付けるバッファ
+	//	&srvDesc,
+	//	descHeapSRV->GetCPUDescriptorHandleForHeapStart());
 
 	// RTV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc = {};
@@ -148,8 +148,8 @@ void Square::Initialize(int viewType, Vec2 size)
 	assert(SUCCEEDED(result));
 
 	// デスクリプタヒープにRTV作成
-	//renderBase->GetDevice()->CreateRenderTargetView(texture.buffer.Get(),
-	renderBase->GetDevice()->CreateRenderTargetView(texBuff.Get(),
+	renderBase->GetDevice()->CreateRenderTargetView(texture.buffer.Get(),
+		//renderBase->GetDevice()->CreateRenderTargetView(texBuff.Get(),
 		nullptr,
 		descHeapRTV->GetCPUDescriptorHandleForHeapStart());
 
@@ -221,8 +221,8 @@ void Square::PreDrawScene()
 	RenderBase* renderBase = RenderBase::GetInstance();
 
 	CD3DX12_RESOURCE_BARRIER resourceBarrier1 =
-		CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
-			//CD3DX12_RESOURCE_BARRIER::Transition(texture.buffer.Get(),
+		//CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
+		CD3DX12_RESOURCE_BARRIER::Transition(texture.buffer.Get(),
 			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 			D3D12_RESOURCE_STATE_RENDER_TARGET);
 
@@ -237,17 +237,10 @@ void Square::PreDrawScene()
 	renderBase->GetCommandList()->OMSetRenderTargets(1, &rtvH, false, &dsvH);
 
 	// ビューポートの設定
-	//CD3DX12_VIEWPORT viewport = CD3DX12_VIEWPORT(
-	//	480.0f, 270.0f,
-	//	1440,
-	//	810);
 	CD3DX12_VIEWPORT viewport = CD3DX12_VIEWPORT(
 		0.0f, 0.0f,
 		RenderWindow::GetInstance().GetWinWidth(),
 		RenderWindow::GetInstance().GetWinHeight());
-	//CD3DX12_VIEWPORT viewport = CD3DX12_VIEWPORT(
-	//	480.0f, 270.0f,
-	//	960, 540);
 
 	renderBase->GetCommandList()->RSSetViewports(1, &viewport);
 	// シザリング矩形の設定
@@ -255,24 +248,21 @@ void Square::PreDrawScene()
 		0, 0,
 		RenderWindow::GetInstance().GetWinWidth(),
 		RenderWindow::GetInstance().GetWinHeight());
-	//CD3DX12_RECT scissorRect = CD3DX12_RECT(
-	//	480.0f, 270.0f,
-	//	960, 540);
+
 	renderBase->GetCommandList()->RSSetScissorRects(1, &scissorRect);
 
 	// 全画面クリア
 	renderBase->GetCommandList()->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
 	// 深度バッファのクリア
 	renderBase->GetCommandList()->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-
 }
 
 void Square::PostDrawScene()
 {
 	// リソースバリアを変更（ 描画可能 -> シェーダーリソース）
 	CD3DX12_RESOURCE_BARRIER resourceBarrier2 =
-		CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
-			//CD3DX12_RESOURCE_BARRIER::Transition(texture.buffer.Get(),
+		//CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
+		CD3DX12_RESOURCE_BARRIER::Transition(texture.buffer.Get(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	RenderBase::GetInstance()->GetCommandList()->
@@ -301,12 +291,12 @@ void Square::Draw()
 
 	// SRVヒープの設定コマンド
 	renderBase->GetCommandList()->
-		SetDescriptorHeaps(1, descHeapSRV.GetAddressOf());
-	//SetDescriptorHeaps(1, RenderBase::GetInstance()->GetSrvDescHeap().GetAddressOf());
+		//SetDescriptorHeaps(1, descHeapSRV.GetAddressOf());
+		SetDescriptorHeaps(1, RenderBase::GetInstance()->GetSrvDescHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	renderBase->GetCommandList()->
-		SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
-	//SetGraphicsRootDescriptorTable(1, texture.GetGpuHandle());
+		//SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
+		SetGraphicsRootDescriptorTable(1, texture.GetGpuHandle());
 
 	// 定数バッファビュー(CBV)の設定コマンド
 	renderBase->GetCommandList()->
@@ -341,4 +331,9 @@ void Square::SetCutPosAndSize(const Vec2& cutPos, const Vec2& cutSize)
 	vertices[3].uv = { texRight ,  texUp }; // 右上
 
 	vertexBuffer->TransferToBuffer();
+}
+
+Texture Square::GetRenderTexture()
+{
+	return texture;
 }

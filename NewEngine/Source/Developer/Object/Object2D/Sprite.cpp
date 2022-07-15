@@ -78,6 +78,8 @@ void Sprite::Update()
 		vertexBuffer->TransferToBuffer(vertices);
 		vertexBuffer->Unmap();
 	}
+
+	constantBuffer->SetColor(color);
 }
 
 void Sprite::Draw()

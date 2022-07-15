@@ -167,7 +167,7 @@ Texture TextureBuffer::GetRenderTexture(const Vec2& size)
 			DXGI_FORMAT_R8G8B8A8_UNORM,
 			size.x,
 			(UINT)size.y,
-			1, 0, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
+			1, 1, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 
 	// テクスチャバッファの生成
 	CD3DX12_HEAP_PROPERTIES texHeapProperties =

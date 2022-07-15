@@ -39,6 +39,8 @@ void Object3D::Update()
 {
 	GetComponent<Transform>()->Update();
 
+	//color = { 255,0,255,255 };
+
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
 		GetComponent<Transform>()->matWorld *
@@ -85,11 +87,6 @@ void Object3D::Draw()
 void Object3D::SetTexture(Texture& texture)
 {
 	GetComponent<Texture>()->SetTexture(&texture);
-}
-void Object3D::SetColor(Color& color)
-{
-	this->color = color;
-
 }
 
 Mat4 Object3D::GetFinalMat()

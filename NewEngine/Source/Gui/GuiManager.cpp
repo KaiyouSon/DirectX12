@@ -41,7 +41,7 @@ void GuiManager::Initialize()
 		RenderBase::GetInstance()->GetSrvDescHeap().Get()->GetCPUDescriptorHandleForHeapStart(),
 		RenderBase::GetInstance()->GetSrvDescHeap().Get()->GetGPUDescriptorHandleForHeapStart());
 
-	//MainLayer::GetInstance()->Initialize();
+	MainLayer::GetInstance()->Initialize();
 	ProjectLayer::GetInstance()->Initialize();
 	SceneLayer::GetInstance()->Initialize();
 	HierarchyLayer::GetInstance()->Initialize();
@@ -62,8 +62,7 @@ void GuiManager::Update()
 	ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.05f, 0.05f, 0.05f, 1.0f));
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
 
-
-	//MainLayer::GetInstance()->Update();
+	MainLayer::GetInstance()->Update();
 	SceneLayer::GetInstance()->Update();
 	ProjectLayer::GetInstance()->Update();
 	HierarchyLayer::GetInstance()->Update();

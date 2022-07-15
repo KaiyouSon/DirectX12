@@ -108,22 +108,31 @@ Transform trans =
 };
 
 static int hitType = 0;
-
+static int colorType = 0;
 // 更新処理
+Color color = Color::red;
+static float speed = 5;
 void Update()
 {
-	//Object3D* triangle = objManager->GetObject3D()
+	Object3D* triangle = objManager->GetObject3D("Model");
 
-
-	if (key->GetKeyTrigger(DIK_SPACE))
-	{
-		if (hitType == 0) hitType = 1;
-		else if (hitType == 1) hitType = 0;
-	}
+	// 色自動に変更
+	if (color.r >= 255 && color.b <= 0) { color.r = 255; color.b = 0; color.g += speed; }
+	if (color.g >= 255 && color.b <= 0) { color.g = 255; color.b = 0; color.r -= speed; }
+	if (color.r <= 0 && color.g >= 255) { color.r = 0; color.g = 255; color.b += speed; }
+	if (color.r <= 0 && color.b >= 255) { color.r = 0; color.b = 255; color.g -= speed; }
+	if (color.g <= 0 && color.b >= 255) { color.g = 0; color.b = 255; color.r += speed; }
+	if (color.r >= 255 && color.g <= 0) { color.r = 255; color.g = 0; color.b -= speed; }
+	triangle->SetColor(color);
 
 	//Collision();
 
-	square->Update(trans);
+	if (key->GetKey(DIK_RIGHT)) trans.pos.x++;
+	if (key->GetKey(DIK_LEFT)) trans.pos.x--;
+	if (key->GetKey(DIK_UP)) trans.pos.y--;
+	if (key->GetKey(DIK_DOWN)) trans.pos.y++;
+
+	//square->Update(trans);
 
 	view->SetPos(DebugCamera::GetInstance()->GetPos());
 	view->SetTarget(DebugCamera::GetInstance()->GetTarget());
@@ -137,7 +146,7 @@ void Update()
 
 void Draw2D()
 {
-	square->Draw();
+	//square->Draw();
 }
 
 // インスタンスのdelete
@@ -152,6 +161,12 @@ void Destroy()
 
 void Collision()
 {
+	if (key->GetKeyTrigger(DIK_SPACE))
+	{
+		if (hitType == 0) hitType = 1;
+		else if (hitType == 1) hitType = 0;
+	}
+
 	Object3D* cube1 = objManager->GetObjectList()[0];
 	Object3D* cube2 = objManager->GetObjectList()[1];
 	Sprite* backGround = objManager->GetSpriteList()[0];
@@ -244,3 +259,17 @@ Vec3 Vec3MulMat(Vec3 vec, Mat4 mat)
 	};
 
 }
+
+// Vec3 Vec3Transform(Vec3 vec, Mat4 mat)
+//
+//{
+//	float w = (vec.x * mat.mat[0][3]) + (vec.y * mat.mat[1][3]) + (vec.z * mat.mat[2][3]) + (mat.mat[3][3]);
+//
+//	return
+//	{
+//		(vec.x * mat.mat[0][0]) + (vec.y * mat.mat[1][0]) + (vec.z * mat.mat[2][0]) + (mat.mat[3][0]) / w,
+//		(vec.x * mat.mat[0][1]) + (vec.y * mat.mat[1][1]) + (vec.z * mat.mat[2][1]) + (mat.mat[3][1]) / w,
+//		(vec.x * mat.mat[0][2]) + (vec.y * mat.mat[1][2]) + (vec.z * mat.mat[2][2]) + (mat.mat[3][2]) / w,
+//
+//	};
+//}

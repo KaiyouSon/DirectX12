@@ -13,12 +13,14 @@ void HierarchyLayer::Initialize()
 
 	currentObjNode = -1, oldObjNode = -1;
 	currentSprNode = -1, oldSprNode = -1;
+
+	isCreateModel = false;
 }
 void HierarchyLayer::Update()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_MenuBar;
-	ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
-	ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
+	//ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
+	//ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
 	ImGui::Begin("Hierarchy", nullptr, window_flags);
 
 	// メニューバー
@@ -52,7 +54,6 @@ void HierarchyLayer::Update()
 	ShowCreateModelWindow();
 	ImGui::End();
 }
-static bool flag = false;
 void HierarchyLayer::ShowMenuContest()
 {
 	if (ImGui::BeginMenu("Object 3D"))
@@ -63,7 +64,7 @@ void HierarchyLayer::ShowMenuContest()
 		ImGui::Separator();
 		if (ImGui::MenuItem("Monkey"))	ObjectManager::GetInstance()->CreateMonkey();
 		ImGui::Separator();
-		if (ImGui::MenuItem("Model"))	flag = true;
+		if (ImGui::MenuItem("Model"))	isCreateModel = true;
 
 		ImGui::EndMenu();
 	}
@@ -161,7 +162,7 @@ void HierarchyLayer::ShowSpriteList()
 }
 void HierarchyLayer::ShowCreateModelWindow()
 {
-	if (flag == false) return;
+	if (isCreateModel == false) return;
 
 	ImGui::OpenPopup("ModelDataSetting");
 
@@ -187,11 +188,10 @@ void HierarchyLayer::ShowCreateModelWindow()
 
 		if (ImGui::Button("OK", ImVec2(128, 32)))
 		{
-			flag = false;
+			isCreateModel = false;
 			ImGui::CloseCurrentPopup();
 		}
-		//ImGui::SameLine();
-		//if (ImGui::Button("Cancel", ImVec2(128, 32)));
+
 		ImGui::EndPopup();
 	}
 }
