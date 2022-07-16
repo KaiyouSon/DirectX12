@@ -10,12 +10,12 @@
 #include "NewEngine/Header/Developer/Debug/DebugCamera.h"
 #include "NewEngine/Header/Developer/Sound.h"
 #include "NewEngine/Header/Render/Viewport.h"
-#include "NewEngine/Header/Developer/Object/Object2D/Square.h"
+#include "NewEngine/Header/Developer/Object/Object2D/RenderTexture.h"
 #include <vector>
 
 Sound testSound;
 
-Square* square = new Square;
+RenderTexture* sceneViewTexture = new RenderTexture;
 
 struct Rey
 {
@@ -97,7 +97,7 @@ void Initialize()
 
 	DebugCamera::GetInstance()->Initialize();
 
-	square->Initialize(Square::view2D, { 960,540 });
+	sceneViewTexture->Initialize(RenderTexture::view2D, { 960,540 });
 }
 
 Transform trans =
@@ -156,7 +156,7 @@ void Destroy()
 	delete gameTextureList;
 	delete tagList;
 	ModelDataList::DestroyInstance();
-	delete square;
+	delete sceneViewTexture;
 }
 
 void Collision()

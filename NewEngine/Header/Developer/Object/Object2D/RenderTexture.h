@@ -9,7 +9,7 @@
 #include <d3dx12.h>
 #include <wrl.h>
 
-class Square
+class RenderTexture
 {
 private:
 	VertexBuffer* vertexBuffer;
@@ -28,16 +28,14 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapDSV;
 
 	static const float clearColor[4];
-	//public:
-		//Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 private:
 	int vbArraySize;	// 頂点データの要素数
 	int ibArraySize;	// インデックスデータの要素数
 
 	int viewType;
 public:
-	Square();
-	~Square();
+	RenderTexture();
+	~RenderTexture();
 	void SetTexture(const Texture& texture);
 	void Initialize(int viewType, Vec2 size);
 	void Update(const Transform& transform, Transform* parent = nullptr);

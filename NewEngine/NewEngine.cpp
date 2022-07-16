@@ -4,11 +4,11 @@
 #include "NewEngine/Header/Render/RenderWindow.h"
 #include "NewEngine/Header/Developer/DeveloperManager.h"
 #include "NewEngine/Header/DataOperator.h"
-#include "NewEngine/Header/Developer/Object/Object2D/Square.h"
+#include "NewEngine/Header/Developer/Object/Object2D/RenderTexture.h"
 #include <wrl.h>
 using namespace Microsoft::WRL;
 
-extern Square* square;
+extern RenderTexture* sceneViewTexture;
 
 void NewEngineInit()
 {
@@ -49,7 +49,7 @@ void NewEngineUpda()
 }
 void NewEnginePreDraw()
 {
-	square->PreDrawScene();
+	sceneViewTexture->PreDrawScene();
 	// ”wŒi•`‰æ
 	RenderBase::GetInstance()->Draw2D();
 	DeveloperManager::GetInstance()->Draw2DToBack();
@@ -61,7 +61,7 @@ void NewEnginePreDraw()
 	// ‘OŒi•`‰æ
 	RenderBase::GetInstance()->Draw2D();
 	DeveloperManager::GetInstance()->Draw2DToForward();
-	square->PostDrawScene();
+	sceneViewTexture->PostDrawScene();
 
 	RenderBase::GetInstance()->PreDraw();
 }

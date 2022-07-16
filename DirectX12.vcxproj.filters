@@ -141,7 +141,7 @@
     <ClCompile Include="NewEngine\Source\Developer\Util\Util.cpp">
       <Filter>Source\Developer\Util</Filter>
     </ClCompile>
-    <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\Square.cpp">
+    <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\RenderTexture.cpp">
       <Filter>Source\Developer\Object\Object2D</Filter>
     </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Object3D.cpp">
@@ -328,7 +328,7 @@
     <ClInclude Include="NewEngine\Header\Developer\Util\Random.h">
       <Filter>Header\Developer\Util</Filter>
     </ClInclude>
-    <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\Square.h">
+    <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\RenderTexture.h">
       <Filter>Header\Developer\Object\Object2D</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Object3D.h">

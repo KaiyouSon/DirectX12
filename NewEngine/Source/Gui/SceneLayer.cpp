@@ -1,8 +1,8 @@
 #include "NewEngine/Header/Gui/SceneLayer.h"
 #include "NewEngine/Header/Gui/ProjectLayer.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
-#include "NewEngine/Header/Developer/Object/Object2D/Square.h"
-extern Square* square;
+#include "NewEngine/Header/Developer/Object/Object2D/RenderTexture.h"
+extern RenderTexture* sceneViewTexture;
 
 void SceneLayer::Initialize()
 {
@@ -16,7 +16,7 @@ void SceneLayer::Update()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse;
 	ImGui::Begin("SceneView", nullptr, window_flags);
-	ImGui::Image((ImTextureID)square->GetRenderTexture().GetGpuHandle().ptr, { 960,540 });
+	ImGui::Image((ImTextureID)sceneViewTexture->GetRenderTexture().GetGpuHandle().ptr, { 960,540 });
 	ImGui::End();
 }
 
