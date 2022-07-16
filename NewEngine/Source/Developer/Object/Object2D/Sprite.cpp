@@ -90,12 +90,12 @@ void Sprite::Draw()
 	renderBase->GetCommandList()->SetGraphicsRootConstantBufferView(
 		0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
 	renderBase->GetCommandList()->SetGraphicsRootConstantBufferView(
-		2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
+		1, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
 
 	// SRVヒープの設定コマンド
 	renderBase->GetCommandList()->SetDescriptorHeaps(1, renderBase->GetSrvDescHeap().GetAddressOf());
-	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	renderBase->GetCommandList()->SetGraphicsRootDescriptorTable(1, GetComponent<Texture>()->GetGpuHandle());
+	// SRVヒープの先頭にあるSRVをルートパラメータ2番に設定
+	renderBase->GetCommandList()->SetGraphicsRootDescriptorTable(2, GetComponent<Texture>()->GetGpuHandle());
 
 	renderBase->GetCommandList()->DrawIndexedInstanced((unsigned short)indices.size(), 1, 0, 0, 0);
 }

@@ -225,9 +225,6 @@
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\GameObject.cpp">
       <Filter>Source\Developer\Object\Other</Filter>
     </ClCompile>
-    <ClCompile Include="NewEngine\Source\Developer\Component\IComponent.cpp">
-      <Filter>Source\Developer\Component</Filter>
-    </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Component\Transform.cpp">
       <Filter>Source\Developer\Component</Filter>
     </ClCompile>
@@ -268,6 +265,12 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="NewEngine\Source\Developer\Component\ModelData.cpp">
+      <Filter>Source\Developer\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Component\Collider.cpp">
+      <Filter>Source\Developer\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Component\IComponent.cpp">
       <Filter>Source\Developer\Component</Filter>
     </ClCompile>
   </ItemGroup>
@@ -458,6 +461,9 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Component\ModelData.h">
+      <Filter>Header\Developer\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Component\Collider.h">
       <Filter>Header\Developer\Component</Filter>
     </ClInclude>
   </ItemGroup>

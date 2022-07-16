@@ -1,10 +1,1 @@
-SpriteListSize 1
-Sprite0
-Sprite0SpriteName clearColor
-Sprite0isShow 1
-Sprite0Layer 0
-ComponentListSize 4
-Sprite0Transformpos 0 0 0 
-Sprite0Transformrot 0 0 0 
-Sprite0Transformscale 960 540 1 
-Sprite0TextureTag 
+SpriteListSize 0

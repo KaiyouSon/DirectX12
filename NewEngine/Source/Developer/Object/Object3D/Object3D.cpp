@@ -39,8 +39,6 @@ void Object3D::Update()
 {
 	GetComponent<Transform>()->Update();
 
-	//color = { 255,0,255,255 };
-
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
 		GetComponent<Transform>()->matWorld *
@@ -52,36 +50,22 @@ void Object3D::Update()
 
 void Object3D::Draw()
 {
-	RenderBase* renderBase = RenderBase::GetInstance();
+	// VBVとIBVの設定コマンド
+	renderBase->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
+	renderBase->GetCommandList()->IASetIndexBuffer(indexBuffer->GetibViewAddress());
 
-	// 頂点バッファビューの設定コマンド
-	renderBase->GetCommandList()->
-		IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
-	// インデックスバッファビューの設定コマンド
-	renderBase->GetCommandList()->
-		IASetIndexBuffer(indexBuffer->GetibViewAddress());
-
-	// 定数バッファビュー(CBV)の設定コマンド
-	renderBase->GetCommandList()->
-		SetGraphicsRootConstantBufferView(
-			0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
+	// マテリアルとトランスフォームのCBVの設定コマンド
+	renderBase->GetCommandList()->SetGraphicsRootConstantBufferView(
+		0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
+	renderBase->GetCommandList()->SetGraphicsRootConstantBufferView(
+		1, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
 
 	// SRVヒープの設定コマンド
-	renderBase->GetCommandList()->
-		SetDescriptorHeaps(1,
-			renderBase->GetSrvDescHeap().GetAddressOf());
-	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	renderBase->GetCommandList()->
-		SetGraphicsRootDescriptorTable(1,
-			GetComponent<Texture>()->GetGpuHandle());
+	renderBase->GetCommandList()->SetDescriptorHeaps(1, renderBase->GetSrvDescHeap().GetAddressOf());
+	// SRVヒープの先頭にあるSRVをルートパラメータ2番に設定
+	renderBase->GetCommandList()->SetGraphicsRootDescriptorTable(2, GetComponent<Texture>()->GetGpuHandle());
 
-	// 定数バッファビュー(CBV)の設定コマンド
-	renderBase->GetCommandList()->
-		SetGraphicsRootConstantBufferView(
-			2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
-
-	renderBase->GetCommandList()->
-		DrawIndexedInstanced((unsigned short)GetComponent<ModelData>()->indices.size(), 1, 0, 0, 0);
+	renderBase->GetCommandList()->DrawIndexedInstanced((unsigned short)GetComponent<ModelData>()->indices.size(), 1, 0, 0, 0);
 }
 
 void Object3D::SetTexture(Texture& texture)

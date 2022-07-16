@@ -158,6 +158,7 @@
     <ClCompile Include="NewEngine\main2.cpp" />
     <ClCompile Include="NewEngine\NewEngine.cpp" />
     <ClCompile Include="NewEngine\Source\DataOperator.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Component\Collider.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\ComponentManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\IComponent.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\ModelData.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="ImGUI\imstb_textedit.h" />
     <ClInclude Include="ImGUI\imstb_truetype.h" />
     <ClInclude Include="NewEngine\Header\DataOperator.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Component\Collider.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\ComponentManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\IComponent.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\ModelData.h" />

@@ -4,5 +4,5 @@ Object0ModelName Model
 ComponentListSize 4
 Object0Transformpos 0 0 0 
 Object0Transformrot 0 0 0 
-Object0Transformscale 10 10 1 
+Object0Transformscale 10 10 10 
 Object0TextureTag 

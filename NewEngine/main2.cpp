@@ -17,63 +17,6 @@ Sound testSound;
 
 RenderTexture* sceneViewTexture = new RenderTexture;
 
-struct Rey
-{
-	Vec3 startPos;
-	Vec3 dirVec;
-
-	Rey() : startPos(0, 0, 0), dirVec(0, 0, 0)
-	{
-	}
-
-	Rey(const Vec3& startPos, const Vec3& dirVec) :startPos(startPos), dirVec(dirVec)
-	{
-	}
-};
-struct Line
-{
-	Vec3 startPos;
-	Vec3 endPos;
-
-	Line() :startPos(0, 0, 0), endPos(0, 0, 0)
-	{
-	}
-
-	Line(const Vec3& startPos, const Vec3& endPos) :startPos(startPos), endPos(endPos)
-	{
-	}
-};
-struct Mesh
-{
-	Vec3 centerPos;		// 中心座標
-	Vec3 upperLeftPos;	// 左上座標
-	Vec3 upperRightPos;	// 右上座標
-	Vec3 lowerLeftPos;	// 左下座標
-	Vec3 lowerRightPos;	// 左上座標
-	Vec3 normal;		// 法線ベクトル
-
-	Mesh() :centerPos(0, 0, 0),
-		upperLeftPos(0, 0, 0), upperRightPos(0, 0, 0),
-		lowerLeftPos(0, 0, 0), lowerRightPos(0, 0, 0),
-		normal(0, 0, 0)
-	{
-	}
-
-	Mesh(const Vec3& centerPos, const Vec3& scale) :
-		centerPos(centerPos),
-		upperLeftPos(centerPos.x - scale.x, centerPos.y + scale.y, centerPos.z),
-		upperRightPos(centerPos.x + scale.x, centerPos.y + scale.y, centerPos.z),
-		lowerLeftPos(centerPos.x - scale.x, centerPos.y - scale.y, centerPos.z),
-		lowerRightPos(centerPos.x + scale.x, centerPos.y - scale.y, centerPos.z),
-		normal(Vec3::Cross(
-			(lowerRightPos - lowerLeftPos).Normalized(),
-			(upperLeftPos - lowerLeftPos).Normalized()))
-	{
-	}
-};
-
-bool ReyHitMesh(const Rey& rey, const Mesh& mesh);
-bool LineHitMesh(const Line& line, const Mesh& mesh);
 void Collision();
 Vec3 Vec3MulMat(Vec3 vec, Mat4 mat);
 
@@ -108,10 +51,11 @@ Transform trans =
 };
 
 static int hitType = 0;
-static int colorType = 0;
-// 更新処理
+
 Color color = Color::red;
 static float speed = 5;
+static bool isChange = false;
+// 更新処理
 void Update()
 {
 	Object3D* triangle = objManager->GetObject3D("Model");
@@ -123,6 +67,7 @@ void Update()
 	if (color.r <= 0 && color.b >= 255) { color.r = 0; color.b = 255; color.g -= speed; }
 	if (color.g <= 0 && color.b >= 255) { color.g = 0; color.b = 255; color.r += speed; }
 	if (color.r >= 255 && color.g <= 0) { color.r = 255; color.g = 0; color.b -= speed; }
+
 	triangle->SetColor(color);
 
 	//Collision();
@@ -132,21 +77,13 @@ void Update()
 	if (key->GetKey(DIK_UP)) trans.pos.y--;
 	if (key->GetKey(DIK_DOWN)) trans.pos.y++;
 
-	//square->Update(trans);
-
 	view->SetPos(DebugCamera::GetInstance()->GetPos());
 	view->SetTarget(DebugCamera::GetInstance()->GetTarget());
 	view->SetUp(DebugCamera::GetInstance()->GetUp());
 	DebugCamera::GetInstance()->Update();
 
 	//PlaySoundWave(testSound);
-
 	//test->Update();
-}
-
-void Draw2D()
-{
-	//square->Draw();
 }
 
 // インスタンスのdelete
@@ -205,46 +142,6 @@ void Collision()
 		else						 backGround->SetisShow(false);
 	}
 }
-bool ReyHitMesh(const Rey& rey, const Mesh& mesh)
-{
-	float dis1 = Vec3::Distance(rey.startPos, Vec3::zero);	// レイの始点と原点の距離
-	float dis2 = Vec3::Distance(mesh.centerPos, Vec3::zero);	// メッシュの中心座標と原点の距離
-	float dist = dis1 - dis2;	// レイの始点とメッシュ距離
-
-	// メッシュの法線とレイのベクトルでcosθを求める
-	float cosRadius = Vec3::Dot(mesh.normal * -1, rey.dirVec.Normalized());
-
-	// 当たった点
-	Vec3 inter = rey.startPos + rey.dirVec.Normalized() * dist;
-
-	if (inter.x >= mesh.lowerLeftPos.x && inter.x <= mesh.lowerRightPos.x &&
-		inter.y >= mesh.lowerLeftPos.y && inter.y <= mesh.upperLeftPos.y)
-		return true;
-
-	return false;
-}
-bool LineHitMesh(const Line& line, const Mesh& mesh)
-{
-	Vec3 v1 = line.startPos - mesh.centerPos;
-	Vec3 v2 = line.endPos - mesh.centerPos;
-	Vec3 v3 = v1 + v2;
-
-	if (Vec3::Dot(v1, mesh.normal * Vec3::Dot(v2, mesh.normal)) <= 0)
-	{
-		if (v1.x >= mesh.lowerLeftPos.x && v1.x <= mesh.lowerRightPos.x &&
-			v1.y >= mesh.lowerLeftPos.y && v1.y <= mesh.upperLeftPos.y)
-		{
-			return true;
-		}
-		if (v2.x >= mesh.lowerLeftPos.x && v2.x <= mesh.lowerRightPos.x &&
-			v2.y >= mesh.lowerLeftPos.y && v2.y <= mesh.upperLeftPos.y)
-		{
-			return true;
-		}
-
-	}
-	return false;
-}
 
 Vec3 Vec3MulMat(Vec3 vec, Mat4 mat)
 {
@@ -259,17 +156,16 @@ Vec3 Vec3MulMat(Vec3 vec, Mat4 mat)
 	};
 
 }
+Vec3 Vec3Transform(Vec3 vec, Mat4 mat)
 
-// Vec3 Vec3Transform(Vec3 vec, Mat4 mat)
-//
-//{
-//	float w = (vec.x * mat.mat[0][3]) + (vec.y * mat.mat[1][3]) + (vec.z * mat.mat[2][3]) + (mat.mat[3][3]);
-//
-//	return
-//	{
-//		(vec.x * mat.mat[0][0]) + (vec.y * mat.mat[1][0]) + (vec.z * mat.mat[2][0]) + (mat.mat[3][0]) / w,
-//		(vec.x * mat.mat[0][1]) + (vec.y * mat.mat[1][1]) + (vec.z * mat.mat[2][1]) + (mat.mat[3][1]) / w,
-//		(vec.x * mat.mat[0][2]) + (vec.y * mat.mat[1][2]) + (vec.z * mat.mat[2][2]) + (mat.mat[3][2]) / w,
-//
-//	};
-//}
+{
+	float w = (vec.x * mat.mat[0][3]) + (vec.y * mat.mat[1][3]) + (vec.z * mat.mat[2][3]) + (mat.mat[3][3]);
+
+	return
+	{
+		(vec.x * mat.mat[0][0]) + (vec.y * mat.mat[1][0]) + (vec.z * mat.mat[2][0]) + (mat.mat[3][0]) / w,
+		(vec.x * mat.mat[0][1]) + (vec.y * mat.mat[1][1]) + (vec.z * mat.mat[2][1]) + (mat.mat[3][1]) / w,
+		(vec.x * mat.mat[0][2]) + (vec.y * mat.mat[1][2]) + (vec.z * mat.mat[2][2]) + (mat.mat[3][2]) / w,
+
+	};
+}

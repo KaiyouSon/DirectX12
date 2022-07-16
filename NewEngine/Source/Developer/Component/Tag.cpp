@@ -4,7 +4,6 @@ TagList* tagList = new TagList;
 
 Tag::Tag()
 {
-	componentName = "Tag";
 	tag = "Default";
 	//tag = tagList->GetTag(0);
 }

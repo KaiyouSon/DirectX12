@@ -19,7 +19,6 @@ public:
 	void LoadModelDataList();
 
 	bool CheckSaveData();
-
 	void SetGameWindowParameter(std::string title, Vec2 size);
 
 	std::string GetGameWindowTitleForStorage();
