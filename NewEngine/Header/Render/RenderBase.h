@@ -100,3 +100,5 @@ public:
 	float clearColor[4];	// ‰æ–ÊF
 };
 
+extern RenderBase* renderBase;
+

@@ -5,7 +5,8 @@ TagList* tagList = new TagList;
 Tag::Tag()
 {
 	componentName = "Tag";
-	tag = tagList->GetTag(0);
+	tag = "Default";
+	//tag = tagList->GetTag(0);
 }
 
 void Tag::SetTag(std::string tag)

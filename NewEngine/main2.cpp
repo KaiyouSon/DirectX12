@@ -97,7 +97,7 @@ void Initialize()
 
 	DebugCamera::GetInstance()->Initialize();
 
-	sceneViewTexture->Initialize(RenderTexture::view2D, { 960,540 });
+	sceneViewTexture->Initialize({ 960,540 });
 }
 
 Transform trans =

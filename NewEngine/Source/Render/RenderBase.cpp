@@ -12,6 +12,7 @@
 using namespace Microsoft::WRL;
 
 ScissorRectangle* scissorRectangle = new ScissorRectangle;
+RenderBase* renderBase = RenderBase::GetInstance();
 
 void RenderBase::Initialize()
 {

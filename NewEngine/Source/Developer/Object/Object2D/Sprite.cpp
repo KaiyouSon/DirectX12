@@ -56,8 +56,6 @@ void Sprite::Update()
 		GetComponent<Transform>()->matWorld *
 		view->matProjection2D;
 
-	//Texture* texture = GetComponent<Texture>();
-
 	float width = GetComponent<Texture>()->GetTextureSize().x;
 	float height = GetComponent<Texture>()->GetTextureSize().y;
 
@@ -84,34 +82,22 @@ void Sprite::Update()
 
 void Sprite::Draw()
 {
-	// 頂点バッファビューの設定コマンド
-	RenderBase::GetInstance()->GetCommandList()->
-		IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
-	// インデックスバッファビューの設定コマンド
-	RenderBase::GetInstance()->GetCommandList()->
-		IASetIndexBuffer(indexBuffer->GetibViewAddress());
+	// VBVとIBVの設定コマンド
+	renderBase->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
+	renderBase->GetCommandList()->IASetIndexBuffer(indexBuffer->GetibViewAddress());
 
-	// 定数バッファビュー(CBV)の設定コマンド
-	RenderBase::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(
-			0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
+	// マテリアルとトランスフォームのCBVの設定コマンド
+	renderBase->GetCommandList()->SetGraphicsRootConstantBufferView(
+		0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
+	renderBase->GetCommandList()->SetGraphicsRootConstantBufferView(
+		2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
 
 	// SRVヒープの設定コマンド
-	RenderBase::GetInstance()->GetCommandList()->
-		SetDescriptorHeaps(1,
-			RenderBase::GetInstance()->GetSrvDescHeap().GetAddressOf());
+	renderBase->GetCommandList()->SetDescriptorHeaps(1, renderBase->GetSrvDescHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	RenderBase::GetInstance()->GetCommandList()->
-		SetGraphicsRootDescriptorTable(1,
-			GetComponent<Texture>()->GetGpuHandle());
+	renderBase->GetCommandList()->SetGraphicsRootDescriptorTable(1, GetComponent<Texture>()->GetGpuHandle());
 
-	// 定数バッファビュー(CBV)の設定コマンド
-	RenderBase::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(
-			2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
-
-	RenderBase::GetInstance()->GetCommandList()->
-		DrawIndexedInstanced((unsigned short)indices.size(), 1, 0, 0, 0);
+	renderBase->GetCommandList()->DrawIndexedInstanced((unsigned short)indices.size(), 1, 0, 0, 0);
 }
 
 bool Sprite::GetLayer()
@@ -122,8 +108,6 @@ bool Sprite::GetLayer()
 void Sprite::SetTexture(Texture& texture)
 {
 	GetComponent<Texture>()->SetTexture(&texture);
-
-
 }
 
 void Sprite::SetLayer(bool layer)

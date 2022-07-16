@@ -3,14 +3,12 @@
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "NewEngine/Header/Render/RenderWindow.h"
 
-const float RenderTexture::clearColor[4] = { 0.25f,0.5f,0.1f,0.0f };
+const float RenderTexture::clearColor[4] = { 0.25f,0.5f,0.1f,1.0f };
 
 RenderTexture::RenderTexture() :
-	vertexBuffer(new VertexBuffer),
-	indexBuffer(new IndexBuffer),
+	vertexBuffer(new VertexBuffer), indexBuffer(new IndexBuffer),
 	constantBuffer(new ConstantBuffer),
-	size(0, 0),
-	ibArraySize(0), vbArraySize(0), viewType(view2D)
+	size(0, 0)
 {
 }
 
@@ -23,57 +21,40 @@ RenderTexture::~RenderTexture()
 	delete constantBuffer;
 }
 
-void RenderTexture::Initialize(int viewType, Vec2 size)
+void RenderTexture::Initialize(Vec2 size)
 {
-	this->viewType = viewType;
-	this->size = size;
+	HRESULT result;
 
 	// 頂点データ
-	if (viewType == view2D)
-	{
-		vertices[0] = { { -(this->size.x / 2), +(this->size.y / 2), 0.0f },{}, {0.0f, 1.0f} }; //左下
-		vertices[1] = { { -(this->size.x / 2), -(this->size.y / 2), 0.0f },{}, {0.0f, 0.0f} }; //左上
-		vertices[2] = { { +(this->size.x / 2), +(this->size.y / 2), 0.0f },{}, {1.0f, 1.0f} }; //右下
-		vertices[3] = { { +(this->size.x / 2), -(this->size.y / 2), 0.0f },{}, {1.0f, 0.0f} }; //右上
-	};
-	if (viewType == view3D)
-	{
-		vertices[0] = { { -0.5f, -0.5f, 0.0f },{},{0.0f, 1.0f} }; //左下
-		vertices[1] = { { -0.5f, +0.5f, 0.0f },{},{0.0f, 0.0f} }; //左上
-		vertices[2] = { { +0.5f, -0.5f, 0.0f },{},{1.0f, 1.0f} }; //右下
-		vertices[3] = { { +0.5f, +0.5f, 0.0f },{},{1.0f, 0.0f} }; //右上
-	};
+	vertices.push_back({ { -(size.x / 2), +(size.y / 2), 0.0f },{}, {0.0f, 1.0f} });	//左下
+	vertices.push_back({ { -(size.x / 2), -(size.y / 2), 0.0f },{}, {0.0f, 0.0f} });	//左上
+	vertices.push_back({ { +(size.x / 2), +(size.y / 2), 0.0f },{}, {1.0f, 1.0f} });	//右下
+	vertices.push_back({ { +(size.x / 2), -(size.y / 2), 0.0f },{}, {1.0f, 0.0f} });	//右上
 
-	// インデックスデータ
-	uint16_t indices[] =
-	{
-		0,1,2, // 三角形1つ目
-		2,1,3, // 三角形2つ目
-	};
+	// 三角形1つ目
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(2);
+	// 三角形2つ目
+	indices.push_back(2);
+	indices.push_back(1);
+	indices.push_back(3);
 
-	// 頂点データの要素数
-	vbArraySize = sizeof(vertices) / sizeof(vertices[0]);
-	// インデックスの要素数
-	ibArraySize = sizeof(indices) / sizeof(indices[0]);
-
-	// 頂点バッファ
-	vertexBuffer->Initialize(vertices, vbArraySize);
-	// インデックスバッファ
-	indexBuffer->Initialize(indices, ibArraySize);
+	vertexBuffer->Initialize(vertices);
+	indexBuffer->Initialize(indices);
 
 	// 定数バッファ
 	constantBuffer->MaterialBufferInit();
 	constantBuffer->TransformBufferInit();
 
-	texture = TextureBuffer::GetRenderTexture(
+	Texture tmpTex = TextureBuffer::GetRenderTexture(
 		{
 			(float)RenderWindow::GetInstance().GetWinWidth(),
 			(float)RenderWindow::GetInstance().GetWinHeight(),
 		});
+	GetComponent<Texture>()->SetTexture(&tmpTex);
 
-	HRESULT result;
 	RenderBase* renderBase = RenderBase::GetInstance();
-
 
 	// RTV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc = {};
@@ -84,8 +65,8 @@ void RenderTexture::Initialize(int viewType, Vec2 size)
 	assert(SUCCEEDED(result));
 
 	// デスクリプタヒープにRTV作成
-	renderBase->GetDevice()->CreateRenderTargetView(texture.buffer.Get(),
-		//renderBase->GetDevice()->CreateRenderTargetView(texBuff.Get(),
+	renderBase->GetDevice()->CreateRenderTargetView(
+		GetComponent<Texture>()->buffer.Get(),
 		nullptr,
 		descHeapRTV->GetCPUDescriptorHandleForHeapStart());
 
@@ -126,44 +107,27 @@ void RenderTexture::Initialize(int viewType, Vec2 size)
 
 }
 
-void RenderTexture::Update(const Transform& transform, Transform* parent)
+void RenderTexture::Update()
 {
-	this->transform = transform;
-	this->transform.Update();
-
-	if (parent != nullptr)
-	{
-		this->transform.matWorld *= parent->matWorld;
-	}
+	GetComponent<Transform>()->Update();
 
 	// 定数バッファに転送
-	if (viewType == view2D)
-	{
-		constantBuffer->constMapTransform->mat =
-			this->transform.matWorld *
-			view->matProjection2D;
-	}
-	if (viewType == view3D)
-	{
-		constantBuffer->constMapTransform->mat =
-			this->transform.matWorld *
-			view->matView *
-			view->matProjection3D;
-	}
+	constantBuffer->constMapTransform->mat =
+		GetComponent<Transform>()->matWorld *
+		view->matView *
+		view->matProjection3D;
 }
 
 void RenderTexture::PreDrawScene()
 {
-	RenderBase* renderBase = RenderBase::GetInstance();
-
-	CD3DX12_RESOURCE_BARRIER resourceBarrier1 =
-		//CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
-		CD3DX12_RESOURCE_BARRIER::Transition(texture.buffer.Get(),
-			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-			D3D12_RESOURCE_STATE_RENDER_TARGET);
+	CD3DX12_RESOURCE_BARRIER resourceBarrier;
+	resourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(
+		GetComponent<Texture>()->buffer.Get(),
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+		D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	//リソースバリアを変更（シェーダーリソース -> 描画可能）
-	renderBase->GetCommandList()->ResourceBarrier(1, &resourceBarrier1);
+	renderBase->GetCommandList()->ResourceBarrier(1, &resourceBarrier);
 
 	// レンダーターゲットビュー用ディスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvH = descHeapRTV->GetCPUDescriptorHandleForHeapStart();
@@ -196,56 +160,42 @@ void RenderTexture::PreDrawScene()
 void RenderTexture::PostDrawScene()
 {
 	// リソースバリアを変更（ 描画可能 -> シェーダーリソース）
-	CD3DX12_RESOURCE_BARRIER resourceBarrier2 =
-		//CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
-		CD3DX12_RESOURCE_BARRIER::Transition(texture.buffer.Get(),
-			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	CD3DX12_RESOURCE_BARRIER resourceBarrier;
+	resourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(
+		GetComponent<Texture>()->buffer.Get(),
+		D3D12_RESOURCE_STATE_RENDER_TARGET,
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-	RenderBase::GetInstance()->GetCommandList()->
-		ResourceBarrier(1, &resourceBarrier2);
+	renderBase->GetCommandList()->ResourceBarrier(1, &resourceBarrier);
 }
 
 void RenderTexture::Draw()
 {
-	RenderBase* renderBase = RenderBase::GetInstance();
-
 	renderBase->GetCommandList()->SetPipelineState(renderBase->pipelineState2D.Get());
 	renderBase->GetCommandList()->SetGraphicsRootSignature(renderBase->rootSignature.Get());
 	renderBase->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	// 頂点バッファビューの設定コマンド
-	renderBase->GetCommandList()->
-		IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
-	// インデックスバッファビューの設定コマンド
-	renderBase->GetCommandList()->
-		IASetIndexBuffer(indexBuffer->GetibViewAddress());
+	// VBVとIBVの設定コマンド
+	renderBase->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
+	renderBase->GetCommandList()->IASetIndexBuffer(indexBuffer->GetibViewAddress());
 
-	// 定数バッファビュー(CBV)の設定コマンド
-	renderBase->GetCommandList()->
-		SetGraphicsRootConstantBufferView(
-			0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
+	// マテリアルとトランスフォームのCBVの設定コマンド
+	renderBase->GetCommandList()->SetGraphicsRootConstantBufferView(
+		0, constantBuffer->GetConstBuffMaterial()->GetGPUVirtualAddress());
+	renderBase->GetCommandList()->SetGraphicsRootConstantBufferView(
+		2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
 
 	// SRVヒープの設定コマンド
-	renderBase->GetCommandList()->
-		//SetDescriptorHeaps(1, descHeapSRV.GetAddressOf());
-		SetDescriptorHeaps(1, RenderBase::GetInstance()->GetSrvDescHeap().GetAddressOf());
+	renderBase->GetCommandList()->SetDescriptorHeaps(1, renderBase->GetSrvDescHeap().GetAddressOf());
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	renderBase->GetCommandList()->
-		//SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
-		SetGraphicsRootDescriptorTable(1, texture.GetGpuHandle());
+	renderBase->GetCommandList()->SetGraphicsRootDescriptorTable(1, GetComponent<Texture>()->GetGpuHandle());
 
-	// 定数バッファビュー(CBV)の設定コマンド
-	renderBase->GetCommandList()->
-		SetGraphicsRootConstantBufferView(
-			2, constantBuffer->GetConstBuffTransform()->GetGPUVirtualAddress());
-
-	renderBase->GetCommandList()->
-		DrawIndexedInstanced(ibArraySize, 1, 0, 0, 0);
+	renderBase->GetCommandList()->DrawIndexedInstanced((unsigned short)indices.size(), 1, 0, 0, 0);
 }
 
 void RenderTexture::SetTexture(const Texture& texture)
 {
-	this->texture = texture;
+	//this->texture = texture;
 }
 
 void RenderTexture::SetColor(const Color& color)
@@ -256,20 +206,20 @@ void RenderTexture::SetColor(const Color& color)
 
 void RenderTexture::SetCutPosAndSize(const Vec2& cutPos, const Vec2& cutSize)
 {
-	float texLeft = cutPos.x / texture.GetTextureSize().x;
-	float texRight = (cutPos.x + cutSize.x) / texture.GetTextureSize().x;
-	float texUp = cutPos.y / texture.GetTextureSize().y;
-	float texDown = (cutPos.y + cutSize.y) / texture.GetTextureSize().y;
+	//float texLeft = cutPos.x / texture.GetTextureSize().x;
+	//float texRight = (cutPos.x + cutSize.x) / texture.GetTextureSize().x;
+	//float texUp = cutPos.y / texture.GetTextureSize().y;
+	//float texDown = (cutPos.y + cutSize.y) / texture.GetTextureSize().y;
 
-	vertices[0].uv = { texLeft , texDown };	// 左下
-	vertices[1].uv = { texLeft ,   texUp };	// 左上
-	vertices[2].uv = { texRight ,texDown }; // 右下
-	vertices[3].uv = { texRight ,  texUp }; // 右上
+	//vertices[0].uv = { texLeft , texDown };	// 左下
+	//vertices[1].uv = { texLeft ,   texUp };	// 左上
+	//vertices[2].uv = { texRight ,texDown }; // 右下
+	//vertices[3].uv = { texRight ,  texUp }; // 右上
 
-	vertexBuffer->TransferToBuffer();
+	//vertexBuffer->TransferToBuffer();
 }
 
 Texture RenderTexture::GetRenderTexture()
 {
-	return texture;
+	return *GetComponent<Texture>();
 }

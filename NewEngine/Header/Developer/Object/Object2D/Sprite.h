@@ -2,8 +2,7 @@
 #include "NewEngine/Header/Render/Buffer/VertexBuffer.h"
 #include "NewEngine/Header/Render/Buffer/IndexBuffer.h"
 #include "NewEngine/Header/Render/Buffer/ConstantBuffer.h"
-#include "NewEngine/Header/Render/Buffer/TextureBuffer.h"
-#include "NewEngine/Header/Developer/Component/Transform.h"
+#include "NewEngine/Header/Developer/Component/ComponentManager.h"
 #include "NewEngine/Header/Developer/Object/Other/GameObject.h"
 #include <vector>
 
