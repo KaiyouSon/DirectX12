@@ -16,7 +16,7 @@ void SceneLayer::Update()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse;
 	ImGui::Begin("SceneView", nullptr, window_flags);
-	ImGui::Image((ImTextureID)sceneViewTexture->GetRenderTexture().GetGpuHandle().ptr, { 960,540 });
+	ImGui::Image((ImTextureID)sceneViewTexture->GetRenderTexture()->GetGpuHandle().ptr, { 960,540 });
 	ImGui::End();
 }
 

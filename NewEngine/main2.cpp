@@ -19,7 +19,7 @@ RenderTexture* sceneViewTexture = new RenderTexture;
 
 void Collision();
 Vec3 Vec3MulMat(Vec3 vec, Mat4 mat);
-Line* line = new Line;
+class::Line* line = new class::Line;
 
 // 画像の読み込み
 void Load()
@@ -81,7 +81,15 @@ void Update()
 
 void Draw2D()
 {
-	//line->Draw();
+}
+
+void Draw3D()
+{
+}
+
+void DrawLine()
+{
+	line->Draw();
 }
 
 // インスタンスのdelete

@@ -10,25 +10,29 @@ GameObject::GameObject() :
 
 	// タグ
 	Tag* tag = new Tag;
-	components.push_back(tag);
+	componentList.push_back(tag);
 
 	// トランスフォーム
 	Transform* transform = new Transform;
-	components.push_back(transform);
+	componentList.push_back(transform);
 
 	// テクスチャー
 	Texture* texture = new Texture;
-	components.push_back(texture);
+	componentList.push_back(texture);
 
 	// モデルデータ
 	ModelData* modelData = new ModelData;
-	components.push_back(modelData);
+	componentList.push_back(modelData);
+
+	Blend* blend = new Blend;
+	componentList.push_back(blend);
 }
+
 GameObject::~GameObject()
 {
-	for (int i = 0; i < components.size(); i++)
+	for (int i = 0; i < componentList.size(); i++)
 	{
-		delete components[i];
+		delete componentList[i];
 	}
 }
 
@@ -76,5 +80,5 @@ bool GameObject::GetisShowDataToInspector()
 
 vector<IComponent*> GameObject::GetComponentList()
 {
-	return components;
+	return componentList;
 }

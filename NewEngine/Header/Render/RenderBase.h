@@ -13,9 +13,9 @@ public:
 public:
 	void Initialize();
 	void PreDraw();
-	void Draw3D();
-	void Draw2D();
-	void DrawLine();
+	void SetDraw3D();
+	void SetDraw2D();
+	void SetDrawLine();
 	void PostDraw();
 	void CreateSrv(Texture& texture, const D3D12_RESOURCE_DESC& textureResourceDesc);
 
@@ -35,6 +35,12 @@ public:
 	ComPtr<ID3D12Device> GetDevice() const;
 	ComPtr<ID3D12GraphicsCommandList> GetCommandList() const;
 	ComPtr<ID3D12DescriptorHeap> GetSrvDescHeap() const;
+
+	ComPtr <ID3D12RootSignature> GetRootSignature() const;
+	ComPtr <ID3D12PipelineState> GetPipelineStateAlpha3D() const;
+	ComPtr <ID3D12PipelineState> GetPipelineStateAdd3D() const;
+	ComPtr <ID3D12PipelineState> GetPipelineStateAlpha2D() const;
+	ComPtr <ID3D12PipelineState> GetPipelineStateLine() const;
 
 	static RenderBase* GetInstance();
 	static void DestroyInstance();
@@ -83,18 +89,15 @@ private:
 	D3D12_INPUT_ELEMENT_DESC inputLayout[3];		// 頂点レイアウト
 
 	// グラフィックスパイプライン関連
-	ComPtr <ID3D12PipelineState> pipelineState3D;
-	ComPtr <ID3D12PipelineState> pipelineState3DAdd;
+	ComPtr <ID3D12PipelineState> pipelineStateAlpha3D;
+	ComPtr <ID3D12PipelineState> pipelineStateAdd3D;
+	ComPtr <ID3D12PipelineState> pipelineStateAlpha2D;
 	ComPtr <ID3D12PipelineState> pipelineStateLine;
+	ComPtr <ID3D12RootSignature> rootSignature;
 
 	// 描画処理関連
 	D3D12_RESOURCE_BARRIER barrierDesc{};	// リソースバリア
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;	// レンダーターゲットビューのハンドル
-
-public:
-	ComPtr <ID3D12PipelineState> pipelineState2D;
-	ComPtr <ID3D12RootSignature> rootSignature;
-
 public:
 	float clearColor[4];	// 画面色
 };

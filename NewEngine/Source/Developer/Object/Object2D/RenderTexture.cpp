@@ -2,6 +2,7 @@
 #include "NewEngine/Header/Developer/Object/Other/ViewProjection.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 #include "NewEngine/Header/Render/RenderWindow.h"
+#include "NewEngine/Header/Developer/Component/Blend.h"
 
 const float RenderTexture::clearColor[4] = { 0.25f,0.5f,0.1f,1.0f };
 
@@ -44,19 +45,23 @@ void RenderTexture::Initialize(Vec2 size)
 	constantBuffer->MaterialBufferInit();
 	constantBuffer->TransformBufferInit();
 
-	Texture tmpTex = TextureBuffer::GetRenderTexture(
+	Texture* tmpTex = TextureBuffer::GetRenderTexture(
 		{
 			(float)RenderWindow::GetInstance().GetWinWidth(),
 			(float)RenderWindow::GetInstance().GetWinHeight(),
 		});
-	GetComponent<Texture>()->SetTexture(&tmpTex);
+	GetComponent<Texture>()->SetTexture(tmpTex);
+	delete tmpTex;
 
 	// RTV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc = {};
 	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvDescHeapDesc.NumDescriptors = 1;
 	// RTV用デスクリプタヒープを作成
-	result = renderBase->GetDevice()->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV));
+	result = renderBase->GetDevice()->
+		CreateDescriptorHeap(
+			&rtvDescHeapDesc,
+			IID_PPV_ARGS(&descHeapRTV));
 	assert(SUCCEEDED(result));
 
 	// デスクリプタヒープにRTV作成
@@ -84,11 +89,11 @@ void RenderTexture::Initialize(Vec2 size)
 		IID_PPV_ARGS(&depthBuff));
 	assert(SUCCEEDED(result));
 
-	// RTV用デスクリプタヒープ設定
+	// DSV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC DescHeapDesc = {};
 	DescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 	DescHeapDesc.NumDescriptors = 1;
-	// RTV用デスクリプタヒープを作成
+	// DSV用デスクリプタヒープを作成
 	result = renderBase->GetDevice()->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&descHeapDSV));
 	assert(SUCCEEDED(result));
 
@@ -166,9 +171,7 @@ void RenderTexture::PostDrawScene()
 
 void RenderTexture::Draw()
 {
-	renderBase->GetCommandList()->SetPipelineState(renderBase->pipelineState2D.Get());
-	renderBase->GetCommandList()->SetGraphicsRootSignature(renderBase->rootSignature.Get());
-	renderBase->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	GetComponent<Blend>()->SetBlendMode(BlendMode::Alpha2D);
 
 	// VBVとIBVの設定コマンド
 	renderBase->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
@@ -209,7 +212,7 @@ void RenderTexture::SetCutPosAndSize(const Vec2& cutPos, const Vec2& cutSize)
 	//vertexBuffer->TransferToBuffer();
 }
 
-Texture RenderTexture::GetRenderTexture()
+Texture* RenderTexture::GetRenderTexture()
 {
-	return *GetComponent<Texture>();
+	return GetComponent<Texture>();
 }

@@ -4,9 +4,7 @@
 void NewEngineInit();
 void NewEngineUpda();
 void NewEnginePreDraw();
-void NewEngineSetDraw3D();
-void NewEngineSetDraw2D();
-void NewEngineSetDrawLine();
+void NewEneineDraw();
 void NewEnginePostDraw();
 void NewEngineEnd();
 

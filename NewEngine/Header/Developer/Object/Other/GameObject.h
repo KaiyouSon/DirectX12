@@ -11,7 +11,7 @@ protected:
 	std::string modelType;
 	bool isShow;
 	bool isShowDataToInspector;
-	std::vector<IComponent*> components;
+	std::vector<IComponent*> componentList;
 
 	Color color;
 
@@ -35,7 +35,7 @@ public:
 	template<class T>
 	T* GetComponent()
 	{
-		for (auto component : components) {
+		for (auto component : componentList) {
 			T* currentComponent = dynamic_cast<T*>(component);
 			if (currentComponent != nullptr) return currentComponent;
 		}

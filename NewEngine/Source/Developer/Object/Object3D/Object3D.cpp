@@ -30,8 +30,9 @@ void Object3D::Initialize(const ModelData& modelData)
 	constantBuffer->MaterialBufferInit();
 	constantBuffer->TransformBufferInit();
 
-	Texture tmpTex = TextureBuffer::GetDefaultTexture();
-	GetComponent<Texture>()->SetTexture(&tmpTex);
+	Texture* tmpTex = TextureBuffer::GetDefaultTexture();
+	GetComponent<Texture>()->SetTexture(tmpTex);
+	delete tmpTex;
 }
 
 void Object3D::Update()
@@ -49,6 +50,8 @@ void Object3D::Update()
 
 void Object3D::Draw()
 {
+	GetComponent<Blend>()->SetBlendMode(BlendMode::Alpha3D);
+
 	// VBV‚ÆIBV‚ÌÝ’èƒRƒ}ƒ“ƒh
 	renderBase->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
 	renderBase->GetCommandList()->IASetIndexBuffer(indexBuffer->GetibViewAddress());

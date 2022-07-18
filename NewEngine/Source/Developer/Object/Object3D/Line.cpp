@@ -19,8 +19,9 @@ Line::~Line()
 
 void Line::Initialize(const Vec3& startPos, const Vec3& endPos)
 {
-	Texture tmpTex = TextureBuffer::GetDefaultTexture();
-	GetComponent<Texture>()->SetTexture(&tmpTex);
+	Texture* tmpTex = TextureBuffer::GetDefaultTexture();
+	GetComponent<Texture>()->SetTexture(tmpTex);
+	delete tmpTex;
 
 	vertices.push_back({ startPos,{}, {0.0f, 1.0f} });	//ç∂â∫
 	vertices.push_back({ endPos,  {}, {0.0f, 1.0f} });	//ç∂â∫
@@ -49,6 +50,8 @@ void Line::Update()
 
 void Line::Draw()
 {
+	GetComponent<Blend>()->SetBlendMode(BlendMode::Line);
+
 	// VBVÇ∆IBVÇÃê›íËÉRÉ}ÉìÉh
 	renderBase->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
 	renderBase->GetCommandList()->IASetIndexBuffer(indexBuffer->GetibViewAddress());

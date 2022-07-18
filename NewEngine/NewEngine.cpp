@@ -5,11 +5,10 @@
 #include "NewEngine/Header/Developer/DeveloperManager.h"
 #include "NewEngine/Header/DataOperator.h"
 #include "NewEngine/Header/Developer/Object/Object2D/RenderTexture.h"
-#include "NewEngine/Header/Developer/Object/Object3D/Line.h"
+#include "NewEngine/Header/Developer/Component/Blend.h"
+
 #include <wrl.h>
 using namespace Microsoft::WRL;
-
-extern Line* line;
 
 extern RenderTexture* sceneViewTexture;
 
@@ -37,7 +36,7 @@ void NewEngineInit()
 	RenderWindow::GetInstance().SetWindowSize(1920, 1010);
 #endif
 	RenderWindow::GetInstance().CreateGameWindow();
-	RenderBase::GetInstance()->Initialize();
+	renderBase->Initialize();
 	DeveloperManager::GetInstance()->Initialize();
 #ifdef _DEBUG
 	GuiManager::GetInstance()->Initialize();
@@ -53,47 +52,26 @@ void NewEngineUpda()
 void NewEnginePreDraw()
 {
 	sceneViewTexture->PreDrawScene();
+
+}
+void NewEneineDraw()
+{
 	// ”wŒi•`‰æ
-	RenderBase::GetInstance()->Draw2D();
 	DeveloperManager::GetInstance()->Draw2DToBack();
-
 	// ƒ‚ƒfƒ‹•`‰æ
-	RenderBase::GetInstance()->Draw3D();
 	DeveloperManager::GetInstance()->Draw3D();
-
 	// ‘OŒi•`‰æ
-	RenderBase::GetInstance()->Draw2D();
 	DeveloperManager::GetInstance()->Draw2DToForward();
-
-	RenderBase::GetInstance()->DrawLine();
-	line->Draw();
-	sceneViewTexture->PostDrawScene();
-
-	RenderBase::GetInstance()->PreDraw();
-}
-void NewEngineSetDraw3D()
-{
-	RenderBase::GetInstance()->Draw3D();
-	//DeveloperManager::GetInstance()->Draw3D();
-}
-void NewEngineSetDraw2D()
-{
-	RenderBase::GetInstance()->Draw2D();
-	//DeveloperManager::GetInstance()->Draw2DToBack();
-}
-void NewEngineSetDrawLine()
-{
-	RenderBase::GetInstance()->DrawLine();
 }
 void NewEnginePostDraw()
 {
-	RenderBase::GetInstance()->Draw2D();
-	//DeveloperManager::GetInstance()->Draw2DToForward();
+	sceneViewTexture->PostDrawScene();
 
+	renderBase->PreDraw();
 #ifdef _DEBUG
 	GuiManager::GetInstance()->Draw();
 #endif
-	RenderBase::GetInstance()->PostDraw();
+	renderBase->GetInstance()->PostDraw();
 }
 void NewEngineEnd()
 {
@@ -106,7 +84,7 @@ void NewEngineEnd()
 #endif
 
 	DeveloperManager::DestroyInstance();
-	RenderBase::DestroyInstance();
+	renderBase->DestroyInstance();
 	DataOperator::DestroyInstance();
 
 	//ID3D12DebugDevice* debugInterface;

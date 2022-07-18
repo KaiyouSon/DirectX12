@@ -19,11 +19,12 @@ Sprite::~Sprite()
 
 void Sprite::Initialize()
 {
-	Texture tmpTex = TextureBuffer::GetDefaultTexture();
-	GetComponent<Texture>()->SetTexture(&tmpTex);
+	Texture* tmpTex = TextureBuffer::GetDefaultTexture();
+	GetComponent<Texture>()->SetTexture(tmpTex);
+	delete tmpTex;
 
-	float width = tmpTex.GetTextureSize().x;
-	float height = tmpTex.GetTextureSize().x;
+	float width = tmpTex->GetTextureSize().x;
+	float height = tmpTex->GetTextureSize().x;
 
 	vertices.push_back({ { -(width / 2), +(height / 2), 0.0f },{}, {0.0f, 1.0f} });	//ç∂â∫
 	vertices.push_back({ { -(width / 2), -(height / 2), 0.0f },{}, {0.0f, 0.0f} });	//ç∂è„
@@ -82,6 +83,8 @@ void Sprite::Update()
 
 void Sprite::Draw()
 {
+	GetComponent<Blend>()->SetBlendMode(BlendMode::Alpha2D);
+
 	// VBVÇ∆IBVÇÃê›íËÉRÉ}ÉìÉh
 	renderBase->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
 	renderBase->GetCommandList()->IASetIndexBuffer(indexBuffer->GetibViewAddress());

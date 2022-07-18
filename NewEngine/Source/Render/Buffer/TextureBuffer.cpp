@@ -13,7 +13,6 @@ TextureBuffer::~TextureBuffer()
 	delete[] imageData;
 }
 
-// テクスチャのロード
 Texture* TextureBuffer::LoadTexture(const string filePath)
 {
 	HRESULT result;
@@ -97,12 +96,10 @@ Texture* TextureBuffer::LoadTexture(const string filePath)
 
 	return texture;
 }
-
-// デフォルトのテクスチャ
-Texture TextureBuffer::GetDefaultTexture()
+Texture* TextureBuffer::GetDefaultTexture()
 {
 	HRESULT result;
-	Texture texture;
+	Texture* texture = new Texture;
 
 	// 全てのピクセルの色の初期化
 	for (size_t i = 0; i < imageDataCount; i++)
@@ -129,7 +126,7 @@ Texture TextureBuffer::GetDefaultTexture()
 	textureResourceDesc.SampleDesc.Count = 1;
 
 	// テクスチャのサイズをセット
-	texture.SetTextureSize(Vec2(textureResourceDesc.Width, textureResourceDesc.Height));
+	texture->SetTextureSize(Vec2(textureResourceDesc.Width, textureResourceDesc.Height));
 
 	// テクスチャバッファの生成
 	result = RenderBase::GetInstance()->GetDevice()->
@@ -139,11 +136,11 @@ Texture TextureBuffer::GetDefaultTexture()
 			&textureResourceDesc,
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
-			IID_PPV_ARGS(&texture.buffer));
+			IID_PPV_ARGS(&texture->buffer));
 	assert(SUCCEEDED(result));
 
 	// テクスチャバッファにデータ転送
-	result = texture.buffer->WriteToSubresource(
+	result = texture->buffer->WriteToSubresource(
 		0,
 		nullptr, // 全領域へコピー
 		imageData,	// 元データアドレス
@@ -151,15 +148,14 @@ Texture TextureBuffer::GetDefaultTexture()
 		sizeof(Vec4) * imageDataCount // 全サイズ
 	);
 
-	RenderBase::GetInstance()->CreateSrv(texture, textureResourceDesc);
+	RenderBase::GetInstance()->CreateSrv(*texture, textureResourceDesc);
 
 	return texture;
 }
-
-Texture TextureBuffer::GetRenderTexture(const Vec2& size)
+Texture* TextureBuffer::GetRenderTexture(const Vec2& size)
 {
 	HRESULT result;
-	Texture texture;
+	Texture* texture = new Texture;
 
 	// テクスチャリソース設定
 	CD3DX12_RESOURCE_DESC textureResourceDesc =
@@ -184,7 +180,7 @@ Texture TextureBuffer::GetRenderTexture(const Vec2& size)
 			&textureResourceDesc,
 			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 			&texClearValue,
-			IID_PPV_ARGS(&texture.buffer));
+			IID_PPV_ARGS(&texture->buffer));
 	assert(SUCCEEDED(result));
 
 	// テクスチャを赤クリア
@@ -200,13 +196,13 @@ Texture TextureBuffer::GetRenderTexture(const Vec2& size)
 		for (int i = 0; i < pixelCont; i++) { img[i] = 0xff0000ff; }
 
 		// テクスチャバッファにデータ転送
-		result = texture.buffer->WriteToSubresource(0, nullptr,
+		result = texture->buffer->WriteToSubresource(0, nullptr,
 			img, rowPitch, depthPitch);
 		assert(SUCCEEDED(result));
 		delete[] img;
 	}
 
-	RenderBase::GetInstance()->CreateSrv(texture, textureResourceDesc);
+	RenderBase::GetInstance()->CreateSrv(*texture, textureResourceDesc);
 
 	return texture;
 }

@@ -65,39 +65,6 @@ void RenderBase::PreDraw()
 	// シザー矩形の処理
 	scissorRectangle->Update();
 }
-void RenderBase::Draw3D()
-{
-	// パイプラインステートの設定コマンド( 3D版 )
-	commandList->SetPipelineState(pipelineState3D.Get());
-
-	// ルートシグネチャの設定コマンド
-	commandList->SetGraphicsRootSignature(rootSignature.Get());
-
-	// プリミティブ形状の設定コマンド
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-}
-void RenderBase::Draw2D()
-{
-	// パイプラインステートの設定コマンド( 2D版 )
-	commandList->SetPipelineState(pipelineState2D.Get());
-
-	// ルートシグネチャの設定コマンド
-	commandList->SetGraphicsRootSignature(rootSignature.Get());
-
-	// プリミティブ形状の設定コマンド
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-}
-void RenderBase::DrawLine()
-{
-	// パイプラインステートの設定コマンド( 2D版 )
-	commandList->SetPipelineState(pipelineStateLine.Get());
-
-	// ルートシグネチャの設定コマンド
-	commandList->SetGraphicsRootSignature(rootSignature.Get());
-
-	// プリミティブ形状の設定コマンド
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST); // 三角形リスト
-}
 void RenderBase::PostDraw()
 {
 	HRESULT result;
@@ -626,7 +593,7 @@ void RenderBase::GraphicsPipelineInit()
 		pipelineDesc.pRootSignature = rootSignature.Get();
 
 		// パイプランステートの生成
-		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState3D));
+		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateAlpha3D));
 		assert(SUCCEEDED(result));
 	}
 
@@ -684,7 +651,7 @@ void RenderBase::GraphicsPipelineInit()
 		pipelineDesc.pRootSignature = rootSignature.Get();
 
 		// パイプランステートの生成
-		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState3DAdd));
+		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateAdd3D));
 		assert(SUCCEEDED(result));
 	}
 
@@ -755,7 +722,7 @@ void RenderBase::GraphicsPipelineInit()
 		pipelineDesc.pRootSignature = rootSignature.Get();
 
 		// パイプランステートの生成
-		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState2D));
+		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateAlpha2D));
 		assert(SUCCEEDED(result));
 	}
 
@@ -831,6 +798,27 @@ ComPtr<ID3D12GraphicsCommandList> RenderBase::GetCommandList() const
 ComPtr<ID3D12DescriptorHeap> RenderBase::GetSrvDescHeap()const
 {
 	return srvDescHeap;
+}
+
+ComPtr<ID3D12RootSignature> RenderBase::GetRootSignature() const
+{
+	return rootSignature;
+}
+ComPtr<ID3D12PipelineState> RenderBase::GetPipelineStateAlpha3D() const
+{
+	return pipelineStateAlpha3D;
+}
+ComPtr<ID3D12PipelineState> RenderBase::GetPipelineStateAdd3D() const
+{
+	return pipelineStateAdd3D;
+}
+ComPtr<ID3D12PipelineState> RenderBase::GetPipelineStateAlpha2D() const
+{
+	return pipelineStateAlpha2D;
+}
+ComPtr<ID3D12PipelineState> RenderBase::GetPipelineStateLine() const
+{
+	return pipelineStateLine;
 }
 
 // シングルトン関連

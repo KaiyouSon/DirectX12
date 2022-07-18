@@ -1,4 +1,5 @@
 #pragma once
+#include "NewEngine/Header/Developer/Component/Blend.h"
 #include "NewEngine/Header/Developer/Component/Collider.h"
 #include "NewEngine/Header/Developer/Component/IComponent.h"
 #include "NewEngine/Header/Developer/Component/ModelData.h"

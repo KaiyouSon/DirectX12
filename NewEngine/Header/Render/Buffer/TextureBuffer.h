@@ -17,8 +17,8 @@ private:
 public:
 	~TextureBuffer();
 	static Texture* LoadTexture(const std::string filePath);
-	static Texture GetDefaultTexture();
-	static Texture GetRenderTexture(const Vec2& size);
+	static Texture* GetDefaultTexture();
+	static Texture* GetRenderTexture(const Vec2& size);
 	static void UnLoadTexture(Texture* texture);
 };
 

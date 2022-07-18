@@ -37,5 +37,5 @@ public:
 	void SetColor(const Color& color);
 	void SetCutPosAndSize(const Vec2& cutPos, const Vec2& cutSize);
 
-	Texture GetRenderTexture();
+	Texture* GetRenderTexture();
 };
