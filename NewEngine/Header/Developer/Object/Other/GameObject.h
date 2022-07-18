@@ -1,14 +1,25 @@
 #pragma once
 #include "NewEngine/Header/Developer/Component/IComponent.h"
+#include "NewEngine/Header/Developer/Component/ComponentManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include <vector>
 #include <string>
+
+enum ObjectType
+{
+	Object3DType,
+	SpriteType,
+	RenderTextureType,
+	LineType,
+};
 
 class GameObject
 {
 protected:
 	std::string name;
 	std::string modelType;
+	int objectType;
+
 	bool isShow;
 	bool isShowDataToInspector;
 	std::vector<IComponent*> componentList;
@@ -24,7 +35,9 @@ public:
 	void SetColor(const Color& color);
 	void SetModelType(std::string modelType);
 	void SetisShowDataToInspector(bool isShowDataToInspector);
+	void SetTexture(Texture& texture);
 
+	int GetObjectType();
 	bool GetisShow();
 	std::string GetName();
 	std::string GetModelType();

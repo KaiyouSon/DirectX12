@@ -8,6 +8,7 @@ Sprite::Sprite() :
 	vertexBuffer(new VertexBuffer), indexBuffer(new IndexBuffer),
 	constantBuffer(new ConstantBuffer), layer(true)
 {
+	objectType = ObjectType::SpriteType;
 }
 
 Sprite::~Sprite()
@@ -106,11 +107,6 @@ void Sprite::Draw()
 bool Sprite::GetLayer()
 {
 	return layer;
-}
-
-void Sprite::SetTexture(Texture& texture)
-{
-	GetComponent<Texture>()->SetTexture(&texture);
 }
 
 void Sprite::SetLayer(bool layer)

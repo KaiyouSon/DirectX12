@@ -21,37 +21,33 @@ void InspectorLayer::Update()
 	ImGui::Begin("Inspector", nullptr, window_flags);
 
 	ShowMenuBar();
-	ShowObjectList();
-	ShowSpriteList();
+	ShowGameObjectList();
 
 	//ImGui::Columns(2, 0, false);
-
-
-
 	ImGui::End();
 }
 
 void InspectorLayer::ShowMenuBar()
 {
-	for (auto tmpObjectList : ObjectManager::GetInstance()->GetObjectList())
-	{
-		if (ImGui::BeginMenuBar())
-		{
-			if (ImGui::BeginMenu("Menu"))
-			{
-				if (ImGui::BeginMenu("Add Component"))
-				{
-					ImGui::EndMenu();
-				}
-				ImGui::EndMenu();
-			}
-			ImGui::EndMenuBar();
-		}
-	}
+	//for (auto tmpObjectList : ObjectManager::GetInstance()->GetObjectList())
+	//{
+	//	if (ImGui::BeginMenuBar())
+	//	{
+	//		if (ImGui::BeginMenu("Menu"))
+	//		{
+	//			if (ImGui::BeginMenu("Add Component"))
+	//			{
+	//				ImGui::EndMenu();
+	//			}
+	//			ImGui::EndMenu();
+	//		}
+	//		ImGui::EndMenuBar();
+	//	}
+	//}
 }
-void InspectorLayer::ShowObjectList()
+void InspectorLayer::ShowGameObjectList()
 {
-	auto objList = ObjectManager::GetInstance()->GetObjectList();
+	auto objList = ObjectManager::GetInstance()->GetGameObjectList();
 
 	for (int i = 0; i < objList.size(); i++)
 	{
@@ -59,10 +55,13 @@ void InspectorLayer::ShowObjectList()
 		if (objList[i]->GetisShowDataToInspector())
 		{
 			// 表示フラグ
-			ShowisShowFlag(*objList[i]);	ImGui::SameLine();
+			ShowisShowFlag(*objList[i]); ImGui::SameLine();
 
 			// 名前
 			ShowNameString(*objList[i]);
+
+			if (objList[i]->GetObjectType() == ObjectType::SpriteType)
+				ShowDrawLayer(*dynamic_cast<Sprite*>(objList[i]));
 
 			// タグ
 			ShowTagString(*objList[i]);	ImGui::Separator();
@@ -75,38 +74,6 @@ void InspectorLayer::ShowObjectList()
 
 			// コンポネント追加
 			ShowAddComponent(*objList[i]);
-		}
-	}
-}
-void InspectorLayer::ShowSpriteList()
-{
-	auto sprList = ObjectManager::GetInstance()->GetSpriteList();
-
-	for (int i = 0; i < sprList.size(); i++)
-	{
-		// 選択したオブジェクトのコンポネントをInspectorウィンドウに表示
-		if (sprList[i]->GetisShowDataToInspector())
-		{
-			// 表示フラグ
-			ShowisShowFlag(*sprList[i]); ImGui::SameLine();
-
-			// 名前
-			ShowNameString(*sprList[i]);
-
-			// タグ
-			ShowTagString(*sprList[i]);	ImGui::SameLine();
-
-			// 描画レイヤー
-			ShowDrawLayer(*sprList[i]); ImGui::Separator();
-
-			// トランスフォームコンポネント
-			ShowTransform(*sprList[i]);	ImGui::Separator();
-
-			// テクスチャーコンポネント
-			ShowTexture(*sprList[i]);	ImGui::Separator();
-
-			// コンポネント追加
-			ShowAddComponent(*sprList[i]);
 		}
 	}
 }

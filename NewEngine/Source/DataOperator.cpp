@@ -1,5 +1,5 @@
-#include "NewEngine/Header/Developer/Object/Other/ObjectManager.h"
 #include "NewEngine/Header/DataOperator.h"
+#include "NewEngine/Header/Developer/Object/Other/ObjectManager.h"
 #include "NewEngine/Header/Gui/UserLayer.h"
 #include "NewEngine/NewEngine.h"
 #include "ImGUI/imgui.h"
@@ -17,10 +17,12 @@ void DataOperator::Initialize()
 void DataOperator::SaveData()
 {
 	SaveModelDataList();
+	SaveGameObjectList();
 }
 void DataOperator::LoadData()
 {
 	LoadModelDataList();
+	LoadGameObjectList();
 }
 
 // ゲームウィンドウデータ
@@ -134,6 +136,223 @@ void DataOperator::LoadModelDataList()
 	file.close();
 }
 
+// ゲームオブジェクトリスト
+void DataOperator::SaveGameObjectList()
+{
+	auto objList = objManager->GetGameObjectList();
+
+	ofstream file;
+	file.open("GameObjectList.txt", std::ios::out);
+	//リストのサイズをセーブ
+	file << "GameObjectListSize " << objList.size() << "\n";
+
+	string numberStr;
+	for (int i = 0; i < objList.size(); i++)
+	{
+		numberStr = "GameObject" + to_string(i);
+		if (objList[i]->GetObjectType() == ObjectType::Object3DType)
+		{
+			// モデルデータのタグ
+			file << numberStr + "ModelDataTag ";
+			file << objList[i]->GetComponent<ModelData>()->GetTag() << "\n";
+
+			// オブジェクトの名前
+			file << numberStr + "Name ";
+			file << objList[i]->GetName() << "\n";
+
+			// コンポネントリスト
+			file << "ComponentListSize ";
+			file << objList[i]->GetComponentList().size() << "\n";
+			// コンポネントリストの中身
+			for (int j = 0; j < objList[i]->GetComponentList().size(); j++)
+			{
+				// トランスフォーム
+				if (objList[i]->GetComponentList()[j]->GetComponentName() == "Transform")
+				{
+					file << numberStr + "Transform" + "pos ";
+					file << objList[i]->GetComponent<Transform>()->pos.x << " ";
+					file << objList[i]->GetComponent<Transform>()->pos.y << " ";
+					file << objList[i]->GetComponent<Transform>()->pos.z << " ";
+					file << "\n";
+					file << numberStr + "Transform" + "rot ";
+					file << objList[i]->GetComponent<Transform>()->rot.x << " ";
+					file << objList[i]->GetComponent<Transform>()->rot.y << " ";
+					file << objList[i]->GetComponent<Transform>()->rot.z << " ";
+					file << "\n";
+					file << numberStr + "Transform" + "scale ";
+					file << objList[i]->GetComponent<Transform>()->scale.x << " ";
+					file << objList[i]->GetComponent<Transform>()->scale.y << " ";
+					file << objList[i]->GetComponent<Transform>()->scale.z << " ";
+					file << "\n";
+				}
+
+				// テクスチャ
+				if (objList[i]->GetComponentList()[j]->GetComponentName() == "Texture")
+				{
+					file << numberStr + "TextureTag ";
+					string tmp = objList[i]->GetComponent<Texture>()->GetTextureTag();
+					file << objList[i]->GetComponent<Texture>()->GetTextureTag();
+					file << "\n";
+				}
+			}
+		}
+		if (objList[i]->GetObjectType() == ObjectType::SpriteType)
+		{
+			// スプライト
+			file << numberStr + "Sprite" + "\n";
+
+			// オブジェクトの名前
+			file << numberStr + "Name ";
+			file << objList[i]->GetName() << "\n";
+
+			// 表示フラグ
+			file << numberStr + "isShow ";
+			file << objList[i]->GetisShow();
+			file << "\n";
+
+			// 描画設定
+			file << numberStr + "Layer ";
+			file << dynamic_cast<Sprite*>(objList[i])->GetLayer();
+			file << "\n";
+
+			// コンポネントリスト
+			file << "ComponentListSize ";
+			file << objList[i]->GetComponentList().size() << "\n";
+
+			// コンポネントリストの中身
+			for (int j = 0; j < objList[i]->GetComponentList().size(); j++)
+			{
+				// トランスフォーム
+				if (objList[i]->GetComponentList()[j]->GetComponentName() == "Transform")
+				{
+					file << numberStr + "Transform" + "pos ";
+					file << objList[i]->GetComponent<Transform>()->pos.x << " ";
+					file << objList[i]->GetComponent<Transform>()->pos.y << " ";
+					file << objList[i]->GetComponent<Transform>()->pos.z << " ";
+					file << "\n";
+					file << numberStr + "Transform" + "rot ";
+					file << objList[i]->GetComponent<Transform>()->rot.x << " ";
+					file << objList[i]->GetComponent<Transform>()->rot.y << " ";
+					file << objList[i]->GetComponent<Transform>()->rot.z << " ";
+					file << "\n";
+					file << numberStr + "Transform" + "scale ";
+					file << objList[i]->GetComponent<Transform>()->scale.x << " ";
+					file << objList[i]->GetComponent<Transform>()->scale.y << " ";
+					file << objList[i]->GetComponent<Transform>()->scale.z << " ";
+					file << "\n";
+				}
+
+				if (objList[i]->GetComponentList()[j]->GetComponentName() == "Texture")
+				{
+					file << numberStr + "TextureTag ";
+					string tmp = objList[i]->GetComponent<Texture>()->GetTextureTag();
+					file << objList[i]->GetComponent<Texture>()->GetTextureTag();
+					file << "\n";
+				}
+			}
+		}
+	}
+	file.close();
+}
+void DataOperator::LoadGameObjectList()
+{
+	ifstream file;
+	file.open("GameObjectList.txt");
+	string line;
+	int listSize = 0;
+	while (getline(file, line))
+	{
+		auto objList = objManager->GetGameObjectList();
+
+		// 1行分の文字列をストリームに変換して解析しやすくする
+		istringstream lineStream(line);
+		// 半角スペース区切りで行の先頭文字列を取得
+		string key;
+		getline(lineStream, key, ' ');
+
+		// GameObjectListのサイズ
+		if (key == "GameObjectListSize") lineStream >> listSize;
+
+		string numberStr;
+		for (int i = 0; i < listSize; i++)
+		{
+			numberStr = "GameObject" + to_string(i);
+
+			// モデルデータのタグ
+			if (key == numberStr + "ModelDataTag")
+			{
+				string modelDataTag;
+				lineStream >> modelDataTag;
+				objManager->CreateModel(modelDataList->GetModelData(modelDataTag));
+				break;
+			}
+
+			if (key == numberStr + "Sprite") { objManager->CreateSprite();	break; }
+
+			// オブジェクトの名前
+			if (key == numberStr + "Name")
+			{
+				string tmpName;
+				lineStream >> tmpName;
+				objList[i]->SetName(tmpName);
+				break;
+			}
+
+			//	表示フラグ
+			if (key == numberStr + "isShow")
+			{
+				bool isShow;
+				lineStream >> isShow;
+				objList[i]->SetisShow(isShow);
+				break;
+			}
+
+			// レイヤー
+			if (key == numberStr + "Layer")
+			{
+				bool layer;
+				lineStream >> layer;
+				dynamic_cast<Sprite*>(objList[i])->SetLayer(layer);
+				break;
+			}
+
+			// トランスフォーム
+			if (key == numberStr + "Transform" + "pos")
+			{
+				lineStream >> objList[i]->GetComponent<Transform>()->pos.x;
+				lineStream >> objList[i]->GetComponent<Transform>()->pos.y;
+				lineStream >> objList[i]->GetComponent<Transform>()->pos.z;
+				break;
+			}
+			else if (key == numberStr + "Transform" + "rot")
+			{
+				lineStream >> objList[i]->GetComponent<Transform>()->rot.x;
+				lineStream >> objList[i]->GetComponent<Transform>()->rot.y;
+				lineStream >> objList[i]->GetComponent<Transform>()->rot.z;
+				break;
+			}
+			else if (key == numberStr + "Transform" + "scale")
+			{
+				lineStream >> objList[i]->GetComponent<Transform>()->scale.x;
+				lineStream >> objList[i]->GetComponent<Transform>()->scale.y;
+				lineStream >> objList[i]->GetComponent<Transform>()->scale.z;
+				break;
+			}
+			// テクスチャー
+			else if (key == numberStr + "TextureTag")
+			{
+				string tmpTag;
+				lineStream >> tmpTag;
+				if (tmpTag != "")
+					objList[i]->SetTexture(*gameTextureList->GetTexture(tmpTag));
+				break;
+			}
+		}
+	}
+
+	file.close();
+}
+
 bool DataOperator::CheckSaveData()
 {
 	if (ProcessMessage())
@@ -145,7 +364,7 @@ bool DataOperator::CheckSaveData()
 
 		if (ImGui::Button("Save"))
 		{
-			ObjectManager::GetInstance()->SaveData();
+			DataOperator::GetInstance()->SaveData();
 			return true;
 		}
 		if (ImGui::Button("Don't Save")) return true;
@@ -154,7 +373,6 @@ bool DataOperator::CheckSaveData()
 		ImGui::EndPopup();
 	}
 }
-
 void DataOperator::SetGameWindowParameter(std::string title, Vec2 size)
 {
 	gameWindowTitleForStorage = title;

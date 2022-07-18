@@ -8,6 +8,7 @@ Object3D::Object3D() :
 	indexBuffer(new IndexBuffer),
 	constantBuffer(new ConstantBuffer)
 {
+	objectType = ObjectType::Object3DType;
 }
 
 Object3D::~Object3D()
@@ -68,11 +69,6 @@ void Object3D::Draw()
 	renderBase->GetCommandList()->SetGraphicsRootDescriptorTable(2, GetComponent<Texture>()->GetGpuHandle());
 
 	renderBase->GetCommandList()->DrawIndexedInstanced((unsigned short)GetComponent<ModelData>()->indices.size(), 1, 0, 0, 0);
-}
-
-void Object3D::SetTexture(Texture& texture)
-{
-	GetComponent<Texture>()->SetTexture(&texture);
 }
 
 Mat4 Object3D::GetFinalMat()

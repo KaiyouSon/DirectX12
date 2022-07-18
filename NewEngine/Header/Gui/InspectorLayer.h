@@ -5,6 +5,7 @@ class InspectorLayer : public ILayer
 {
 private:
 	void ShowMenuBar();
+	void ShowGameObjectList();
 	void ShowObjectList();
 	void ShowSpriteList();
 

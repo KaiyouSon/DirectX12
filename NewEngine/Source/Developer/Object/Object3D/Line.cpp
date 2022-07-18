@@ -8,6 +8,7 @@ Line::Line() :
 	indexBuffer(new IndexBuffer),
 	constantBuffer(new ConstantBuffer)
 {
+	objectType = ObjectType::LineType;
 }
 
 Line::~Line()

@@ -6,14 +6,12 @@ class HierarchyLayer : public ILayer
 private:
 	int currentObjNode;
 	int oldObjNode;
-	int currentSprNode;
-	int oldSprNode;
 
 	bool isCreateModel;
 private:
 	void ShowMenuContest();
-	void ShowObjectList();
-	void ShowSpriteList();
+	void ShowViewProjection();
+	void ShowGameObjectList();
 	void ShowCreateModelWindow();
 
 public:

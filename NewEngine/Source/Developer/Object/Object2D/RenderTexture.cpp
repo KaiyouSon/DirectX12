@@ -10,6 +10,7 @@ RenderTexture::RenderTexture() :
 	vertexBuffer(new VertexBuffer), indexBuffer(new IndexBuffer),
 	constantBuffer(new ConstantBuffer), size(0, 0)
 {
+	objectType = ObjectType::RenderTextureType;
 }
 
 RenderTexture::~RenderTexture()

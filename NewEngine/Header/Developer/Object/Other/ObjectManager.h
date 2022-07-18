@@ -4,8 +4,7 @@
 class ObjectManager
 {
 private:
-	std::vector<Object3D*> objectList;
-	std::vector<Sprite*> spriteList;
+	std::vector<GameObject*> gameObjectList;
 
 private:
 	void LoadObjectList();
@@ -26,17 +25,12 @@ public:
 	void Draw2DToBack();
 	void Draw2DToForward();
 
+	void DestroyGameObject(GameObject* gameObject);
 	void DestroyModel(Object3D* object3D);
 	void DestroySprite(Sprite* sprite);
 
-	void LoadData();
-	void SaveData();
-
-	std::vector<Object3D*> GetObjectList();
-	std::vector<Sprite*> GetSpriteList();
-
-	Object3D* GetObject3D(std::string objName);
-	Sprite* GetSprite(std::string objName);
+	std::vector<GameObject*> GetGameObjectList();
+	GameObject* GetGameObject(std::string objName);
 
 	static ObjectManager* GetInstance();
 	static void DestroyInstance();

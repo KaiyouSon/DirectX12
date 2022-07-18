@@ -6,14 +6,9 @@ using namespace std;
 
 ObjectManager::~ObjectManager()
 {
-	for (int i = 0; i < objectList.size(); i++)
+	for (int i = 0; i < gameObjectList.size(); i++)
 	{
-		delete objectList[i];
-	}
-
-	for (int i = 0; i < spriteList.size(); i++)
-	{
-		delete spriteList[i];
+		delete gameObjectList[i];
 	}
 }
 
@@ -24,15 +19,15 @@ void ObjectManager::CreateCube()
 	Object3D* cubeModel = new Object3D;
 	cubeModel->Initialize(modelDataList->GetModelData("cube"));
 	cubeModel->SetName("Cube");
-	for (int i = 0; i < objectList.size(); i++)
+	for (int i = 0; i < gameObjectList.size(); i++)
 	{
-		if (objectList[i]->GetName() == cubeModel->GetName())
+		if (gameObjectList[i]->GetName() == cubeModel->GetName())
 		{
 			num += 1;
 			cubeModel->SetName("Cube" + to_string(num));
 		}
 	}
-	objectList.push_back(cubeModel);
+	gameObjectList.push_back(cubeModel);
 	cubeModel->SetModelType("Cube");
 }
 void ObjectManager::CreateSphere()
@@ -42,15 +37,15 @@ void ObjectManager::CreateSphere()
 	Object3D* sphereModel = new Object3D;
 	sphereModel->Initialize(modelDataList->GetModelData("sphere"));
 	sphereModel->SetName("Sphere");
-	for (int i = 0; i < objectList.size(); i++)
+	for (int i = 0; i < gameObjectList.size(); i++)
 	{
-		if (objectList[i]->GetName() == sphereModel->GetName())
+		if (gameObjectList[i]->GetName() == sphereModel->GetName())
 		{
 			num += 1;
 			sphereModel->SetName("Sphere" + to_string(num));
 		}
 	}
-	objectList.push_back(sphereModel);
+	gameObjectList.push_back(sphereModel);
 	sphereModel->SetModelType("Sphere");
 }
 void ObjectManager::CreateMonkey()
@@ -60,15 +55,15 @@ void ObjectManager::CreateMonkey()
 	Object3D* monkeyModel = new Object3D;
 	monkeyModel->Initialize(modelDataList->GetModelData("monkey"));
 	monkeyModel->SetName("Monkey");
-	for (int i = 0; i < objectList.size(); i++)
+	for (int i = 0; i < gameObjectList.size(); i++)
 	{
-		if (objectList[i]->GetName() == monkeyModel->GetName())
+		if (gameObjectList[i]->GetName() == monkeyModel->GetName())
 		{
 			num += 1;
 			monkeyModel->SetName("Monkey" + to_string(num));
 		}
 	}
-	objectList.push_back(monkeyModel);
+	gameObjectList.push_back(monkeyModel);
 	monkeyModel->SetModelType("Monkey");
 }
 void ObjectManager::CreateModel(const ModelData& modelData)
@@ -78,15 +73,15 @@ void ObjectManager::CreateModel(const ModelData& modelData)
 	Object3D* model = new Object3D;
 	model->Initialize(modelData);
 	model->SetName("Model");
-	for (int i = 0; i < objectList.size(); i++)
+	for (int i = 0; i < gameObjectList.size(); i++)
 	{
-		if (objectList[i]->GetName() == model->GetName())
+		if (gameObjectList[i]->GetName() == model->GetName())
 		{
 			num += 1;
 			model->SetName("Model" + to_string(num));
 		}
 	}
-	objectList.push_back(model);
+	gameObjectList.push_back(model);
 	model->SetModelType("Model");
 }
 void ObjectManager::CreateSprite()
@@ -96,398 +91,118 @@ void ObjectManager::CreateSprite()
 	Sprite* sprite = new Sprite;
 	sprite->Initialize();
 	sprite->SetName("Sprite");
-	for (int i = 0; i < spriteList.size(); i++)
+	for (int i = 0; i < gameObjectList.size(); i++)
 	{
-		if (spriteList[i]->GetName() == sprite->GetName())
+		if (gameObjectList[i]->GetName() == sprite->GetName())
 		{
 			num += 1;
 			sprite->SetName("Sprite" + to_string(num));
 		}
 	}
-	spriteList.push_back(sprite);
+	gameObjectList.push_back(sprite);
 	sprite->SetModelType("Sprite");
+}
+void ObjectManager::DestroyGameObject(GameObject* gameObject)
+{
+	for (int i = 0; i < gameObjectList.size(); i++)
+	{
+		if (gameObjectList[i] == gameObject)
+		{
+			delete gameObjectList[i];
+			gameObjectList[i] = nullptr;
+			gameObjectList.erase(gameObjectList.begin() + i);
+		}
+	}
 }
 void ObjectManager::DestroyModel(Object3D* object3D)
 {
-	for (int i = 0; i < objectList.size(); i++)
-	{
-		if (objectList[i] == object3D)
-		{
-			delete objectList[i];
-			objectList[i] = nullptr;
-			objectList.erase(objectList.begin() + i);
-		}
-	}
+	//for (int i = 0; i < objectList.size(); i++)
+	//{
+	//	if (objectList[i] == object3D)
+	//	{
+	//		delete objectList[i];
+	//		objectList[i] = nullptr;
+	//		objectList.erase(objectList.begin() + i);
+	//	}
+	//}
 }
 void ObjectManager::DestroySprite(Sprite* sprite)
 {
-	for (int i = 0; i < spriteList.size(); i++)
-	{
-		if (spriteList[i] == sprite)
-		{
-			delete spriteList[i];
-			spriteList[i] = nullptr;
-			spriteList.erase(spriteList.begin() + i);
-		}
-	}
+	//for (int i = 0; i < spriteList.size(); i++)
+	//{
+	//	if (spriteList[i] == sprite)
+	//	{
+	//		delete spriteList[i];
+	//		spriteList[i] = nullptr;
+	//		spriteList.erase(spriteList.begin() + i);
+	//	}
+	//}
 }
 
 void ObjectManager::Update()
 {
-	for (int i = 0; i < objectList.size(); i++)
+	for (int i = 0; i < gameObjectList.size(); i++)
 	{
-		objectList[i]->Update();
+		switch (gameObjectList[i]->GetObjectType())
+		{
+		case Object3DType:
+			dynamic_cast<Object3D*>(gameObjectList[i])->Update();
+			break;
+
+		case SpriteType:
+			dynamic_cast<Sprite*>(gameObjectList[i])->Update();
+			break;
+		}
 	}
 
-	for (int i = 0; i < spriteList.size(); i++)
-	{
-		spriteList[i]->Update();
-	}
 }
 void ObjectManager::Draw3D()
 {
-	for (int i = 0; i < objectList.size(); i++)
+	for (int i = 0; i < gameObjectList.size(); i++)
 	{
-		if (objectList[i]->GetisShow() == true)
-			objectList[i]->Draw();
+		if (gameObjectList[i]->GetisShow() == true &&
+			gameObjectList[i]->GetObjectType() == Object3DType)
+		{
+			dynamic_cast<Object3D*>(gameObjectList[i])->Draw();
+		}
 	}
 }
 void ObjectManager::Draw2DToBack()
 {
-	for (int i = 0; i < spriteList.size(); i++)
+	for (int i = 0; i < gameObjectList.size(); i++)
 	{
-		if (spriteList[i]->GetLayer() == false &&
-			spriteList[i]->GetisShow() == true)
-			spriteList[i]->Draw();
+		if (gameObjectList[i]->GetisShow() == true &&
+			gameObjectList[i]->GetObjectType() == SpriteType)
+		{
+			if (dynamic_cast<Sprite*>(gameObjectList[i])->GetLayer() == false)
+				dynamic_cast<Sprite*>(gameObjectList[i])->Draw();
+		}
 	}
 }
 void ObjectManager::Draw2DToForward()
 {
-	for (int i = 0; i < spriteList.size(); i++)
+	for (int i = 0; i < gameObjectList.size(); i++)
 	{
-		if (spriteList[i]->GetLayer() == true &&
-			spriteList[i]->GetisShow() == true)
-			spriteList[i]->Draw();
-	}
-}
-
-void ObjectManager::LoadData()
-{
-	LoadObjectList();
-	LoadSpriteList();
-}
-void ObjectManager::SaveData()
-{
-	SaveObjectList();
-	SaveSpriteList();
-}
-
-void ObjectManager::LoadObjectList()
-{
-	ifstream file;
-	string filename = "ObjectListData.txt";
-	file.open(filename);
-	string line;
-	int listSize = 0;
-	while (getline(file, line))
-	{
-		// 1行分の文字列をストリームに変換して解析しやすくする
-		istringstream lineStream(line);
-		// 半角スペース区切りで行の先頭文字列を取得
-		string key;
-		getline(lineStream, key, ' ');
-
-		if (key == "ObjectListSize")
+		if (gameObjectList[i]->GetisShow() == true &&
+			gameObjectList[i]->GetObjectType() == SpriteType)
 		{
-			lineStream >> listSize;
-		}
-
-		string numberStr;
-		for (int i = 0; i < listSize; i++)
-		{
-			numberStr = "Object" + to_string(i);
-			if (key == numberStr + "ModelDataTag")
-			{
-				string modelDataTag;
-				lineStream >> modelDataTag;
-				CreateModel(modelDataList->GetModelData(modelDataTag));
-				break;
-			}
-
-			if (key == numberStr + "ModelName")
-			{
-				string tmpName;
-				lineStream >> tmpName;
-				objectList[i]->SetName(tmpName);
-				break;
-			}
-
-			if (key == numberStr + "Transform" + "pos")
-			{
-				lineStream >> objectList[i]->GetComponent<Transform>()->pos.x;
-				lineStream >> objectList[i]->GetComponent<Transform>()->pos.y;
-				lineStream >> objectList[i]->GetComponent<Transform>()->pos.z;
-				break;
-			}
-			else if (key == numberStr + "Transform" + "rot")
-			{
-				lineStream >> objectList[i]->GetComponent<Transform>()->rot.x;
-				lineStream >> objectList[i]->GetComponent<Transform>()->rot.y;
-				lineStream >> objectList[i]->GetComponent<Transform>()->rot.z;
-				break;
-			}
-			else if (key == numberStr + "Transform" + "scale")
-			{
-				lineStream >> objectList[i]->GetComponent<Transform>()->scale.x;
-				lineStream >> objectList[i]->GetComponent<Transform>()->scale.y;
-				lineStream >> objectList[i]->GetComponent<Transform>()->scale.z;
-				break;
-			}
-			else if (key == numberStr + "TextureTag")
-			{
-				string tmpTag;
-				lineStream >> tmpTag;
-				if (tmpTag != "")
-					objectList[i]->SetTexture(*gameTextureList->GetTexture(tmpTag));
-				break;
-			}
+			if (dynamic_cast<Sprite*>(gameObjectList[i])->GetLayer() == true)
+				dynamic_cast<Sprite*>(gameObjectList[i])->Draw();
 		}
 	}
-
-	file.close();
 }
-void ObjectManager::LoadSpriteList()
+
+std::vector<GameObject*> ObjectManager::GetGameObjectList()
 {
-	ifstream file;
-	string filename = "SpriteListData.txt";
-	file.open(filename);
-	string line;
-	int listSize = 0;
-	while (getline(file, line))
+	return gameObjectList;
+}
+GameObject* ObjectManager::GetGameObject(std::string objName)
+{
+	for (int i = 0; i < gameObjectList.size(); i++)
 	{
-		// 1行分の文字列をストリームに変換して解析しやすくする
-		istringstream lineStream(line);
-		// 半角スペース区切りで行の先頭文字列を取得
-		string key;
-		getline(lineStream, key, ' ');
-
-		if (key == "SpriteListSize")
-		{
-			lineStream >> listSize;
-		}
-
-		string numberStr;
-		for (int i = 0; i < listSize; i++)
-		{
-			numberStr = "Sprite" + to_string(i);
-
-			if (key == numberStr) { CreateSprite();	break; }
-
-			if (key == numberStr + "SpriteName")
-			{
-				string tmpName;
-				lineStream >> tmpName;
-				spriteList[i]->SetName(tmpName);
-				break;
-			}
-			//	表示フラグ
-			if (key == numberStr + "isShow")
-			{
-				bool isShow;
-				lineStream >> isShow;
-				spriteList[i]->SetisShow(isShow);
-				break;
-			}
-
-			// レイヤー
-			if (key == numberStr + "Layer")
-			{
-				bool layer;
-				lineStream >> layer;
-				spriteList[i]->SetLayer(layer);
-				break;
-			}
-
-			if (key == numberStr + "Transform" + "pos")
-			{
-				lineStream >> spriteList[i]->GetComponent<Transform>()->pos.x;
-				lineStream >> spriteList[i]->GetComponent<Transform>()->pos.y;
-				lineStream >> spriteList[i]->GetComponent<Transform>()->pos.z;
-				break;
-			}
-			else if (key == numberStr + "Transform" + "rot")
-			{
-				lineStream >> spriteList[i]->GetComponent<Transform>()->rot.x;
-				lineStream >> spriteList[i]->GetComponent<Transform>()->rot.y;
-				lineStream >> spriteList[i]->GetComponent<Transform>()->rot.z;
-				break;
-			}
-			else if (key == numberStr + "Transform" + "scale")
-			{
-				lineStream >> spriteList[i]->GetComponent<Transform>()->scale.x;
-				lineStream >> spriteList[i]->GetComponent<Transform>()->scale.y;
-				lineStream >> spriteList[i]->GetComponent<Transform>()->scale.z;
-				break;
-			}
-			else if (key == numberStr + "TextureTag")
-			{
-				string tmpTag;
-				lineStream >> tmpTag;
-				if (tmpTag != "")
-					spriteList[i]->GetComponent<Texture>()->
-					SetTexture(gameTextureList->GetTexture(tmpTag));
-				break;
-			}
-		}
+		if (gameObjectList[i]->GetName() == objName)
+			return gameObjectList[i];
 	}
-
-	file.close();
-}
-void ObjectManager::SaveObjectList()
-{
-	ofstream file;
-	string filename = "ObjectListData.txt";
-	file.open(filename, std::ios::out);
-	//リストのサイズをセーブ
-	file << "ObjectListSize " << objectList.size() << "\n";
-
-	string numberStr;
-	for (int i = 0; i < objectList.size(); i++)
-	{
-		numberStr = "Object" + to_string(i);
-		// モデルデータのタグ
-		file << numberStr + "ModelDataTag ";
-		file << objectList[i]->GetComponent<ModelData>()->GetTag() << "\n";
-		// モデルの名前
-		file << numberStr + "ModelName ";
-		file << objectList[i]->GetName() << "\n";
-		// コンポネントリスト
-		file << "ComponentListSize ";
-		file << objectList[i]->GetComponentList().size() << "\n";
-		// コンポネントリストの中身
-		for (int j = 0; j < objectList[i]->GetComponentList().size(); j++)
-		{
-			// トランスフォーム
-			if (objectList[i]->GetComponentList()[j]->GetComponentName() == "Transform")
-			{
-				file << numberStr + "Transform" + "pos ";
-				file << objectList[i]->GetComponent<Transform>()->pos.x << " ";
-				file << objectList[i]->GetComponent<Transform>()->pos.y << " ";
-				file << objectList[i]->GetComponent<Transform>()->pos.z << " ";
-				file << "\n";
-				file << numberStr + "Transform" + "rot ";
-				file << objectList[i]->GetComponent<Transform>()->rot.x << " ";
-				file << objectList[i]->GetComponent<Transform>()->rot.y << " ";
-				file << objectList[i]->GetComponent<Transform>()->rot.z << " ";
-				file << "\n";
-				file << numberStr + "Transform" + "scale ";
-				file << objectList[i]->GetComponent<Transform>()->scale.x << " ";
-				file << objectList[i]->GetComponent<Transform>()->scale.y << " ";
-				file << objectList[i]->GetComponent<Transform>()->scale.z << " ";
-				file << "\n";
-			}
-
-			if (objectList[i]->GetComponentList()[j]->GetComponentName() == "Texture")
-			{
-				file << numberStr + "TextureTag ";
-				string tmp = objectList[i]->GetComponent<Texture>()->GetTextureTag();
-				file << objectList[i]->GetComponent<Texture>()->GetTextureTag();
-				file << "\n";
-			}
-		}
-	}
-	file.close();
-}
-void ObjectManager::SaveSpriteList()
-{
-	ofstream file;
-	string filename = "SpriteListData.txt";
-	file.open(filename, std::ios::out);
-	//リストのサイズをセーブ
-	file << "SpriteListSize " << spriteList.size() << "\n";
-
-	string numberStr;
-	for (int i = 0; i < spriteList.size(); i++)
-	{
-		numberStr = "Sprite" + to_string(i);
-
-		// スプライト
-		file << numberStr + "\n";
-		// スプライトの名前
-		file << numberStr + "SpriteName ";
-		file << spriteList[i]->GetName() << "\n";
-		// 表示フラグ
-		file << numberStr + "isShow ";
-		file << spriteList[i]->GetisShow();
-		file << "\n";
-		// 描画設定
-		file << numberStr + "Layer ";
-		file << spriteList[i]->GetLayer();
-		file << "\n";
-		// コンポネントリスト
-		file << "ComponentListSize ";
-		file << spriteList[i]->GetComponentList().size() << "\n";
-		// コンポネントリストの中身
-		for (int j = 0; j < spriteList[i]->GetComponentList().size(); j++)
-		{
-			// トランスフォーム
-			if (spriteList[i]->GetComponentList()[j]->GetComponentName() == "Transform")
-			{
-				file << numberStr + "Transform" + "pos ";
-				file << spriteList[i]->GetComponent<Transform>()->pos.x << " ";
-				file << spriteList[i]->GetComponent<Transform>()->pos.y << " ";
-				file << spriteList[i]->GetComponent<Transform>()->pos.z << " ";
-				file << "\n";
-				file << numberStr + "Transform" + "rot ";
-				file << spriteList[i]->GetComponent<Transform>()->rot.x << " ";
-				file << spriteList[i]->GetComponent<Transform>()->rot.y << " ";
-				file << spriteList[i]->GetComponent<Transform>()->rot.z << " ";
-				file << "\n";
-				file << numberStr + "Transform" + "scale ";
-				file << spriteList[i]->GetComponent<Transform>()->scale.x << " ";
-				file << spriteList[i]->GetComponent<Transform>()->scale.y << " ";
-				file << spriteList[i]->GetComponent<Transform>()->scale.z << " ";
-				file << "\n";
-			}
-
-			if (spriteList[i]->GetComponentList()[j]->GetComponentName() == "Texture")
-			{
-				file << numberStr + "TextureTag ";
-				string tmp = spriteList[i]->GetComponent<Texture>()->GetTextureTag();
-				file << spriteList[i]->GetComponent<Texture>()->GetTextureTag();
-				file << "\n";
-			}
-		}
-	}
-	file.close();
-}
-
-std::vector<Object3D*> ObjectManager::GetObjectList()
-{
-	return objectList;
-}
-std::vector<Sprite*> ObjectManager::GetSpriteList()
-{
-	return spriteList;
-}
-Object3D* ObjectManager::GetObject3D(std::string objName)
-{
-	for (int i = 0; i < objectList.size(); i++)
-	{
-		if (objectList[i]->GetName() == objName)
-			return objectList[i];
-	}
-
-	return nullptr;
-}
-Sprite* ObjectManager::GetSprite(std::string objName)
-{
-	for (int i = 0; i < spriteList.size(); i++)
-	{
-		if (spriteList[i]->GetName() == objName)
-			return spriteList[i];
-	}
-
 	return nullptr;
 }
 

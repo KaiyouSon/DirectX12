@@ -57,6 +57,15 @@ void GameObject::SetisShowDataToInspector(bool isShowDataToInspector)
 	this->isShowDataToInspector = isShowDataToInspector;
 }
 
+void GameObject::SetTexture(Texture& texture)
+{
+	GetComponent<Texture>()->SetTexture(&texture);
+}
+
+int GameObject::GetObjectType()
+{
+	return objectType;
+}
 bool GameObject::GetisShow()
 {
 	return isShow;

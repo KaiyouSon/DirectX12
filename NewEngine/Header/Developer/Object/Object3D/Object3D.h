@@ -19,8 +19,6 @@ public:
 	void Update();
 	void Draw();
 
-	void SetTexture(Texture& texture);
-
 	Mat4 GetFinalMat();
 };
 

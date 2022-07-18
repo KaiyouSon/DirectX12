@@ -51,7 +51,7 @@ static bool isChange = false;
 // 更新処理
 void Update()
 {
-	Object3D* triangle = objManager->GetObject3D("Model");
+	GameObject* triangle = objManager->GetGameObject("Triangle");
 
 	// 色自動に変更
 	if (color.r >= 255 && color.b <= 0) { color.r = 255; color.b = 0; color.g += speed; }
@@ -62,7 +62,6 @@ void Update()
 	if (color.r >= 255 && color.g <= 0) { color.r = 255; color.g = 0; color.b -= speed; }
 
 	triangle->SetColor(color);
-
 	//Collision();
 
 	sceneViewTexture->GetComponent<Transform>()->pos.x = WIN_HALF_WIDTH;
@@ -105,49 +104,49 @@ void Destroy()
 
 void Collision()
 {
-	if (key->GetKeyTrigger(DIK_SPACE))
-	{
-		if (hitType == 0) hitType = 1;
-		else if (hitType == 1) hitType = 0;
-	}
+	//if (key->GetKeyTrigger(DIK_SPACE))
+	//{
+	//	if (hitType == 0) hitType = 1;
+	//	else if (hitType == 1) hitType = 0;
+	//}
 
-	Object3D* cube1 = objManager->GetObjectList()[0];
-	Object3D* cube2 = objManager->GetObjectList()[1];
-	Sprite* backGround = objManager->GetSpriteList()[0];
-	Transform* cubeTrans = cube1->GetComponent<Transform>();
-	Transform* reyTrans = cube2->GetComponent<Transform>();
+	//Object3D* cube1 = objManager->GetObjectList()[0];
+	//Object3D* cube2 = objManager->GetObjectList()[1];
+	//Sprite* backGround = objManager->GetSpriteList()[0];
+	//Transform* cubeTrans = cube1->GetComponent<Transform>();
+	//Transform* reyTrans = cube2->GetComponent<Transform>();
 
-	// レイ
-	Rey rey =
-	{
-		reyTrans->pos + (Vec3::back * reyTrans->scale),
-		Vec3::forward
-	};
+	//// レイ
+	//Rey rey =
+	//{
+	//	reyTrans->pos + (Vec3::back * reyTrans->scale),
+	//	Vec3::forward
+	//};
 
-	// 線分
-	Line2 line =
-	{
-		reyTrans->pos + (Vec3::back * reyTrans->scale),
-		reyTrans->pos - (Vec3::back * reyTrans->scale)
-	};
+	//// 線分
+	//Line2 line =
+	//{
+	//	reyTrans->pos + (Vec3::back * reyTrans->scale),
+	//	reyTrans->pos - (Vec3::back * reyTrans->scale)
+	//};
 
-	// メッシュ
-	Mesh mesh =
-	{
-		cubeTrans->pos + (Vec3::back * cubeTrans->scale),
-		cubeTrans->scale
-	};
+	//// メッシュ
+	//Mesh mesh =
+	//{
+	//	cubeTrans->pos + (Vec3::back * cubeTrans->scale),
+	//	cubeTrans->scale
+	//};
 
-	if (hitType == 0)
-	{
-		if (ReyHitMesh(rey, mesh))	backGround->SetisShow(true);
-		else						backGround->SetisShow(false);
-	}
-	else
-	{
-		if (LineHitMesh(line, mesh)) backGround->SetisShow(true);
-		else						 backGround->SetisShow(false);
-	}
+	//if (hitType == 0)
+	//{
+	//	if (ReyHitMesh(rey, mesh))	backGround->SetisShow(true);
+	//	else						backGround->SetisShow(false);
+	//}
+	//else
+	//{
+	//	if (LineHitMesh(line, mesh)) backGround->SetisShow(true);
+	//	else						 backGround->SetisShow(false);
+	//}
 }
 
 Vec3 Vec3MulMat(Vec3 vec, Mat4 mat)
