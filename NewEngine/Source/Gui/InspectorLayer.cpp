@@ -202,6 +202,19 @@ void InspectorLayer::ShowTransform(GameObject& gameObject)
 		gameObject.GetComponent<Transform>()->scale.x = tmpScale[0];
 		gameObject.GetComponent<Transform>()->scale.y = tmpScale[1];
 		gameObject.GetComponent<Transform>()->scale.z = tmpScale[2];
+
+		bool tmpFlag = gameObject.GetComponent<Transform>()->GetisBillBoard();
+		ImGui::Checkbox("Use BillBoard", &tmpFlag);
+		gameObject.GetComponent<Transform>()->SetisBillBoard(tmpFlag);
+
+		int tmpType = gameObject.GetComponent<Transform>()->GetBillBoardType();
+		if (tmpFlag == true)
+		{
+			ImGui::RadioButton("X Axis", &tmpType, 0); ImGui::SameLine();
+			ImGui::RadioButton("Y Axis", &tmpType, 1); ImGui::SameLine();
+			ImGui::RadioButton("Z Axis", &tmpType, 2);
+			gameObject.GetComponent<Transform>()->SetBillBoardType(tmpType);
+		}
 	}
 }
 void InspectorLayer::ShowTexture(GameObject& gameObject)

@@ -155,6 +155,19 @@ Mat4 Mat4::operator*(const Mat4& other) const
 	};
 }
 
+Mat4 Mat4::operator*(const float& num)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			mat[i][j] *= num;
+		}
+	}
+
+	return *this;
+}
+
 Mat4& Mat4::operator*=(const Mat4& other)
 {
 	*this = *this * other;

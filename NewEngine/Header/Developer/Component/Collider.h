@@ -19,16 +19,16 @@ struct Rey
 	{
 	}
 };
-struct Line
+struct Line2
 {
 	Vec3 startPos;
 	Vec3 endPos;
 
-	Line() :startPos(0, 0, 0), endPos(0, 0, 0)
+	Line2() :startPos(0, 0, 0), endPos(0, 0, 0)
 	{
 	}
 
-	Line(const Vec3& startPos, const Vec3& endPos) :startPos(startPos), endPos(endPos)
+	Line2(const Vec3& startPos, const Vec3& endPos) :startPos(startPos), endPos(endPos)
 	{
 	}
 };
@@ -62,4 +62,4 @@ struct Mesh
 };
 
 bool ReyHitMesh(const Rey& rey, const Mesh& mesh);
-bool LineHitMesh(const Line& line, const Mesh& mesh);
+bool LineHitMesh(const Line2& line, const Mesh& mesh);

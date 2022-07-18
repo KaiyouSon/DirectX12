@@ -10,7 +10,7 @@
 #include "NewEngine/Header/Developer/Debug/DebugCamera.h"
 #include "NewEngine/Header/Developer/Sound.h"
 #include "NewEngine/Header/Render/Viewport.h"
-#include "NewEngine/Header/Developer/Object/Object2D/RenderTexture.h"
+#include "NewEngine/Header/Developer/Object/Object3D/Line.h"
 #include <vector>
 
 Sound testSound;
@@ -19,11 +19,11 @@ RenderTexture* sceneViewTexture = new RenderTexture;
 
 void Collision();
 Vec3 Vec3MulMat(Vec3 vec, Mat4 mat);
+Line* line = new Line;
 
 // 画像の読み込み
 void Load()
 {
-	//LoadBasicModel();
 	gameTextureList->AddTexture(LoadTexture("Resources/bg.png"), "bg");
 	gameTextureList->AddTexture(LoadTexture("Resources/pic.png"), "obj");
 	gameTextureList->AddTexture(LoadTexture("Resources/scope.png"), "scope");
@@ -41,17 +41,10 @@ void Initialize()
 	DebugCamera::GetInstance()->Initialize();
 
 	sceneViewTexture->Initialize({ 960,540 });
+	line->Initialize({ -10,0,0 }, { 10,0,0 });
 }
 
-Transform trans =
-{
-	{960,400,0},
-	Vec3::one,
-	Vec3::zero
-};
-
 static int hitType = 0;
-
 Color color = Color::red;
 static float speed = 5;
 static bool isChange = false;
@@ -72,18 +65,23 @@ void Update()
 
 	//Collision();
 
-	if (key->GetKey(DIK_RIGHT)) trans.pos.x++;
-	if (key->GetKey(DIK_LEFT)) trans.pos.x--;
-	if (key->GetKey(DIK_UP)) trans.pos.y--;
-	if (key->GetKey(DIK_DOWN)) trans.pos.y++;
+	sceneViewTexture->GetComponent<Transform>()->pos.x = WIN_HALF_WIDTH;
+	sceneViewTexture->GetComponent<Transform>()->pos.y = WIN_HALF_HEIGHT;
+	sceneViewTexture->Update();
 
 	view->SetPos(DebugCamera::GetInstance()->GetPos());
 	view->SetTarget(DebugCamera::GetInstance()->GetTarget());
 	view->SetUp(DebugCamera::GetInstance()->GetUp());
 	DebugCamera::GetInstance()->Update();
 
+	line->Update();
 	//PlaySoundWave(testSound);
 	//test->Update();
+}
+
+void Draw2D()
+{
+	//line->Draw();
 }
 
 // インスタンスのdelete
@@ -94,6 +92,7 @@ void Destroy()
 	delete tagList;
 	ModelDataList::DestroyInstance();
 	delete sceneViewTexture;
+	delete line;
 }
 
 void Collision()
@@ -118,7 +117,7 @@ void Collision()
 	};
 
 	// 線分
-	Line line =
+	Line2 line =
 	{
 		reyTrans->pos + (Vec3::back * reyTrans->scale),
 		reyTrans->pos - (Vec3::back * reyTrans->scale)

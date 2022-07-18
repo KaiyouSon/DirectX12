@@ -18,7 +18,7 @@ bool ReyHitMesh(const Rey& rey, const Mesh& mesh)
 
 	return false;
 }
-bool LineHitMesh(const Line& line, const Mesh& mesh)
+bool LineHitMesh(const Line2& line, const Mesh& mesh)
 {
 	Vec3 v1 = line.startPos - mesh.centerPos;
 	Vec3 v2 = line.endPos - mesh.centerPos;

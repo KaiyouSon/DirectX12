@@ -1,40 +1,42 @@
-#include "NewEngine/Header/Developer/Object/Object3D/Object3D.h"
+#include "NewEngine/Header/Developer/Object/Object3D/Line.h"
 #include "NewEngine/Header/Developer/Object/Other/ViewProjection.h"
-#include "NewEngine/Header/Developer/Component/Transform.h"
+#include "NewEngine/Header/Developer/Component/ComponentManager.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 
-Object3D::Object3D() :
+Line::Line() :
 	vertexBuffer(new VertexBuffer),
 	indexBuffer(new IndexBuffer),
 	constantBuffer(new ConstantBuffer)
 {
 }
 
-Object3D::~Object3D()
+Line::~Line()
 {
 	delete vertexBuffer;
 	delete indexBuffer;
 	delete constantBuffer;
 }
 
-void Object3D::Initialize(const ModelData& modelData)
+void Line::Initialize(const Vec3& startPos, const Vec3& endPos)
 {
-	GetComponent<ModelData>()->SetModelData(modelData);
+	Texture tmpTex = TextureBuffer::GetDefaultTexture();
+	GetComponent<Texture>()->SetTexture(&tmpTex);
 
-	// 頂点バッファ
-	vertexBuffer->Initialize(GetComponent<ModelData>()->vertices);
-	// インデックスバッファ
-	indexBuffer->Initialize(GetComponent<ModelData>()->indices);
+	vertices.push_back({ startPos,{}, {0.0f, 1.0f} });	//左下
+	vertices.push_back({ endPos,  {}, {0.0f, 1.0f} });	//左下
+
+	indices.push_back(0);
+	indices.push_back(1);
+
+	vertexBuffer->Initialize(vertices);
+	indexBuffer->Initialize(indices);
 
 	// 定数バッファ
 	constantBuffer->MaterialBufferInit();
 	constantBuffer->TransformBufferInit();
-
-	Texture tmpTex = TextureBuffer::GetDefaultTexture();
-	GetComponent<Texture>()->SetTexture(&tmpTex);
 }
 
-void Object3D::Update()
+void Line::Update()
 {
 	GetComponent<Transform>()->Update();
 
@@ -43,11 +45,9 @@ void Object3D::Update()
 		GetComponent<Transform>()->worldMat *
 		view->matView *
 		view->matProjection3D;
-
-	constantBuffer->SetColor(this->color);
 }
 
-void Object3D::Draw()
+void Line::Draw()
 {
 	// VBVとIBVの設定コマンド
 	renderBase->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
@@ -65,14 +65,4 @@ void Object3D::Draw()
 	renderBase->GetCommandList()->SetGraphicsRootDescriptorTable(2, GetComponent<Texture>()->GetGpuHandle());
 
 	renderBase->GetCommandList()->DrawIndexedInstanced((unsigned short)GetComponent<ModelData>()->indices.size(), 1, 0, 0, 0);
-}
-
-void Object3D::SetTexture(Texture& texture)
-{
-	GetComponent<Texture>()->SetTexture(&texture);
-}
-
-Mat4 Object3D::GetFinalMat()
-{
-	return constantBuffer->constMapTransform->mat;
 }

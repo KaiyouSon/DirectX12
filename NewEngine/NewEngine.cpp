@@ -5,8 +5,11 @@
 #include "NewEngine/Header/Developer/DeveloperManager.h"
 #include "NewEngine/Header/DataOperator.h"
 #include "NewEngine/Header/Developer/Object/Object2D/RenderTexture.h"
+#include "NewEngine/Header/Developer/Object/Object3D/Line.h"
 #include <wrl.h>
 using namespace Microsoft::WRL;
+
+extern Line* line;
 
 extern RenderTexture* sceneViewTexture;
 
@@ -61,6 +64,9 @@ void NewEnginePreDraw()
 	// ‘OŒi•`‰æ
 	RenderBase::GetInstance()->Draw2D();
 	DeveloperManager::GetInstance()->Draw2DToForward();
+
+	RenderBase::GetInstance()->DrawLine();
+	line->Draw();
 	sceneViewTexture->PostDrawScene();
 
 	RenderBase::GetInstance()->PreDraw();
@@ -68,12 +74,16 @@ void NewEnginePreDraw()
 void NewEngineSetDraw3D()
 {
 	RenderBase::GetInstance()->Draw3D();
-
+	//DeveloperManager::GetInstance()->Draw3D();
 }
 void NewEngineSetDraw2D()
 {
 	RenderBase::GetInstance()->Draw2D();
 	//DeveloperManager::GetInstance()->Draw2DToBack();
+}
+void NewEngineSetDrawLine()
+{
+	RenderBase::GetInstance()->DrawLine();
 }
 void NewEnginePostDraw()
 {

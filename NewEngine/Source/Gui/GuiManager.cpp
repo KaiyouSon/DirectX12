@@ -69,13 +69,8 @@ void GuiManager::Update()
 	UserLayer::GetInstance()->Update();
 	InspectorLayer::GetInstance()->Update();
 
-	//ImGui::PopFont();
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
-
-	//ImGui::Begin("TestWindow");
-	//ImGui::Text("Test");
-	//ImGui::End();
 
 	//bool show_demo_window = true;
 	//if (show_demo_window)

@@ -273,6 +273,12 @@
     <ClCompile Include="NewEngine\Source\Developer\Component\IComponent.cpp">
       <Filter>Source\Developer\Component</Filter>
     </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Component\Blend.cpp">
+      <Filter>Source\Developer\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Line.cpp">
+      <Filter>Source\Developer\Object\Object3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -465,6 +471,12 @@
     </ClInclude>
     <ClInclude Include="NewEngine\Header\Developer\Component\Collider.h">
       <Filter>Header\Developer\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Component\Blend.h">
+      <Filter>Header\Developer\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Line.h">
+      <Filter>Header\Developer\Object\Object3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

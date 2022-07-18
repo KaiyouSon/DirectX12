@@ -11,4 +11,3 @@ public:
 
 	static Quaternion AngleAxis(const float& angle, const Vec3& axis);
 };
-

@@ -2,9 +2,8 @@
 #include "NewEngine/Header/Render/Buffer/VertexBuffer.h"
 #include "NewEngine/Header/Render/Buffer/IndexBuffer.h"
 #include "NewEngine/Header/Render/Buffer/ConstantBuffer.h"
-#include "NewEngine/Header/Render/Buffer/TextureBuffer.h"
 #include "NewEngine/Header/Developer/Object/Other/GameObject.h"
-#include "NewEngine/Header/Developer/Component/ModelData.h"
+#include "NewEngine/Header/Developer/Component/ComponentManager.h"
 
 class Object3D : public GameObject
 {

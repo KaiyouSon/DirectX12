@@ -158,6 +158,7 @@
     <ClCompile Include="NewEngine\main2.cpp" />
     <ClCompile Include="NewEngine\NewEngine.cpp" />
     <ClCompile Include="NewEngine\Source\DataOperator.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Component\Blend.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\Collider.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\ComponentManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Component\IComponent.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="NewEngine\Source\Developer\Math\Vec4.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\Sprite.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Object2D\RenderTexture.cpp" />
+    <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Line.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Object3D\Object3D.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\DrawManager.cpp" />
     <ClCompile Include="NewEngine\Source\Developer\Object\Other\GameObject.cpp" />
@@ -236,6 +238,7 @@
     <ClInclude Include="ImGUI\imstb_textedit.h" />
     <ClInclude Include="ImGUI\imstb_truetype.h" />
     <ClInclude Include="NewEngine\Header\DataOperator.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Component\Blend.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\Collider.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\ComponentManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Component\IComponent.h" />
@@ -259,6 +262,7 @@
     <ClInclude Include="NewEngine\Header\Developer\Math\Vec4.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\Sprite.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Object2D\RenderTexture.h" />
+    <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Line.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Object3D.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\DrawManager.h" />
     <ClInclude Include="NewEngine\Header\Developer\Object\Other\GameObject.h" />

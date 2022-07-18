@@ -19,8 +19,6 @@ void HierarchyLayer::Initialize()
 void HierarchyLayer::Update()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_MenuBar;
-	//ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
-	//ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
 	ImGui::Begin("Hierarchy", nullptr, window_flags);
 
 	// メニューバー
@@ -37,9 +35,14 @@ void HierarchyLayer::Update()
 	ShowObjectList();
 	ShowSpriteList();
 
+	ImVec2 pos = ImGui::GetWindowPos();
+	ImVec2 size = ImGui::GetWindowSize();
+
 	// 右クリックしたら
-	if (ImGui::GetMousePos().x < size.x &&
-		ImGui::GetMousePos().y < size.y)
+	if (ImGui::GetMousePos().x > pos.x &&
+		ImGui::GetMousePos().y > pos.y &&
+		ImGui::GetMousePos().x < pos.x + size.x &&
+		ImGui::GetMousePos().y < pos.y + size.y)
 	{
 		if (ImGui::GetMouseClickedCount(1))
 			ImGui::OpenPopup("RightClick");

@@ -27,7 +27,6 @@ private:
 public:
 	RenderTexture();
 	~RenderTexture();
-	void SetTexture(const Texture& texture);
 	void Initialize(Vec2 size);
 	void Update();
 

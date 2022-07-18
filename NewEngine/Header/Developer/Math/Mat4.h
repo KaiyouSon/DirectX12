@@ -22,6 +22,7 @@ public:
 
 	// 単項演算子オーバーロード
 	Mat4 operator*(const Mat4& other) const;
+	Mat4 operator*(const float& num);
 
 	// 代入演算子オーバーロード
 	Mat4& operator*=(const Mat4& other);

@@ -96,9 +96,11 @@ void RenderTexture::Initialize(Vec2 size)
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;	// 深度地フォーマット
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	renderBase->GetDevice()->CreateDepthStencilView(depthBuff.Get(),
-		&dsvDesc,
-		descHeapDSV->GetCPUDescriptorHandleForHeapStart());
+	renderBase->GetDevice()->
+		CreateDepthStencilView(
+			depthBuff.Get(),
+			&dsvDesc,
+			descHeapDSV->GetCPUDescriptorHandleForHeapStart());
 }
 
 void RenderTexture::Update()
@@ -107,9 +109,8 @@ void RenderTexture::Update()
 
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
-		GetComponent<Transform>()->matWorld *
-		view->matView *
-		view->matProjection3D;
+		GetComponent<Transform>()->worldMat *
+		view->matProjection2D;
 }
 
 void RenderTexture::PreDrawScene()
@@ -153,7 +154,7 @@ void RenderTexture::PreDrawScene()
 
 void RenderTexture::PostDrawScene()
 {
-	// リソースバリアを変更（ 描画可能 -> シェーダーリソース）
+	// リソースバリアを変更（描画可能 -> シェーダーリソース）
 	CD3DX12_RESOURCE_BARRIER resourceBarrier;
 	resourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(
 		GetComponent<Texture>()->buffer.Get(),
@@ -185,11 +186,6 @@ void RenderTexture::Draw()
 	renderBase->GetCommandList()->SetGraphicsRootDescriptorTable(2, GetComponent<Texture>()->GetGpuHandle());
 
 	renderBase->GetCommandList()->DrawIndexedInstanced((unsigned short)indices.size(), 1, 0, 0, 0);
-}
-
-void RenderTexture::SetTexture(const Texture& texture)
-{
-	//this->texture = texture;
 }
 
 void RenderTexture::SetColor(const Color& color)

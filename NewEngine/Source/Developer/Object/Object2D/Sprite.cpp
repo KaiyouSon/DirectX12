@@ -53,7 +53,7 @@ void Sprite::Update()
 
 	// 定数バッファに転送
 	constantBuffer->constMapTransform->mat =
-		GetComponent<Transform>()->matWorld *
+		GetComponent<Transform>()->worldMat *
 		view->matProjection2D;
 
 	float width = GetComponent<Texture>()->GetTextureSize().x;
