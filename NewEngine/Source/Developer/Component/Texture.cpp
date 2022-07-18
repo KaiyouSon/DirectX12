@@ -27,6 +27,11 @@ void Texture::SetTexture(Texture* texture)
 	*this = *texture;
 }
 
+void Texture::SetFilePath(string filePath)
+{
+	this->filePath = filePath;
+}
+
 D3D12_GPU_DESCRIPTOR_HANDLE Texture::GetGpuHandle()
 {
 	return gpuHandle;
@@ -35,49 +40,44 @@ Vec2 Texture::GetTextureSize()
 {
 	return textureSize;
 }
-std::string Texture::GetTextureTag()
+string Texture::GetTextureTag()
 {
 	return textureTag;
 }
 
-TextureList::~TextureList()
+string Texture::GetFilePath()
 {
-	for (int i = 0; i < textureList.size(); i++)
-	{
-		delete textureList[i];
-	}
-	textureList.clear();
+	return filePath;
 }
 
-void TextureList::AddTexture(Texture* texture, std::string tag)
+TextureList::~TextureList()
+{
+	for (int i = 0; i < list.size(); i++)
+	{
+		delete list[i];
+	}
+	list.clear();
+}
+
+void TextureList::AddTexture(Texture* texture, string tag)
 {
 	texture->SetTextureTag(tag);
-	textureList.push_back(texture);
+	list.push_back(texture);
 }
-vector <string> TextureList::GetList()
+vector <Texture*> TextureList::GetList()
 {
-	vector <string> tmp;
-	for (int i = 0; i < textureList.size(); i++)
-	{
-		tmp.push_back(textureList[i]->GetTextureTag());
-	}
-	return tmp;
+	return list;
 }
 Texture* TextureList::GetTexture(string tag)
 {
-	for (int i = 0; i < textureList.size(); i++)
+	for (int i = 0; i < list.size(); i++)
 	{
-		if (textureList[i]->GetTextureTag() == tag)
+		if (list[i]->GetTextureTag() == tag)
 		{
-			return textureList[i];
+			return list[i];
 		}
 	}
 	return nullptr;
-}
-
-Texture* TextureList::GetTexture(const int& arrayNumber)
-{
-	return textureList[arrayNumber];
 }
 
 TextureList* gameTextureList = new TextureList;

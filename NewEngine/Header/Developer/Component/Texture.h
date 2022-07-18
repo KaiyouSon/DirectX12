@@ -13,6 +13,7 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = D3D12_GPU_DESCRIPTOR_HANDLE(); //SRVのハンドル(GPU側)
 	Vec2 textureSize;
 	std::string textureTag;
+	std::string filePath;
 public:
 	Microsoft::WRL::ComPtr<ID3D12Resource> buffer; //テクスチャのリソース
 	Texture();
@@ -21,24 +22,25 @@ public:
 	void SetTextureSize(const Vec2& textureSize);
 	void SetTextureTag(std::string textureTag);
 	void SetTexture(Texture* texture);
+	void SetFilePath(std::string filePath);
 
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGpuHandle();
 	Vec2 GetTextureSize();
 	std::string GetTextureTag();
+	std::string GetFilePath();
 };
 
 class TextureList
 {
 private:
-	std::vector<Texture*> textureList;
+	std::vector<Texture*> list;
 
 public:
 	~TextureList();
 	void AddTexture(Texture* texture, std::string tag);
-	std::vector <std::string> GetList();
+	std::vector <Texture*> GetList();
 
 	Texture* GetTexture(std::string tag);
-	Texture* GetTexture(const int& arrayNumber);
 };
 
 extern TextureList* gameTextureList;

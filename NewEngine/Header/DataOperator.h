@@ -13,10 +13,19 @@ public:
 	void SaveData();
 	void LoadData();
 
+	// ゲームウィンドウデータ
 	void SaveWindowData();
 	void LoadWindowData();
+
+	// モデルデータリスト
 	void SaveModelDataList();
 	void LoadModelDataList();
+
+	// テクスチャーリスト
+	void SaveTextureList();
+	void LoadTextureList();
+
+	// ゲームオブジェクトリスト
 	void SaveGameObjectList();
 	void LoadGameObjectList();
 

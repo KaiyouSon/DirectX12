@@ -5,6 +5,7 @@ class UserLayer : public ILayer
 private:
 	void ShowGameWindwoSetting();
 	void ShowModelDataListSetting();
+	void ShowTextureListSetting();
 
 public:
 	void Initialize() override;

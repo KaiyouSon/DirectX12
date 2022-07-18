@@ -198,9 +198,9 @@ void InspectorLayer::ShowTexture(GameObject& gameObject)
 		{
 			for (int i = 0; i < gameTextureList->GetList().size(); i++)
 			{
-				if (ImGui::MenuItem(gameTextureList->GetTexture(i)->GetTextureTag().c_str()))
+				if (ImGui::MenuItem(gameTextureList->GetList()[i]->GetTextureTag().c_str()))
 				{
-					gameObject.GetComponent<Texture>()->SetTexture(gameTextureList->GetTexture(i));
+					gameObject.GetComponent<Texture>()->SetTexture(gameTextureList->GetList()[i]);
 				}
 				ImGui::Separator();
 			}

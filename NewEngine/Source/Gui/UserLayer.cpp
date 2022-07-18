@@ -5,6 +5,7 @@
 #include "NewEngine/Header/Developer/Object/Other/DrawManager.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include "NewEngine/Header/DataOperator.h"
+using namespace std;
 
 void UserLayer::Initialize()
 {
@@ -15,13 +16,12 @@ void UserLayer::Initialize()
 void UserLayer::Update()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse;
-	//ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
-	//ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
 	ImGui::Begin("User", nullptr, window_flags);
 
 	ImGui::Columns(6);
-	ImGui::SameLine();		ShowGameWindwoSetting();			ImGui::NextColumn();
-	ImGui::SameLine(16);	ShowModelDataListSetting();			ImGui::NextColumn();
+	ImGui::SameLine();		ShowGameWindwoSetting();		ImGui::NextColumn();
+	ImGui::SameLine(16);	ShowModelDataListSetting();		ImGui::NextColumn();
+	ImGui::SameLine(16);	ShowTextureListSetting();		ImGui::NextColumn();
 	ImGui::End();
 }
 
@@ -99,11 +99,75 @@ void UserLayer::ShowModelDataListSetting()
 			}
 		}
 
+		ImGui::Separator();
+
 		if (ImGui::CollapsingHeader("ModelDataList"))
 		{
 			for (int i = 0; i < modelDataList->GetList().size(); i++)
 			{
 				ImGui::MenuItem(modelDataList->GetList()[i].GetTag().c_str());
+			}
+		}
+
+		ImGui::Separator();
+
+		if (ImGui::Button("Close"))
+		{
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+}
+void UserLayer::ShowTextureListSetting()
+{
+	if (ImGui::Button("TextureList", { 128, 32 }))
+		ImGui::OpenPopup("TextureListSetting");
+
+	if (ImGui::BeginPopupModal("TextureListSetting"))
+	{
+		static char filePath[256] = {};
+		static char textureTagName[50] = {};
+		if (ImGui::CollapsingHeader("AddModelData"))
+		{
+			ImGui::InputText("FilePath", filePath, 256);
+
+			static Texture* tmpTexture;
+			static string message;
+			if (ImGui::Button("Search File"))
+			{
+				tmpTexture = LoadTexture(filePath);
+				message = tmpTexture->GetTextureTag();
+			}
+
+			if (message == "error")
+			{
+				ImGui::Text("Failed to load, Please check the FilePath");
+				delete tmpTexture;
+				tmpTexture = nullptr;
+			}
+
+			if (tmpTexture != nullptr)
+			{
+				if (message != "error")
+				{
+					ImGui::Text("Loading is complete, Please enter the tag of the model data");
+					ImGui::InputText("modelDataName", textureTagName, 50);
+
+					if (ImGui::Button("Add"))
+					{
+						ImGui::Text("Added model data to ModelDataList");
+						gameTextureList->AddTexture(tmpTexture, textureTagName);
+					}
+				}
+			}
+		}
+		ImGui::Separator();
+
+		if (ImGui::CollapsingHeader("TextureList"))
+		{
+			for (int i = 0; i < gameTextureList->GetList().size(); i++)
+			{
+				ImGui::MenuItem(gameTextureList->GetList()[i]->GetTextureTag().c_str());
 			}
 		}
 

@@ -19,7 +19,6 @@ ModelData LoadModel(const char* filePath)
 	// .objファイルを開く
 	file.open(filePath);
 	// ファイルオープン失敗をチェック
-	//if (file.fail()) assert(0);
 	if (file.fail())
 	{
 		ModelData errorModel;

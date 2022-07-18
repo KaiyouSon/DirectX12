@@ -17,11 +17,13 @@ void DataOperator::Initialize()
 void DataOperator::SaveData()
 {
 	SaveModelDataList();
+	SaveTextureList();
 	SaveGameObjectList();
 }
 void DataOperator::LoadData()
 {
 	LoadModelDataList();
+	LoadTextureList();
 	LoadGameObjectList();
 }
 
@@ -130,6 +132,67 @@ void DataOperator::LoadModelDataList()
 			lineStream >> tag;
 
 			modelDataList->AddModelData(model, tag);
+			continue;
+		}
+	}
+	file.close();
+}
+
+// テクスチャーリスト
+void DataOperator::SaveTextureList()
+{
+	ofstream file;
+	file.open("TextureList.txt", std::ios::out);
+
+	//サイズのセーブ
+	file << "ListSize " << gameTextureList->GetList().size() << "\n";
+
+	string dataType;
+	for (int i = 0; i < gameTextureList->GetList().size(); i++)
+	{
+		// ファイルパス
+		file << dataType + "TextureFilePath ";
+		file << gameTextureList->GetList()[i]->GetFilePath();
+		file << "\n";
+
+		// タグ
+		file << dataType + "TextureTag ";
+		file << gameTextureList->GetList()[i]->GetTextureTag();
+		file << "\n";
+	}
+	file.close();
+}
+void DataOperator::LoadTextureList()
+{
+	ifstream file;
+	file.open("TextureList.txt");
+	string line;
+	Texture* texture = nullptr;
+	int listSize = 0;
+	while (getline(file, line))
+	{
+		// 1行分の文字列をストリームに変換して解析しやすくする
+		istringstream lineStream(line);
+		// 半角スペース区切りで行の先頭文字列を取得
+		string key;
+		getline(lineStream, key, ' ');
+
+		if (key == "ListSize")	lineStream >> listSize;
+
+		if (key == "TextureFilePath")
+		{
+			string filePath;
+			lineStream >> filePath;
+
+			texture = LoadTexture(filePath.c_str());
+			continue;
+		}
+		if (key == "TextureTag")
+		{
+			string tag;
+			lineStream >> tag;
+
+			gameTextureList->AddTexture(texture, tag);
 			continue;
 		}
 	}
@@ -344,7 +407,8 @@ void DataOperator::LoadGameObjectList()
 				string tmpTag;
 				lineStream >> tmpTag;
 				if (tmpTag != "")
-					objList[i]->SetTexture(*gameTextureList->GetTexture(tmpTag));
+					objList[i]->GetComponent<Texture>()->
+					SetTexture(gameTextureList->GetTexture(tmpTag));
 				break;
 			}
 		}

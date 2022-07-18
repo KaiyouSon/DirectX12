@@ -1,1 +1,0 @@
-SpriteListSize 0

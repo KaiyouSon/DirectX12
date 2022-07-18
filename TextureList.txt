@@ -1,0 +1,7 @@
+ListSize 3
+TextureFilePath Resources/bg.png
+TextureTag bg
+TextureFilePath Resources/pic.png
+TextureTag obj
+TextureFilePath Resources/scope.png
+TextureTag scope

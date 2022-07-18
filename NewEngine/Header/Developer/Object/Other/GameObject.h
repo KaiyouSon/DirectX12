@@ -35,7 +35,6 @@ public:
 	void SetColor(const Color& color);
 	void SetModelType(std::string modelType);
 	void SetisShowDataToInspector(bool isShowDataToInspector);
-	void SetTexture(Texture& texture);
 
 	int GetObjectType();
 	bool GetisShow();

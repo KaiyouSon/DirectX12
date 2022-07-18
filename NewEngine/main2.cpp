@@ -24,9 +24,9 @@ class::Line* line = new class::Line;
 // ‰æ‘œ‚Ì“Ç‚Ýž‚Ý
 void Load()
 {
-	gameTextureList->AddTexture(LoadTexture("Resources/bg.png"), "bg");
-	gameTextureList->AddTexture(LoadTexture("Resources/pic.png"), "obj");
-	gameTextureList->AddTexture(LoadTexture("Resources/scope.png"), "scope");
+	//gameTextureList->AddTexture(LoadTexture("Resources/bg.png"), "bg");
+	//gameTextureList->AddTexture(LoadTexture("Resources/pic.png"), "obj");
+	//gameTextureList->AddTexture(LoadTexture("Resources/scope.png"), "scope");
 
 	testSound = LoadSoundWave("Resources/title_bgm.wav");
 }

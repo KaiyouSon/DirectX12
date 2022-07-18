@@ -26,7 +26,12 @@ Texture* TextureBuffer::LoadTexture(const string filePath)
 		wfilePath.c_str(),
 		WIC_FLAGS_NONE,
 		&metadata, scratchImg);
-	assert(SUCCEEDED(result));
+	if (result != S_OK)
+	{
+		texture->SetTextureTag("error");
+		return texture;
+	}
+	//assert(SUCCEEDED(result));
 
 	// ミップマップ生成
 	ScratchImage mipChain{};
@@ -92,7 +97,8 @@ Texture* TextureBuffer::LoadTexture(const string filePath)
 
 	RenderBase::GetInstance()->CreateSrv(*texture, textureResourceDesc);
 
-	texture->buffer->SetName(L"Texture");
+	// ファイルパス
+	texture->SetFilePath(filePath);
 
 	return texture;
 }
