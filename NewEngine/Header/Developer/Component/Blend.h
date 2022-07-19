@@ -6,7 +6,7 @@ enum BlendMode
 	Alpha3D,
 	Add3D,
 	Alpha2D,
-	Line,
+	AddLine,
 };
 
 class Blend : public IComponent

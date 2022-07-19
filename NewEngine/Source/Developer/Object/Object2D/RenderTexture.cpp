@@ -4,8 +4,6 @@
 #include "NewEngine/Header/Render/RenderWindow.h"
 #include "NewEngine/Header/Developer/Component/Blend.h"
 
-const float RenderTexture::clearColor[4] = { 0.25f,0.5f,0.1f,1.0f };
-
 RenderTexture::RenderTexture() :
 	vertexBuffer(new VertexBuffer), indexBuffer(new IndexBuffer),
 	constantBuffer(new ConstantBuffer), size(0, 0)
@@ -153,6 +151,7 @@ void RenderTexture::PreDrawScene()
 	renderBase->GetCommandList()->RSSetScissorRects(1, &scissorRect);
 
 	// 全画面クリア
+	static float clearColor[4] = { 0.25f,0.5f,0.1f,1.0f };
 	renderBase->GetCommandList()->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
 	// 深度バッファのクリア
 	renderBase->GetCommandList()->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);

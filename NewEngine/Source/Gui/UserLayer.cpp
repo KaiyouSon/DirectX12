@@ -12,12 +12,10 @@ void UserLayer::Initialize()
 	size = { 960,111 };
 	pos = { WIN_HALF_WIDTH / 2,0 };
 }
-
 void UserLayer::Update()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse;
 	ImGui::Begin("User", nullptr, window_flags);
-
 	ImGui::Columns(6);
 	ImGui::SameLine();		ShowGameWindwoSetting();		ImGui::NextColumn();
 	ImGui::SameLine(16);	ShowModelDataListSetting();		ImGui::NextColumn();
@@ -106,6 +104,7 @@ void UserLayer::ShowModelDataListSetting()
 			for (int i = 0; i < modelDataList->GetList().size(); i++)
 			{
 				ImGui::MenuItem(modelDataList->GetList()[i].GetTag().c_str());
+				ImGui::Separator();
 			}
 		}
 
@@ -168,6 +167,7 @@ void UserLayer::ShowTextureListSetting()
 			for (int i = 0; i < gameTextureList->GetList().size(); i++)
 			{
 				ImGui::MenuItem(gameTextureList->GetList()[i]->GetTextureTag().c_str());
+				ImGui::Separator();
 			}
 		}
 

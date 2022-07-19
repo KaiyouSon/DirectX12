@@ -17,17 +17,15 @@ Sound testSound;
 
 RenderTexture* sceneViewTexture = new RenderTexture;
 
-void Collision();
 Vec3 Vec3MulMat(Vec3 vec, Mat4 mat);
-class::Line* line = new class::Line;
+static const int maxLine = 21;
+static float lineYAxis = -10;
+Line* xLine = new Line[maxLine];
+Line* zLine = new Line[maxLine];
 
 // 画像の読み込み
 void Load()
 {
-	//gameTextureList->AddTexture(LoadTexture("Resources/bg.png"), "bg");
-	//gameTextureList->AddTexture(LoadTexture("Resources/pic.png"), "obj");
-	//gameTextureList->AddTexture(LoadTexture("Resources/scope.png"), "scope");
-
 	testSound = LoadSoundWave("Resources/title_bgm.wav");
 }
 
@@ -41,13 +39,16 @@ void Initialize()
 	DebugCamera::GetInstance()->Initialize();
 
 	sceneViewTexture->Initialize({ 960,540 });
-	line->Initialize({ -10,0,0 }, { 10,0,0 });
+	for (int i = 0; i < maxLine; i++)
+	{
+		xLine[i].Initialize({ -10.0f,lineYAxis,-10.0f + i }, { 10.0f,lineYAxis,-10.0f + i });
+		zLine[i].Initialize({ -10.0f + i,lineYAxis,-10.0f }, { -10.0f + i,lineYAxis,10.0f });
+	}
 }
 
 static int hitType = 0;
 Color color = Color::red;
 static float speed = 5;
-static bool isChange = false;
 // 更新処理
 void Update()
 {
@@ -62,7 +63,6 @@ void Update()
 	if (color.r >= 255 && color.g <= 0) { color.r = 255; color.g = 0; color.b -= speed; }
 
 	triangle->SetColor(color);
-	//Collision();
 
 	sceneViewTexture->GetComponent<Transform>()->pos.x = WIN_HALF_WIDTH;
 	sceneViewTexture->GetComponent<Transform>()->pos.y = WIN_HALF_HEIGHT;
@@ -73,9 +73,15 @@ void Update()
 	view->SetUp(DebugCamera::GetInstance()->GetUp());
 	DebugCamera::GetInstance()->Update();
 
-	line->Update();
+	for (int i = 0; i < maxLine; i++)
+	{
+		xLine[i].Update();
+		zLine[i].Update();
+
+		xLine[i].SetColor(Color::red);
+		zLine[i].SetColor(Color::blue);
+	}
 	//PlaySoundWave(testSound);
-	//test->Update();
 }
 
 void Draw2D()
@@ -88,7 +94,11 @@ void Draw3D()
 
 void DrawLine()
 {
-	line->Draw();
+	for (int i = 0; i < maxLine; i++)
+	{
+		xLine[i].Draw();
+		zLine[i].Draw();
+	}
 }
 
 // インスタンスのdelete
@@ -99,54 +109,8 @@ void Destroy()
 	delete tagList;
 	ModelDataList::DestroyInstance();
 	delete sceneViewTexture;
-	delete line;
-}
-
-void Collision()
-{
-	//if (key->GetKeyTrigger(DIK_SPACE))
-	//{
-	//	if (hitType == 0) hitType = 1;
-	//	else if (hitType == 1) hitType = 0;
-	//}
-
-	//Object3D* cube1 = objManager->GetObjectList()[0];
-	//Object3D* cube2 = objManager->GetObjectList()[1];
-	//Sprite* backGround = objManager->GetSpriteList()[0];
-	//Transform* cubeTrans = cube1->GetComponent<Transform>();
-	//Transform* reyTrans = cube2->GetComponent<Transform>();
-
-	//// レイ
-	//Rey rey =
-	//{
-	//	reyTrans->pos + (Vec3::back * reyTrans->scale),
-	//	Vec3::forward
-	//};
-
-	//// 線分
-	//Line2 line =
-	//{
-	//	reyTrans->pos + (Vec3::back * reyTrans->scale),
-	//	reyTrans->pos - (Vec3::back * reyTrans->scale)
-	//};
-
-	//// メッシュ
-	//Mesh mesh =
-	//{
-	//	cubeTrans->pos + (Vec3::back * cubeTrans->scale),
-	//	cubeTrans->scale
-	//};
-
-	//if (hitType == 0)
-	//{
-	//	if (ReyHitMesh(rey, mesh))	backGround->SetisShow(true);
-	//	else						backGround->SetisShow(false);
-	//}
-	//else
-	//{
-	//	if (LineHitMesh(line, mesh)) backGround->SetisShow(true);
-	//	else						 backGround->SetisShow(false);
-	//}
+	delete[] xLine;
+	delete[] zLine;
 }
 
 Vec3 Vec3MulMat(Vec3 vec, Mat4 mat)
@@ -163,7 +127,6 @@ Vec3 Vec3MulMat(Vec3 vec, Mat4 mat)
 
 }
 Vec3 Vec3Transform(Vec3 vec, Mat4 mat)
-
 {
 	float w = (vec.x * mat.mat[0][3]) + (vec.y * mat.mat[1][3]) + (vec.z * mat.mat[2][3]) + (mat.mat[3][3]);
 
@@ -172,6 +135,5 @@ Vec3 Vec3Transform(Vec3 vec, Mat4 mat)
 		(vec.x * mat.mat[0][0]) + (vec.y * mat.mat[1][0]) + (vec.z * mat.mat[2][0]) + (mat.mat[3][0]) / w,
 		(vec.x * mat.mat[0][1]) + (vec.y * mat.mat[1][1]) + (vec.z * mat.mat[2][1]) + (mat.mat[3][1]) / w,
 		(vec.x * mat.mat[0][2]) + (vec.y * mat.mat[1][2]) + (vec.z * mat.mat[2][2]) + (mat.mat[3][2]) / w,
-
 	};
 }

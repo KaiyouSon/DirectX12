@@ -1,4 +1,4 @@
-GameObjectListSize 2
+GameObjectListSize 1
 GameObject0ModelDataTag triangle
 GameObject0Name Triangle
 ComponentListSize 5
@@ -6,10 +6,3 @@ GameObject0Transformpos 0 0 0
 GameObject0Transformrot 0 0 0 
 GameObject0Transformscale 10 10 10 
 GameObject0TextureTag 
-GameObject1ModelDataTag cube
-GameObject1Name Floor
-ComponentListSize 5
-GameObject1Transformpos 0 -10 0 
-GameObject1Transformrot 0 0 0 
-GameObject1Transformscale 10 1 10 
-GameObject1TextureTag bg

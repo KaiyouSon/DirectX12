@@ -1,6 +1,6 @@
 #include "NewEngine/Header/Developer/Component/Collider.h"
 
-bool ReyHitMesh(const Rey& rey, const Mesh& mesh)
+bool ReyHitMesh(const ReyCollider& rey, const MeshCollider& mesh)
 {
 	float dis1 = Vec3::Distance(rey.startPos, Vec3::zero);	// レイの始点と原点の距離
 	float dis2 = Vec3::Distance(mesh.centerPos, Vec3::zero);	// メッシュの中心座標と原点の距離
@@ -18,7 +18,7 @@ bool ReyHitMesh(const Rey& rey, const Mesh& mesh)
 
 	return false;
 }
-bool LineHitMesh(const Line2& line, const Mesh& mesh)
+bool LineHitMesh(const LineCollider& line, const MeshCollider& mesh)
 {
 	Vec3 v1 = line.startPos - mesh.centerPos;
 	Vec3 v2 = line.endPos - mesh.centerPos;

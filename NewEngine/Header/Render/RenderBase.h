@@ -98,8 +98,6 @@ private:
 	// 描画処理関連
 	D3D12_RESOURCE_BARRIER barrierDesc{};	// リソースバリア
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;	// レンダーターゲットビューのハンドル
-public:
-	float clearColor[4];	// 画面色
 };
 
 extern RenderBase* renderBase;

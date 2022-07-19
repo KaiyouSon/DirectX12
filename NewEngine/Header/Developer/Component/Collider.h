@@ -6,33 +6,33 @@ class Collider : public IComponent
 {
 };
 
-struct Rey
+struct ReyCollider
 {
 	Vec3 startPos;
 	Vec3 dirVec;
 
-	Rey() : startPos(0, 0, 0), dirVec(0, 0, 0)
+	ReyCollider() : startPos(0, 0, 0), dirVec(0, 0, 0)
 	{
 	}
 
-	Rey(const Vec3& startPos, const Vec3& dirVec) :startPos(startPos), dirVec(dirVec)
+	ReyCollider(const Vec3& startPos, const Vec3& dirVec) :startPos(startPos), dirVec(dirVec)
 	{
 	}
 };
-struct Line2
+struct LineCollider
 {
 	Vec3 startPos;
 	Vec3 endPos;
 
-	Line2() :startPos(0, 0, 0), endPos(0, 0, 0)
+	LineCollider() :startPos(0, 0, 0), endPos(0, 0, 0)
 	{
 	}
 
-	Line2(const Vec3& startPos, const Vec3& endPos) :startPos(startPos), endPos(endPos)
+	LineCollider(const Vec3& startPos, const Vec3& endPos) :startPos(startPos), endPos(endPos)
 	{
 	}
 };
-struct Mesh
+struct MeshCollider
 {
 	Vec3 centerPos;		// 中心座標
 	Vec3 upperLeftPos;	// 左上座標
@@ -41,14 +41,14 @@ struct Mesh
 	Vec3 lowerRightPos;	// 左上座標
 	Vec3 normal;		// 法線ベクトル
 
-	Mesh() :centerPos(0, 0, 0),
+	MeshCollider() :centerPos(0, 0, 0),
 		upperLeftPos(0, 0, 0), upperRightPos(0, 0, 0),
 		lowerLeftPos(0, 0, 0), lowerRightPos(0, 0, 0),
 		normal(0, 0, 0)
 	{
 	}
 
-	Mesh(const Vec3& centerPos, const Vec3& scale) :
+	MeshCollider(const Vec3& centerPos, const Vec3& scale) :
 		centerPos(centerPos),
 		upperLeftPos(centerPos.x - scale.x, centerPos.y + scale.y, centerPos.z),
 		upperRightPos(centerPos.x + scale.x, centerPos.y + scale.y, centerPos.z),
@@ -61,5 +61,5 @@ struct Mesh
 	}
 };
 
-bool ReyHitMesh(const Rey& rey, const Mesh& mesh);
-bool LineHitMesh(const Line2& line, const Mesh& mesh);
+bool ReyHitMesh(const ReyCollider& rey, const MeshCollider& mesh);
+bool LineHitMesh(const LineCollider& line, const MeshCollider& mesh);

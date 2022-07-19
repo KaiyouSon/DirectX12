@@ -22,8 +22,6 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapRTV;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapDSV;
-
-	static const float clearColor[4];
 public:
 	RenderTexture();
 	~RenderTexture();

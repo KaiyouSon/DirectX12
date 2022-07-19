@@ -47,11 +47,13 @@ void Line::Update()
 		GetComponent<Transform>()->worldMat *
 		view->matView *
 		view->matProjection3D;
+
+	constantBuffer->SetColor(this->color);
 }
 
 void Line::Draw()
 {
-	GetComponent<Blend>()->SetBlendMode(BlendMode::Line);
+	GetComponent<Blend>()->SetBlendMode(BlendMode::AddLine);
 
 	// VBVとIBVの設定コマンド
 	renderBase->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
@@ -68,5 +70,5 @@ void Line::Draw()
 	// SRVヒープの先頭にあるSRVをルートパラメータ2番に設定
 	renderBase->GetCommandList()->SetGraphicsRootDescriptorTable(2, GetComponent<Texture>()->GetGpuHandle());
 
-	renderBase->GetCommandList()->DrawIndexedInstanced((unsigned short)GetComponent<ModelData>()->indices.size(), 1, 0, 0, 0);
+	renderBase->GetCommandList()->DrawIndexedInstanced((unsigned short)indices.size(), 1, 0, 0, 0);
 }

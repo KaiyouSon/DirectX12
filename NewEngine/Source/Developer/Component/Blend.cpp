@@ -23,7 +23,7 @@ void Blend::SetBlendMode(BlendMode blendmode)
 		renderBase->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		break;
 
-	case Line:
+	case AddLine:
 		renderBase->GetCommandList()->SetPipelineState(renderBase->GetPipelineStateLine().Get());
 		renderBase->GetCommandList()->SetGraphicsRootSignature(renderBase->GetRootSignature().Get());
 		renderBase->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);

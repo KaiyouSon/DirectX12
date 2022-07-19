@@ -52,7 +52,6 @@ void NewEngineUpda()
 void NewEnginePreDraw()
 {
 	sceneViewTexture->PreDrawScene();
-
 }
 void NewEneineDraw()
 {
@@ -111,7 +110,7 @@ void SetWindowTitle(const std::string TITLE)
 }
 void SetBackgroundColor(float Red, float Green, float Blue)
 {
-	RenderBase::GetInstance()->clearColor[0] = Red / 255;
-	RenderBase::GetInstance()->clearColor[1] = Green / 255;
-	RenderBase::GetInstance()->clearColor[2] = Blue / 255;
+	//RenderBase::GetInstance()->clearColor[0] = Red / 255;
+	//RenderBase::GetInstance()->clearColor[1] = Green / 255;
+	//RenderBase::GetInstance()->clearColor[2] = Blue / 255;
 }
