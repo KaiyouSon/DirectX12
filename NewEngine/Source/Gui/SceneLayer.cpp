@@ -2,7 +2,6 @@
 #include "NewEngine/Header/Gui/ProjectLayer.h"
 #include "NewEngine/Header/Developer/Util/Util.h"
 #include "NewEngine/Header/Developer/Object/Object2D/RenderTexture.h"
-extern RenderTexture* sceneViewTexture;
 
 void SceneLayer::Initialize()
 {

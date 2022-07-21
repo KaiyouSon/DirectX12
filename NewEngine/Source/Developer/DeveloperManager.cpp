@@ -54,5 +54,6 @@ void DeveloperManager::DestroyInstance()
 	SoundManager::DestroyInstance();
 	ObjectManager::DestroyInstance();
 	ViewProjection::DestroyInstance();
+	ModelDataList::DestroyInstance();
 	delete GetInstance();
 }

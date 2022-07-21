@@ -2,9 +2,7 @@
 class Color
 {
 public:
-	float r, g, b;
-	//float h, s, v;
-	float a;
+	float r, g, b, a;
 
 	constexpr Color() : r(255), g(255), b(255), a(255) {}
 	constexpr Color(float r, float g, float b) : r(r), g(g), b(b), a(255) {}
@@ -16,6 +14,9 @@ public:
 	const static Color yellow;
 	const static Color white;
 	const static Color black;
+
+	// 比較演算子のオーバーロード
+	bool operator!=(const Color& other) const;
 
 	//static Color SetRGB(float r, float g, float b);
 	//static Color SetHSV(float h, float s, float v);

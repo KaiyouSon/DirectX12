@@ -1,5 +1,6 @@
 #pragma once
 #include "NewEngine/Header/Developer/Component/IComponent.h"
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -28,4 +29,4 @@ public:
 	std::vector<std::string> GetList();
 };
 
-extern TagList* tagList;
+extern std::unique_ptr<TagList> tagList;

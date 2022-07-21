@@ -65,6 +65,12 @@ Vec2 MouseInput::GetMousePos()
 	return mousePos;
 }
 
+Vec2 MouseInput::GetMouseVec()
+{
+	Vec2 vec = { (float)mouseInput.lX ,(float)mouseInput.lY };
+	return vec;
+}
+
 float MouseInput::GetWheelVec()
 {
 	Vec3 vec = { (float)mouseInput.lX ,(float)mouseInput.lY ,(float)mouseInput.lZ };

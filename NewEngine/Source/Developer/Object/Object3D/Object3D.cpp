@@ -46,7 +46,9 @@ void Object3D::Update()
 		view->matView *
 		view->matProjection3D;
 
-	constantBuffer->SetColor(this->color);
+
+	static Dirty<Color> colorDirty(color);
+	if (colorDirty.GetisDirty(color) == true) constantBuffer->SetColor(color);
 }
 
 void Object3D::Draw()

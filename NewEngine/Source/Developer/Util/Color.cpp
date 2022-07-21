@@ -103,3 +103,8 @@ const Color Color::black(0, 0, 0);
 //
 //	return color;
 //}
+
+bool Color::operator!=(const Color& other) const
+{
+	return r != other.r || g != other.g || b != other.b || a != other.a;
+}

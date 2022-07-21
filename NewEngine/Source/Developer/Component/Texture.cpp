@@ -80,4 +80,4 @@ Texture* TextureList::GetTexture(string tag)
 	return nullptr;
 }
 
-TextureList* gameTextureList = new TextureList;
+unique_ptr<TextureList> gameTextureList(new TextureList);

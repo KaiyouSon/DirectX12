@@ -26,4 +26,8 @@ public:
 
 	// 代入演算子オーバーロード
 	Mat4& operator*=(const Mat4& other);
+
+	// 比較演算子のオーバーロード
+	bool operator!=(const Mat4& other) const;
+
 };

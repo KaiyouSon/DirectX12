@@ -19,6 +19,7 @@ public:
 public:
 	void Initialize(Vertex vertices[], int arrarySize);
 	void Initialize(std::vector<Vertex> vertices);
+	void Initialize(std::vector<Vertex2> vertices);
 public:
 	// 頂点バッファビューを取得する関数
 	D3D12_VERTEX_BUFFER_VIEW* GetvbViewAddress();

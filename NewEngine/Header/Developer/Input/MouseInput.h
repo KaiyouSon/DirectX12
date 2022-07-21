@@ -20,6 +20,7 @@ public:
 	bool GetClickReleased(const int& mouse);
 
 	Vec2 GetMousePos();
+	Vec2 GetMouseVec();
 	float GetWheelVec();
 
 	static MouseInput* GetInstance();

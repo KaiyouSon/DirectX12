@@ -3,6 +3,7 @@
 #include "NewEngine/Header/Developer/Math/MathUtil.h"
 #include <d3d12.h>
 #include <wrl.h>
+#include <memory>
 #include <vector>
 #include <string>
 
@@ -43,4 +44,4 @@ public:
 	Texture* GetTexture(std::string tag);
 };
 
-extern TextureList* gameTextureList;
+extern std::unique_ptr<TextureList> gameTextureList;

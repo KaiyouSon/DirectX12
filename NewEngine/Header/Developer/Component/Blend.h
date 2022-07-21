@@ -6,11 +6,12 @@ enum BlendMode
 	Alpha3D,
 	Add3D,
 	Alpha2D,
-	AddLine,
+	AlphaLine,
+	AlphaRenderTexture,
 };
 
 class Blend : public IComponent
 {
 public:
-	void SetBlendMode(BlendMode blendmode);
+	void SetBlendMode(int blendmode);
 };

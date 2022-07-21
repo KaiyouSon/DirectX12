@@ -24,8 +24,8 @@ void Sprite::Initialize()
 	GetComponent<Texture>()->SetTexture(tmpTex);
 	delete tmpTex;
 
-	float width = tmpTex->GetTextureSize().x;
-	float height = tmpTex->GetTextureSize().x;
+	float width = GetComponent<Texture>()->GetTextureSize().x;
+	float height = GetComponent<Texture>()->GetTextureSize().y;
 
 	vertices.push_back({ { -(width / 2), +(height / 2), 0.0f },{}, {0.0f, 1.0f} });	//左下
 	vertices.push_back({ { -(width / 2), -(height / 2), 0.0f },{}, {0.0f, 0.0f} });	//左上
@@ -33,13 +33,9 @@ void Sprite::Initialize()
 	vertices.push_back({ { +(width / 2), -(height / 2), 0.0f },{}, {1.0f, 0.0f} });	//右上
 
 	// 三角形1つ目
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(2);
+	indices.push_back(0); indices.push_back(1); indices.push_back(2);
 	// 三角形2つ目
-	indices.push_back(2);
-	indices.push_back(1);
-	indices.push_back(3);
+	indices.push_back(2); indices.push_back(1);	indices.push_back(3);
 
 	vertexBuffer->Initialize(vertices);
 	indexBuffer->Initialize(indices);
@@ -79,7 +75,8 @@ void Sprite::Update()
 		vertexBuffer->Unmap();
 	}
 
-	constantBuffer->SetColor(color);
+	static Dirty<Color> colorDirty(color);
+	if (colorDirty.GetisDirty(color) == true) constantBuffer->SetColor(color);
 }
 
 void Sprite::Draw()

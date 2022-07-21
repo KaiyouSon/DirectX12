@@ -175,9 +175,9 @@ Texture* TextureBuffer::GetRenderTexture(const Vec2& size)
 	CD3DX12_HEAP_PROPERTIES texHeapProperties =
 		CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
 
-	static const float clearColor[4] = { 0.25f,0.5f,0.1f,0.0f };
+	static const float clearColor[4] = { 0.1f,0.25f,0.5f,0.0f };
 
-	CD3DX12_CLEAR_VALUE texClearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor);
+	CD3DX12_CLEAR_VALUE texClearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearColor);
 
 	result = RenderBase::GetInstance()->GetDevice()->
 		CreateCommittedResource(

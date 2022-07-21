@@ -1,5 +1,6 @@
 #pragma once
 #include "NewEngine/Header/Developer/Object/Object3D/Object3D.h"
+#include "NewEngine/Header/Developer/Object/Object3D/Line.h"
 #include "NewEngine/Header/Developer/Object/Object2D/RenderTexture.h"
 #include "NewEngine/Header/Developer/Object/Object2D/Sprite.h"
 #include "NewEngine/Header/Render/Buffer/TextureBuffer.h"

@@ -5,6 +5,7 @@
 #include "NewEngine/Header/Developer/Component/ComponentManager.h"
 #include "NewEngine/Header/Developer/Object/Other/GameObject.h"
 #include <vector>
+#include <memory>
 #include <d3dx12.h>
 #include <wrl.h>
 
@@ -14,11 +15,10 @@ private:
 	VertexBuffer* vertexBuffer;
 	IndexBuffer* indexBuffer;
 	ConstantBuffer* constantBuffer;
-	std::vector<Vertex> vertices;
+	std::vector<Vertex2> vertices;
 	std::vector<unsigned short> indices;
 
 	Vec2 size;
-
 	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapRTV;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapDSV;
@@ -37,3 +37,5 @@ public:
 
 	Texture* GetRenderTexture();
 };
+
+extern std::unique_ptr<RenderTexture> sceneViewTexture;

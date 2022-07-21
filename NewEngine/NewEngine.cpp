@@ -6,11 +6,10 @@
 #include "NewEngine/Header/DataOperator.h"
 #include "NewEngine/Header/Developer/Object/Object2D/RenderTexture.h"
 #include "NewEngine/Header/Developer/Component/Blend.h"
+#include "NewEngine/main2.h"
 
 #include <wrl.h>
 using namespace Microsoft::WRL;
-
-extern RenderTexture* sceneViewTexture;
 
 void NewEngineInit()
 {
@@ -37,6 +36,17 @@ void NewEngineInit()
 #endif
 	RenderWindow::GetInstance().CreateGameWindow();
 	renderBase->Initialize();
+#ifdef _DEBUG
+	ComPtr<ID3D12InfoQueue> infoQuene;
+	if (SUCCEEDED(renderBase->GetDevice()->QueryInterface(IID_PPV_ARGS(&infoQuene))))
+	{
+		infoQuene->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);	// ‚â‚Î‚¢ƒGƒ‰[ˆêŽž‚ÉŽ~‚Ü‚é
+		infoQuene->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);		// ƒGƒ‰[Žž‚ÉŽ~‚Ü‚é
+		//infoQuene->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);		// ƒGƒ‰[Žž‚ÉŽ~‚Ü‚é
+		
+	}
+#endif
+
 	DeveloperManager::GetInstance()->Initialize();
 #ifdef _DEBUG
 	GuiManager::GetInstance()->Initialize();
@@ -67,9 +77,11 @@ void NewEnginePostDraw()
 	sceneViewTexture->PostDrawScene();
 
 	renderBase->PreDraw();
+	Draw2D();
 #ifdef _DEBUG
 	GuiManager::GetInstance()->Draw();
 #endif
+
 	renderBase->GetInstance()->PostDraw();
 }
 void NewEngineEnd()

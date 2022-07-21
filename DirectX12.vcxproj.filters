@@ -290,6 +290,12 @@
     <FxCompile Include="BasicPS2.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="RenderTexturePS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="RenderTextureVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGUI\imconfig.h">
@@ -478,9 +484,15 @@
     <ClInclude Include="NewEngine\Header\Developer\Object\Object3D\Line.h">
       <Filter>Header\Developer\Object\Object3D</Filter>
     </ClInclude>
+    <ClInclude Include="NewEngine\Header\Developer\Util\Dirty.h">
+      <Filter>Header\Developer\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="RenderTexture.hlsli">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>

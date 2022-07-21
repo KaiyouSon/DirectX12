@@ -172,4 +172,16 @@ Mat4& Mat4::operator*=(const Mat4& other)
 {
 	*this = *this * other;
 	return *this;
-};
+}
+bool Mat4::operator!=(const Mat4& other) const
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			if (mat[i][j] != other.mat[i][j]) return false;
+		}
+	}
+	return true;
+}
+;

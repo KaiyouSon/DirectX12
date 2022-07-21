@@ -9,6 +9,7 @@ class RenderBase
 {
 public:
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr <T>;
+	static float clearColor[4];
 
 public:
 	void Initialize();
@@ -41,6 +42,7 @@ public:
 	ComPtr <ID3D12PipelineState> GetPipelineStateAdd3D() const;
 	ComPtr <ID3D12PipelineState> GetPipelineStateAlpha2D() const;
 	ComPtr <ID3D12PipelineState> GetPipelineStateLine() const;
+	ComPtr <ID3D12PipelineState> GetPipelineStateAlphaRenderTexture() const;
 
 	static RenderBase* GetInstance();
 	static void DestroyInstance();
@@ -88,11 +90,16 @@ private:
 	ComPtr <ID3DBlob> errorBlob;	// エラーオブジェクト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[3];		// 頂点レイアウト
 
+	ComPtr <ID3DBlob> renderTextureVSBlob;
+	ComPtr <ID3DBlob> renderTexturePSBlob;
+	D3D12_INPUT_ELEMENT_DESC renderTextureInputLayout[2];
+
 	// グラフィックスパイプライン関連
 	ComPtr <ID3D12PipelineState> pipelineStateAlpha3D;
 	ComPtr <ID3D12PipelineState> pipelineStateAdd3D;
 	ComPtr <ID3D12PipelineState> pipelineStateAlpha2D;
 	ComPtr <ID3D12PipelineState> pipelineStateLine;
+	ComPtr <ID3D12PipelineState> pipelineStateAlphaRenderTexture;
 	ComPtr <ID3D12RootSignature> rootSignature;
 
 	// 描画処理関連

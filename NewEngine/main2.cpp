@@ -10,12 +10,9 @@
 #include "NewEngine/Header/Developer/Debug/DebugCamera.h"
 #include "NewEngine/Header/Developer/Sound.h"
 #include "NewEngine/Header/Render/Viewport.h"
-#include "NewEngine/Header/Developer/Object/Object3D/Line.h"
 #include <vector>
 
 Sound testSound;
-
-RenderTexture* sceneViewTexture = new RenderTexture;
 
 Vec3 Vec3MulMat(Vec3 vec, Mat4 mat);
 static const int maxLine = 21;
@@ -49,6 +46,7 @@ void Initialize()
 static int hitType = 0;
 Color color = Color::red;
 static float speed = 5;
+static bool isChange = false;
 // çXêVèàóù
 void Update()
 {
@@ -61,11 +59,13 @@ void Update()
 	if (color.r <= 0 && color.b >= 255) { color.r = 0; color.b = 255; color.g -= speed; }
 	if (color.g <= 0 && color.b >= 255) { color.g = 0; color.b = 255; color.r += speed; }
 	if (color.r >= 255 && color.g <= 0) { color.r = 255; color.g = 0; color.b -= speed; }
+	if (color.a <= 0) isChange = true; if (color.a >= 255) isChange = false;
+	isChange ? color.a++ : color.a--;
 
 	triangle->SetColor(color);
 
-	sceneViewTexture->GetComponent<Transform>()->pos.x = WIN_HALF_WIDTH;
-	sceneViewTexture->GetComponent<Transform>()->pos.y = WIN_HALF_HEIGHT;
+	//sceneViewTexture->GetComponent<Transform>()->pos.x = WIN_HALF_WIDTH;
+	//sceneViewTexture->GetComponent<Transform>()->pos.y = WIN_HALF_HEIGHT;
 	sceneViewTexture->Update();
 
 	view->SetPos(DebugCamera::GetInstance()->GetPos());
@@ -86,6 +86,7 @@ void Update()
 
 void Draw2D()
 {
+	//sceneViewTexture->Draw();
 }
 
 void Draw3D()
@@ -105,10 +106,6 @@ void DrawLine()
 void Destroy()
 {
 	UnLoadSoundWave(&testSound);
-	delete gameTextureList;
-	delete tagList;
-	ModelDataList::DestroyInstance();
-	delete sceneViewTexture;
 	delete[] xLine;
 	delete[] zLine;
 }

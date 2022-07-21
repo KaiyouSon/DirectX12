@@ -6,13 +6,16 @@
 #include <cassert>
 #include <string>
 #include <d3dcompiler.h>
+#include <d3dx12.h>
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"d3dcompiler.lib")
 using namespace Microsoft::WRL;
 
+
 ScissorRectangle* scissorRectangle = new ScissorRectangle;
 RenderBase* renderBase = RenderBase::GetInstance();
+float RenderBase::clearColor[4] = { 0.1f,0.25f,0.5f,0.0f };
 
 void RenderBase::Initialize()
 {
@@ -48,7 +51,7 @@ void RenderBase::PreDraw()
 	commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 
 	// 画面クリア R G B A
-	float clearColor[] = { 0.1f,0.25f,0.5f,1.0f };
+	//float clearColor[] = { 0.1f,0.25f,0.5f,1.0f };
 	commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
 	// 深度バッファクリア
@@ -324,20 +327,21 @@ void RenderBase::DepthBufferInit()
 	);
 	assert(SUCCEEDED(result));
 
-	// 深度ビュー用デスクリプタヒープの作成
+	// dsv用デスクリプタヒープの作成
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;	// 深度ビューは一つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV; // デプスステンシルビュー
 	result = device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvDescHeap));
+	assert(SUCCEEDED(result));
 
 	// 深度ビュー作成
-	D3D12_DEPTH_STENCIL_VIEW_DESC dsvView = {};
-	dsvView.Format = DXGI_FORMAT_D32_FLOAT;	// 深度値フォーマット
-	dsvView.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvViewDesc = {};
+	dsvViewDesc.Format = DXGI_FORMAT_D32_FLOAT;	// 深度値フォーマット
+	dsvViewDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	device->CreateDepthStencilView
 	(
 		depthBuffer.Get(),
-		&dsvView,
+		&dsvViewDesc,
 		dsvDescHeap->GetCPUDescriptorHandleForHeapStart()
 	);
 }
@@ -469,6 +473,75 @@ void RenderBase::ShaderCompilerInit()
 			OutputDebugStringA(error.c_str());
 			assert(0);
 		}
+	}
+
+	// 
+	{
+		HRESULT result;
+
+		// 頂点シェーダの読み込みとコンパイル
+		result = D3DCompileFromFile(
+			L"RenderTextureVS.hlsl", // シェーダファイル名
+			nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+			"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
+			D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+			0,
+			&renderTextureVSBlob, &errorBlob);
+
+		// シェーダのエラー内容を表示
+		if (FAILED(result))
+		{
+			// errorBlobからエラー内容をstring型にコピー
+			std::string error;
+			error.resize(errorBlob->GetBufferSize());
+			std::copy_n((char*)errorBlob->GetBufferPointer(),
+				errorBlob->GetBufferSize(),
+				error.begin());
+			error += "\n";
+			// エラー内容を出力ウィンドウに表示
+			OutputDebugStringA(error.c_str());
+			assert(0);
+		}
+
+		// ピクセルシェーダファイルの読み込みとコンパイル
+		result = D3DCompileFromFile(
+			L"RenderTexturePS.hlsl", // シェーダファイル名
+			nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+			"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
+			D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+			0,
+			&renderTexturePSBlob, &errorBlob);
+
+		// シェーダのエラー内容を表示
+		if (FAILED(result))
+		{
+			// errorBlobからエラー内容をstring型にコピー
+			std::string error;
+			error.resize(errorBlob->GetBufferSize());
+			std::copy_n((char*)errorBlob->GetBufferPointer(),
+				errorBlob->GetBufferSize(),
+				error.begin());
+			error += "\n";
+			// エラー内容を出力ウィンドウに表示
+			OutputDebugStringA(error.c_str());
+			assert(0);
+		}
+
+		// 頂点レイアウト
+		renderTextureInputLayout[0] =
+		{	// xyz座標
+			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		};
+		renderTextureInputLayout[1] =
+		{	// uv座標
+			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		};
 	}
 }
 void RenderBase::RootSignatureInit()
@@ -735,8 +808,8 @@ void RenderBase::GraphicsPipelineInit()
 		// シェーダーの設定
 		pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 		pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
-		pipelineDesc.PS.pShaderBytecode = ps2DBlob->GetBufferPointer();
-		pipelineDesc.PS.BytecodeLength = ps2DBlob->GetBufferSize();
+		pipelineDesc.PS.pShaderBytecode = ps3DBlob->GetBufferPointer();
+		pipelineDesc.PS.BytecodeLength = ps3DBlob->GetBufferSize();
 
 		// サンプルマスクの設定
 		pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
@@ -775,6 +848,7 @@ void RenderBase::GraphicsPipelineInit()
 		// その他の設定
 		pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
 		pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
+		//pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
 		pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 		// パイプラインにルートシグネチャをセット
@@ -782,6 +856,67 @@ void RenderBase::GraphicsPipelineInit()
 
 		// パイプランステートの生成
 		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateLine));
+		assert(SUCCEEDED(result));
+	}
+
+	// レンダーテクスチャ用
+	{
+		// グラフィックスパイプライン設定
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
+
+		// シェーダーの設定
+		//pipelineDesc.VS = CD3DX12_SHADER_BYTECODE(renderTextureVSBlob.Get());
+		//pipelineDesc.PS = CD3DX12_SHADER_BYTECODE(renderTexturePSBlob.Get());
+
+		pipelineDesc.VS.pShaderBytecode = renderTextureVSBlob->GetBufferPointer();
+		pipelineDesc.VS.BytecodeLength = renderTextureVSBlob->GetBufferSize();
+		pipelineDesc.PS.pShaderBytecode = renderTexturePSBlob->GetBufferPointer();
+		pipelineDesc.PS.BytecodeLength = renderTexturePSBlob->GetBufferSize();
+
+		// サンプルマスクの設定
+		pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
+
+		// ラスタライザの設定
+		pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;	// 背面をカリング
+		pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;	// ポリゴン内塗りつぶし
+		pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
+
+		// デプスステンシルステートの設定
+		pipelineDesc.DepthStencilState.DepthEnable = true; // 深度テストを行う
+		pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;	// 書き込み許可
+		pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;	// 小さいほうを採用
+		pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;	// 深度値フォーマット
+
+		// レンダーターゲットのブレンド設定
+		D3D12_RENDER_TARGET_BLEND_DESC& blendDesc = pipelineDesc.BlendState.RenderTarget[0];
+		blendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+		blendDesc.BlendEnable = true;					// ブレンドを有効にする
+		blendDesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;	// 加算
+		blendDesc.SrcBlendAlpha = D3D12_BLEND_ONE;		// ソースの値を100％使う
+		blendDesc.DestBlendAlpha = D3D12_BLEND_ZERO;	// デストの値を  0％使う
+
+		// 半透明合成
+		blendDesc.BlendOp = D3D12_BLEND_OP_ADD;				// 加算
+		blendDesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;			// ソースのアルファ値
+		blendDesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;	// 1.0f-ソースのアルファ値
+
+		// 頂点レイアウトの設定
+		pipelineDesc.InputLayout.pInputElementDescs = renderTextureInputLayout;
+		pipelineDesc.InputLayout.NumElements = sizeof(renderTextureInputLayout) / sizeof(renderTextureInputLayout[0]);
+
+		// 図形の形状設定
+		pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+
+		// その他の設定
+		pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
+		pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
+		pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
+
+		// パイプラインにルートシグネチャをセット
+		pipelineDesc.pRootSignature = rootSignature.Get();
+
+		// パイプランステートの生成
+		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateAlphaRenderTexture));
 		assert(SUCCEEDED(result));
 	}
 
@@ -820,6 +955,10 @@ ComPtr<ID3D12PipelineState> RenderBase::GetPipelineStateAlpha2D() const
 ComPtr<ID3D12PipelineState> RenderBase::GetPipelineStateLine() const
 {
 	return pipelineStateLine;
+}
+ComPtr<ID3D12PipelineState> RenderBase::GetPipelineStateAlphaRenderTexture() const
+{
+	return pipelineStateAlphaRenderTexture;
 }
 
 // シングルトン関連

@@ -1,6 +1,6 @@
 #include "NewEngine/Header/Developer/Component/Tag.h"
 using namespace std;
-TagList* tagList = new TagList;
+unique_ptr<TagList> tagList(new TagList);
 
 Tag::Tag()
 {

@@ -1,7 +1,7 @@
 #include "NewEngine/Header/Developer/Component/Blend.h"
 #include "NewEngine/Header/Render/RenderBase.h"
 
-void Blend::SetBlendMode(BlendMode blendmode)
+void Blend::SetBlendMode(int blendmode)
 {
 	switch (blendmode)
 	{
@@ -23,11 +23,18 @@ void Blend::SetBlendMode(BlendMode blendmode)
 		renderBase->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		break;
 
-	case AddLine:
+	case AlphaLine:
 		renderBase->GetCommandList()->SetPipelineState(renderBase->GetPipelineStateLine().Get());
 		renderBase->GetCommandList()->SetGraphicsRootSignature(renderBase->GetRootSignature().Get());
 		renderBase->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 		break;
+
+	case AlphaRenderTexture:
+		renderBase->GetCommandList()->SetPipelineState(renderBase->GetPipelineStateAlphaRenderTexture().Get());
+		renderBase->GetCommandList()->SetGraphicsRootSignature(renderBase->GetRootSignature().Get());
+		renderBase->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		break;
+
 	default:
 		break;
 	}

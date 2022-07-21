@@ -38,6 +38,8 @@ void ConstantBuffer::MaterialBufferInit()
 
 	// 値を書き込むと自動的に転送される
 	constMapMaterial->color = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	constBuffMaterial->Unmap(0, nullptr);
 }
 
 void ConstantBuffer::TransformBufferInit()
@@ -87,7 +89,6 @@ void ConstantBuffer::SetColor(const Color& color)
 	HRESULT result;
 
 	// 定数バッファのマッピング
-	//ConstBufferDateMaterial* constMapMaterial = nullptr;
 	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);	// マッピング
 	assert(SUCCEEDED(result));
 
@@ -99,4 +100,6 @@ void ConstantBuffer::SetColor(const Color& color)
 		color.b / 255,
 		color.a / 255
 	};
+
+	constBuffMaterial->Unmap(0, nullptr);
 }

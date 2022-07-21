@@ -124,8 +124,8 @@ void HierarchyLayer::ShowGameObjectList()
 		else objList[i]->SetisShowDataToInspector(false);
 	}
 
-	ImGui::Text("currentObjNode = %d", currentObjNode);
-	ImGui::Text("oldObjNode = %d", oldObjNode);
+	//ImGui::Text("currentObjNode = %d", currentObjNode);
+	//ImGui::Text("oldObjNode = %d", oldObjNode);
 }
 void HierarchyLayer::ShowCreateModelWindow()
 {

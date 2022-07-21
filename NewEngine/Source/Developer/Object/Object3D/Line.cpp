@@ -9,6 +9,7 @@ Line::Line() :
 	constantBuffer(new ConstantBuffer)
 {
 	objectType = ObjectType::LineType;
+
 }
 
 Line::~Line()
@@ -48,12 +49,13 @@ void Line::Update()
 		view->matView *
 		view->matProjection3D;
 
-	constantBuffer->SetColor(this->color);
+	static Dirty<Color> colorDirty(color);
+	if (colorDirty.GetisDirty(color) == true) constantBuffer->SetColor(color);
 }
 
 void Line::Draw()
 {
-	GetComponent<Blend>()->SetBlendMode(BlendMode::AddLine);
+	GetComponent<Blend>()->SetBlendMode(BlendMode::AlphaLine);
 
 	// VBV‚ÆIBV‚ÌÝ’èƒRƒ}ƒ“ƒh
 	renderBase->GetCommandList()->IASetVertexBuffers(0, 1, vertexBuffer->GetvbViewAddress());
